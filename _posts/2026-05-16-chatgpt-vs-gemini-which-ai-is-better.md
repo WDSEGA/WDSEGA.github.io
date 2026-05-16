@@ -3,6 +3,7 @@ title: "ChatGPT vs Gemini 2025终极对决：哪个AI更适合你？"
 date: 2026-05-16 09:00:00 +0800
 categories: [AI, 科技]
 tags: [ChatGPT, Gemini, AI对比, 人工智能, 2025]
+image: /assets/images/chatgpt-gemini.jpg
 ---
 
 最近身边越来越多朋友问我：现在AI工具这么多，到底该用ChatGPT还是Gemini？说实话，这个问题我也纠结了很久。今天就把我这段时间的实际使用体验分享出来，希望能帮你做个选择。

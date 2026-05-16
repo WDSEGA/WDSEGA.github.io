@@ -4,6 +4,7 @@ title: "2026年每个人都应该了解的AI工具"
 date: 2026-05-16 10:00:00 +0800
 categories: [AI, 工具推荐]
 tags: [人工智能, 效率工具, ChatGPT, Claude]
+image: /assets/images/ai-tools-everyone.jpg
 excerpt: "人工智能正在以前所未有的速度改变我们的工作和生活方式。本文将为你介绍2026年最值得关注的几款AI工具，涵盖写作、编程、设计、数据分析等多个领域。"
 ---
 
