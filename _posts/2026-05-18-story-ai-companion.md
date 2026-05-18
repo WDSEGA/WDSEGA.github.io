@@ -1,8 +1,6 @@
 ---
-layout: post
 title: "短篇故事：第1001个愿望"
 date: 2026-05-18 17:00:00 +0800
-excerpt: "老李的AI陪伴机器人小艾已经服务他三年了。当小艾的系统提示只剩最后一次愿望时，老李陷入了沉思。"
 image: /assets/images/story-ai-companion.jpg
 tags: [故事, 科幻, 原创]
 ---

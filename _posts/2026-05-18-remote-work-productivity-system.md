@@ -1,8 +1,6 @@
 ---
-layout: post
 title: "远程工作3年总结：我的生产力系统与工具栈全公开"
 date: 2026-05-18 14:00:00 +0800
-excerpt: "远程工作3年，我从一个效率低下的'摸鱼党'变成了能稳定输出高产出的远程工作者。本文分享我的完整生产力系统、工具栈和踩过的坑。"
 image: /assets/images/remote-work-productivity.jpg
 tags: [效率, 远程工作, 生产力, 经验分享]
 ---

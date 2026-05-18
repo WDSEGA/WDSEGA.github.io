@@ -1,8 +1,6 @@
 ---
-layout: post
 title: "Google I/O 2025深度解读：Gemini Live、Imagen 4与Veo 3如何重塑AI创造力"
 date: 2026-05-18 11:00:00 +0800
-excerpt: "Google I/O 2025带来了一系列重磅AI更新：Gemini Live实现实时视觉交互，Imagen 4生成照片级图像，Veo 3可直接生成带音频的视频。这些更新不仅是技术进步，更是AI应用范式的根本转变。"
 image: /assets/images/google-io-2025-gemini.jpg
 tags: [AI, Google, Gemini, 科技新闻]
 ---

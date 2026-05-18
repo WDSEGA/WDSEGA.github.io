@@ -1,8 +1,6 @@
 ---
-layout: post
 title: "OpenAI豪掷65亿美元收购Jony Ive公司：AI硬件革命即将来临"
 date: 2026-05-18 10:00:00 +0800
-excerpt: "OpenAI宣布以65亿美元全股票收购Jony Ive创立的io公司，这位传奇苹果设计师将联手Sam Altman打造全新AI硬件品类。这不仅是科技界的重磅交易，更预示着AI设备形态的根本性变革。"
 image: /assets/images/openai-jony-ive-hardware.jpg
 tags: [AI, OpenAI, 硬件, 科技新闻]
 ---

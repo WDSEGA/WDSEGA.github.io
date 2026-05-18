@@ -1,8 +1,6 @@
 ---
-layout: post
 title: "Python数据科学入门：从零开始掌握Pandas数据分析"
 date: 2026-05-18 15:00:00 +0800
-excerpt: "Pandas是Python数据科学的核心工具，本文从安装配置到实战案例，带你快速掌握数据分析的基本技能。适合有一定Python基础但刚接触数据分析的读者。"
 image: /assets/images/python-data-science.jpg
 tags: [Python, 数据科学, Pandas, 教程]
 ---

@@ -1,8 +1,6 @@
 ---
-layout: post
 title: "短篇故事：最后一家咖啡馆"
 date: 2026-05-18 16:00:00 +0800
-excerpt: "在这座被自动化浪潮吞没的城市里，只剩下最后一家由人类经营的咖啡馆。老板娘林婆婆坚持了四十年，但今天，她做了一个决定。"
 image: /assets/images/story-last-coffee-shop.jpg
 tags: [故事, 温情, 原创]
 ---

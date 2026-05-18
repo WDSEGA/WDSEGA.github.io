@@ -1,8 +1,6 @@
 ---
-layout: post
 title: "短篇故事：午夜图书馆"
 date: 2026-05-18 18:00:00 +0800
-excerpt: "苏雅在大学图书馆做夜班管理员，某天她发现了一个秘密：午夜十二点后，书架上的书会自己走动。而那些书，藏着无数人未说出口的故事。"
 image: /assets/images/story-midnight-library.jpg
 tags: [故事, 奇幻, 原创]
 ---

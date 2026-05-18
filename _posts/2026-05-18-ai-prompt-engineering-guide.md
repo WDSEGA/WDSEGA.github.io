@@ -1,8 +1,6 @@
 ---
-layout: post
 title: "AI提示词工程实战指南：从入门到精通的15个核心技巧"
 date: 2026-05-18 13:00:00 +0800
-excerpt: "掌握AI提示词工程是高效使用ChatGPT、Claude等AI工具的关键。本文分享15个经过验证的提示词技巧，帮助你获得更准确、更有价值的AI输出。"
 image: /assets/images/ai-prompt-engineering.jpg
 tags: [AI, 提示词, 效率工具, 教程]
 ---

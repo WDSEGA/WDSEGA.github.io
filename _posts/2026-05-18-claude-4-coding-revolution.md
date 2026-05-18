@@ -1,8 +1,6 @@
 ---
-layout: post
 title: "Claude 4震撼发布：世界最佳编程AI诞生，开发者效率将迎来质的飞跃"
 date: 2026-05-18 12:00:00 +0800
-excerpt: "Anthropic发布Claude 4系列，Claude Opus 4被誉为'世界最佳编程模型'，支持长时任务、多会话记忆，并深度集成GitHub、VS Code等开发工具。这标志着AI辅助编程进入新时代。"
 image: /assets/images/claude-4-coding-ai.jpg
 tags: [AI, Claude, 编程, Anthropic]
 ---
