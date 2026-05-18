@@ -170,8 +170,4 @@ Claude 4不仅是一个更强大的编程AI，它代表了一种新的开发范�
 
 现在，是时候开始探索Claude 4的能力了。
 
----
 
-*延伸阅读：*
-- *[OpenAI收购Jony Ive公司：AI硬件革命](/2026/05/18/openai-jony-ive-ai-hardware-revolution)*
-- *[Google I/O 2025：Gemini Live深度解读](/2026/05/18/google-io-2025-gemini-live)*

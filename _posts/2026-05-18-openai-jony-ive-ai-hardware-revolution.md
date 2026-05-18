@@ -92,8 +92,4 @@ OpenAI与Jony Ive的联手，标志着AI从"软件服务"向"硬件载体"的延
 
 当最先进的AI大脑遇上最优秀的硬件设计，我们有理由期待一些真正改变世界的产品。而这一切，才刚刚开始。
 
----
 
-*延伸阅读：*
-- *[Google I/O 2025：Gemini Live重新定义AI交互](/2026/05/18/google-io-2025-gemini-live)*
-- *[Claude 4发布：编程AI的新标杆](/2026/05/18/claude-4-coding-revolution)*

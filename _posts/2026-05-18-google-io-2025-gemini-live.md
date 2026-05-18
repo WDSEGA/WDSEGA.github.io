@@ -149,8 +149,4 @@ Google I/O 2025展示的不仅是技术进步，更是AI应用范式的转变。
 
 对于企业和个人来说，现在正是探索这些新能力的最佳时机。因为那些能够率先掌握这些工具的人，将在未来的竞争中占据先机。
 
----
 
-*延伸阅读：*
-- *[OpenAI收购Jony Ive公司：AI硬件革命](/2026/05/18/openai-jony-ive-ai-hardware-revolution)*
-- *[Claude 4发布：编程AI的新标杆](/2026/05/18/claude-4-coding-revolution)*
