@@ -7,6 +7,9 @@ author:
   name: WDSEGA
   email: ""
 
+# 发布未来日期的文章
+future: true
+
 # 主题设置
 theme: null
 markdown: kramdown
