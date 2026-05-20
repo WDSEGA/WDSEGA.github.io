@@ -12,10 +12,12 @@
   <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
   <meta property="og:url" content="{{ page.url | absolute_url }}">
   <meta property="og:site_name" content="{{ site.title }}">
+  {% if page.image %}<meta property="og:image" content="{{ page.image | absolute_url }}">{% endif %}
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
   <meta name="twitter:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
   <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ '/feed.xml' | absolute_url }}">
 
   <!-- Google Analytics -->
   {% if site.google_analytics %}
@@ -47,109 +49,210 @@
   </script>
 
   <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --text: #1f2937;
+      --text-light: #6b7280;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e5e7eb;
+      --code-bg: #1e293b;
+      --code-text: #e2e8f0;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-      line-height: 1.8;
-      color: #333;
-      background: #fafafa;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--bg);
     }
-    a { color: #2563eb; text-decoration: none; transition: color 0.2s; }
-    a:hover { color: #1d4ed8; }
-    .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+    a { color: var(--primary); text-decoration: none; transition: all 0.2s ease; }
+    a:hover { color: var(--primary-dark); }
+
+    /* Header */
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
     header {
-      background: #fff;
-      border-bottom: 1px solid #e5e7eb;
-      padding: 20px 0;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 100;
+      backdrop-filter: blur(8px);
     }
     header .container { display: flex; justify-content: space-between; align-items: center; }
-    header h1 { font-size: 1.4rem; font-weight: 700; color: #111; }
-    header nav a { margin-left: 20px; color: #555; font-size: 0.95rem; }
-    header nav a:hover { color: #2563eb; }
-    main { padding: 40px 0; }
-    .post-list { list-style: none; }
-    .post-list li {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 24px;
-      margin-bottom: 16px;
-      transition: box-shadow 0.2s;
+    .site-title { font-size: 1.5rem; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
+    .site-title:hover { color: var(--primary); }
+    header nav { display: flex; gap: 24px; align-items: center; }
+    header nav a { color: var(--text-light); font-weight: 500; font-size: 0.95rem; }
+    header nav a:hover { color: var(--primary); }
+
+    /* Main */
+    main { padding: 48px 0; min-height: calc(100vh - 200px); }
+
+    /* Post List */
+    .post-list { list-style: none; display: grid; gap: 20px; }
+    .post-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
     }
-    .post-list li:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .post-list .post-date { font-size: 0.85rem; color: #888; margin-bottom: 6px; }
-    .post-list .post-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; }
-    .post-list .post-title a { color: #111; }
-    .post-list .post-title a:hover { color: #2563eb; }
-    .post-list .post-excerpt { color: #555; font-size: 0.95rem; }
+    .post-card:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+    }
+    .post-card-inner { padding: 24px; }
+    .post-card .post-date {
+      display: inline-block;
+      font-size: 0.8rem;
+      color: var(--text-light);
+      background: var(--bg);
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .post-card .post-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .post-card .post-title a { color: var(--text); }
+    .post-card .post-title a:hover { color: var(--primary); }
+    .post-card .post-excerpt { color: var(--text-light); font-size: 0.95rem; line-height: 1.6; }
+    .post-card .post-tags { margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .post-card .tag {
+      font-size: 0.75rem;
+      color: var(--primary);
+      background: rgba(59, 130, 246, 0.1);
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+
+    /* Post Content */
     .post-content {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 32px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 40px;
       margin-bottom: 24px;
     }
-    .post-content h1, .post-content h2, .post-content h3 { margin: 1.5em 0 0.5em; color: #111; }
-    .post-content h2 { font-size: 1.4rem; }
-    .post-content h3 { font-size: 1.15rem; }
-    .post-content p { margin-bottom: 1em; }
-    .post-content ul, .post-content ol { margin: 1em 0; padding-left: 2em; }
+    .post-content h1 { font-size: 2rem; margin-bottom: 16px; color: var(--text); letter-spacing: -0.5px; }
+    .post-content h2 { font-size: 1.5rem; margin: 2em 0 0.8em; color: var(--text); border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+    .post-content h3 { font-size: 1.2rem; margin: 1.5em 0 0.6em; color: var(--text); }
+    .post-content h4 { font-size: 1.05rem; margin: 1.2em 0 0.5em; color: var(--text); }
+    .post-content p { margin-bottom: 1.2em; }
+    .post-content ul, .post-content ol { margin: 1em 0; padding-left: 1.5em; }
     .post-content li { margin-bottom: 0.5em; }
+    .post-content img { max-width: 100%; border-radius: 8px; margin: 1em 0; }
+    .post-content a { border-bottom: 1px solid transparent; }
+    .post-content a:hover { border-bottom-color: var(--primary); }
+    
+    /* Code */
     .post-content code {
-      background: #f3f4f6;
-      padding: 2px 6px;
+      background: #f1f5f9;
+      padding: 3px 8px;
       border-radius: 4px;
       font-size: 0.9em;
+      font-family: "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
     }
     .post-content pre {
-      background: #1e293b;
-      color: #e2e8f0;
-      padding: 16px;
-      border-radius: 8px;
+      background: var(--code-bg);
+      color: var(--code-text);
+      padding: 20px;
+      border-radius: 10px;
       overflow-x: auto;
-      margin: 1em 0;
+      margin: 1.5em 0;
+      font-size: 0.9em;
     }
     .post-content pre code { background: none; padding: 0; color: inherit; }
+    
+    /* Blockquote */
     .post-content blockquote {
-      border-left: 4px solid #2563eb;
-      padding: 8px 16px;
-      margin: 1em 0;
-      color: #555;
-      background: #f8fafc;
-      border-radius: 0 4px 4px 0;
+      border-left: 4px solid var(--primary);
+      padding: 16px 20px;
+      margin: 1.5em 0;
+      color: var(--text-light);
+      background: linear-gradient(90deg, rgba(59,130,246,0.05) 0%, transparent 100%);
+      border-radius: 0 8px 8px 0;
     }
-    .post-meta { font-size: 0.9rem; color: #888; margin-bottom: 24px; }
-    .ad-slot {
-      background: #f9fafb;
-      border: 1px dashed #d1d5db;
-      text-align: center;
-      padding: 16px;
-      margin: 24px 0;
-      border-radius: 4px;
-      color: #9ca3af;
-      font-size: 0.85rem;
+    .post-content blockquote p:last-child { margin-bottom: 0; }
+
+    /* Tables */
+    .post-content table { width: 100%; border-collapse: collapse; margin: 1.5em 0; }
+    .post-content th, .post-content td { padding: 12px 16px; border: 1px solid var(--border); text-align: left; }
+    .post-content th { background: var(--bg); font-weight: 600; }
+    .post-content tr:hover { background: var(--bg); }
+
+    /* Post Meta */
+    .post-meta {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
     }
+    .post-meta .date { color: var(--text-light); font-size: 0.9rem; }
+    .post-meta .reading-time { color: var(--text-light); font-size: 0.85rem; }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 48px;
+      flex-wrap: wrap;
+    }
+    .pagination a, .pagination span {
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+    .pagination a { background: var(--card); border: 1px solid var(--border); color: var(--text); }
+    .pagination a:hover { background: var(--primary); color: white; border-color: var(--primary); }
+    .pagination .current { background: var(--primary); color: white; }
+
+    /* Footer */
     footer {
       text-align: center;
-      padding: 24px 0;
-      color: #888;
-      font-size: 0.85rem;
-      border-top: 1px solid #e5e7eb;
-      margin-top: 40px;
+      padding: 32px 0;
+      color: var(--text-light);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border);
+      background: var(--card);
     }
-    @media (max-width: 640px) {
-      header .container { flex-direction: column; gap: 12px; }
-      header nav a { margin-left: 12px; }
+    footer a { color: var(--text-light); }
+    footer a:hover { color: var(--primary); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container { padding: 0 16px; }
+      header .container { flex-direction: column; gap: 16px; }
+      header nav { gap: 16px; }
+      main { padding: 32px 0; }
+      .post-content { padding: 24px; }
+      .post-content h1 { font-size: 1.6rem; }
+    }
+
+    /* Dark mode support (manual toggle via class) */
+    html.dark {
+      --text: #f1f5f9;
+      --text-light: #94a3b8;
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --code-bg: #0f172a;
     }
   </style>
 </head>
 <body>
   <header>
     <div class="container">
-      <h1><a href="{{ '/' | absolute_url }}">{{ site.title }}</a></h1>
+      <a href="{{ '/' | absolute_url }}" class="site-title">{{ site.title }}</a>
       <nav>
         <a href="{{ '/' | absolute_url }}">首页</a>
         <a href="{{ '/about.html' | absolute_url }}">关于</a>
@@ -179,7 +282,7 @@
 
   <footer>
     <div class="container">
-      <p>&copy; {{ 'now' | date: '%Y' }} {{ site.title }}. All rights reserved.</p>
+      <p>&copy; {{ 'now' | date: '%Y' }} {{ site.title }}. Powered by <a href="https://jekyllrb.com" target="_blank">Jekyll</a></p>
     </div>
   </footer>
 </body>
