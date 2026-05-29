@@ -5,6 +5,7 @@ date: 2026-05-29 14:00:00 +0800
 categories: [React, 前端性能, JavaScript]
 tags: [react, performance, optimization, frontend, javascript]
 image: /assets/images/react-performance-2026.jpg
+liquid: false
 ---
 
 ## 引言

@@ -5,6 +5,7 @@ date: 2026-05-29 12:00:00 +0800
 categories: [Kubernetes, DevOps, 云原生]
 tags: [kubernetes, helm, charts, k8s, devops]
 image: /assets/images/kubernetes-helm.jpg
+liquid: false
 ---
 
 ## 引言
