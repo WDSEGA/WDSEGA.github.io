@@ -1,0 +1,20 @@
+[
+  {
+    "title": "I Built an Excel Template Generator, Not Another Excel Template",
+    "body": "A problem that bothered me for years...",
+    "tags": ["excel", "python", "productivity", "automation", "tutorial"],
+    "cover_image": "https://images.unsplash.com/photo-1534367610-65b5f5685656?w=1600"
+  },
+  {
+    "title": "I Launched the Same Product on 5 Platforms - Here's What I Learned",
+    "body": "Why multi-platform launch...",
+    "tags": ["product-launch", "gumroad", "payhip", "indiehackers", "startup"],
+    "cover_image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1600"
+  },
+  {
+    "title": "How I Made My First Dollar with Python Automation - A Practical Guide",
+    "body": "Not a tutorial, but real experience...",
+    "tags": ["python", "automation", "side-income", "openpyxl", "excel"],
+    "cover_image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600"
+  }
+]
