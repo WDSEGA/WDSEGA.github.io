@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% if page.title %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
-  <!-- Monetag 广告脚本 -->
-  <script src="https://gentle-subterranean-merit.github.io/a/1746709385724.js" async></script>
-  <!-- Adsterra 广告脚本（如果有） -->
-  <!-- <script src="https://www.adsterra.com/..." async></script> -->
+  <!-- Monetag 广告 -->
+  <script data-cfasync="false" async src="//sb.monetag.com/a/3335740.js"></script>
 </head>
 <body>
   <header>
@@ -16,7 +14,6 @@
       <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
       <nav>
         <a href="{{ '/' | relative_url }}">首页</a>
-        <a href="{{ '/tags' | relative_url }}">标签</a>
         <a href="{{ '/about' | relative_url }}">关于</a>
       </nav>
     </div>
