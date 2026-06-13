@@ -2,11 +2,14 @@
 layout: default
 title: "首页"
 ---
+
+<!-- Hero 区域 -->
 <div class="hero-section">
   <h1>{{ site.description }}</h1>
-  <p class="post-count">共 {{ site.posts | size }} 篇文章</p>
+  <p class="post-count">共 {{ site.posts | size }} 篇深度文章</p>
 </div>
 
+<!-- 文章列表 -->
 <div class="post-list">
   {% for post in site.posts limit:50 %}
   <article class="post-card">
@@ -15,7 +18,7 @@ title: "首页"
       <time>{{ post.date | date: '%Y-%m-%d' }}</time>
       {% if post.tags %}
       <span class="tags">
-        {% for tag in post.tags %}
+        {% for tag in post.tags limit:5 %}
         <span class="tag">{{ tag }}</span>
         {% endfor %}
       </span>
@@ -25,9 +28,21 @@ title: "首页"
     <p class="excerpt">{{ post.excerpt | strip_html | truncate: 200 }}</p>
     {% endif %}
   </article>
+
+  <!-- 每10篇文章插入一个广告位 -->
+  {% assign loopindex = forloop.index %}
+  {% if loopindex % 10 == 0 and loopindex < 50 %}
+  <div class="ad-box" style="margin:20px 0;">
+    <div class="ad-label">广告</div>
+    <div class="ad-placeholder" style="min-height:120px;">
+      <p style="color:#94a3b8;font-size:0.85rem;">广告位 {{ loopindex | divided_by: 10 }}</p>
+    </div>
+  </div>
+  {% endif %}
   {% endfor %}
 </div>
 
+<!-- 分页提示 -->
 <div class="pagination-note">
-  <p>显示最近 50 篇文章。更多文章请关注后续更新。</p>
+  <p>显示最近 50 篇文章。更多内容请关注后续更新。</p>
 </div>
