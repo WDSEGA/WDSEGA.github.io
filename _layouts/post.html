@@ -51,31 +51,19 @@ layout: default
       </a>
     </div>
 
-    {% assign max_related = 3 %}
-    {% assign related_posts = '' | split: '' %}
-    {% if page.tags %}
-      {% for tag in page.tags %}
-        {% for post in site.posts %}
-          {% if post.url != page.url and post.tags contains tag %}
-            {% unless related_posts contains post %}
-              {% assign related_posts = related_posts | push: post %}
-            {% endunless %}
-          {% endif %}
-        {% endfor %}
-      {% endfor %}
-    {% endif %}
-    {% if related_posts.size > 0 %}
+    {% assign recent_3 = site.posts | slice: 0, 4 %}
     <section class="related-posts">
-      <h3>相关文章</h3>
+      <h3>最新文章</h3>
       <div class="related-grid">
-        {% for post in related_posts limit:max_related %}
-        <a href="{{ post.url | absolute_url }}" class="related-card">
-          <time>{{ post.date | date: "%Y-%m-%d" }}</time>
-          <span class="related-title">{{ post.title }}</span>
-        </a>
+        {% for post in recent_3 %}
+          {% if post.url != page.url %}
+            <a href="{{ post.url | absolute_url }}" class="related-card">
+              <time>{{ post.date | date: "%Y-%m-%d" }}</time>
+              <span class="related-title">{{ post.title }}</span>
+            </a>
+          {% endif %}
         {% endfor %}
       </div>
     </section>
-    {% endif %}
   </footer>
 </article>
