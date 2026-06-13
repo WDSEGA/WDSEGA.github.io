@@ -1,292 +1,91 @@
 <!DOCTYPE html>
-<html lang="{{ site.language | default: 'zh-CN' }}">
+<html lang="zh-CN" class="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
-  <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+  <title>{% if page.title and page.url != '/' %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
   <meta name="author" content="{{ site.author.name }}">
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-  <meta property="og:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+  <meta property="og:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
   <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
   <meta property="og:url" content="{{ page.url | absolute_url }}">
   <meta property="og:site_name" content="{{ site.title }}">
-  {% if page.image %}<meta property="og:image" content="{{ page.image | absolute_url }}">{% endif %}
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-  <meta name="twitter:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
-  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <link rel="canonical" href="{% if page.canonical_url %}{{ page.canonical_url }}{% else %}{{ page.url | absolute_url }}{% endif %}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ '/feed.xml' | absolute_url }}">
 
-  <!-- Google Analytics -->
   {% if site.google_analytics %}
   <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', '{{ site.google_analytics }}');
-  </script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','{{ site.google_analytics }}');</script>
   {% endif %}
-
-  <!-- Google AdSense (head) -->
   {% if site.google_adsense %}
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ site.google_adsense }}" crossorigin="anonymous"></script>
   {% endif %}
 
-  <!-- Monetag MultiTag (Popunder) - Zone 239936 -->
   <script src="https://quge5.com/88/tag.min.js" data-zone="239936" async data-cfasync="false"></script>
-
-  <!-- Monetag Banner (In-Page Push) - Zone 11032934 -->
-  <script>(function(s){s.dataset.zone='11032934',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-
-  <!-- Adsterra Popunder -->
+  <script>(function(s){s.dataset.zone='11032934',s.src='https://nap5k.com/tag.min.js'})([document.documentElement,document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
   <script src="https://pl29467753.effectivecpmnetwork.com/e5/8d/ab/e58dab0c74d7c8fe66921e461c45a2e0.js"></script>
-
-  <!-- PopAds Popunder -->
   <script type="text/javascript" data-cfasync="false">
   /*<![CDATA[/* */
   (function(){var t=window,f="f25f53fb76644ab19fe5b15c363fb9b7",h=[["siteId",209-190-634+5301956],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],e=["d3d3LmFudGlhZGJsb2Nrc3lzdGVtcy5jb20vcm51bWJlcnMubWluLmNzcw==","ZDNjb2Q4MHRobjdxbmQuY2xvdWRmcm9udC5uZXQvakpvL3d2aWRlb2pzXzUudmFzdC52cGFpZC5taW4uanM="],s=-1,v,w,c=function(){clearTimeout(w);s++;if(e[s]&&!(1805103199000<(new Date).getTime()&&1<s)){v=t.document.createElement("script");v.type="text/javascript";v.async=!0;var k=t.document.getElementsByTagName("script")[0];v.src="https://"+atob(e[s]);v.crossOrigin="anonymous";v.onerror=c;v.onload=function(){clearTimeout(w);t[f.slice(0,16)+f.slice(0,16)]||c()};w=setTimeout(c,5E3);k.parentNode.insertBefore(v,k)}};if(!t[f]){try{Object.freeze(t[f]=h)}catch(e){}c()}})();
   /*]]>/* */
   </script>
 
-  <style>
-    :root {
-      --primary: #3b82f6;
-      --primary-dark: #1d4ed8;
-      --text: #1f2937;
-      --text-light: #6b7280;
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --border: #e5e7eb;
-      --code-bg: #1e293b;
-      --code-text: #e2e8f0;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-      line-height: 1.7;
-      color: var(--text);
-      background: var(--bg);
-    }
-    a { color: var(--primary); text-decoration: none; transition: all 0.2s ease; }
-    a:hover { color: var(--primary-dark); }
-
-    /* Header */
-    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
-    header {
-      background: var(--card);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(8px);
-    }
-    header .container { display: flex; justify-content: space-between; align-items: center; }
-    .site-title { font-size: 1.5rem; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
-    .site-title:hover { color: var(--primary); }
-    header nav { display: flex; gap: 24px; align-items: center; }
-    header nav a { color: var(--text-light); font-weight: 500; font-size: 0.95rem; }
-    header nav a:hover { color: var(--primary); }
-
-    /* Main */
-    main { padding: 48px 0; min-height: calc(100vh - 200px); }
-
-    /* Post List */
-    .post-list { list-style: none; display: grid; gap: 20px; }
-    .post-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-    .post-card:hover {
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      transform: translateY(-2px);
-    }
-    .post-card-inner { padding: 24px; }
-    .post-card .post-date {
-      display: inline-block;
-      font-size: 0.8rem;
-      color: var(--text-light);
-      background: var(--bg);
-      padding: 4px 10px;
-      border-radius: 20px;
-      margin-bottom: 12px;
-    }
-    .post-card .post-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 10px;
-      line-height: 1.4;
-    }
-    .post-card .post-title a { color: var(--text); }
-    .post-card .post-title a:hover { color: var(--primary); }
-    .post-card .post-excerpt { color: var(--text-light); font-size: 0.95rem; line-height: 1.6; }
-    .post-card .post-tags { margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
-    .post-card .tag {
-      font-size: 0.75rem;
-      color: var(--primary);
-      background: rgba(59, 130, 246, 0.1);
-      padding: 4px 10px;
-      border-radius: 4px;
-    }
-
-    /* Post Content */
-    .post-content {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 40px;
-      margin-bottom: 24px;
-    }
-    .post-content h1 { font-size: 2rem; margin-bottom: 16px; color: var(--text); letter-spacing: -0.5px; }
-    .post-content h2 { font-size: 1.5rem; margin: 2em 0 0.8em; color: var(--text); border-bottom: 2px solid var(--border); padding-bottom: 8px; }
-    .post-content h3 { font-size: 1.2rem; margin: 1.5em 0 0.6em; color: var(--text); }
-    .post-content h4 { font-size: 1.05rem; margin: 1.2em 0 0.5em; color: var(--text); }
-    .post-content p { margin-bottom: 1.2em; }
-    .post-content ul, .post-content ol { margin: 1em 0; padding-left: 1.5em; }
-    .post-content li { margin-bottom: 0.5em; }
-    .post-content img { max-width: 100%; border-radius: 8px; margin: 1em 0; }
-    .post-content a { border-bottom: 1px solid transparent; }
-    .post-content a:hover { border-bottom-color: var(--primary); }
-    
-    /* Code */
-    .post-content code {
-      background: #f1f5f9;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 0.9em;
-      font-family: "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
-    }
-    .post-content pre {
-      background: var(--code-bg);
-      color: var(--code-text);
-      padding: 20px;
-      border-radius: 10px;
-      overflow-x: auto;
-      margin: 1.5em 0;
-      font-size: 0.9em;
-    }
-    .post-content pre code { background: none; padding: 0; color: inherit; }
-    
-    /* Blockquote */
-    .post-content blockquote {
-      border-left: 4px solid var(--primary);
-      padding: 16px 20px;
-      margin: 1.5em 0;
-      color: var(--text-light);
-      background: linear-gradient(90deg, rgba(59,130,246,0.05) 0%, transparent 100%);
-      border-radius: 0 8px 8px 0;
-    }
-    .post-content blockquote p:last-child { margin-bottom: 0; }
-
-    /* Tables */
-    .post-content table { width: 100%; border-collapse: collapse; margin: 1.5em 0; }
-    .post-content th, .post-content td { padding: 12px 16px; border: 1px solid var(--border); text-align: left; }
-    .post-content th { background: var(--bg); font-weight: 600; }
-    .post-content tr:hover { background: var(--bg); }
-
-    /* Post Meta */
-    .post-meta {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      margin-bottom: 32px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--border);
-    }
-    .post-meta .date { color: var(--text-light); font-size: 0.9rem; }
-    .post-meta .reading-time { color: var(--text-light); font-size: 0.85rem; }
-
-    /* Pagination */
-    .pagination {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 48px;
-      flex-wrap: wrap;
-    }
-    .pagination a, .pagination span {
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-    }
-    .pagination a { background: var(--card); border: 1px solid var(--border); color: var(--text); }
-    .pagination a:hover { background: var(--primary); color: white; border-color: var(--primary); }
-    .pagination .current { background: var(--primary); color: white; }
-
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 32px 0;
-      color: var(--text-light);
-      font-size: 0.9rem;
-      border-top: 1px solid var(--border);
-      background: var(--card);
-    }
-    footer a { color: var(--text-light); }
-    footer a:hover { color: var(--primary); }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .container { padding: 0 16px; }
-      header .container { flex-direction: column; gap: 16px; }
-      header nav { gap: 16px; }
-      main { padding: 32px 0; }
-      .post-content { padding: 24px; }
-      .post-content h1 { font-size: 1.6rem; }
-    }
-
-    /* Dark mode support (manual toggle via class) */
-    html.dark {
-      --text: #f1f5f9;
-      --text-light: #94a3b8;
-      --bg: #0f172a;
-      --card: #1e293b;
-      --border: #334155;
-      --code-bg: #0f172a;
-    }
-  </style>
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | absolute_url }}">
 </head>
 <body>
-  <header>
-    <div class="container">
-      <a href="{{ '/' | absolute_url }}" class="site-title">{{ site.title }}</a>
-      <nav>
-        <a href="{{ '/' | absolute_url }}">首页</a>
-        <a href="{{ '/about.html' | absolute_url }}">关于</a>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <a href="{{ '/' | absolute_url }}" class="site-logo">
+        <span class="logo-icon">&lt;/&gt;</span>
+        <span class="logo-text">{{ site.title }}</span>
+      </a>
+      <nav class="site-nav" id="siteNav">
+        <a href="{{ '/' | absolute_url }}" {% if page.url == '/' %}class="active"{% endif %}>首页</a>
+        <a href="{{ '/tags.html' | absolute_url }}" {% if page.url == '/tags.html' %}class="active"{% endif %}>标签</a>
+        <a href="{{ '/search.html' | absolute_url }}" {% if page.url == '/search.html' %}class="active"{% endif %}>搜索</a>
+        <a href="{{ '/about.html' | absolute_url }}" {% if page.url == '/about.html' %}class="active"{% endif %}>关于</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="切换暗色模式" title="切换暗色模式">
+          <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
       </nav>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="菜单"><span></span><span></span><span></span></button>
     </div>
   </header>
 
-  <main class="container">
-    {{ content }}
-  </main>
+  <main class="main-content">{{ content }}</main>
 
-  <!-- HilltopAds MultiTag 300x250 -->
-  <div style="text-align:center; padding: 20px 0; margin-top: 30px;">
-    <script>
-    (function(rdtf){
-    var d = document,
-        s = d.createElement('script'),
-        l = d.scripts[d.scripts.length - 1];
-    s.settings = rdtf || {};
-    s.src = "\/\/quarrelsomebitter.com\/b-XeVXs.dgG\/lP0\/YSWccW\/qeim\/9\/u\/ZXUQlbkVPTTDcjwrNTTHI\/4vMBD-UptSNGziAH1\/MOj\/gEwHOvQP";
-    s.async = true;
-    s.referrerPolicy = 'no-referrer-when-downgrade';
-    l.parentNode.insertBefore(s, l);
-    })({})
-    </script>
+  <div style="text-align:center;padding:20px 0;margin-top:30px;">
+    <script>(function(rdtf){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=rdtf||{};s.src="\/\/quarrelsomebitter.com\/b-XeVXs.dgG\/lP0\/YSWccW\/qeim\/9\/u\/ZXUQlbkVPTTDcjwrNTTHI\/4vMBD-UptSNGziAH1\/MOj\/gEwHOvQP";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script>
   </div>
 
-  <footer>
-    <div class="container">
-      <p>&copy; {{ 'now' | date: '%Y' }} {{ site.title }}. Powered by <a href="https://jekyllrb.com" target="_blank">Jekyll</a></p>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">&lt;/&gt; {{ site.title }}</span>
+        <p>专注 AI、编程与技术前沿。日更科技内容。</p>
+      </div>
+      <div class="footer-links">
+        <a href="{{ '/' | absolute_url }}">首页</a>
+        <a href="{{ '/tags.html' | absolute_url }}">标签</a>
+        <a href="{{ '/search.html' | absolute_url }}">搜索</a>
+        <a href="{{ '/feed.xml' | absolute_url }}">RSS</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; {{ 'now' | date: '%Y' }} {{ site.title }}. Powered by Jekyll & GitHub Pages.</p>
     </div>
   </footer>
+
+  <button class="scroll-top" id="scrollTop" aria-label="返回顶部" title="返回顶部">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <script src="{{ '/assets/js/main.js' | absolute_url }}"></script>
 </body>
 </html>

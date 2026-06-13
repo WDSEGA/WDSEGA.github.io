@@ -1,5 +1,5 @@
 title: "科技前沿"
-description: "科技资讯与实用技巧"
+description: "AI · 编程 · 大模型 · 科技趋势 — 日更深度内容"
 language: zh-CN
 url: "https://wdsega.github.io"
 baseurl: ""
@@ -7,36 +7,35 @@ author:
   name: WDSEGA
   email: ""
 
-# 发布未来日期的文章
 future: true
-
-# 主题设置
 theme: null
 markdown: kramdown
 kramdown:
   input: GFM
   hard_wrap: false
 
-# 分页
-paginate: 10
-paginate_path: "/page:num/"
-
-# 插件
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
 
-# 排除文件
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
 exclude:
   - README.md
   - Gemfile
   - Gemfile.lock
   - vendor
+  - node_modules
 
-# Google Analytics (替换为你的跟踪ID)
 google_analytics: "G-XXXXXXXXXX"
-
-# Google AdSense (替换为你的发布商ID)
 google_adsense: "ca-pub-XXXXXXXXXXXXXXXX"
-

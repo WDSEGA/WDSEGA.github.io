@@ -1,0 +1,72 @@
+---
+layout: default
+title: "搜索"
+permalink: /search.html
+---
+
+<div class="page-header">
+  <h1>搜索文章</h1>
+  <p>在 {{ site.posts.size }} 篇文章中快速查找</p>
+</div>
+
+<div class="search-container">
+  <div class="search-input-wrapper">
+    <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="searchInput" class="search-input" placeholder="搜索文章标题、标签..." autocomplete="off" autofocus>
+    <button class="search-clear" id="searchClear" aria-label="清除">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="search-info" id="searchInfo"></div>
+  <div class="search-results" id="searchResults">
+    <div class="search-placeholder">
+      <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <p>输入关键词开始搜索</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var posts = [
+    {% for post in site.posts %}
+    { title: {{ post.title | jsonify }}, url: {{ post.url | absolute_url | jsonify }}, date: {{ post.date | date: "%Y-%m-%d" | jsonify }}, excerpt: {{ post.excerpt | strip_html | truncate: 120 | jsonify }}, tags: {{ post.tags | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+  var input = document.getElementById('searchInput');
+  var results = document.getElementById('searchResults');
+  var info = document.getElementById('searchInfo');
+  var clearBtn = document.getElementById('searchClear');
+
+  var urlParams = new URLSearchParams(window.location.search);
+  var q = urlParams.get('q');
+  if (q) { input.value = q; doSearch(q); }
+
+  input.addEventListener('input', function() {
+    var val = this.value.trim();
+    clearBtn.style.display = val ? 'flex' : 'none';
+    if (!val) { results.innerHTML = '<div class="search-placeholder"><svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><p>输入关键词开始搜索</p></div>'; info.textContent = ''; return; }
+    doSearch(val);
+  });
+  clearBtn.addEventListener('click', function() {
+    input.value = ''; results.innerHTML = '<div class="search-placeholder"><svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><p>输入关键词开始搜索</p></div>';
+    info.textContent = ''; clearBtn.style.display = 'none'; input.focus();
+  });
+
+  function doSearch(query) {
+    var q = query.toLowerCase();
+    var filtered = posts.filter(function(p) { return p.title.toLowerCase().indexOf(q) !== -1 || (p.tags && p.tags.some(function(t) { return t.toLowerCase().indexOf(q) !== -1; })) || p.excerpt.toLowerCase().indexOf(q) !== -1; });
+    info.textContent = '找到 ' + filtered.length + ' 篇相关文章';
+    if (!filtered.length) { results.innerHTML = '<div class="search-empty"><p>没有找到相关文章，试试其他关键词</p></div>'; return; }
+    var html = '';
+    filtered.forEach(function(p) {
+      html += '<a href="' + p.url + '" class="search-result-item"><time>' + p.date + '</time><span class="search-result-title">' + highlight(p.title, q) + '</span><span class="search-result-excerpt">' + p.excerpt + '</span>' + (p.tags ? '<div class="search-result-tags">' + p.tags.map(function(t) { return '<span class="mini-tag">' + t + '</span>'; }).join('') + '</div>' : '') + '</a>';
+    });
+    results.innerHTML = html;
+  }
+  function highlight(text, query) {
+    var regex = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+    return text.replace(regex, '<mark>$1</mark>');
+  }
+})();
+</script>
