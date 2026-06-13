@@ -5,16 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% if page.title %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+  <!-- Monetag 广告脚本 -->
+  <script src="https://gentle-subterranean-merit.github.io/a/1746709385724.js" async></script>
+  <!-- Adsterra 广告脚本（如果有） -->
+  <!-- <script src="https://www.adsterra.com/..." async></script> -->
 </head>
 <body>
   <header>
-    <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
-    <nav>
-      <a href="{{ '/' | relative_url }}">首页</a>
-      <a href="{{ '/tags' | relative_url }}">标签</a>
-    </nav>
+    <div class="header-inner">
+      <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
+      <nav>
+        <a href="{{ '/' | relative_url }}">首页</a>
+        <a href="{{ '/tags' | relative_url }}">标签</a>
+        <a href="{{ '/about' | relative_url }}">关于</a>
+      </nav>
+    </div>
   </header>
-  <main>{{ content }}</main>
-  <footer><p>&copy; {{ site.title }}</p></footer>
+
+  <main>
+    <div class="content">
+      {{ content }}
+    </div>
+
+    <aside class="sidebar">
+      <!-- 广告位 1：侧边栏顶部 -->
+      <div class="ad-box">
+        <div class="ad-label">广告</div>
+        <div class="ad-placeholder" id="ad-sidebar-top">
+          <!-- Monetag / Adsterra 广告代码 -->
+          <script>
+            (function() {
+              if (window.monetag) {
+                window.monetag.showAd({ zoneId: 239936, container: 'ad-sidebar-top' });
+              }
+            })();
+          </script>
+          <p style="color:#94a3b8;font-size:0.85rem;">广告加载中...</p>
+        </div>
+      </div>
+
+      <!-- 标签云（如果有） -->
+      {% if site.tags.size > 0 %}
+      <div class="sidebar-box">
+        <h3>热门标签</h3>
+        <div class="tag-cloud">
+          {% for tag in site.tags limit:20 %}
+          <a href="{{ '/tags#' | append: tag[0] | relative_url }}" class="tag">{{ tag[0] }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- 广告位 2：侧边栏底部 -->
+      <div class="ad-box">
+        <div class="ad-label">赞助</div>
+        <div class="ad-placeholder">
+          <p style="color:#94a3b8;font-size:0.85rem;">广告位</p>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }} · Powered by Jekyll & GitHub Pages</p>
+    <p style="margin-top:8px;font-size:0.85rem;">广告合作请联系：WDSEGA</p>
+  </footer>
 </body>
 </html>
