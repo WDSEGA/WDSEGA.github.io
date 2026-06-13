@@ -438,4 +438,3 @@ git config --global core.fscache true
 
 ---
 
-*本文首发于技术博客，转载请注明出处。*

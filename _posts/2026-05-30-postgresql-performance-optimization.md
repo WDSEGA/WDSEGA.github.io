@@ -274,4 +274,3 @@ PostgreSQL优化检查清单：
 
 ---
 
-*本文首发于 [WD Tech Blog](https://wdsega.github.io)，转载请注明出处。*

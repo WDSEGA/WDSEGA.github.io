@@ -69,6 +69,6 @@ data.to_excel("output.xlsx")
 
 比手动处理省下的时间，值不值这个价，你自己算。
 
-链接：[Gumroad购买链接] | [Payhip购买链接]
+链接：[Payhip购买](https://payhip.com/b/9dTqi)
 
 *（本文提及的DocKit Pro为作者开发的数字产品。）*

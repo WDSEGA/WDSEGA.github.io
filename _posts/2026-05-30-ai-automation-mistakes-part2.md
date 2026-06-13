@@ -258,4 +258,3 @@ def generate_product_images(original_path, output_dir):
 
 ---
 
-*本文首发于 [WD Tech Blog](https://wdsega.github.io)，转载请注明出处。*

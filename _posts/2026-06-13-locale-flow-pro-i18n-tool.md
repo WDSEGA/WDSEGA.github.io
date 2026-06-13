@@ -74,6 +74,6 @@ canonical_url: "https://wdsega.github.io/2026/06/13/locale-flow-pro-i18n-tool.ht
 
 如果你项目里也有i18n文件，不妨试一下。比手动对key快100倍，还能顺带发现一些你没注意到的bug。
 
-链接：[Payhip购买链接] | [Gumroad购买链接]
+链接：[Payhip购买](https://payhip.com/b/1X8c3) | [Gumroad购买](https://segauser.gumroad.com/l/guytly)
 
 *（本文提及的LocaleFlow Pro为作者开发的数字产品，购买后获取完整源代码和使用文档。）*

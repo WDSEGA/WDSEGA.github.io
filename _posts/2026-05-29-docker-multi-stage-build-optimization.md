@@ -319,4 +319,3 @@ COPY --chown=appuser:appgroup app.py requirements.txt ./
 
 ---
 
-*本文首发于 [WD Tech Blog](https://wdsega.github.io)，转载请注明出处。*
