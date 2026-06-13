@@ -5,8 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% if page.title %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
-  <!-- Monetag 广告 -->
-  <script data-cfasync="false" async src="//sb.monetag.com/a/3335740.js"></script>
+  <!-- Monetag 广告 (Zone: 239936) -->
+  <script src="https://quge5.com/88/tag.min.js" data-zone="239936" async data-cfasync="false"></script>
+  <!-- Adsterra 广告 (Zone: 11032934) -->
+  <script>(function(s){s.dataset.zone='11032934',s.src='https://nap5k.com/tag.min.js'})([document.documentElement,document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+  <!-- PopAds 广告 (Website: 5301341) -->
+  <script src="https://pl29467753.effectivecpmnetwork.com/e5/8d/ab/e58dab0c74d7c8fe66921e461c45a2e0.js"></script>
+  <!-- HilltopAds 广告 -->
+  <script type="text/javascript" data-cfasync="false">
+  /*<![CDATA[/* */
+  (function(){var t=window,f="f25f53fb76644ab19fe5b15c363fb9b7",h=[["siteId",209-190-634+5301956],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],e=["d3d3LmFudGlhZGJsb2Nrc3lzdGVtcy5jb20vcm51bWJlcnMubWluLmNzcw==","ZDNjb2Q4MHRobjdxbmQuY2xvdWRmcm9udC5uZXQvakpvL3d2aWRlb2pzXzUudmFzdC52cGFpZC5taW4uanM="],s=-1,v,w,c=function(){clearTimeout(w);s++;if(e[s]&&!(1805103199000<(new Date).getTime()&&1<s)){v=t.document.createElement("script");v.type="text/javascript";v.async=!0;var k=t.document.getElementsByTagName("script")[0];v.src="https://"+atob(e[s]);v.crossOrigin="anonymous";v.onerror=c;v.onload=function(){clearTimeout(w);t[f.slice(0,16)+f.slice(0,16)]||c()};w=setTimeout(c,5E3);k.parentNode.insertBefore(v,k)}};if(!t[f]){try{Object.freeze(t[f]=h)}catch(e){}c()}})();
+  /*]]>/* */
+  </script>
 </head>
 <body>
   <header>
@@ -41,18 +51,6 @@
         </div>
       </div>
 
-      <!-- 标签云（如果有） -->
-      {% if site.tags.size > 0 %}
-      <div class="sidebar-box">
-        <h3>热门标签</h3>
-        <div class="tag-cloud">
-          {% for tag in site.tags limit:20 %}
-          <a href="{{ '/tags#' | append: tag[0] | relative_url }}" class="tag">{{ tag[0] }}</a>
-          {% endfor %}
-        </div>
-      </div>
-      {% endif %}
-
       <!-- 广告位 2：侧边栏底部 -->
       <div class="ad-box">
         <div class="ad-label">赞助</div>
@@ -67,5 +65,10 @@
     <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }} · Powered by Jekyll & GitHub Pages</p>
     <p style="margin-top:8px;font-size:0.85rem;">广告合作请联系：WDSEGA</p>
   </footer>
+
+  <!-- 底部横幅广告 -->
+  <div style="text-align:center;padding:20px 0;margin-top:10px;">
+    <script>(function(rdtf){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=rdtf||{};s.src="\/\/quarrelsomebitter.com\/b-XeVXs.dgG\/lP0\/YSWccW\/qeim\/9\/u\/ZXUQlbkVPTTDcjwrNTTHI\/4vMBD-UptSNGziAH1\/MOj\/gEwHOvQP";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script>
+  </div>
 </body>
 </html>
