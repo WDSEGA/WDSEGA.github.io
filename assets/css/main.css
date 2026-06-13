@@ -1,0 +1,300 @@
+/* ===== 科技前沿博客 - 主样式 ===== */
+
+/* --- CSS 变量（支持暗色模式） --- */
+:root {
+  --bg: #f1f5f9;
+  --surface: #ffffff;
+  --text: #1e293b;
+  --text-secondary: #64748b;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --border: #e2e8f0;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,0.12);
+  --radius: 8px;
+  --header-bg: #ffffff;
+  --card-bg: #ffffff;
+  --code-bg: #f1f5f9;
+}
+
+/* 暗色模式 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --text: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --border: #334155;
+    --shadow: 0 1px 3px rgba(0,0,0,0.3);
+    --shadow-hover: 0 4px 12px rgba(0,0,0,0.4);
+    --header-bg: #1e293b;
+    --card-bg: #1e293b;
+    --code-bg: #0f172a;
+  }
+}
+
+/* --- Reset --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* --- 头部导航 --- */
+header {
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+header .header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+header h1 {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+header h1 a {
+  color: var(--primary);
+  text-decoration: none;
+}
+header nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+header nav a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+header nav a:hover {
+  color: var(--primary);
+}
+
+/* --- 主布局（文章 + 侧边栏） --- */
+main {
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 32px;
+}
+@media (max-width: 860px) {
+  main { grid-template-columns: 1fr; }
+}
+
+/* --- 文章卡片 --- */
+.post-list { display: flex; flex-direction: column; gap: 20px; }
+
+.post-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.post-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+.post-card h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.post-card h2 a {
+  color: var(--text);
+  text-decoration: none;
+}
+.post-card h2 a:hover {
+  color: var(--primary);
+}
+.post-card .post-meta {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.post-card .tag {
+  background: var(--code-bg);
+  color: var(--primary);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+.post-card .excerpt {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* --- 侧边栏 --- */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+@media (max-width: 860px) {
+  .sidebar { order: -1; }
+}
+
+.sidebar-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.sidebar-box h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+/* 广告位 */
+.ad-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+}
+.ad-box .ad-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.ad-placeholder {
+  width: 100%;
+  min-height: 200px;
+  background: var(--code-bg);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+/* --- Hero 区域 --- */
+.hero-section {
+  background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
+  color: white;
+  padding: 48px 32px;
+  border-radius: var(--radius);
+  margin-bottom: 32px;
+  text-align: center;
+}
+.hero-section h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.hero-section .post-count {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* --- 分页 --- */
+.pagination-note {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  padding: 20px 0;
+}
+
+/* --- 文章页（post.html） --- */
+.post-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 32px 0 24px;
+  margin-bottom: 32px;
+}
+.post-header h1 {
+  max-width: 800px;
+  margin: 0 auto 12px;
+  padding: 0 24px;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.post-header .post-meta {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.post-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px 64px;
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+.post-content h2 { font-size: 1.4rem; margin: 32px 0 16px; }
+.post-content h3 { font-size: 1.2rem; margin: 24px 0 12px; }
+.post-content p { margin-bottom: 16px; }
+.post-content code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+.post-content pre {
+  background: var(--code-bg);
+  padding: 16px;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+
+/* --- Footer --- */
+footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 32px 24px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* --- 响应式 --- */
+@media (max-width: 640px) {
+  header .header-inner { flex-direction: column; height: auto; padding: 12px 0; gap: 8px; }
+  main { padding: 0 12px; }
+  .hero-section { padding: 32px 16px; }
+  .hero-section h1 { font-size: 1.4rem; }
+  .post-card { padding: 16px; }
+  .post-header h1 { font-size: 1.5rem; }
+}
