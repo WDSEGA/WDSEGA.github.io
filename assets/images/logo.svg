@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- 鏃犺儗鏅紙閫忔槑锛?-->
+  
+  <!-- ====== 鍏堢敾 D#2 娴呰摑鑹诧紙#0066cc锛夐『鏃堕拡鏃嬭浆90掳锛堝簳灞傦級====== -->
+  <g transform="rotate(90, 100, 100)">
+    <!-- 绔栫嚎 -->
+    <line x1="100" y1="50" x2="100" y2="150"
+          stroke="#0066cc" stroke-width="7" stroke-linecap="round"/>
+    <!-- 鍙冲崐鍦嗗姬锛堟棆杞悗寮х嚎鏈濅笅锛?-->
+    <path d="M 100 50 A 50 50 0 0 1 100 150"
+          fill="none" stroke="#0066cc" stroke-width="7" stroke-linecap="round"/>
+  </g>
+  
+  <!-- ====== 鍐嶇敾 D#1 娣辫摑鑹诧紙#0044aa锛夋甯告湞鍚戯紙鐩栧湪涓婇潰锛?===== -->
+  <!-- 绔栫嚎锛欴 鐨勫乏渚х珫鏉?-->
+  <line x1="100" y1="50" x2="100" y2="150"
+        stroke="#0044aa" stroke-width="7" stroke-linecap="round"/>
+  <!-- 鍙冲崐鍦嗗姬 -->
+  <path d="M 100 50 A 50 50 0 0 1 100 150"
+        fill="none" stroke="#0044aa" stroke-width="7" stroke-linecap="round"/>
+</svg>
