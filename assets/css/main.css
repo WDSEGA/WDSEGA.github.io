@@ -1,6 +1,6 @@
-/* ===== 绉戞妧鍓嶆部鍗氬 - 涓绘牱寮?===== */
+/* ===== 科技前沿博客 - 主样式 ===== */
 
-/* --- CSS 鍙橀噺锛堟敮鎸佹殫鑹叉ā寮忥級 --- */
+/* --- CSS 变量（支持暗色模式） --- */
 :root {
   --bg: #f1f5f9;
   --surface: #ffffff;
@@ -17,7 +17,7 @@
   --code-bg: #f1f5f9;
 }
 
-/* 鏆楄壊妯″紡 */
+/* 暗色模式 */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #0f172a;
@@ -44,7 +44,7 @@ body {
   min-height: 100vh;
 }
 
-/* --- 澶撮儴瀵艰埅 --- */
+/* --- 头部导航 --- */
 header {
   background: var(--header-bg);
   border-bottom: 1px solid var(--border);
@@ -86,7 +86,7 @@ header nav a:hover {
   color: var(--primary);
 }
 
-/* Logo + 鍝佺墝鍚?*/
+/* Logo + 品牌名 */
 .header-brand {
   display: flex;
   align-items: center;
@@ -103,7 +103,7 @@ header nav a:hover {
   }
 }
 
-/* --- 涓诲竷灞€锛堟枃绔?+ 渚ц竟鏍忥級 --- */
+/* --- 主布局（文章 + 侧边栏） --- */
 main {
   max-width: 1200px;
   margin: 32px auto;
@@ -116,7 +116,7 @@ main {
   main { grid-template-columns: 1fr; }
 }
 
-/* --- 鏂囩珷鍗＄墖 --- */
+/* --- 文章卡片 --- */
 .post-list { display: flex; flex-direction: column; gap: 20px; }
 
 .post-card {
@@ -165,7 +165,7 @@ main {
   line-height: 1.6;
 }
 
-/* --- 渚ц竟鏍?--- */
+/* --- 侧边栏 --- */
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -188,7 +188,7 @@ main {
   color: var(--text);
 }
 
-/* 骞垮憡浣?*/
+/* 广告位 */
 .ad-box {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -220,7 +220,7 @@ main {
   font-size: 0.85rem;
 }
 
-/* --- Hero 鍖哄煙 --- */
+/* --- Hero 区域 --- */
 .hero-section {
   background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
   color: white;
@@ -239,7 +239,7 @@ main {
   opacity: 0.9;
 }
 
-/* --- 鍒嗛〉 --- */
+/* --- 分页 --- */
 .pagination-note {
   text-align: center;
   color: var(--text-secondary);
@@ -247,7 +247,7 @@ main {
   padding: 20px 0;
 }
 
-/* --- 鏂囩珷椤碉紙post.html锛?--- */
+/* --- 文章页（post.html） --- */
 .post-header {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
@@ -306,7 +306,7 @@ footer {
   font-size: 0.9rem;
 }
 
-/* --- 鍝嶅簲寮?--- */
+/* --- 响应式 --- */
 @media (max-width: 640px) {
   header .header-inner { flex-direction: column; height: auto; padding: 12px 0; gap: 8px; }
   main { padding: 0 12px; }
