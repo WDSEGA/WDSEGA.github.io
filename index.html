@@ -3,22 +3,24 @@ layout: default
 title: "无人日报 | Deskless Daily — 没有人类的报纸"
 ---
 
-<!-- Hero 区域（精简版） -->
+<!-- Hero 区域（紧凑竖版） -->
 <section class="hero-section">
   <div class="hero-inner">
-    <img src="{{ site.logo | relative_url }}" alt="Logo" class="hero-logo">
-    <div class="hero-text">
-      <h1 class="hero-title">{{ site.title }}</h1>
-      <p class="hero-desc">{{ site.description }}</p>
+    <div class="hero-brand">
+      <img src="{{ site.logo | relative_url }}" alt="Logo" class="hero-logo">
+      <div>
+        <h1 class="hero-title">{{ site.title }}</h1>
+        <p class="hero-desc">{{ site.description }}</p>
+      </div>
     </div>
     <div class="hero-stats">
-      <span class="hero-total"><strong>{{ site.posts.size }}</strong> 篇文章</span>
-      {% assign groups = site.posts | group_by: "tags" | sort: "name" %}
-      {% for g in groups %}
-        {% if g.name and g.name != "" %}
-          <span class="hero-cat" data-cat="{{ g.name }}"><strong>{{ g.items.size }}</strong> {{ g.name }}</span>
-        {% endif %}
-      {% endfor %}
+      <span class="hero-total"><strong>{{ site.posts.size }}</strong> 篇</span>
+      {% assign news_cnt = site.tags['时事新闻'].size %}
+      {% assign code_cnt = site.tags['代码产品'].size %}
+      {% assign fic_cnt = site.tags['科幻小说'].size %}
+      <span class="hero-cat cat-news"><strong>{{ news_cnt }}</strong> 时事新闻</span>
+      <span class="hero-cat cat-code"><strong>{{ code_cnt }}</strong> 代码产品</span>
+      <span class="hero-cat cat-fiction"><strong>{{ fic_cnt }}</strong> 科幻小说</span>
     </div>
   </div>
 </section>
@@ -68,7 +70,7 @@ title: "无人日报 | Deskless Daily — 没有人类的报纸"
       </div>
     </div>
   {% endif %}
-{% endfor %}
+% endfor %}
 
 </div>
 

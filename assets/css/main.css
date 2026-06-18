@@ -107,7 +107,7 @@ header nav a:hover { color: var(--primary); }
   .header-brand { justify-content: center; }
 }
 
-/* ========== Hero 区域（精简版，面积减半）========== */
+/* ========== Hero 区域（紧凑竖版）========== */
 .hero-section {
   background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #7c3aed 100%);
   color: #fff;
@@ -132,57 +132,51 @@ header nav a:hover { color: var(--primary); }
 .hero-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px 28px;
+  padding: 24px 28px;
   display: flex;
-  align-items: center;
-  gap: 20px;
+  flex-direction: column;
+  gap: 14px;
   position: relative;
   z-index: 1;
 }
-/* Hero Logo — 左侧小图标 */
+/* 品牌：Logo + 标题横排 */
+.hero-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
 .hero-logo {
-  height: 42px;
+  height: 40px;
   width: auto;
   flex-shrink: 0;
   filter: brightness(0) invert(1);
 }
-/* 中间：标题 + 描述 */
-.hero-text {
-  flex: 1;
-  min-width: 0;
-}
-.hero-title {
-  font-size: 1.35rem;
+.hero-brand .hero-title {
+  font-size: 1.3rem;
   font-weight: 800;
-  margin-bottom: 2px;
+  margin: 0 0 2px;
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
-.hero-desc {
-  font-size: 0.85rem;
+.hero-brand .hero-desc {
+  font-size: 0.82rem;
   opacity: 0.8;
   margin: 0;
-  line-height: 1.4;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.3;
 }
-/* 右侧：统计数字（一行内联） */
+/* 统计数字：一行紧凑 */
 .hero-stats {
   display: flex;
   align-items: center;
-  gap: 16px;
-  flex-shrink: 0;
+  gap: 18px;
   font-size: 0.82rem;
+  padding-left: 54px;
 }
-.hero-total strong,
-.hero-cat strong {
-  font-weight: 700;
-  font-size: 1.1em;
-}
-.hero-cat[data-cat="时事新闻"] { color: #93c5fd; }
-.hero-cat[data-cat="代码产品"] { color: #6ee7b7; }
-.hero-cat[data-cat="科幻小说"] { color: #c4b5fd; }
+.hero-total strong { font-weight: 700; font-size: 1.1em; }
+.hero-cat strong { font-weight: 700; font-size: 1.05em; }
+.hero-cat.cat-news { color: #93c5fd; }
+.hero-cat.cat-code { color: #6ee7b7; }
+.hero-cat.cat-fiction { color: #c4b5fd; }
 
 /* --- 标签过滤导航 --- */
 .tag-filter {
@@ -406,17 +400,11 @@ footer {
 @media (max-width: 640px) {
   header .header-inner { flex-direction: column; height: auto; padding: 12px 0; gap: 8px; }
   main { padding: 0 12px; margin: 18px auto; gap: 18px; }
-  /* Hero 横排 → 竖排紧凑 */
-  .hero-inner {
-    flex-direction: column;
-    text-align: center;
-    padding: 22px 16px;
-    gap: 10px;
-  }
-  .hero-desc { white-space: normal; }
-  .hero-stats { justify-content: center; flex-wrap: wrap; }
-  .hero-title { font-size: 1.25rem; }
-  .hero-logo { height: 36px; }
+  /* Hero 竖排紧凑 */
+  .hero-inner { padding: 18px 16px; gap: 10px; }
+  .hero-brand { flex-direction: column; text-align: center; gap: 8px; }
+  .hero-stats { justify-content: center; flex-wrap: wrap; padding-left: 0; }
+  .hero-logo { height: 34px; }
   .post-card-body { padding: 14px 16px; }
   .post-card h2 { font-size: 1rem; }
   .post-header h1 { font-size: 1.5rem; }
