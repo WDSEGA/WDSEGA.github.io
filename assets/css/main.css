@@ -1,4 +1,4 @@
-/* ===== 科技前沿博客 - 主样式 ===== */
+/* ===== 无人日报 Deskless Daily — 主样式 ===== */
 
 /* --- CSS 变量（支持暗色模式） --- */
 :root {
@@ -15,6 +15,13 @@
   --header-bg: #ffffff;
   --card-bg: #ffffff;
   --code-bg: #f1f5f9;
+
+  /* 标签颜色 */
+  --tag-ai: #2563eb;
+  --tag-科幻: #7c3aed;
+  --tag-产品: #059669;
+  --tag-软文: #d97706;
+  --tag-洗稿: #dc2626;
 }
 
 /* 暗色模式 */
@@ -30,6 +37,11 @@
     --header-bg: #1e293b;
     --card-bg: #1e293b;
     --code-bg: #0f172a;
+    --tag-ai: #60a5fa;
+    --tag-科幻: #a78bfa;
+    --tag-产品: #34d399;
+    --tag-软文: #fbbf24;
+    --tag-洗稿: #f87171;
   }
 }
 
@@ -98,9 +110,95 @@ header nav a:hover {
   flex-shrink: 0;
 }
 @media (max-width: 640px) {
-  .header-brand {
-    justify-content: center;
-  }
+  .header-brand { justify-content: center; }
+}
+
+/* --- Hero 区域 --- */
+.hero-section {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #7c3aed 100%);
+  color: #fff;
+  border-radius: var(--radius);
+  margin-bottom: 0;
+  overflow: hidden;
+  position: relative;
+}
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 40px,
+    rgba(255,255,255,0.03) 40px,
+    rgba(255,255,255,0.03) 41px
+  );
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 32px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.hero-logo {
+  height: 72px;
+  width: auto;
+  margin-bottom: 16px;
+  filter: brightness(0) invert(1);
+}
+.hero-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+.hero-desc {
+  font-size: 1.1rem;
+  opacity: 0.85;
+  margin-bottom: 24px;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  text-align: center;
+}
+.hero-stat-num {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.hero-stat-label {
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+.hero-links {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.hero-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 6px 16px;
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+.hero-link:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.7);
 }
 
 /* --- 标签过滤导航 --- */
@@ -148,24 +246,42 @@ main {
   main { grid-template-columns: 1fr; }
 }
 
-/* --- 文章卡片 --- */
-.post-list { display: flex; flex-direction: column; gap: 20px; }
-
+/* --- 文章卡片（新版：左侧颜色条） --- */
 .post-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 24px;
+  display: flex;
+  overflow: hidden;
   transition: box-shadow 0.2s, transform 0.2s;
 }
 .post-card:hover {
   box-shadow: var(--shadow-hover);
   transform: translateY(-2px);
 }
+/* 左侧颜色条 */
+.post-card-accent {
+  width: 4px;
+  flex-shrink: 0;
+  background: var(--border);
+}
+.post-card-accent[data-tag="AI"],
+.post-card-accent[data-tag="ai"] { background: var(--tag-ai); }
+.post-card-accent[data-tag="科幻"] { background: var(--tag-科幻); }
+.post-card-accent[data-tag="产品"] { background: var(--tag-产品); }
+.post-card-accent[data-tag="软文"] { background: var(--tag-软文); }
+.post-card-accent[data-tag="洗稿"] { background: var(--tag-洗稿); }
+
+.post-card-body {
+  padding: 20px 24px;
+  flex: 1;
+  min-width: 0;
+}
 .post-card h2 {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 600;
   margin-bottom: 8px;
+  line-height: 1.4;
 }
 .post-card h2 a {
   color: var(--text);
@@ -175,12 +291,12 @@ main {
   color: var(--primary);
 }
 .post-card .post-meta {
-  font-size: 0.85rem;
+  font-size: 0.83rem;
   color: var(--text-secondary);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 .post-card .tag {
@@ -188,13 +304,15 @@ main {
   color: var(--primary);
   padding: 2px 8px;
   border-radius: 4px;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 500;
+  cursor: default;
 }
-.post-card .excerpt {
+.post-excerpt {
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   line-height: 1.6;
+  margin: 0;
 }
 
 /* --- 侧边栏 --- */
@@ -206,7 +324,6 @@ main {
 @media (max-width: 860px) {
   .sidebar { order: -1; }
 }
-
 .sidebar-box {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -252,31 +369,55 @@ main {
   font-size: 0.85rem;
 }
 
-/* --- Hero 区域 --- */
-.hero-section {
-  background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
-  color: white;
-  padding: 48px 32px;
+/* --- 文章列表容器 --- */
+#posts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* --- 内联广告位（文章列表中） --- */
+.ad-inline {
+  width: 100%;
+}
+.ad-inline .ad-placeholder {
+  min-height: 80px;
+  padding: 12px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
   border-radius: var(--radius);
-  margin-bottom: 32px;
-  text-align: center;
-}
-.hero-section h1 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-.hero-section .post-count {
-  font-size: 1.1rem;
-  opacity: 0.9;
 }
 
 /* --- 分页 --- */
-.pagination-note {
-  text-align: center;
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 40px 0;
+  padding: 20px;
+}
+.page-btn {
+  padding: 8px 20px;
+  border: 1px solid var(--primary);
+  background: var(--surface);
+  color: var(--primary);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+.page-btn:hover:not(:disabled) {
+  background: var(--primary);
+  color: #fff;
+}
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.page-info {
+  font-size: 14px;
   color: var(--text-secondary);
-  font-size: 0.9rem;
-  padding: 20px 0;
 }
 
 /* --- 文章页（post.html） --- */
@@ -338,12 +479,26 @@ footer {
   font-size: 0.9rem;
 }
 
+/* --- 分页说明文字（备用） --- */
+.pagination-note {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  padding: 20px 0;
+}
+
 /* --- 响应式 --- */
 @media (max-width: 640px) {
   header .header-inner { flex-direction: column; height: auto; padding: 12px 0; gap: 8px; }
-  main { padding: 0 12px; }
-  .hero-section { padding: 32px 16px; }
-  .hero-section h1 { font-size: 1.4rem; }
-  .post-card { padding: 16px; }
+  main { padding: 0 12px; margin: 20px auto; }
+  .hero-inner { padding: 32px 16px; }
+  .hero-logo { height: 48px; }
+  .hero-title { font-size: 1.5rem; }
+  .hero-stats { gap: 20px; }
+  .hero-stat-num { font-size: 1.4rem; }
+  .post-card-body { padding: 16px; }
+  .post-card h2 { font-size: 1.05rem; }
   .post-header h1 { font-size: 1.5rem; }
+  .tag-filter { padding: 10px 12px; }
+  .tag-btn { font-size: 0.8rem; padding: 4px 10px; }
 }
