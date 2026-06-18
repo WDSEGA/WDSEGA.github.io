@@ -1,18 +1,7 @@
 ---
 layout: default
-title: 科技前沿 - AI·编程·大模型·科技趋势
+title: "无人日报 | Deskless Daily — 没有人类的报纸"
 ---
-
-<!-- 翻页功能：客户端 JS 分页，20篇/页 -->
-<script>
-(function() {
-  // 配置
-  var PER_PAGE = 20;
-  var posts = [];
-  // 从 Jekyll 生成的页面读取文章列表
-  // 实际由 Jekyll 生成所有文章列表，JS 控制显示
-})();
-</script>
 
 <!-- 文章列表容器 -->
 <div class="posts-container" id="posts-container">
@@ -37,13 +26,12 @@ title: 科技前沿 - AI·编程·大模型·科技趋势
     {% endif %}
   </article>
 
-  <!-- 每10篇插入一个广告位（仅首页第一页显示） -->
+  <!-- 每10篇插入一个广告位 -->
   {% assign mod = forloop.index | modulo: 10 %}
   {% if mod == 0 and forloop.index <= 100 %}
     <div class="ad-inline" data-ad-index="{{ forloop.index }}">
-      <!-- Monetag 插入广告位 -->
       <div class="ad-placeholder" style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px;color:#999;font-size:13px;">
-        —— 广告位 {{ forloop.index | divided_by: 10 }} ——
+        &mdash;&mdash; 广告位 {{ forloop.index | divided_by: 10 }} &mdash;&mdash;
       </div>
     </div>
   {% endif %}
@@ -53,9 +41,9 @@ title: 科技前沿 - AI·编程·大模型·科技趋势
 
 <!-- 翻页控件 -->
 <nav class="pagination" id="pagination">
-  <button id="prev-btn" class="page-btn" disabled>« 上一页</button>
+  <button id="prev-btn" class="page-btn" disabled>&laquo; 上一页</button>
   <span id="page-info" class="page-info">第 1 页 / 共 ? 页</span>
-  <button id="next-btn" class="page-btn">下一页 »</button>
+  <button id="next-btn" class="page-btn">下一页 &raquo;</button>
 </nav>
 
 <style>
@@ -92,7 +80,6 @@ title: 科技前沿 - AI·编程·大模型·科技趋势
 </style>
 
 <script>
-// 客户端翻页功能
 (function() {
   'use strict';
   
@@ -102,13 +89,11 @@ title: 科技前沿 - AI·编程·大模型·科技趋势
   var nextBtn = document.getElementById('next-btn');
   var pageInfo = document.getElementById('page-info');
   
-  // 获取所有文章卡片和广告位
   var allItems = container ? container.children : [];
   var totalItems = allItems.length;
   var totalPages = Math.ceil(totalItems / PER_PAGE);
   var currentPage = 1;
   
-  // 从 URL 参数读取当前页
   var params = new URLSearchParams(window.location.search);
   var pageParam = parseInt(params.get('page'));
   if (pageParam && pageParam >= 1 && pageParam <= totalPages) {
@@ -130,26 +115,22 @@ title: 科技前沿 - AI·编程·大模型·科技趋势
       }
     }
     
-    // 更新按钮状态
     prevBtn.disabled = (page <= 1);
     nextBtn.disabled = (page >= totalPages);
     pageInfo.textContent = '第 ' + page + ' 页 / 共 ' + totalPages + ' 页';
     
-    // 更新 URL（不刷新页面）
     var newUrl = window.location.pathname;
     if (page > 1) {
       newUrl += '?page=' + page;
     }
     history.pushState(null, null, newUrl);
     
-    // 滚动到顶部
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
   
   prevBtn.addEventListener('click', function() { showPage(currentPage - 1); });
   nextBtn.addEventListener('click', function() { showPage(currentPage + 1); });
   
-  // 初始显示
   showPage(currentPage);
 })();
 </script>
