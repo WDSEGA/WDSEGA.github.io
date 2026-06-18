@@ -1,0 +1,73 @@
+name: Submit URLs to Search Engines
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Run daily at 2:00 UTC (10:00 GMT+8) to submit any new content
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    # Manual trigger
+
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Fetch sitemap and extract URLs
+        run: |
+          curl -sL https://wdsega.github.io/sitemap.xml | grep -oP '(?<=<loc>)[^<]+' > urls.txt
+          total=$(wc -l < urls.txt)
+          echo "Found $total URLs in sitemap"
+          echo "TOTAL=$total" >> $GITHUB_ENV
+
+      - name: Submit to IndexNow (Bing + Yandex + Seznam)
+        run: |
+          KEY="70138d3940bf6c0c4b2f8a3e8b5a035c"
+          KEY_URL="https://wdsega.github.io/${KEY}.txt"
+          BATCH_SIZE=100
+          TOTAL=${{ env.TOTAL }}
+          BATCH_COUNT=$(( (TOTAL + BATCH_SIZE - 1) / BATCH_SIZE ))
+          
+          for ((i=0; i<TOTAL; i+=BATCH_SIZE)); do
+            BATCH_NUM=$((i / BATCH_SIZE + 1))
+            
+            # Extract batch URLs and format as JSON array
+            URLS=$(tail -n +$((i+1)) urls.txt | head -n $BATCH_SIZE | jq -R -s -c 'split("\n") | map(select(length > 0))')
+            
+            BODY=$(jq -n \
+              --arg host "wdsega.github.io" \
+              --arg key "$KEY" \
+              --arg keyLocation "$KEY_URL" \
+              --argjson urlList "$URLS" \
+              '{host: $host, key: $key, keyLocation: $keyLocation, urlList: $urlList}')
+            
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://api.indexnow.org/indexnow" \
+              -H "Content-Type: application/json; charset=utf-8" \
+              -d "$BODY" \
+              --max-time 30)
+            
+            if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "202" ]; then
+              echo "Batch $BATCH_NUM/$BATCH_COUNT -> HTTP $HTTP_CODE OK"
+            else
+              echo "Batch $BATCH_NUM/$BATCH_COUNT -> HTTP $HTTP_CODE"
+            fi
+          done
+          echo "IndexNow submission complete: $TOTAL URLs in $BATCH_COUNT batches"
+
+      - name: Ping Google sitemap
+        run: |
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+            "https://www.google.com/webmasters/tools/ping?sitemap=https://wdsega.github.io/sitemap.xml" \
+            --max-time 30)
+          echo "Google Sitemap Ping: HTTP $HTTP_CODE"
+
+      - name: Summary
+        run: |
+          echo "## Search Engine Indexing Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- Site: https://wdsega.github.io" >> $GITHUB_STEP_SUMMARY
+          echo "- Sitemap: https://wdsega.github.io/sitemap.xml" >> $GITHUB_STEP_SUMMARY
+          echo "- IndexNow Key: https://wdsega.github.io/70138d3940bf6c0c4b2f8a3e8b5a035c.txt" >> $GITHUB_STEP_SUMMARY
+          echo "- URLs submitted: ${{ env.TOTAL }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Search engines notified: Bing, Yandex, Seznam, Google" >> $GITHUB_STEP_SUMMARY
