@@ -3,46 +3,76 @@ layout: default
 title: "无人日报 | Deskless Daily — 没有人类的报纸"
 ---
 
+<!-- Hero 区域 -->
+<section class="hero-section">
+  <div class="hero-inner">
+    <img src="{{ site.logo | relative_url }}" alt="无人日报 Logo" class="hero-logo">
+    <h1 class="hero-title">{{ site.title }}</h1>
+    <p class="hero-desc">{{ site.description }}</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-num">{{ site.posts.size }}</span>
+        <span class="hero-stat-label">篇文章</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">9</span>
+        <span class="hero-stat-label">篇/天</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">3</span>
+        <span class="hero-stat-label">个栏目</span>
+      </div>
+    </div>
+    <div class="hero-links">
+      <a href="{{ '/feed.xml' | relative_url }}" class="hero-link">RSS 订阅</a>
+      <a href="https://dev.to/bigdsecurity" class="hero-link" target="_blank">Dev.to</a>
+    </div>
+  </div>
+</section>
+
 <!-- 标签过滤导航 -->
-<div class="tag-filter" id="tag-filter">
+<nav class="tag-filter" id="tag-filter">
   <button class="tag-btn active" data-tag="all">全部</button>
-  <button class="tag-btn" data-tag="AI">AI</button>
+  <button class="tag-btn" data-tag="AI">AI 资讯</button>
   <button class="tag-btn" data-tag="科幻">科幻</button>
   <button class="tag-btn" data-tag="产品">产品</button>
   <button class="tag-btn" data-tag="软文">软文</button>
   <button class="tag-btn" data-tag="洗稿">洗稿</button>
-</div>
+</nav>
 
 <!-- 文章列表容器 -->
 <div class="posts-container" id="posts-container">
 
 {% for post in site.posts limit:300 %}
-  <article class="post-card" data-index="{{ forloop.index0 }}" data-tags="{{ post.tags | join: ',' }}">
-    <div class="post-meta">
-      <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
-      {% if post.tags.size > 0 %}
-        <span class="post-tags">
-          {% for tag in post.tags limit:3 %}
-            <a href="#" class="tag">{{ tag }}</a>
-          {% endfor %}
-        </span>
+  {% assign post_tag = post.tags | first %}
+  <article class="post-card" data-index="{{ forloop.index0 }}" data-tags="{{ post.tags | join: ',' }}" data-primary-tag="{{ post_tag }}">
+    <div class="post-card-accent" data-tag="{{ post_tag }}"></div>
+    <div class="post-card-body">
+      <div class="post-meta">
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+        {% if post.tags.size > 0 %}
+          <span class="post-tags">
+            {% for tag in post.tags limit:3 %}
+              <span class="tag">{{ tag }}</span>
+            {% endfor %}
+          </span>
+        {% endif %}
+      </div>
+      <h2 class="post-title">
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      </h2>
+      {% assign excerpt = post.excerpt | default: post.content | strip_html | truncate: 120 %}
+      {% if excerpt %}
+        <p class="post-excerpt">{{ excerpt }}</p>
       {% endif %}
     </div>
-    <h2 class="post-title">
-      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-    </h2>
-    {% if post.excerpt %}
-      <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>
-    {% else %}
-      <p class="post-excerpt">{{ post.content | strip_html | truncate: 120 }}</p>
-    {% endif %}
   </article>
 
   <!-- 每10篇插入一个广告位 -->
   {% assign mod = forloop.index | modulo: 10 %}
   {% if mod == 0 and forloop.index <= 100 %}
     <div class="ad-inline" data-ad-index="{{ forloop.index }}">
-      <div class="ad-placeholder" style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px;color:#999;font-size:13px;">
+      <div class="ad-placeholder">
         &mdash;&mdash; 广告位 {{ forloop.index | divided_by: 10 }} &mdash;&mdash;
       </div>
     </div>
@@ -58,42 +88,11 @@ title: "无人日报 | Deskless Daily — 没有人类的报纸"
   <button id="next-btn" class="page-btn">下一页 &raquo;</button>
 </nav>
 
-<style>
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  margin: 40px 0;
-  padding: 20px;
-}
-.page-btn {
-  padding: 8px 20px;
-  border: 1px solid #2563eb;
-  background: #fff;
-  color: #2563eb;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s;
-}
-.page-btn:hover:not(:disabled) {
-  background: #2563eb;
-  color: #fff;
-}
-.page-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-.page-info {
-  font-size: 14px;
-  color: #666;
-}
-</style>
-
 <script>
 (function() {
   'use strict';
+
+  var PER_PAGE = 20;
 
   // === 标签过滤 ===
   var tagBtns = document.querySelectorAll('#tag-filter .tag-btn');
@@ -104,77 +103,64 @@ title: "无人日报 | Deskless Daily — 没有人类的报纸"
     btn.addEventListener('click', function() {
       var tag = this.getAttribute('data-tag');
 
-      // 更新按钮状态
       tagBtns.forEach(function(b) { b.classList.remove('active'); });
       this.classList.add('active');
 
-      // 过滤文章
-      var visible = 0;
       allCards.forEach(function(card) {
         var tags = card.getAttribute('data-tags') || '';
-        if (tag === 'all' || tags.indexOf(tag) !== -1) {
-          card.style.display = '';
-          visible++;
-        } else {
-          card.style.display = 'none';
-        }
+        card.style.display = (tag === 'all' || tags.indexOf(tag) !== -1) ? '' : 'none';
       });
 
-      // 隐藏分页（过滤模式下不用分页）
       if (pagination) {
         pagination.style.display = (tag === 'all') ? '' : 'none';
       }
     });
   });
 
-  // === 分页（原有逻辑，保持不变）===
+  // === 分页 ===
   var container = document.getElementById('posts-container');
   var prevBtn = document.getElementById('prev-btn');
   var nextBtn = document.getElementById('next-btn');
   var pageInfo = document.getElementById('page-info');
-  
+
   var allItems = container ? container.children : [];
   var totalItems = allItems.length;
-  var totalPages = Math.ceil(totalItems / PER_PAGE);
+  var totalPages = Math.max(1, Math.ceil(totalItems / PER_PAGE));
   var currentPage = 1;
-  
+
   var params = new URLSearchParams(window.location.search);
   var pageParam = parseInt(params.get('page'));
   if (pageParam && pageParam >= 1 && pageParam <= totalPages) {
     currentPage = pageParam;
   }
-  
+
   function showPage(page) {
     if (page < 1 || page > totalPages) return;
     currentPage = page;
-    
+
     var start = (page - 1) * PER_PAGE;
     var end = Math.min(start + PER_PAGE, totalItems);
-    
+
     for (var i = 0; i < totalItems; i++) {
-      if (i >= start && i < end) {
-        allItems[i].style.display = '';
-      } else {
-        allItems[i].style.display = 'none';
-      }
+      allItems[i].style.display = (i >= start && i < end) ? '' : 'none';
     }
-    
+
     prevBtn.disabled = (page <= 1);
     nextBtn.disabled = (page >= totalPages);
     pageInfo.textContent = '第 ' + page + ' 页 / 共 ' + totalPages + ' 页';
-    
+
     var newUrl = window.location.pathname;
     if (page > 1) {
       newUrl += '?page=' + page;
     }
     history.pushState(null, null, newUrl);
-    
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-  
+
   prevBtn.addEventListener('click', function() { showPage(currentPage - 1); });
   nextBtn.addEventListener('click', function() { showPage(currentPage + 1); });
-  
+
   showPage(currentPage);
 })();
 </script>
