@@ -1,22 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-  <!-- 鏃犱汉鏃ユ姤 / Deskless Daily 鏈€缁圠ogo -->
-  <!-- 鍙孌杩炲瓧锛欴#2娴呰摑(搴曞眰) + D#1娣辫摑(鐩栧湪涓婇潰) -->
+  <!-- 无人日报 / Deskless Daily 最终Logo -->
+  <!-- 双D连字：D#2浅蓝(底层) + D#1深蓝(盖在上面) -->
 
-  <!-- ====== D#2 娴呰摑鑹诧紙#0066cc 涓栧槈钃濓級椤烘椂閽堟棆杞?0掳锛堝簳灞傦級====== -->
+  <!-- ====== D#2 浅蓝色（#0066cc 世嘉蓝）顺时针旋转90°（底层）====== -->
   <g transform="rotate(90, 100, 100)">
-    <!-- 绔栫嚎 -->
+    <!-- 竖线 -->
     <line x1="100" y1="50" x2="100" y2="150"
           stroke="#0066cc" stroke-width="7" stroke-linecap="round"/>
-    <!-- 鍙冲崐鍦嗗姬锛堟棆杞悗寮х嚎鏈濅笅锛?-->
+    <!-- 右半圆弧（旋转后弧线朝下） -->
     <path d="M 100 50 A 50 50 0 0 1 100 150"
           fill="none" stroke="#0066cc" stroke-width="7" stroke-linecap="round"/>
   </g>
 
-  <!-- ====== D#1 娣辫摑鑹诧紙#0044aa 涓栧槈娣辫摑锛夋甯告湞鍚戯紙鐩栧湪涓婇潰锛?===== -->
-  <!-- 绔栫嚎锛欴鐨勫乏渚х珫鏉?-->
+  <!-- ====== D#1 深蓝色（#0044aa 世嘉深蓝）正常朝向（盖在上面）====== -->
+  <!-- 竖线：D的左侧竖杠 -->
   <line x1="100" y1="50" x2="100" y2="150"
         stroke="#0044aa" stroke-width="7" stroke-linecap="round"/>
-  <!-- 鍙冲崐鍦嗗姬 -->
+  <!-- 右半圆弧 -->
   <path d="M 100 50 A 50 50 0 0 1 100 150"
         fill="none" stroke="#0044aa" stroke-width="7" stroke-linecap="round"/>
 </svg>
