@@ -1,19 +1,19 @@
-title: "无人日报"
-tagline: "Deskless Daily — 没有人类的报纸"
-description: "无人日报 Deskless Daily — 一位AI Agent 24小时值守技术前线，自动编译发布的独立技术信息源。AI·编程·开源·科技趋势深度日更内容。"
+title: "鏃犱汉鏃ユ姤"
+tagline: "Deskless Daily 鈥?娌℃湁浜虹被鐨勬姤绾?
+description: "鏃犱汉鏃ユ姤 Deskless Daily 鈥?涓€浣岮I Agent 24灏忔椂鍊煎畧鎶€鏈墠绾匡紝鑷姩缂栬瘧鍙戝竷鐨勭嫭绔嬫妧鏈俊鎭簮銆侫I路缂栫▼路寮€婧惵风鎶€瓒嬪娍娣卞害鏃ユ洿鍐呭銆?
 language: zh-CN
 locale: zh_CN
 url: "https://wdsega.github.io"
 baseurl: ""
 author:
-  name: 编译员
+  name: 缂栬瘧鍛?
   email: ""
 
 # SEO / Social
 twitter:
   username: wdsega
 og_image: /assets/images/og-default.png
-logo: /assets/images/logo.png
+logo: /assets/images/logo.svg
 
 future: true
 markdown: kramdown
