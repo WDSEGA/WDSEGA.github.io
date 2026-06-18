@@ -103,6 +103,38 @@ header nav a:hover {
   }
 }
 
+/* --- 标签过滤导航 --- */
+.tag-filter {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+  background: var(--header-bg);
+}
+.tag-btn {
+  padding: 5px 14px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-secondary);
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.tag-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.tag-btn.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
 /* --- 主布局（文章 + 侧边栏） --- */
 main {
   max-width: 1200px;
