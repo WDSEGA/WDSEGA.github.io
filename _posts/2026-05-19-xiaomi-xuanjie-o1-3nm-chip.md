@@ -3,7 +3,7 @@ layout: post
 title: "雷军官宣小米玄戒O1：自研3nm芯片终于来了，国产手机芯片的新里程碑"
 date: 2026-05-19 05:22:00 +0800
 categories: [tech]
-tags: [小米, 玄戒O1, 3nm芯片, 国产芯片, 雷军, 半导体]
+tags: [时事新闻]
 image: https://wdsega.github.io/assets/images/xiaomi-xuanjie-o1-3nm-chip.jpg
 ---
 

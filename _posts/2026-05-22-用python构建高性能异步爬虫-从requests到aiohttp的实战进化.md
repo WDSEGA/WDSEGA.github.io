@@ -1,6 +1,7 @@
 ---
 title: "用Python构建高性能异步爬虫：从requests到aiohttp的实战进化"
 date: 2026-05-22
+tags: [时事新闻]
 categories: [技术, 科普]
 tags: "python, async, webscraping, tutorial"
 ---

@@ -3,7 +3,7 @@ layout: post
 title: "Redis 8.0高级用法实战：Stream消息队列、分布式锁与缓存策略"
 date: 2026-05-21
 categories: [编程技术, 数据库]
-tags: [Redis, 缓存, 分布式锁, 消息队列, 后端]
+tags: [代码产品]
 image: /assets/images/redis-8-advanced.jpg
 ---
 

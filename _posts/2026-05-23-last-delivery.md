@@ -3,7 +3,7 @@ layout: post
 title: "最后一单"
 date: 2026-05-23 14:00:00 +0800
 categories: [故事, 短篇小说]
-tags: [外卖员, 城市生活, 人性, 温暖]
+tags: [科幻小说]
 image: /assets/images/covers/story1-cover.jpg
 ---
 

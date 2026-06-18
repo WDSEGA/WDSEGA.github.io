@@ -3,7 +3,7 @@ layout: post
 title: "2026年Python爬虫的合法边界：道德爬虫完整指南"
 date: 2026-06-02 08:00:00 +0800
 categories: [Python, 数据采集]
-tags: [python, web-scraping, ethics]
+tags: [代码产品]
 image: /assets/images/python-scraping-ethics.jpg
 author: 大D
 ---

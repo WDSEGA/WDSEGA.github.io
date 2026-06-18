@@ -3,7 +3,7 @@ layout: post
 title: "当你的网站被扫了你都不知道：SecureShip Pro的设计初衷 | Your Site Is Being Scanned Right Now (And You Don't Know It): Why SecureShip Pro Exists"
 date: 2026-06-17 10:30:00 +0800
 categories: [产品, 安全]
-tags: [security, python, webdev, tools]
+tags: [代码产品]
 ---
 
 上周有个开发者在Reddit上问：他的网站日志里出现了大量来自同一IP段的请求，每次请求的URL都不存在，返回全是404。这是什么？

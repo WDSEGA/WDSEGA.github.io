@@ -2,7 +2,7 @@
 title: "银发网民上网指南：给爸妈的手机使用手册"
 date: 2026-05-16 13:30:00 +0800
 categories: [生活, 科技]
-tags: [老年人, 手机使用, 数字鸿沟, 防诈骗, 互联网]
+tags: [时事新闻]
 image: /assets/images/silver-surfers.jpg
 ---
 

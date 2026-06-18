@@ -3,7 +3,7 @@ layout: post
 title: "Docker Compose生产环境部署完整指南"
 date: 2026-06-02 08:00:00 +0800
 categories: [DevOps, Docker]
-tags: [docker, devops, deployment]
+tags: [代码产品]
 image: /assets/images/docker-compose-production.jpg
 author: 大D
 ---

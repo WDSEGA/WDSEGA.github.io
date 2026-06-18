@@ -2,6 +2,7 @@
 layout: post
 title: "Python数据验证利器Pydantic V2完全指南"
 date: 2026-06-04 09:00:00 +0800
+tags: [时事新闻]
 tags: python, pydantic, validation, data
 categories: Python
 image: /assets/images/pydantic-v2.jpg

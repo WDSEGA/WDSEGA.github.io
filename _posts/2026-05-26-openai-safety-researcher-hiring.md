@@ -2,7 +2,7 @@
 title: "OpenAI开出45万美元年薪招安全研究员：AI自我改进的风险有多真实？"
 date: 2026-05-26
 categories: [AI, Safety, OpenAI]
-tags: [AI, OpenAI, AI安全, 递归自我改进, 超级智能]
+tags: [时事新闻]
 ---
 
 ## 一份招聘启事引发的行业震动

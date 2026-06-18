@@ -3,7 +3,7 @@ layout: post
 title: "2026年6月AI大模型大爆发：GPT-5.6、Claude Opus 4.8、Gemini 3.5，谁才是真正的王者？ | The June 2026 AI Model Flood: Who's Really Winning?"
 date: 2026-06-17 08:00:00 +0800
 categories: [AI, 大模型]
-tags: [AI, LLM, ChatGPT, Claude, Gemini]
+tags: [时事新闻]
 ---
 
 2026年6月，AI大模型迎来史上最密集的发布潮。短短一个月内，GPT-5.5全面铺开、Claude Opus 4.8登顶编程基准、Gemini 3.5 Flash重新定价……这场竞赛的每一个维度都在被重新定义。但真正值得关注的问题是：这些数字背后，谁才在真实生产环境中赢？

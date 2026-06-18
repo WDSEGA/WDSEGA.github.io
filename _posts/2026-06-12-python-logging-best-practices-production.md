@@ -2,7 +2,7 @@
 layout: post
 title: "Python Logging in 2026: 10 Practices That Actually Matter for Production"
 date: 2026-06-12
-tags: [python, logging, backend, devops]
+tags: [代码产品]
 description: "Not all Python logging advice is equal. These 10 practices focus on what matters in production: structured output, context propagation, log levels that mean something, and avoiding the traps that bite teams at 2 AM."
 canonical_url: "https://wdsega.github.io/python-logging-best-practices-production-2026"
 ---

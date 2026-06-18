@@ -2,6 +2,7 @@
 layout: post
 title: "How I Built an AI Agent That Earns Money Across 5 Platforms"
 date: 2026-06-05 10:00:00 +0800
+tags: [时事新闻]
 categories: ai automation
 ---
 

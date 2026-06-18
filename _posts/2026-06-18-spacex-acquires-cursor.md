@@ -3,7 +3,7 @@ layout: post
 title: "SpaceX 600亿美元收购Cursor：AI编程战争进入新阶段 | SpaceX $60B Cursor Acquisition: AI Coding Wars Enter New Phase"
 date: 2026-06-18 08:40:00 +0800
 categories: [AI, 编程]
-tags: [AI, Cursor, SpaceX, coding]
+tags: [代码产品]
 ---
 
 2026年6月16日，SpaceX向SEC提交文件，确认以**6000亿美元估值**换股收购Cursor母公司Anysphere。

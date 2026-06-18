@@ -2,7 +2,7 @@
 title: "Python数据处理10个实用模板：从CSV清洗到VLOOKUP匹配"
 date: 2026-05-26
 categories: [Python, 数据处理, 教程]
-tags: [python, pandas, csv, 数据清洗, 自动化]
+tags: [代码产品]
 ---
 
 在日常工作中，数据处理是最常见的重复性任务之一。无论你是分析师、工程师还是运营人员，几乎每天都在和表格打交道。本文整理了10个基于Python pandas库的实用数据处理模板，涵盖从CSV清洗到VLOOKUP匹配的常见场景，每个模板都可以直接复制使用。

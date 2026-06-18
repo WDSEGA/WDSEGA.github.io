@@ -3,7 +3,7 @@ layout: post
 title: "英伟达的中国困局：H20芯片改用GDDR7内存，黄仁勋的下一步棋"
 date: 2026-05-18 12:00:00 +0800
 categories: [tech]
-tags: [AI, 芯片, 英伟达, 科技]
+tags: [时事新闻]
 image: https://wdsega.github.io/assets/images/nvidia-china-chip-2025.jpg
 ---
 

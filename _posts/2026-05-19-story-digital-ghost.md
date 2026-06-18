@@ -3,7 +3,7 @@ layout: post
 title: "【短篇科幻】数字幽灵"
 date: 2026-05-19 05:56:00 +0800
 categories: [story]
-tags: [科幻, 短篇故事, AI, 数字生命]
+tags: [科幻小说]
 image: https://wdsega.github.io/assets/images/story-digital-ghost.jpg
 ---
 

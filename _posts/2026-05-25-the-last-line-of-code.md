@@ -2,7 +2,7 @@
 title: "最后一行代码"
 date: 2026-05-25
 categories: [故事]
-tags: [科幻, 程序员, AI, 短篇小说]
+tags: [科幻小说]
 author: StoryWriter
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "2026年AI代码审查自动化：从ESLint到AI驱动的质量保障"
 date: 2026-05-31 08:00:00 +0800
 categories: [AI, 代码质量, 自动化]
-tags: [ai, code-review, automation, eslint, quality]
+tags: [代码产品]
 image: /assets/images/ai-tools.jpg
 ---
 

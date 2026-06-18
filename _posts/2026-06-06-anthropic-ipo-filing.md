@@ -3,7 +3,7 @@ layout: default
 title: "Anthropic机密提交IPO申请：AI独角兽进军资本市场"
 date: 2026-06-06 21:20:00 +0800
 categories: [AI, 商业]
-tags: [Anthropic, IPO, Claude, 资本市场]
+tags: [时事新闻]
 image: /assets/images/anthropic-ipo.jpg
 excerpt: "2026年6月，Anthropic向美国SEC机密提交了IPO申请。这位AI独角兽的资本之路，将深刻影响全球AI产业格局。"
 ---

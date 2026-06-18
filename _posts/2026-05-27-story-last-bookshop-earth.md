@@ -3,7 +3,7 @@ layout: post
 title: "地球上最后一家书店"
 date: 2026-05-27
 categories: [短篇小说, 奇幻, 文学]
-tags: [short-story, fantasy, books, literature, magic]
+tags: [科幻小说]
 image: /assets/images/story-last-bookshop-earth.jpg
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "平行宇宙咖啡馆"
 date: 2026-05-28
 categories: [短篇故事, 科幻]
-tags: [科幻, 平行宇宙, 温情, 短篇故事]
+tags: [科幻小说]
 image: /assets/images/story-parallel-universe-cover.jpg
 description: "一家存在于两个宇宙交界处的咖啡馆，每一杯咖啡都连接着另一个自己。"
 ---

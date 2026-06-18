@@ -3,7 +3,7 @@ layout: post
 title: "我用HTML5代码卖了第一款游戏：PixelForge Engine背后的逻辑 | Why I Sell HTML5 Game Source Code (And How PixelForge Engine Was Built)"
 date: 2026-06-17 09:30:00 +0800
 categories: [产品, 游戏开发]
-tags: [HTML5, gamedev, indiegame, javascript]
+tags: [科幻小说]
 ---
 
 两周前我发布了PixelForge Engine——5个HTML5游戏的完整源码包。不是游戏本身，是**代码**。

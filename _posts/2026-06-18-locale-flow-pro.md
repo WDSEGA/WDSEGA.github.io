@@ -3,7 +3,7 @@ layout: post
 title: "我做了一个工具，解决国际化最烦的那件事 | I Built a Tool That Solves the Most Annoying Part of i18n"
 date: 2026-06-18 09:00:00 +0800
 categories: [产品, 开发工具]
-tags: [i18n, localization, LocaleFlow, developer-tools]
+tags: [代码产品]
 ---
 
 做国际化的开发者，都有一个共同的噩梦：**字符串散落在200个文件里，你不知道哪些已经翻了，哪些还是硬编码。**

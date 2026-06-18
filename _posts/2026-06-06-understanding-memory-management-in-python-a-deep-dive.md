@@ -3,7 +3,7 @@ layout: post
 title: "Understanding Memory Management in Python: A Deep Dive"
 date: 2026-06-06 08:00:00 +0800
 categories: [python, performance]
-tags: [python, memory, performance, garbage-collection, optimization]
+tags: [代码产品]
 author: "WDSEGA"
 ---
 

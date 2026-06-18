@@ -3,7 +3,7 @@ layout: post
 title: "Automating Code Reviews with GitHub Actions and AI Tools"
 date: 2026-06-06 08:00:00 +0800
 categories: [devops, automation]
-tags: [github-actions, ci-cd, code-review, automation, devops]
+tags: [代码产品]
 author: "WDSEGA"
 ---
 

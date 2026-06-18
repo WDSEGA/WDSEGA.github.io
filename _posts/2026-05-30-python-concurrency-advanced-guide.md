@@ -3,7 +3,7 @@ layout: post
 title: "Python并发编程进阶：threading、multiprocessing与asyncio对比实战"
 date: 2026-05-30 08:00:00 +0800
 categories: [Python, 并发编程, 性能优化]
-tags: [python, concurrency, threading, multiprocessing, asyncio]
+tags: [代码产品]
 image: /assets/images/python-concurrency.jpg
 ---
 

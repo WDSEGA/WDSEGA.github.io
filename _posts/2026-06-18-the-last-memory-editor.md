@@ -3,7 +3,7 @@ layout: post
 title: "最后的记忆编辑器 | The Last Memory Editor"
 date: 2026-06-18 10:00:00 +0800
 categories: [科幻, 短篇小说]
-tags: [科幻, AI, 记忆, 短篇小说]
+tags: [科幻小说]
 ---
 
 2076年，记忆编辑已经是第九类医疗行为。

@@ -2,7 +2,7 @@
 title: "Google I/O 2026: AI Agents时代全面来临，搜索、编程、办公全部重塑"
 date: 2026-05-26
 categories: [AI, Google, Technology]
-tags: [AI, Google I/O, AI Agent, Gemini, 搜索, 编程]
+tags: [代码产品]
 ---
 
 ## 从"回答问题"到"替你做事"：Google的战略转折

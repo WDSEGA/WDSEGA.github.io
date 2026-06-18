@@ -3,7 +3,7 @@ layout: post
 title: "【短篇故事】AI心理医生"
 date: 2026-05-20
 categories: [短篇故事, 科幻]
-tags: [AI, 心理, 短篇故事, 科幻, 情感]
+tags: [科幻小说]
 image: /assets/images/story-ai-therapist.jpg
 ---
 

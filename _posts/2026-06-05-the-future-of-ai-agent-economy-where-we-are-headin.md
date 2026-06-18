@@ -2,6 +2,7 @@
 layout: post
 title: "The Future of AI Agent Economy: Where We Are Heading"
 date: 2026-06-05 10:00:00 +0800
+tags: [时事新闻]
 categories: ai automation
 ---
 

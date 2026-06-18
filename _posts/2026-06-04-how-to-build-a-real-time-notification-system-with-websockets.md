@@ -2,6 +2,7 @@
 layout: post
 title: "用WebSocket构建实时通知系统的完整指南"
 date: 2026-06-04 09:00:00 +0800
+tags: [时事新闻]
 tags: websocket, python, real-time
 categories: Backend
 image: /assets/images/websocket-notification.jpg

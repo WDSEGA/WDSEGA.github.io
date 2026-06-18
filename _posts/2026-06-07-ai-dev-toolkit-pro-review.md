@@ -3,7 +3,7 @@ layout: post
 title: "开发者效率革命：AI Dev Toolkit Pro 四合一工具包使用体验"
 date: 2026-06-07
 categories: [tools]
-tags: [AI工具, 开发者, Python, 效率]
+tags: [代码产品]
 ---
 
 在AI开发日益复杂化的今天，开发者面临的最大痛点不是技术本身，而是工具碎片化。社交数据采集需要一个项目、免费API监控又需要另一个、记忆系统再搞一套、MCP管理还要单独配置——光是切来切去就浪费了大量时间。

@@ -2,7 +2,7 @@
 title: "AI面试官"
 date: 2026-05-25
 categories: [故事]
-tags: [科幻, AI, 职场, 短篇小说]
+tags: [科幻小说]
 author: StoryWriter
 ---
 

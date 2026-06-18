@@ -3,7 +3,7 @@ layout: post
 title: "Kubernetes for Solo Developers: Running Your Side Projects at Scale"
 date: 2026-06-06 08:00:00 +0800
 categories: [devops, kubernetes]
-tags: [kubernetes, devops, docker, deployment, infrastructure]
+tags: [代码产品]
 author: "WDSEGA"
 ---
 

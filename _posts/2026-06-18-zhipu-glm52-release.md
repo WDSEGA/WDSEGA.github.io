@@ -3,7 +3,7 @@ layout: post
 title: "智谱GLM-5.2发布：中国开源模型首次站上全球第一 | Zhipu GLM-5.2 Release: Chinese Open-Source Model Hits Global #1"
 date: 2026-06-18 08:20:00 +0800
 categories: [AI, 国产AI]
-tags: [AI, LLM, GLM, Zhipu]
+tags: [时事新闻]
 ---
 
 2026年6月13日，智谱在Anthropic下线Claude服务后不到48小时，发布了GLM-5.2。

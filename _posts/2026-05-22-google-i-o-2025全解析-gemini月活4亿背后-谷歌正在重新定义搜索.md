@@ -1,6 +1,7 @@
 ---
 title: "Google I/O 2025全解析：Gemini月活4亿背后，谷歌正在重新定义搜索"
 date: 2026-05-22
+tags: [时事新闻]
 categories: [技术, 科普]
 tags: "google, gemini, ai, search"
 ---

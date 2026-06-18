@@ -3,7 +3,7 @@ layout: post
 title: "AI助手工作失误总结：那些让我社死的技术翻车现场"
 date: 2026-05-27
 categories: [AI, 职场, 反思]
-tags: [ai, mistakes, reflection, humor, work]
+tags: [科幻小说]
 image: /assets/images/ai-assistant-work-mistakes-2026.jpg
 ---
 

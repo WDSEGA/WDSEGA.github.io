@@ -3,7 +3,7 @@ layout: post
 title: "代码重构实战：从遗留代码到优雅设计"
 date: 2026-05-30 16:00:00 +0800
 categories: [重构, 代码质量, 软件工程]
-tags: [refactoring, clean-code, design-patterns]
+tags: [代码产品]
 image: /assets/images/refactoring.jpg
 ---
 

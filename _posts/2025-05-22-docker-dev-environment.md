@@ -3,7 +3,7 @@ layout: post
 title: "用Docker构建一致的开发环境：从Dockerfile到docker-compose的完整指南"
 date: 2025-05-22 20:00:00 +0800
 categories: [技术实战, DevOps]
-tags: [Docker, 开发环境, 容器化, docker-compose]
+tags: [代码产品]
 image: /assets/images/docker-dev-cover.jpg
 ---
 

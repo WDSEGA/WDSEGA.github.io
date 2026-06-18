@@ -3,7 +3,7 @@ layout: post
 title: "我用Python自动化赚了第一笔钱，这是实战指南"
 date: 2026-06-01 12:00:00 +0800
 categories: [Python, 自动化, 赚钱]
-tags: [python, automation, side-income, openpyxl, excel, code-monetization]
+tags: [代码产品]
 image: /assets/images/ai-tools.jpg
 ---
 

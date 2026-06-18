@@ -3,7 +3,7 @@ layout: post
 title: "【短篇科幻】最后的园丁"
 date: 2026-05-19 06:08:00 +0800
 categories: [story]
-tags: [科幻, 短篇故事, 末世, 自然, 希望]
+tags: [科幻小说]
 image: https://wdsega.github.io/assets/images/story-last-gardener.jpg
 ---
 

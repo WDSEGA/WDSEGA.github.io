@@ -3,7 +3,7 @@ layout: post
 title: "阿里千问3.7-Max发布：35小时自主进化，国产大模型登顶之路"
 date: 2026-05-20
 categories: [科技资讯, AI, 大模型]
-tags: [阿里, 千问, Qwen3.7, 大模型, AI, 国产AI]
+tags: [时事新闻]
 image: /assets/images/qwen37-max-ali-cloud.jpg
 ---
 

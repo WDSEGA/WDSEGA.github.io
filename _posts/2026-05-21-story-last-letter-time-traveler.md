@@ -3,7 +3,7 @@ layout: post
 title: "最后一封信"
 date: 2026-05-21
 categories: [短篇小说]
-tags: [科幻, 时间旅行, 遗憾, 情感]
+tags: [科幻小说]
 image: /assets/images/story-last-letter-time.jpg
 ---
 

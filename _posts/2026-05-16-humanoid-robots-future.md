@@ -2,7 +2,7 @@
 title: "人形机器人真的要抢走我们的工作吗？2026年现状分析"
 date: 2026-05-16 10:30:00 +0800
 categories: [科技, 未来]
-tags: [人形机器人, AI, 自动化, 就业, 未来趋势]
+tags: [时事新闻]
 image: /assets/images/humanoid-robots.jpg
 ---
 

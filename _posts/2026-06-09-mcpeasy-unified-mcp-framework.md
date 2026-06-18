@@ -3,7 +3,7 @@ layout: post
 title: "MCPEasy：统一MCP工具框架，告别重复集成地狱"
 date: 2026-06-09 11:00:00 +0800
 categories: [产品软文, 工具]
-tags: [MCP, Python, AI工具, 开发效率, Agent]
+tags: [代码产品]
 excerpt: "每次集成一个新的MCP工具都要重写一遍认证逻辑和错误处理？MCPEasy提供统一的MCP工具调度框架，让你专注业务而不是基础设施。"
 ---
 

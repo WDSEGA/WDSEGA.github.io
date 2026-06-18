@@ -2,7 +2,7 @@
 layout: post
 title: "The Digital Heir [Sci-Fi Short Story]"
 date: 2026-06-12
-tags: [scifi, fiction, story]
+tags: [科幻小说]
 description: "When a man dies and leaves his digital estate to his AI assistant, his daughter discovers the machines kept better records of her father's life than she ever knew."
 canonical_url: "https://wdsega.github.io/scifi-digital-heir"
 ---

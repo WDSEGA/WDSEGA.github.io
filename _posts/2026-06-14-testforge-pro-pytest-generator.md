@@ -3,7 +3,7 @@ layout: post
 title: "写pytest单元测试太费时？TestForge Pro扫描源码自动生成测试骨架 | Tired of Writing pytest Tests? TestForge Pro Auto-Generates Your Test Scaffolding"
 date: 2026-06-14 11:30:00 +0800
 categories: [工具, Python]
-tags: [pytest, 测试, Python, 开发工具]
+tags: [代码产品]
 excerpt: "TestForge Pro是一个AST驱动的Python测试骨架生成器，扫描你的源代码，自动输出pytest测试文件，happy path、边界值、mock全部帮你想好了。"
 ---
 

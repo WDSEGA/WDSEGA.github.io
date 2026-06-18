@@ -3,7 +3,7 @@ layout: post
 title: "从零构建RAG系统：基于LangChain的本地知识库问答"
 date: 2026-05-23 12:00:00 +0800
 categories: [技术, AI应用]
-tags: [RAG, LangChain, 向量数据库, LLM, 知识库]
+tags: [代码产品]
 image: /assets/images/covers/rag-system-cover.jpg
 ---
 

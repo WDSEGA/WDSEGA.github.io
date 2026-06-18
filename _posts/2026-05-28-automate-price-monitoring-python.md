@@ -3,7 +3,7 @@ layout: post
 title: "How to Automate Price Monitoring with Python"
 date: 2026-05-28
 categories: [Python, Automation, Web Scraping]
-tags: [python, price monitoring, automation, web scraping, ecommerce]
+tags: [代码产品]
 image: /assets/images/python-price-monitoring.jpg
 ---
 

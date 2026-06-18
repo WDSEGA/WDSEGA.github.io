@@ -2,7 +2,7 @@
 title: "Python数据科学入门：从零开始掌握Pandas数据分析"
 date: 2026-05-18 15:00:00 +0800
 image: /assets/images/python-data-science.jpg
-tags: [Python, 数据科学, Pandas, 教程]
+tags: [代码产品]
 ---
 
 # Python数据科学入门：从零开始掌握Pandas数据分析

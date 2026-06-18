@@ -3,7 +3,7 @@ layout: post
 title: "飞书群里的AI同事：FeishuAgent Orchestrator让你的Bot真正能干活 | Your AI Teammate in Feishu: FeishuAgent Orchestrator Makes Bots Actually Useful"
 date: 2026-06-14 12:00:00 +0800
 categories: [工具, 自动化]
-tags: [飞书, AI, 自动化, 工作流]
+tags: [代码产品]
 excerpt: "FeishuAgent Orchestrator是飞书AI工作流编排工具，支持任务分配、消息监听、定时触发、多Bot协作，把重复性工作真正交给AI完成。"
 ---
 

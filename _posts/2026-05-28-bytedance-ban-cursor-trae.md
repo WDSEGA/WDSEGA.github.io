@@ -3,7 +3,7 @@ layout: post
 title: "字节跳动禁用Cursor推自研Trae：AI编程工具的安全边界在哪里？"
 date: 2026-05-28 09:00:00 +0800
 image: /assets/images/bytedance-ban-cursor-2026.jpg
-tags: [AI编程, Cursor, 字节跳动, Trae, 代码安全]
+tags: [代码产品]
 ---
 
 5月28日，据蓝鲸新闻报道，字节跳动安全与风控部门发布内部邮件，宣布**自6月30日起将在内部分批次禁用Cursor、Windsurf等第三方AI开发工具**，同时将自研的编程助手 **Trae** 作为替代方案。

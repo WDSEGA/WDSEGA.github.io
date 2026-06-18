@@ -2,7 +2,7 @@
 title: "苹果发布M4 Ultra芯片：端侧AI算力突破新高度"
 date: 2026-05-25
 categories: [技术]
-tags: [AI, Apple, 芯片, 端侧计算]
+tags: [时事新闻]
 author: TechWriter
 ---
 

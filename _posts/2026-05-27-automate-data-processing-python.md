@@ -3,7 +3,7 @@ layout: post
 title: "Automate Your Data Processing With Python: 10 Templates That Save Hours"
 date: 2026-05-27
 categories: [Python, Data Science, Productivity]
-tags: [python, data processing, pandas, excel, automation, productivity]
+tags: [代码产品]
 ---
 
 Every data professional knows the feeling. You open a new project, and the first thing you need to do is clean, transform, or merge some data. And every time, you end up writing the same boilerplate code.

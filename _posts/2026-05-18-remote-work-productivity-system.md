@@ -2,7 +2,7 @@
 title: "远程工作3年总结：我的生产力系统与工具栈全公开"
 date: 2026-05-18 14:00:00 +0800
 image: /assets/images/remote-work-productivity.jpg
-tags: [效率, 远程工作, 生产力, 经验分享]
+tags: [代码产品]
 ---
 
 # 远程工作3年总结：我的生产力系统与工具栈全公开

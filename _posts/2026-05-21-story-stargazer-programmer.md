@@ -3,7 +3,7 @@ layout: post
 title: "星空下的程序员"
 date: 2026-05-21
 categories: [短篇小说]
-tags: [科幻, 浪漫, 编程, 天文]
+tags: [科幻小说]
 image: /assets/images/story-stargazer-programmer.jpg
 ---
 

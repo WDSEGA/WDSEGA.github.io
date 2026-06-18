@@ -3,7 +3,7 @@ layout: post
 title: "Rust异步编程完全指南：从Future到Tokio实战"
 date: 2026-05-21
 categories: [编程技术, Rust]
-tags: [Rust, 异步编程, Tokio, Future, 并发]
+tags: [代码产品]
 image: /assets/images/rust-async-guide.jpg
 ---
 

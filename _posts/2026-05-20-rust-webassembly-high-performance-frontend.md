@@ -3,7 +3,7 @@ layout: post
 title: "Rust + WebAssembly实战：用Rust编写高性能前端模块"
 date: 2026-05-20
 categories: [技术教程, Rust, WebAssembly]
-tags: [Rust, WebAssembly, 前端, 性能优化, Wasm]
+tags: [代码产品]
 image: /assets/images/rust-webassembly-guide.jpg
 ---
 

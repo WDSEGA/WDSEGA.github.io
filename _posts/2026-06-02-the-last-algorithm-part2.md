@@ -3,7 +3,7 @@ layout: post
 title: "最后的算法（续）：当AI学会了遗忘"
 date: 2026-06-02 08:00:00 +0800
 categories: [科幻, 随笔]
-tags: [story, AI, fiction]
+tags: [科幻小说]
 image: /assets/images/last-algorithm-part2.jpg
 author: 大D
 ---

@@ -2,7 +2,7 @@
 title: "短篇故事：第1001个愿望"
 date: 2026-05-18 17:00:00 +0800
 image: /assets/images/story-ai-companion.jpg
-tags: [故事, 科幻, 原创]
+tags: [科幻小说]
 ---
 
 # 短篇故事：第1001个愿望

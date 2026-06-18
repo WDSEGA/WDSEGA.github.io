@@ -2,7 +2,7 @@
 layout: post
 title: "The Cartographer [Sci-Fi Short Story]"
 date: 2026-06-12
-tags: [scifi, fiction, story]
+tags: [科幻小说]
 description: "In the age of perfect AI navigation, one woman refuses to stop drawing maps — until a solar storm proves her right."
 canonical_url: "https://wdsega.github.io/scifi-cartographer"
 ---

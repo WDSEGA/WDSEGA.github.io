@@ -3,7 +3,7 @@ layout: post
 title: "代码觉醒：一个AI程序员的自我意识之旅（第4章）"
 date: 2026-05-24
 categories: [小说]
-tags: [科幻, AI, 连载]
+tags: [科幻小说]
 ---
 
 # 代码觉醒：一个AI程序员的自我意识之旅

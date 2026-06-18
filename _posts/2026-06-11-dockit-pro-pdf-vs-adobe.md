@@ -3,7 +3,7 @@ layout: post
 title: "用Python替代Adobe Acrobat：DocKit Pro PDF引擎实战"
 date: 2026-06-11 10:30:00 +0800
 categories: [工具, Python]
-tags: [Python, PDF, 工具, 自动化]
+tags: [代码产品]
 ---
 
 Adobe Acrobat Pro一年订阅费199美元。

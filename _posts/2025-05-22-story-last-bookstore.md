@@ -3,7 +3,7 @@ layout: post
 title: "最后的书店"
 date: 2025-05-22 23:00:00 +0800
 categories: [故事, 都市]
-tags: [都市小说, 书店, 温情, 短篇]
+tags: [科幻小说]
 image: /assets/images/story-bookstore-cover.jpg
 ---
 

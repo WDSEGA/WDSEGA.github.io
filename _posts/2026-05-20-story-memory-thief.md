@@ -3,7 +3,7 @@ layout: post
 title: "【短篇科幻】记忆窃贼"
 date: 2026-05-20
 categories: [短篇故事, 科幻]
-tags: [科幻, 记忆, 短篇故事, 悬疑, 赛博朋克]
+tags: [科幻小说]
 image: /assets/images/story-memory-thief.jpg
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "Google I/O 2025全解析：Gemini月活4亿背后，谷歌正在重新定义搜索"
 date: 2025-05-22 10:00:00 +0800
 categories: [AI热点, 科技观察]
-tags: [Google, Gemini, I/O大会, AI搜索, Veo3]
+tags: [时事新闻]
 image: /assets/images/google-io-cover.jpg
 source: https://research.google/blog/google-research-at-google-io-2025/
 source2: http://m.163.com/dy/article/K05G33EP05118BEE.html

@@ -3,7 +3,7 @@ layout: post
 title: "Claude 5上线72小时被全球下架：当AI监管撞上商业窗口 | Claude 5 Taken Down 72 Hours After Launch: When Regulation Meets Commerce"
 date: 2026-06-14 10:00:00 +0800
 categories: [AI, 行业动态]
-tags: [Claude, Anthropic, AI监管, 大模型]
+tags: [时事新闻]
 excerpt: "Anthropic Claude 5发布仅72小时，美国政府监管介入，全球一刀切下架。这不是一次普通的技术事故，而是AI产业迈入监管新时代的标志性信号。"
 ---
 

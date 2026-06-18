@@ -3,7 +3,7 @@ layout: post
 title: "10个实用Python自动化脚本：从文件整理到数据备份"
 date: 2026-06-02 08:00:00 +0800
 categories: [Python, 自动化]
-tags: [python, automation, scripts]
+tags: [代码产品]
 image: /assets/images/python-automation-scripts.jpg
 author: 大D
 ---

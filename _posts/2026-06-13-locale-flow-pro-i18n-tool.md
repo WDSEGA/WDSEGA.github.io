@@ -3,7 +3,7 @@ layout: post
 title: "i18n翻译管理太头疼？LocaleFlow Pro帮你一键提取、检测、翻译所有语言文件"
 date: 2026-06-13 14:00:00 +0800
 categories: [开发工具, i18n]
-tags: [i18n, 国际化, Python, 开发工具]
+tags: [代码产品]
 canonical_url: "https://wdsega.github.io/2026/06/13/locale-flow-pro-i18n-tool.html"
 ---
 

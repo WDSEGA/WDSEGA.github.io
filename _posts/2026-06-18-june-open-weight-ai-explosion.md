@@ -3,7 +3,7 @@ layout: post
 title: "2026年6月开源AI大爆发：25+模型同周发布，这意味着什么？ | June 2026 Open-Weight AI Explosion: 25+ Models in One Week"
 date: 2026-06-18 08:00:00 +0800
 categories: [AI, 开源]
-tags: [AI, open-source, LLM]
+tags: [时事新闻]
 ---
 
 2026年6月初，AI开源社区经历了史上最密集的一周。

@@ -3,7 +3,7 @@ layout: post
 title: "午夜列车"
 date: 2026-05-29 15:00:00 +0800
 categories: [短篇小说, 科幻]
-tags: [科幻, 时间旅行, 温情]
+tags: [科幻小说]
 image: /assets/images/story-midnight-train-cover.jpg
 ---
 

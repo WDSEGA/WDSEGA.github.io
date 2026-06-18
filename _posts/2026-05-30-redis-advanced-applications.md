@@ -3,7 +3,7 @@ layout: post
 title: "Redis高级应用：分布式锁、发布订阅与Stream实战"
 date: 2026-05-30 10:00:00 +0800
 categories: [Redis, 数据库, 分布式系统]
-tags: [redis, distributed-lock, pubsub, stream]
+tags: [代码产品]
 image: /assets/images/redis-advanced.jpg
 ---
 

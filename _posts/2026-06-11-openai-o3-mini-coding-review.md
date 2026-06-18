@@ -3,7 +3,7 @@ layout: post
 title: "OpenAI o3 mini深度测评：编程题胜率首次超越人类工程师"
 date: 2026-06-11 10:10:00 +0800
 categories: [科技, AI模型]
-tags: [OpenAI, o3, 编程, 大模型]
+tags: [代码产品]
 ---
 
 OpenAI o3 mini发布时，很多人只注意到了"价格便宜"这个卖点。

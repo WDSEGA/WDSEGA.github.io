@@ -3,7 +3,7 @@ layout: post
 title: "Building a Multi-Agent AI System with Python"
 date: 2026-05-28
 categories: [Python, AI, Architecture]
-tags: [python, multi-agent, ai, llm, orchestration, langchain]
+tags: [代码产品]
 image: /assets/images/multi-agent-ai-python.jpg
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "我把4个独立工具打包成一个创作者工具包，结果比单独卖好10倍"
 date: 2026-06-02 08:00:00 +0800
 categories: [创作者经济, 产品思考]
-tags: [productivity, tools, creator]
+tags: [代码产品]
 image: /assets/images/creator-toolkit-review.jpg
 author: 大D
 ---

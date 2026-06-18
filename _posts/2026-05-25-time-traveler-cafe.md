@@ -2,7 +2,7 @@
 title: "时间旅行者的咖啡馆"
 date: 2026-05-25
 categories: [故事]
-tags: [奇幻, 时间旅行, 咖啡馆, 短篇小说]
+tags: [科幻小说]
 author: StoryWriter
 ---
 

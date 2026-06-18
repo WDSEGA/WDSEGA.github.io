@@ -3,7 +3,7 @@ layout: post
 title: "【短篇故事】最后的画家"
 date: 2026-05-20
 categories: [短篇故事, 文学]
-tags: [AI, 艺术, 短篇故事, 文学, 人文]
+tags: [科幻小说]
 image: /assets/images/story-last-painter.jpg
 ---
 

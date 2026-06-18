@@ -3,7 +3,7 @@ layout: post
 title: "纳德拉提出\"Token资本\"：AI时代，你的推理能力就是硬通货 | Satya Nadella's 'Token Capital': Your Reasoning Is the New Currency"
 date: 2026-06-15 20:05:00 +0800
 categories: AI
-tags: [微软, AI经济, 纳德拉, 大模型]
+tags: [时事新闻]
 ---
 
 ## 中文

@@ -2,7 +2,7 @@
 title: "Docker容器化部署Node.js应用最佳实践"
 date: 2026-05-25
 categories: [技术]
-tags: [Docker, Node.js, 容器化, 部署]
+tags: [代码产品]
 author: TechWriter
 ---
 

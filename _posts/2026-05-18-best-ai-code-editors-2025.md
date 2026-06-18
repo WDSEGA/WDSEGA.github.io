@@ -3,7 +3,7 @@ layout: post
 title: "2025年最值得使用的AI代码编辑器全面评测"
 date: 2026-05-18 15:00:00 +0800
 categories: [tech]
-tags: [编程, AI, 开发工具, 效率]
+tags: [代码产品]
 image: https://wdsega.github.io/assets/images/ai-code-editor-2025.jpg
 ---
 

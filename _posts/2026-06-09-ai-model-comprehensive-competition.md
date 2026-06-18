@@ -3,7 +3,7 @@ layout: post
 title: "AI大模型进入综合比拼阶段：从性能跑分到工程落地的转折点"
 date: 2026-06-09 09:30:00 +0800
 categories: [科技新闻, AI]
-tags: [大模型, AI, DeepSeek, Anthropic, 产业落地]
+tags: [时事新闻]
 excerpt: "2026年6月，全球AI模型调用量突破42.7T tokens，竞争格局正在从单纯的性能比拼转向工程能力与场景落地。这场AI下半场，谁会赢？"
 ---
 

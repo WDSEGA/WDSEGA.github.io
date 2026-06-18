@@ -3,7 +3,7 @@ layout: post
 title: "数字双胞胎 [科幻短篇小说]"
 date: 2026-06-13 20:30:00 +0800
 categories: [科幻, 医疗]
-tags: [AI, 数字孪生, 医疗, 科幻]
+tags: [科幻小说]
 canonical_url: "https://wdsega.github.io/2026/06/13/digital-twin-sci-fi.html"
 ---
 

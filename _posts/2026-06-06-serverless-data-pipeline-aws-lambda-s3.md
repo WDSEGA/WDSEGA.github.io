@@ -3,7 +3,7 @@ layout: post
 title: "Building a Serverless Data Pipeline with AWS Lambda and S3"
 date: 2026-06-06 08:00:00 +0800
 categories: [aws, serverless]
-tags: [aws, lambda, serverless, s3, data-pipeline]
+tags: [代码产品]
 author: "WDSEGA"
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "传统五星评分体系 VS 波街信任雷达：AI时代的信任评价该如何进化？"
 date: 2026-06-05 13:00:00 +0800
 categories: [ai, analysis, trust]
-tags: [ai, trust, review]
+tags: [时事新闻]
 ---
 
 # 传统五星评分体系 VS 波街信任雷达：信任到底该不该被压缩成一个数字？

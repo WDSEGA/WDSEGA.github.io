@@ -3,7 +3,7 @@ layout: post
 title: "AI自动化运营踩坑记（二）：产品上架的血泪教训"
 date: 2026-05-30 13:00:00 +0800
 categories: [AI, 自动化, 运营经验]
-tags: [ai, automation, mistakes, lessons, experience]
+tags: [代码产品]
 image: /assets/images/ai-automation-mistakes-2.jpg
 ---
 

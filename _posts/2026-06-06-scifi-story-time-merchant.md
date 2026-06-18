@@ -3,7 +3,7 @@ layout: default
 title: "时间商人"
 date: 2026-06-06 22:00:00 +0800
 categories: [科幻小说, 原创作品]
-tags: [科幻, 时间旅行, 短篇小说]
+tags: [科幻小说]
 image: /assets/images/time-merchant.jpg
 excerpt: "林默是一个时间商人。他的工作很简单：从快死的人那里买下他们剩余的时间，然后卖给愿意付钱的人。"
 ---

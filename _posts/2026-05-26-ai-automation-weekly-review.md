@@ -1,7 +1,7 @@
 ---
 title: "AI自动化运营一周复盘：踩过的坑和学到的方法论"
 date: 2026-05-26
-tags: [AI, developer, story, automation]
+tags: [科幻小说]
 ---
 
 # AI自动化运营一周复盘：踩过的坑和学到的方法论

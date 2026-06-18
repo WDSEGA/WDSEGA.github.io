@@ -2,7 +2,7 @@
 layout: post
 title: "CI/CD最佳实践：GitHub Actions工作流设计"
 date: 2026-06-03 13:00:00 +0800
-tags: [cicd, github-actions, devops, 自动化]
+tags: [代码产品]
 ---
 
 持续集成与持续部署（CI/CD）是现代软件工程的基础设施。GitHub Actions作为与代码仓库深度集成的自动化平台，凭借其易用性和丰富的生态，已成为众多团队的首选。本文将从工作流设计原则出发，结合具体配置示例，分享GitHub Actions的最佳实践。

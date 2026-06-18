@@ -2,6 +2,7 @@
 layout: post
 title: "JWT认证完全指南：从原理到安全最佳实践"
 date: 2026-06-04 09:00:00 +0800
+tags: [时事新闻]
 tags: jwt, authentication, security, python
 categories: Security
 image: /assets/images/jwt-authentication.jpg

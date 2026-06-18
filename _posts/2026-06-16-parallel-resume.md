@@ -3,7 +3,7 @@ layout: post
 title: "平行履历 [科幻短篇小说] | Parallel Resume [Sci-Fi Short Story]"
 date: 2026-06-16 10:00:00 +0800
 categories: [小说, 科幻]
-tags: [scifi, shortstory, algorithm, career]
+tags: [科幻小说]
 ---
 
 林嘉收到系统通知是在周三下午三点，窗外的梧桐正在掉叶子，叶子砸在窗台上的声音像是有人在轻轻叩门。

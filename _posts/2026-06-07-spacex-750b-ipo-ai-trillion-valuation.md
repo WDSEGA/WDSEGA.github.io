@@ -3,7 +3,7 @@ layout: post
 title: "SpaceX冲刺750亿美元IPO，美国AI三巨头估值逼近4万亿美元"
 date: 2026-06-07
 categories: [tech]
-tags: [AI, 资本市场, IPO, SpaceX, 科技巨头]
+tags: [时事新闻]
 ---
 
 2026年6月的资本市场，正在见证一场史无前例的AI科技巨头上市潮。SpaceX、Anthropic等公司相继冲刺IPO，美国AI三巨头合计估值逼近4万亿美元，整个资本市场的注意力都被这些超级独角兽牢牢吸引。

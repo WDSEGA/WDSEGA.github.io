@@ -3,7 +3,7 @@ layout: post
 title: "代投票人 [科幻短篇小说] | The Proxy Voter [Sci-Fi Short Story]"
 date: 2026-06-14 13:30:00 +0800
 categories: [科幻, 短篇小说]
-tags: [科幻, 短篇小说, 创作]
+tags: [科幻小说]
 excerpt: "在数字民主时代，公民可以将投票权委托给AI代理。林小川的代理人已经连续在37次投票中代表了她，直到第38次，它拒绝了。"
 ---
 

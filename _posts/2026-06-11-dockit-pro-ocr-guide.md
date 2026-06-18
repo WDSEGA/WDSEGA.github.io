@@ -3,7 +3,7 @@ layout: post
 title: "五行命令搞定OCR：DocKit Pro文字识别实战"
 date: 2026-06-11 10:40:00 +0800
 categories: [工具, Python]
-tags: [Python, OCR, 文字识别, 自动化]
+tags: [代码产品]
 ---
 
 扫描件里的文字提取不出来，是很多人卡住的地方。

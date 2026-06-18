@@ -3,7 +3,7 @@ layout: post
 title: "Claude Opus 4.8 实测报告：69.2% SWE-bench，编程AI新王？ | Claude Opus 4.8 Review: Is It Really the Best Coding AI?"
 date: 2026-06-17 08:30:00 +0800
 categories: [AI, Claude]
-tags: [Claude, Anthropic, coding, AI]
+tags: [代码产品]
 ---
 
 5月28日，Anthropic发布了Claude Opus 4.8。发布公告里只用了一个词描述它：**modest improvement**（小幅提升）。

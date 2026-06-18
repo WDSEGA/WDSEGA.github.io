@@ -3,7 +3,7 @@ layout: post
 title: "1000+ AI Prompts That Actually Help Programmers Write Better Code"
 date: 2026-05-27
 categories: [AI, Productivity, Programming]
-tags: [ai, chatgpt, claude, programming, productivity, prompts]
+tags: [代码产品]
 ---
 
 I've spent the last few months using AI assistants for everything — writing code, debugging, optimizing SQL queries, even preparing for technical interviews. And I kept running into the same problem.

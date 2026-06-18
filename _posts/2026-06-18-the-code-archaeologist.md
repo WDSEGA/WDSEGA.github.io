@@ -3,7 +3,7 @@ layout: post
 title: "代码考古学家 | The Code Archaeologist"
 date: 2026-06-18 10:20:00 +0800
 categories: [科幻, 短篇小说]
-tags: [科幻, 编程, 未来, 短篇小说]
+tags: [科幻小说]
 ---
 
 2126年，Lina在整理曾祖父的遗物时，发现了一个U盘。

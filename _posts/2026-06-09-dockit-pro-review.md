@@ -3,7 +3,7 @@ layout: post
 title: "DocKit Pro测评：一个Python CLI工具，替换你桌面上的5个文档处理软件"
 date: 2026-06-09 16:15:00 +0800
 categories: tools
-tags: [Python, 文档处理, PDF, OCR, 效率工具, DocKit Pro]
+tags: [代码产品]
 ---
 
 我桌面上曾经长期驻扎着五款文档处理工具：Adobe Acrobat（处理PDF）、XnView（批量处理图片）、ABBYY FineReader（OCR文字识别）、Calibre（格式转换）、以及各种零零散散的小工具。

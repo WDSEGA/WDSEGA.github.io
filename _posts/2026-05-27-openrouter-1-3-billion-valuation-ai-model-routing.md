@@ -3,7 +3,7 @@ layout: post
 title: "OpenRouter估值飙升至13亿美元：AI多模型路由成为新基础设施"
 date: 2026-05-27
 categories: [AI, 创业投资, 技术基础设施]
-tags: [openrouter, ai, venture-capital, model-routing, api]
+tags: [代码产品]
 image: /assets/images/openrouter-unicorn-valuation.jpg
 ---
 

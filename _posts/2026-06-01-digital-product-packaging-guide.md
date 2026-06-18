@@ -3,7 +3,7 @@ layout: post
 title: "How to Package Your Code as a Digital Product: A Step-by-Step Guide"
 date: 2026-06-01 17:00:00 +0800
 categories: [Business, Developer, Tutorial]
-tags: [digitalproduct, packaging, saas, developer]
+tags: [代码产品]
 image: /assets/images/ai-tools.jpg
 ---
 

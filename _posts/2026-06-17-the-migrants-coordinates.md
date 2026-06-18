@@ -3,7 +3,7 @@ layout: post
 title: "候鸟的坐标 | The Migrant's Coordinates"
 date: 2026-06-17 11:30:00 +0800
 categories: [科幻, 短篇小说]
-tags: [scifi, fiction, climate, future]
+tags: [科幻小说]
 ---
 
 2047年，候鸟消失了四年之后，气象站开始收到奇怪的信号。

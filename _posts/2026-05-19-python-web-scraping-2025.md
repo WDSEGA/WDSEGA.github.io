@@ -3,7 +3,7 @@ layout: post
 title: "Python爬虫实战2025：反爬对抗升级，手把手教你构建企业级爬虫系统"
 date: 2026-05-19 05:50:00 +0800
 categories: [tech]
-tags: [Python, 爬虫, Web Scraping, 教程, 数据采集]
+tags: [代码产品]
 image: https://wdsega.github.io/assets/images/python-web-scraping-2025.jpg
 ---
 

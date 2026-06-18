@@ -3,7 +3,7 @@ layout: post
 title: "沉船预报员 - 科幻短篇小说 | The Wreck Forecaster — A Sci-Fi Short Story"
 date: 2026-06-15 20:40:00 +0800
 categories: 科幻
-tags: [科幻, 短篇小说, 预测系统, 因果律]
+tags: [科幻小说]
 ---
 
 ## 中文

@@ -3,7 +3,7 @@ layout: post
 title: "你的API昨天挂了，你怎么今天才知道？ | Your API Went Down Yesterday. Why Are You Learning About It Today?"
 date: 2026-06-18 09:20:00 +0800
 categories: [产品, 运维]
-tags: [API, monitoring, DevOps, API-Monitor]
+tags: [代码产品]
 ---
 
 2026年，API已经成为软件的核心——也是故障的核心。

@@ -3,7 +3,7 @@ layout: post
 title: "AI面试官"
 date: 2026-05-20
 categories: [短篇小说, 悬疑]
-tags: [短篇小说, 悬疑, AI, 面试]
+tags: [科幻小说]
 image: /assets/images/story-ai-interviewer.jpg
 ---
 

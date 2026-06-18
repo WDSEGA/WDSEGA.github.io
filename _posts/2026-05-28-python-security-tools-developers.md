@@ -3,7 +3,7 @@ layout: post
 title: "5 Python Security Tools Every Developer Should Know"
 date: 2026-05-28
 categories: [Python, Security, Tools]
-tags: [python, security, tools, bandit, safety, cryptography]
+tags: [代码产品]
 image: /assets/images/python-security-tools.jpg
 ---
 

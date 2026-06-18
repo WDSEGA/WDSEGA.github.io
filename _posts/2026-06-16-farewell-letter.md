@@ -3,7 +3,7 @@ layout: post
 title: "告别信 [科幻短篇小说] | The Farewell Letter [Sci-Fi Short Story]"
 date: 2026-06-16 10:10:00 +0800
 categories: [小说, 科幻]
-tags: [scifi, shortstory, memory, death]
+tags: [科幻小说]
 ---
 
 陈逸来找我，是在他父亲去世后第十一天。

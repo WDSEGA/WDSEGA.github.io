@@ -3,7 +3,7 @@ layout: post
 title: "TypeScript + Zod：构建类型安全的API，从验证到生成的完整方案"
 date: 2026-05-27
 categories: [TypeScript, Web开发, 教程]
-tags: [typescript, zod, validation, api, web-development, type-safety]
+tags: [代码产品]
 image: /assets/images/typescript-zod-validation.jpg
 ---
 

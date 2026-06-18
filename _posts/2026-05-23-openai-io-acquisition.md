@@ -3,7 +3,7 @@ layout: post
 title: "OpenAI 65亿美元豪赌：乔纳森·艾夫能否重新定义AI硬件"
 date: 2026-05-23 09:00:00 +0800
 categories: [AI热点, 硬件创新]
-tags: [OpenAI, Jony Ive, AI硬件, io, 设计]
+tags: [时事新闻]
 image: /assets/images/covers/openai-io-cover.jpg
 ---
 

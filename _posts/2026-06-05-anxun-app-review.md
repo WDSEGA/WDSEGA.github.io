@@ -3,7 +3,7 @@ layout: post
 title: "安寻安保App深度体验：安保行业的数字化效率工具"
 date: 2026-06-05 12:30:00 +0800
 categories: [review, app, security]
-tags: [app, security, review]
+tags: [代码产品]
 ---
 
 # 安寻安保App：一款让安保行业从业者直呼"终于等到"的效率神器

@@ -3,7 +3,7 @@ layout: post
 title: "记忆商人"
 date: 2026-06-08 14:00:00 +0800
 categories: [科幻]
-tags: [科幻, 记忆, 隐私]
+tags: [科幻小说]
 ---
 
 ## 记忆商人

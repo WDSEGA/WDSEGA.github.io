@@ -3,7 +3,7 @@ layout: post
 title: "LiteMem Pro：给你的AI助手装上持久记忆，文件级语义搜索"
 date: 2026-06-09 11:30:00 +0800
 categories: [产品软文, 工具]
-tags: [Python, AI记忆, 语义搜索, RAG, LLM工具]
+tags: [代码产品]
 excerpt: "现有AI助手最大的缺陷是没有持久记忆，每次对话都从零开始。LiteMem Pro用本地文件实现语义记忆系统，让你的AI真正记住重要信息。"
 ---
 

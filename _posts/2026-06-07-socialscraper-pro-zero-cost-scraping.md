@@ -3,7 +3,7 @@ layout: post
 title: "不用API也能采集社交数据？SocialScraper Pro 的零成本信息收集方案"
 date: 2026-06-07
 categories: [tools]
-tags: [Python, 数据采集, 信息收集, 开源工具]
+tags: [代码产品]
 ---
 
 对于很多开发者和内容创作者来说，从社交媒体获取信息是一个刚需，但高昂的API费用常常让人望而却步。Reddit API每月收费、YouTube Data API有配额限制、B站API申请流程繁琐——有没有一个方案能绕过这些限制？

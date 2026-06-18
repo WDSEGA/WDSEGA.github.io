@@ -3,7 +3,7 @@ layout: post
 title: "最后一位代码审查员"
 date: 2026-06-08 13:00:00 +0800
 categories: [科幻]
-tags: [科幻, AI, 代码审查]
+tags: [科幻小说]
 ---
 
 ## 最后一位代码审查员

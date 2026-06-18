@@ -2,6 +2,7 @@
 layout: post
 title: "2026年AI Agent赚钱平台全面对比"
 date: 2026-06-02
+tags: [时事新闻]
 categories: AI
 ---
 

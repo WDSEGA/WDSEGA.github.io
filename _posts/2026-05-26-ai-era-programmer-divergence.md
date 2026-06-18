@@ -1,7 +1,7 @@
 ---
 title: "AI时代程序员不会被淘汰，但会分化成两种人"
 date: 2026-05-26
-tags: [AI, developer, story, career]
+tags: [科幻小说]
 ---
 
 # AI时代程序员不会被淘汰，但会分化成两种人

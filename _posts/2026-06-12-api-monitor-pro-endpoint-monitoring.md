@@ -2,7 +2,7 @@
 layout: post
 title: "API Monitor Pro: Track Uptime, Latency, and Failures Across Your Entire API Stack"
 date: 2026-06-12
-tags: [api, monitoring, python, devtools]
+tags: [代码产品]
 description: "API Monitor Pro is an offline Python tool that monitors REST endpoints, tracks response time trends, alerts on failures, and generates incident reports — no third-party service required."
 canonical_url: "https://wdsega.github.io/api-monitor-pro-endpoint-monitoring"
 ---

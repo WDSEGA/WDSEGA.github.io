@@ -3,7 +3,7 @@ layout: post
 title: "Laravel AI SDK深度解析：首个将AI嵌入核心架构的PHP框架"
 date: 2026-05-24
 categories: [PHP]
-tags: [Laravel, AI, PHP]
+tags: [代码产品]
 ---
 
 过去两年，提到构建 AI Agent，几乎所有教程、课程和技术演讲都指向 Python。LangChain、LangGraph、CrewAI 这些框架让 Python 开发者在 AI 应用领域一路狂奔，而 PHP 开发者只能望洋兴叹——要么学 Python，要么搭一个 Python 微服务通过 HTTP 调用，要么用原始 API 调用勉强凑合。

@@ -2,6 +2,7 @@
 layout: post
 title: "智能互联网时代的营销新范式"
 date: 2026-06-02
+tags: [时事新闻]
 categories: AI
 ---
 

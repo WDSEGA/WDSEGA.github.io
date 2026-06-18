@@ -3,7 +3,7 @@ layout: post
 title: "让简历通过ATS机器筛选：Resume ATS Optimizer 使用指南"
 date: 2026-06-11 10:50:00 +0800
 categories: [工具, 求职]
-tags: [简历, ATS, 求职, Python工具]
+tags: [时事新闻]
 ---
 
 大多数公司现在都在用ATS（Applicant Tracking System，简历追踪系统）做第一轮筛选。

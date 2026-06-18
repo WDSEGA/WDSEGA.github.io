@@ -3,7 +3,7 @@ layout: post
 title: "我把同一个产品上架了5个平台，这是我的经验"
 date: 2026-06-01 10:00:00 +0800
 categories: [产品, 经验分享, 赚钱]
-tags: [product-launch, gumroad, payhip, sellanycode, itch.io, codester]
+tags: [代码产品]
 image: /assets/images/ai-tools.jpg
 ---
 

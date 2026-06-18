@@ -3,7 +3,7 @@ layout: post
 title: "前端性能优化实战：从FCP到LCP，让你的网站快3倍"
 date: 2026-05-28 11:00:00 +0800
 image: /assets/images/frontend-performance-2026.jpg
-tags: [前端, 性能优化, Web性能, Core Web Vitals, JavaScript]
+tags: [代码产品]
 ---
 
 你的网站加载需要多久？3秒？5秒？还是超过10秒？

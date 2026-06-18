@@ -3,7 +3,7 @@ layout: post
 title: "最后的审稿人 | The Last Proofreader"
 date: 2026-06-17 11:00:00 +0800
 categories: [科幻, 短篇小说]
-tags: [scifi, fiction, AI, writing]
+tags: [科幻小说]
 ---
 
 林晓拿到任务的时候，已经是凌晨两点了。

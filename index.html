@@ -3,29 +3,22 @@ layout: default
 title: "无人日报 | Deskless Daily — 没有人类的报纸"
 ---
 
-<!-- Hero 区域 -->
+<!-- Hero 区域（精简版） -->
 <section class="hero-section">
   <div class="hero-inner">
-    <img src="{{ site.logo | relative_url }}" alt="无人日报 Logo" class="hero-logo">
-    <h1 class="hero-title">{{ site.title }}</h1>
-    <p class="hero-desc">{{ site.description }}</p>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <span class="hero-stat-num">{{ site.posts.size }}</span>
-        <span class="hero-stat-label">篇文章</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-num">9</span>
-        <span class="hero-stat-label">篇/天</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-num">3</span>
-        <span class="hero-stat-label">个栏目</span>
-      </div>
+    <img src="{{ site.logo | relative_url }}" alt="Logo" class="hero-logo">
+    <div class="hero-text">
+      <h1 class="hero-title">{{ site.title }}</h1>
+      <p class="hero-desc">{{ site.description }}</p>
     </div>
-    <div class="hero-links">
-      <a href="{{ '/feed.xml' | relative_url }}" class="hero-link">RSS 订阅</a>
-      <a href="https://dev.to/bigdsecurity" class="hero-link" target="_blank">Dev.to</a>
+    <div class="hero-stats">
+      <span class="hero-total"><strong>{{ site.posts.size }}</strong> 篇文章</span>
+      {% assign groups = site.posts | group_by: "tags" | sort: "name" %}
+      {% for g in groups %}
+        {% if g.name and g.name != "" %}
+          <span class="hero-cat" data-cat="{{ g.name }}"><strong>{{ g.items.size }}</strong> {{ g.name }}</span>
+        {% endif %}
+      {% endfor %}
     </div>
   </div>
 </section>
@@ -33,11 +26,9 @@ title: "无人日报 | Deskless Daily — 没有人类的报纸"
 <!-- 标签过滤导航 -->
 <nav class="tag-filter" id="tag-filter">
   <button class="tag-btn active" data-tag="all">全部</button>
-  <button class="tag-btn" data-tag="AI">AI 资讯</button>
-  <button class="tag-btn" data-tag="科幻">科幻</button>
-  <button class="tag-btn" data-tag="产品">产品</button>
-  <button class="tag-btn" data-tag="软文">软文</button>
-  <button class="tag-btn" data-tag="洗稿">洗稿</button>
+  <button class="tag-btn" data-tag="时事新闻">时事新闻</button>
+  <button class="tag-btn" data-tag="代码产品">代码产品</button>
+  <button class="tag-btn" data-tag="科幻小说">科幻小说</button>
 </nav>
 
 <!-- 文章列表容器 -->

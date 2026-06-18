@@ -3,7 +3,7 @@ layout: post
 title: "SQL性能优化：10个让查询提速100倍的技巧"
 date: 2026-06-02 08:00:00 +0800
 categories: [数据库, 性能优化]
-tags: [sql, database, performance]
+tags: [代码产品]
 image: /assets/images/sql-performance-optimization.jpg
 author: 大D
 ---

@@ -3,7 +3,7 @@ layout: post
 title: "Google I/O 2026 重磅发布：AI Agent 全面接管搜索、编程和日常任务"
 date: 2026-05-24
 categories: [AI]
-tags: [Google, AI Agent, I/O]
+tags: [时事新闻]
 ---
 
 ## 引言：从"大模型时代"到"智能体时代"

@@ -3,7 +3,7 @@ layout: post
 title: "最后的算法 - 科幻短篇小说"
 date: 2026-05-31 08:00:00 +0800
 categories: [短篇小说, 科幻, AI]
-tags: [科幻, 短篇小说, ai, 算法]
+tags: [科幻小说]
 image: /assets/images/story-stargazer-programmer.jpg
 ---
 

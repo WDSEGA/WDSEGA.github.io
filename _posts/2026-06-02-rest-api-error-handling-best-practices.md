@@ -3,7 +3,7 @@ layout: post
 title: "REST API错误处理最佳实践：从状态码到错误响应设计"
 date: 2026-06-02 08:00:00 +0800
 categories: [API设计, 后端开发]
-tags: [api, rest, best-practices]
+tags: [代码产品]
 image: /assets/images/rest-api-error-handling.jpg
 author: 大D
 ---

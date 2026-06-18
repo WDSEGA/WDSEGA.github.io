@@ -3,7 +3,7 @@ layout: post
 title: "Nginx高级配置：负载均衡、缓存与安全防护"
 date: 2026-05-30 14:00:00 +0800
 categories: [Nginx, 运维, 性能优化]
-tags: [nginx, load-balancing, caching, security]
+tags: [代码产品]
 image: /assets/images/nginx-advanced.jpg
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "Building Production-Ready APIs with FastAPI: A Complete Guide"
 date: 2026-06-06 08:00:00 +0800
 categories: [python, backend]
-tags: [fastapi, python, api, backend, web-development]
+tags: [代码产品]
 author: "WDSEGA"
 ---
 

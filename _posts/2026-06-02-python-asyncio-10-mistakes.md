@@ -3,7 +3,7 @@ layout: post
 title: "Python Asyncio的10个常见陷阱及解决方案"
 date: 2026-06-02 08:00:00 +0800
 categories: [Python, 异步编程]
-tags: [python, asyncio, tutorial]
+tags: [代码产品]
 image: /assets/images/python-asyncio-guide.jpg
 author: 大D
 ---

@@ -3,7 +3,7 @@ layout: post
 title: "AI走出屏幕：具身智能全面落地，机器人正在接管物理世界 | AI Steps Off the Screen: Embodied Intelligence Is Taking Over the Physical World"
 date: 2026-06-15 20:10:00 +0800
 categories: AI
-tags: [具身智能, 机器人, 工业AI, 大模型]
+tags: [时事新闻]
 ---
 
 ## 中文

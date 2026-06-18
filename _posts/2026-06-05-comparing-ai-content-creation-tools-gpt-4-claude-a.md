@@ -2,6 +2,7 @@
 layout: post
 title: "Comparing AI Content Creation Tools: GPT-4, Claude, and Gemini"
 date: 2026-06-05 10:00:00 +0800
+tags: [时事新闻]
 categories: ai automation
 ---
 

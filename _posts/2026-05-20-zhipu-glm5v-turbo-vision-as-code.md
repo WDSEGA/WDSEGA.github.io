@@ -3,7 +3,7 @@ layout: post
 title: "智谱AI发布GLM-5V-Turbo：多模态编程模型开启'视觉即代码'新范式"
 date: 2026-05-20
 categories: [AI, 编程]
-tags: [智谱AI, GLM-5V-Turbo, 多模态, 编程, AI编程]
+tags: [代码产品]
 image: /assets/images/zhipu-glm5v-turbo.jpg
 ---
 

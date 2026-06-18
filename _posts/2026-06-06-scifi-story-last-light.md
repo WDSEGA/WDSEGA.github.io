@@ -3,7 +3,7 @@ layout: default
 title: "最后一盏灯"
 date: 2026-06-06 22:10:00 +0800
 categories: [科幻小说, 原创作品]
-tags: [科幻, 末日, 希望, 短篇小说]
+tags: [科幻小说]
 image: /assets/images/last-light.jpg
 excerpt: "地球已经不在了。人类最后的1万人，住在一艘叫\"方舟\"的飞船里，在宇宙中漂流了300年。"
 ---

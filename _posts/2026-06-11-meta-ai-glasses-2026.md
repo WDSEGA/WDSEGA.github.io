@@ -3,7 +3,7 @@ layout: post
 title: "Meta AI眼镜：2026年最值得买的AI硬件？"
 date: 2026-06-11 10:00:00 +0800
 categories: [科技, AI硬件]
-tags: [Meta, AI眼镜, 智能眼镜, 可穿戴]
+tags: [时事新闻]
 ---
 
 2026年，AI硬件的战场从手机移到了脸上。

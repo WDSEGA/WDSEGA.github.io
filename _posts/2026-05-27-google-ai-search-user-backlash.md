@@ -3,7 +3,7 @@ layout: post
 title: "Google AI搜索大改版遭用户反弹：DuckDuckGo安装量暴涨30%，用户用脚投票"
 date: 2026-05-27
 categories: [AI, 搜索引擎, 科技]
-tags: [google, ai-search, duckduckgo, privacy, 搜索引擎]
+tags: [代码产品]
 image: /assets/images/google-ai-search-backlash.jpg
 ---
 

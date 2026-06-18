@@ -3,7 +3,7 @@ layout: post
 title: "安寻安保平台：一站式安保产业数字化招商平台"
 date: 2026-06-05 12:00:00 +0800
 categories: [business, security]
-tags: [security, platform, business]
+tags: [代码产品]
 ---
 
 # 安寻安保平台 -- 安保行业数字化招商启事

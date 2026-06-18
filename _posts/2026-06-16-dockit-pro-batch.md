@@ -3,7 +3,7 @@ layout: post
 title: "200页PDF处理了3小时？DocKit Pro的批量场景你可能没想到 | 200-Page PDFs Taking 3 Hours? DocKit Pro Batch Scenarios You Might Have Missed"
 date: 2026-06-16 09:50:00 +0800
 categories: [产品, 软文]
-tags: [python, pdf, document, automation]
+tags: [代码产品]
 ---
 
 大多数人用文档处理工具，是为了处理一个文件。

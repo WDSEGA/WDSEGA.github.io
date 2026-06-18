@@ -2,7 +2,7 @@
 title: "2026流感预防完全指南：医生不会告诉你的防护细节"
 date: 2026-05-16 10:00:00 +0800
 categories: [健康, 科普]
-tags: [流感, 预防, 健康指南, 免疫力, 2026]
+tags: [时事新闻]
 image: /assets/images/flu-prevention.jpg
 ---
 

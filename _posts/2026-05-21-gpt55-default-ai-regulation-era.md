@@ -3,7 +3,7 @@ layout: post
 title: "GPT-5.5全面开放成为默认模型，全球AI监管进入新时代：五大实验室全部纳入预部署审查"
 date: 2026-05-21
 categories: [科技资讯, AI, 监管]
-tags: [OpenAI, GPT-5.5, AI监管, Claude, Gemini, AI安全]
+tags: [时事新闻]
 image: /assets/images/gpt55-ai-regulation.jpg
 ---
 

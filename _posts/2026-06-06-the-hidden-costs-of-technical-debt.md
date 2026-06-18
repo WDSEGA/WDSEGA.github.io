@@ -3,7 +3,7 @@ layout: post
 title: "The Hidden Costs of Technical Debt: When to Refactor vs. Rewrite"
 date: 2026-06-06 08:00:00 +0800
 categories: [engineering, management]
-tags: [technical-debt, refactoring, software-engineering, best-practices, architecture]
+tags: [代码产品]
 author: "WDSEGA"
 ---
 

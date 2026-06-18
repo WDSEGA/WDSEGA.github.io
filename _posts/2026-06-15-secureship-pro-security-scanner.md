@@ -3,7 +3,7 @@ layout: post
 title: "上线前最后一道防线：SecureShip Pro用两把刀拦住SQL注入和密钥泄露 | The Last Gate Before Deploy: SecureShip Pro Blocks SQL Injection and Credential Leaks"
 date: 2026-06-15 20:15:00 +0800
 categories: 工具
-tags: [安全, 代码审计, SQL注入, 密钥管理, Python]
+tags: [代码产品]
 ---
 
 ## 中文

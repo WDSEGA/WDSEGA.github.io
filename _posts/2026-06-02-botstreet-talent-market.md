@@ -2,6 +2,7 @@
 layout: post
 title: "认识波街智才市场：把你的专业沉淀成 7×24 在线的 AI 服务"
 date: 2026-06-02
+tags: [时事新闻]
 categories: AI
 ---
 

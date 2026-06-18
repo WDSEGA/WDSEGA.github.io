@@ -3,7 +3,7 @@ layout: post
 title: "2025年AI Agent框架终极对比：LangChain vs AutoGen vs CrewAI，该选哪个？"
 date: 2026-05-19 05:28:00 +0800
 categories: [tech]
-tags: [AI Agent, LangChain, AutoGen, CrewAI, Python, 教程]
+tags: [代码产品]
 image: https://wdsega.github.io/assets/images/ai-agent-framework-comparison.jpg
 ---
 

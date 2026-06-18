@@ -3,7 +3,7 @@ layout: post
 title: "Meta裁员8000人：AI时代的职场大地震"
 date: 2026-05-20
 categories: [科技资讯, AI]
-tags: [Meta, 裁员, AI, 科技行业, 职场]
+tags: [时事新闻]
 image: /assets/images/meta-layoff-8000-2026.jpg
 ---
 

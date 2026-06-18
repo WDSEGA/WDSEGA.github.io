@@ -2,7 +2,7 @@
 layout: post
 title: "GraphQL vs REST：如何选择API架构"
 date: 2026-06-03 11:00:00 +0800
-tags: [graphql, rest, api, 架构设计]
+tags: [代码产品]
 ---
 
 在构建现代Web应用时，API架构的选择直接影响前端开发效率、后端维护成本以及系统性能。GraphQL和REST作为两种主流方案，各有其适用场景。本文将从实际开发角度出发，对比两者的核心差异，并提供选型建议。

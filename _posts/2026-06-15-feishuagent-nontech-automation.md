@@ -3,7 +3,7 @@ layout: post
 title: "非技术团队也能用AI自动化？FeishuAgent Orchestrator让飞书Bot变成不会下班的同事 | Can Non-Tech Teams Use AI Automation? FeishuAgent Orchestrator Turns Feishu Bots Into Always-On Teammates"
 date: 2026-06-15 20:20:00 +0800
 categories: 工具
-tags: [飞书, 自动化, 团队协作, AI Agent]
+tags: [代码产品]
 ---
 
 ## 中文

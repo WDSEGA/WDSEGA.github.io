@@ -3,7 +3,7 @@ layout: post
 title: "午夜电梯"
 date: 2026-05-28
 categories: [短篇故事, 悬疑]
-tags: [悬疑, 职场, 短篇故事, 午夜]
+tags: [科幻小说]
 image: /assets/images/story-midnight-elevator-cover.jpg
 description: "加班到深夜的程序员发现，公司电梯在午夜后会出现一个不存在的楼层。"
 ---

@@ -3,7 +3,7 @@ layout: post
 title: "量子猫咖啡馆"
 date: 2026-05-21
 categories: [短篇小说]
-tags: [科幻, 温情, 量子物理, 咖啡馆]
+tags: [科幻小说]
 image: /assets/images/story-quantum-cat-cafe.jpg
 ---
 

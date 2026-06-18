@@ -2,7 +2,7 @@
 title: "AI提示词工程实战指南：从入门到精通的15个核心技巧"
 date: 2026-05-18 13:00:00 +0800
 image: /assets/images/ai-prompt-engineering.jpg
-tags: [AI, 提示词, 效率工具, 教程]
+tags: [代码产品]
 ---
 
 # AI提示词工程实战指南：从入门到精通的15个核心技巧

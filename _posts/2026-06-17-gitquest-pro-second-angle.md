@@ -3,7 +3,7 @@ layout: post
 title: "用Git学算法：GitQuest Pro如何把枯燥的数据结构变成RPG游戏 | Learning Algorithms Through Git: How GitQuest Pro Turns Data Structures Into an RPG"
 date: 2026-06-17 10:00:00 +0800
 categories: [产品, 编程学习]
-tags: [git, algorithms, learning, coding]
+tags: [代码产品]
 ---
 
 大多数人学算法的方式是这样的：打开LeetCode，刷第一道题，刷不出来，关掉，永远没有第二次。

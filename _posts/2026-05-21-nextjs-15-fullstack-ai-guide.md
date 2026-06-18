@@ -3,7 +3,7 @@ layout: post
 title: "Next.js 15全栈开发实战：Server Components与AI集成完整指南"
 date: 2026-05-21
 categories: [编程技术, Web开发]
-tags: [Next.js, React, Server Components, AI, 全栈开发]
+tags: [代码产品]
 image: /assets/images/nextjs15-fullstack-ai.jpg
 ---
 

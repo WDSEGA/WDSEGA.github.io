@@ -3,7 +3,7 @@ layout: post
 title: "记忆杂货铺"
 date: 2026-05-23 15:00:00 +0800
 categories: [故事, 奇幻]
-tags: [记忆, 杂货铺, 奇幻, 治愈]
+tags: [科幻小说]
 image: /assets/images/covers/story2-cover.jpg
 ---
 

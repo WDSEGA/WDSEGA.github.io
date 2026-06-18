@@ -3,7 +3,7 @@ layout: post
 title: "TypeScript类型体操入门：从基础到高级类型推导"
 date: 2026-05-30 09:00:00 +0800
 categories: [TypeScript, 前端, 类型系统]
-tags: [typescript, types, generics, type-inference]
+tags: [代码产品]
 image: /assets/images/typescript-types.jpg
 ---
 

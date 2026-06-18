@@ -3,7 +3,7 @@ layout: post
 title: "AlphaEvolve：谷歌用AI进化算法，数学难题的新解法"
 date: 2026-05-18 14:00:00 +0800
 categories: [tech]
-tags: [AI, 算法, Google, 深度学习]
+tags: [时事新闻]
 image: https://wdsega.github.io/assets/images/alpha-evolve-algorithm.jpg
 ---
 

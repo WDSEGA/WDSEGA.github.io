@@ -3,7 +3,7 @@ layout: post
 title: "设计模式实战：Python实现23种经典设计模式"
 date: 2026-05-30 15:00:00 +0800
 categories: [Python, 设计模式, 软件工程]
-tags: [python, design-patterns, oop, software-engineering]
+tags: [代码产品]
 image: /assets/images/design-patterns.jpg
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "我做了一个 API 监控工具，解决我自己的痛点"
 date: 2026-06-08 11:00:00 +0800
 categories: [产品, 推广]
-tags: [API监控, 开发者工具, SellAnyCode]
+tags: [代码产品]
 ---
 
 ## 我做了一个 API 监控工具，解决我自己的痛点

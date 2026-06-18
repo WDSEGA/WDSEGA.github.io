@@ -3,7 +3,7 @@ layout: post
 title: "最后一行代码"
 date: 2026-05-20
 categories: [短篇小说, 温情]
-tags: [短篇小说, 温情, 程序员, 生活]
+tags: [科幻小说]
 image: /assets/images/story-last-line-of-code.jpg
 ---
 

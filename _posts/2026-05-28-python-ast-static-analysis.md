@@ -3,7 +3,7 @@ layout: post
 title: "Understanding Python AST for Static Code Analysis"
 date: 2026-05-28
 categories: [Python, Code Analysis, Advanced]
-tags: [python, ast, static analysis, code quality, metaprogramming]
+tags: [代码产品]
 image: /assets/images/python-ast-analysis.jpg
 ---
 

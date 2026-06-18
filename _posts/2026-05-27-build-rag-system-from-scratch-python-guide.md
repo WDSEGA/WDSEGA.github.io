@@ -3,7 +3,7 @@ layout: post
 title: "从零构建RAG系统：Python实现检索增强生成的完整指南"
 date: 2026-05-27
 categories: [Python, AI, 教程]
-tags: [python, rag, ai, langchain, vector-database, tutorial]
+tags: [代码产品]
 image: /assets/images/python-rag-implementation.jpg
 ---
 

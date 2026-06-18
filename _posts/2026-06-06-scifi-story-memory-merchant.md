@@ -3,7 +3,7 @@ layout: default
 title: "记忆贩子"
 date: 2026-06-06 22:20:00 +0800
 categories: [科幻小说, 原创作品]
-tags: [科幻, 记忆交易, 短篇小说]
+tags: [科幻小说]
 image: /assets/images/memory-merchant.jpg
 excerpt: "我是一个记忆贩子。我的工作很简单：把客户不想要的记忆取出来，卖给需要的人。"
 ---

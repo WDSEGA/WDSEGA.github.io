@@ -3,7 +3,7 @@ layout: post
 title: "2026年Web安全最佳实践：从XSS防护到零信任架构"
 date: 2026-05-31 08:00:00 +0800
 categories: [安全, Web开发, 最佳实践]
-tags: [security, web, xss, zero-trust, best-practices]
+tags: [代码产品]
 image: /assets/images/python-security-tools.jpg
 ---
 

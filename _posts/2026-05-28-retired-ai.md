@@ -3,7 +3,7 @@ layout: post
 title: "退休的AI"
 date: 2026-05-28
 categories: [短篇故事, 科幻]
-tags: [科幻, AI, 温情, 短篇故事]
+tags: [科幻小说]
 image: /assets/images/story-retired-ai-cover.jpg
 description: "一个被人类家庭陪伴了二十年的AI管家，在'退休'后找到了属于自己的生活。"
 ---

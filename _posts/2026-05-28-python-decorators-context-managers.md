@@ -3,7 +3,7 @@ layout: post
 title: "Python高级技巧：8个让代码更优雅的装饰器和上下文管理器"
 date: 2026-05-28 10:00:00 +0800
 image: /assets/images/python-tips-advanced-2026.jpg
-tags: [Python, 编程技巧, 装饰器, 上下文管理器, 代码优化]
+tags: [代码产品]
 ---
 
 Python的装饰器（Decorator）和上下文管理器（Context Manager）是两个被低估的强大特性。很多开发者日常只用 `@staticmethod` 和 `with open()`，却不知道这两个机制可以实现远比这更复杂的功能。

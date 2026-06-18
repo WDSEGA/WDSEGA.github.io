@@ -3,7 +3,7 @@ layout: post
 title: "Git高级技巧：交互式rebase、cherry-pick与bisect实战"
 date: 2026-05-30 11:00:00 +0800
 categories: [Git, 版本控制, 开发工具]
-tags: [git, rebase, cherry-pick, bisect]
+tags: [代码产品]
 image: /assets/images/git-advanced.jpg
 ---
 

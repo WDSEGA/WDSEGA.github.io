@@ -3,7 +3,7 @@ layout: post
 title: "Claude 4.5专项升级：Anthropic把代理能力做到了什么程度 | Claude 4.5 Agent Upgrade: How Far Has Anthropic Pushed Agentic AI"
 date: 2026-06-16 09:00:00 +0800
 categories: [AI, 洗稿]
-tags: [Claude, Anthropic, AI代理, 大模型]
+tags: [时事新闻]
 ---
 
 Anthropic 悄悄发布了 Claude 4.5，这次升级不是泛泛的"能力全面提升"，而是有明确方向的：专攻代理场景。

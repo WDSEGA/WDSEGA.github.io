@@ -3,7 +3,7 @@ layout: post
 title: "AWS Lambda成本优化实战：从$500降到$50的7个技巧"
 date: 2026-05-29 08:00:00 +0800
 categories: [云计算, AWS, 成本优化]
-tags: [aws, lambda, serverless, cost-optimization, cloud]
+tags: [代码产品]
 image: /assets/images/aws-lambda-optimization.jpg
 ---
 

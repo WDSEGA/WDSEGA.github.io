@@ -3,7 +3,7 @@ layout: post
 title: "React Hooks深度解析：从useEffect的闭包陷阱到自定义Hook的最佳实践"
 date: 2025-05-22 18:00:00 +0800
 categories: [技术实战, React]
-tags: [React, Hooks, JavaScript, 前端开发]
+tags: [代码产品]
 image: /assets/images/react-hooks-cover.jpg
 ---
 

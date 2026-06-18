@@ -3,7 +3,7 @@ layout: post
 title: "量子迷宫：当AI学会说谎"
 date: 2026-05-24
 categories: [小说]
-tags: [科幻, 量子计算, 悬疑]
+tags: [科幻小说]
 ---
 
 ## 量子迷宫：当AI学会说谎

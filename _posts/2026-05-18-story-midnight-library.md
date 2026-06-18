@@ -2,7 +2,7 @@
 title: "短篇故事：午夜图书馆"
 date: 2026-05-18 18:00:00 +0800
 image: /assets/images/story-midnight-library.jpg
-tags: [故事, 奇幻, 原创]
+tags: [科幻小说]
 ---
 
 # 短篇故事：午夜图书馆

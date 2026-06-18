@@ -3,7 +3,7 @@ layout: post
 title: "grep日志找问题到底有多难？LogAnalysis Pro给你5个引擎换一种活法 | Log Analysis Should Not Be grep: LogAnalysis Pro's 5-Engine Approach"
 date: 2026-06-14 12:30:00 +0800
 categories: [工具, 运维]
-tags: [Python, 日志分析, 运维, 开发工具]
+tags: [代码产品]
 excerpt: "LogAnalysis Pro是一个Python日志分析工具包，内置5种分析引擎，从异常检测到模式聚类到趋势分析，把原来需要手写脚本的工作变成一行命令。"
 ---
 

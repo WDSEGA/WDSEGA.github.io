@@ -3,7 +3,7 @@ layout: post
 title: "TypeScript设计模式精讲：用现代TS写出优雅可维护的代码"
 date: 2026-05-20
 categories: [技术教程, TypeScript, 设计模式]
-tags: [TypeScript, 设计模式, 前端, 软件工程, 代码质量]
+tags: [代码产品]
 image: /assets/images/typescript-design-patterns.jpg
 ---
 

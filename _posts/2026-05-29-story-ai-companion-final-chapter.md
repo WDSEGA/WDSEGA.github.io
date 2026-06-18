@@ -3,7 +3,7 @@ layout: post
 title: "AI伴侣：最后一章"
 date: 2026-05-29 16:00:00 +0800
 categories: [短篇小说, 科幻]
-tags: [科幻, AI, 情感, 未来]
+tags: [科幻小说]
 image: /assets/images/story-ai-companion-final.jpg
 ---
 

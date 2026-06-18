@@ -3,7 +3,7 @@ layout: post
 title: "Kimi半年估值涨6倍到300亿美元：这笔钱买的是什么 | Kimi Valuation Jumps 6x to $30B in Six Months: What's Actually Being Priced In"
 date: 2026-06-14 10:30:00 +0800
 categories: [AI, 商业]
-tags: [Kimi, 月之暗面, AI融资, 大模型]
+tags: [时事新闻]
 excerpt: "从43亿到300亿美元，月之暗面Kimi只用了半年。这轮估值狂飙背后，是真实商业化的爆发，还是资本对中国AI赛道的集体押注？"
 ---
 

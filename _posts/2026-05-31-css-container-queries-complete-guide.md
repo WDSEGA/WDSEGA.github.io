@@ -3,7 +3,7 @@ layout: post
 title: "CSS容器查询完全指南：告别媒体查询的响应式新时代"
 date: 2026-05-31 08:00:00 +0800
 categories: [前端, CSS, 响应式设计]
-tags: [css, container-queries, responsive, frontend, web-design]
+tags: [代码产品]
 image: /assets/images/react-hooks-cover.jpg
 ---
 

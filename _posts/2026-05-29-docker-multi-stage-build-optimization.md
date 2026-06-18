@@ -3,7 +3,7 @@ layout: post
 title: "Docker多阶段构建优化：将镜像体积减少90%"
 date: 2026-05-29 10:00:00 +0800
 categories: [Docker, DevOps, 容器化]
-tags: [docker, multi-stage, optimization, devops, container]
+tags: [代码产品]
 image: /assets/images/docker-multi-stage.jpg
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "我写了个Excel模板生成器，而不是又一个Excel模板"
 date: 2026-06-01 08:00:00 +0800
 categories: [AI, 开源项目, 产品思维]
-tags: [excel, python, productivity, template-generator, creator-tools]
+tags: [代码产品]
 image: /assets/images/ai-tools.jpg
 ---
 

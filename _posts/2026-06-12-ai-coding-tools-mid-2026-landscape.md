@@ -2,7 +2,7 @@
 layout: post
 title: "The AI Coding Tool Landscape in Mid-2026: Who's Winning and Why"
 date: 2026-06-12
-tags: [ai, coding, tools, productivity]
+tags: [代码产品]
 description: "Cursor hit $2B ARR. Claude Code runs autonomously for hours. GitHub Copilot added agents. Here's a grounded look at where AI coding tools stand in mid-2026."
 canonical_url: "https://wdsega.github.io/ai-coding-tools-landscape-mid-2026"
 ---

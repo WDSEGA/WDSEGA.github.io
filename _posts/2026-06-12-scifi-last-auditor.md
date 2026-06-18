@@ -2,7 +2,7 @@
 layout: post
 title: "The Last Auditor [Sci-Fi Short Story]"
 date: 2026-06-12
-tags: [scifi, fiction, story]
+tags: [科幻小说]
 description: "In a world where every transaction is recorded by AI, one human auditor faces a final audit that no algorithm can complete."
 canonical_url: "https://wdsega.github.io/scifi-last-auditor"
 ---

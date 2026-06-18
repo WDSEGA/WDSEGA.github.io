@@ -2,6 +2,7 @@
 layout: post
 title: "Docker多阶段构建：将镜像体积缩小90%的实战技巧"
 date: 2026-06-04 09:00:00 +0800
+tags: [时事新闻]
 tags: docker, devops, optimization
 categories: DevOps
 image: /assets/images/docker-multi-stage.jpg

@@ -3,7 +3,7 @@ layout: post
 title: "我用Python写了一個地牢游戏引擎，然后决定开源它 | I Wrote a Python Dungeon Engine, Then Decided to Open-Source It"
 date: 2026-06-18 09:40:00 +0800
 categories: [产品, 游戏开发]
-tags: [Python, game-dev, roguelike, pygame]
+tags: [科幻小说]
 ---
 
 2026年6月，我发布了一个东西：PyDungeon Engine。

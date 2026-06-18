@@ -3,7 +3,7 @@ layout: post
 title: "2026智博会40款大模型同台：从能力展示到产业落地的真实转折"
 date: 2026-06-13 11:00:00 +0800
 categories: [AI, 产业]
-tags: [智博会, 大模型, AI产业, 落地]
+tags: [时事新闻]
 canonical_url: "https://wdsega.github.io/2026/06/13/2026-ai-expo-industry-landing.html"
 ---
 

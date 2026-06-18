@@ -3,7 +3,7 @@ layout: post
 title: "SK海力士市值突破万亿美元：AI内存芯片需求引爆超级周期"
 date: 2026-05-27
 categories: [芯片, AI, 半导体]
-tags: [sk-hynix, hbm, semiconductor, ai-chips, memory]
+tags: [时事新闻]
 image: /assets/images/sk-hynix-trillion-dollar.jpg
 ---
 

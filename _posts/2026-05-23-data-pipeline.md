@@ -3,7 +3,7 @@ layout: post
 title: "用Python构建实时数据管道：从Kafka到ClickHouse的完整方案"
 date: 2026-05-23 13:00:00 +0800
 categories: [技术, 数据工程]
-tags: [Kafka, ClickHouse, 数据管道, 实时计算, 流处理]
+tags: [代码产品]
 image: /assets/images/covers/data-pipeline-cover.jpg
 ---
 

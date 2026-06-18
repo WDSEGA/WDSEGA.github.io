@@ -3,7 +3,7 @@ layout: post
 title: "风格小偷 [科幻短篇小说]"
 date: 2026-06-13 20:00:00 +0800
 categories: [科幻, 短篇小说]
-tags: [AI, 艺术, 风格, 科幻]
+tags: [科幻小说]
 canonical_url: "https://wdsega.github.io/2026/06/13/the-style-thief-sci-fi.html"
 ---
 

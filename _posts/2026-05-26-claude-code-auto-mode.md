@@ -2,7 +2,7 @@
 title: "Claude Code全自动模式正式开放：手写代码时代真的结束了吗？"
 date: 2026-05-26
 categories: [AI, Programming, Claude]
-tags: [AI, Claude Code, Auto Mode, 编程, Cursor, GitHub Copilot]
+tags: [代码产品]
 ---
 
 ## 从测试到全面开放：Claude Code Auto Mode的进化之路

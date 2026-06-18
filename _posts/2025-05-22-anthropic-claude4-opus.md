@@ -3,7 +3,7 @@ layout: post
 title: "Claude 4来了：Anthropic用7小时不间断编程证明AI的边界正在被重新定义"
 date: 2025-05-22 08:00:00 +0800
 categories: [AI热点, 科技观察]
-tags: [Claude4, Anthropic, AI编程, 大模型]
+tags: [时事新闻]
 image: /assets/images/claude4-cover.jpg
 source: https://www.fortune.com/2025/05/22/anthropic-new-models-ai-openai-google/
 source2: https://www.fortune.com/2025/05/22/anthropic-claude-4-opus-sonnet-ai-safety/

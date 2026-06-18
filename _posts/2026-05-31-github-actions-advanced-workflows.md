@@ -3,7 +3,7 @@ layout: post
 title: "GitHub Actions高级工作流：矩阵构建、缓存优化与自动化部署"
 date: 2026-05-31 08:00:00 +0800
 categories: [DevOps, CI/CD, GitHub]
-tags: [github-actions, cicd, devops, automation, deployment]
+tags: [代码产品]
 image: /assets/images/git-advanced-tips.jpg
 ---
 {% raw %}

@@ -2,7 +2,7 @@
 layout: post
 title: "Claude Fable 5 Is Here: Stripe Used It to Replace 2 Months of Team Work in One Day"
 date: 2026-06-12
-tags: [ai, anthropic, claude, llm]
+tags: [时事新闻]
 description: "Anthropic just released Claude Fable 5 and Mythos 5. Stripe tested it on 50 million lines of Ruby code and finished a 2-month migration in a single day. Here's what changed."
 canonical_url: "https://wdsega.github.io/claude-fable-5-mythos-5-release"
 ---

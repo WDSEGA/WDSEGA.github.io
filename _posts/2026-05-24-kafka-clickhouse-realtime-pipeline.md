@@ -3,7 +3,7 @@ layout: post
 title: "Kafka到ClickHouse实时数据管道：2026年最佳实践"
 date: 2026-05-24
 categories: [Data]
-tags: [Kafka, ClickHouse, 实时计算]
+tags: [代码产品]
 ---
 
 ## 概述

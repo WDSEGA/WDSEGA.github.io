@@ -2,7 +2,7 @@
 layout: post
 title: "Multi-Agent AI in 2026: Why LangGraph, CrewAI, and Dify Are Taking Over Enterprise Workflows"
 date: 2026-06-12
-tags: [ai, agents, python, automation]
+tags: [代码产品]
 description: "Multi-agent AI orchestration has moved from research paper to production tool. Here's what's working in 2026 with LangGraph, CrewAI, and Dify."
 canonical_url: "https://wdsega.github.io/multi-agent-orchestration-frameworks-2026"
 ---

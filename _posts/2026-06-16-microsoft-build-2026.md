@@ -3,7 +3,7 @@ layout: post
 title: "微软Build 2026：Copilot Studio升级，AI Agent从演示走向生产 | Microsoft Build 2026: Copilot Studio Goes Production-Ready"
 date: 2026-06-16 09:20:00 +0800
 categories: [AI, 洗稿]
-tags: [Microsoft, Copilot, AI代理, 企业AI]
+tags: [时事新闻]
 ---
 
 微软 Build 2026 发布了一堆东西，最值得关注的不是某个单独的功能，而是一个信号：**微软认为 AI Agent 已经可以进生产环境了。**

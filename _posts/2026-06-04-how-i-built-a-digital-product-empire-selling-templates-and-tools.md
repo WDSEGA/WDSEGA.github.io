@@ -2,6 +2,7 @@
 layout: post
 title: "我是如何靠卖数字产品建立被动收入体系的"
 date: 2026-06-04 09:00:00 +0800
+tags: [时事新闻]
 tags: digital-products, passive-income, entrepreneurship
 categories: 创业
 image: /assets/images/digital-product-empire.jpg

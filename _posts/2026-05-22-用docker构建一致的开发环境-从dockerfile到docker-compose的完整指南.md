@@ -1,6 +1,7 @@
 ---
 title: "用Docker构建一致的开发环境：从Dockerfile到docker-compose的完整指南"
 date: 2026-05-22
+tags: [时事新闻]
 categories: [技术, 科普]
 tags: "docker, devops, tutorial, node"
 ---

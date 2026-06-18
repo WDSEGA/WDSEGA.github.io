@@ -3,7 +3,7 @@ layout: post
 title: "DeepSeek V4 Flash连续6周霸榜全球调用量第一：国产大模型真的赢了吗？"
 date: 2026-06-13 10:00:00 +0800
 categories: [AI, 大模型]
-tags: [DeepSeek, AI, 大模型, 国产AI]
+tags: [时事新闻]
 canonical_url: "https://wdsega.github.io/2026/06/13/deepseek-v4-flash-call-volume.html"
 ---
 

@@ -3,7 +3,7 @@ layout: default
 title: "E-Commerce Seller AI Toolkit Pro：电商卖家工具包全面解析"
 date: 2026-06-06 21:50:00 +0800
 categories: [电商工具, AI工具]
-tags: [电商, AI工具包, 卖家工具, ECommerceSeller]
+tags: [代码产品]
 image: /assets/images/ecommerce-seller-ai-toolkit-pro.jpg
 excerpt: "E-Commerce Seller AI Toolkit Pro是一款集成了310个AI提示词的工具包，专为电商卖家设计。"
 ---

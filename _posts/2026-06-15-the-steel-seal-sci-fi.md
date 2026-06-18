@@ -3,7 +3,7 @@ layout: post
 title: "钢印 - 科幻短篇小说 | The Steel Seal — A Sci-Fi Short Story"
 date: 2026-06-15 20:30:00 +0800
 categories: 科幻
-tags: [科幻, 短篇小说, 身份认证, 数字签名]
+tags: [科幻小说]
 ---
 
 ## 中文

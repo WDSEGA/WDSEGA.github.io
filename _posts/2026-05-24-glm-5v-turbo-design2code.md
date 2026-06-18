@@ -3,7 +3,7 @@ layout: post
 title: "智谱GLM-5V-Turbo：看截图就能写代码，Design2Code拿下94.8分"
 date: 2026-05-24
 categories: [AI]
-tags: [GLM, 多模态, 前端]
+tags: [代码产品]
 ---
 
 ## 引言：一张截图胜过千行描述

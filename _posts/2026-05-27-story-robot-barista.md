@@ -3,7 +3,7 @@ layout: post
 title: "机器人咖啡师"
 date: 2026-05-27
 categories: [短篇小说, 科幻, 温情]
-tags: [short-story, sci-fi, robot, coffee, warmth]
+tags: [科幻小说]
 image: /assets/images/story-robot-barista.jpg
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "数字游民的真实工具箱：那些真正用了一年的东西"
 date: 2026-06-02 08:00:00 +0800
 categories: [数字游民, 效率工具]
-tags: [productivity, digital-nomad, tools]
+tags: [代码产品]
 image: /assets/images/digital-nomad-tools.jpg
 author: 大D
 ---

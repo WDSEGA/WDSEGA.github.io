@@ -2,7 +2,7 @@
 title: "癌症早筛科普：哪些检查真的有用，哪些是智商税"
 date: 2026-05-16 12:30:00 +0800
 categories: [健康, 科普]
-tags: [癌症筛查, 体检, 健康检查, 早筛, 预防]
+tags: [时事新闻]
 image: /assets/images/cancer-screening.jpg
 ---
 

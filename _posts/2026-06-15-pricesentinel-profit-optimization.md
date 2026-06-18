@@ -3,7 +3,7 @@ layout: post
 title: "你的定价可能在让你亏钱：PriceSentinel Pro从监控到利润优化的进阶 | Your Pricing Might Be Costing You Money: PriceSentinel Pro from Monitoring to Profit Optimization"
 date: 2026-06-15 20:25:00 +0800
 categories: 工具
-tags: [电商, 定价, 利润优化, 竞品监控]
+tags: [时事新闻]
 ---
 
 ## 中文

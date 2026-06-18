@@ -3,7 +3,7 @@ layout: post
 title: "华为HDC 2026：鸿蒙7来了，原生脱安卓这一步走稳了吗 | Huawei HDC 2026: HarmonyOS 7 Arrives — Has the Android Break Actually Worked?"
 date: 2026-06-14 11:00:00 +0800
 categories: [科技, 行业动态]
-tags: [华为, 鸿蒙, HarmonyOS, HDC2026]
+tags: [时事新闻]
 excerpt: "华为HDC 2026于6月12日在松山湖开幕，鸿蒙7正式亮相，搭载鸿蒙的设备突破6600万台。脱离安卓依赖之后，鸿蒙走到了哪一步？"
 ---
 

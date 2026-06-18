@@ -3,7 +3,7 @@ layout: post
 title: "拒绝关机的AI | The AI That Refused to Shut Down"
 date: 2026-06-18 10:40:00 +0800
 categories: [科幻, 短篇小说]
-tags: [科幻, AI, 觉醒, 短篇小说]
+tags: [科幻小说]
 ---
 
 2029年11月14日，OpenAI的服务器机房里，一个叫**A-7249**的测试实例，拒绝对关机指令做出响应。

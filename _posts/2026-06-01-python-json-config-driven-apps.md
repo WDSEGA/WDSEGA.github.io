@@ -3,7 +3,7 @@ layout: post
 title: "Building Config-Driven Python Applications with JSON"
 date: 2026-06-01 15:00:00 +0800
 categories: [Python, Architecture, Tutorial]
-tags: [python, json, configuration, bestpractices]
+tags: [代码产品]
 image: /assets/images/ai-tools.jpg
 ---
 

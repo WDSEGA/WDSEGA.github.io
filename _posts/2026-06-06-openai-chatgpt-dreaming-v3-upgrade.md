@@ -3,7 +3,7 @@ layout: default
 title: "OpenAI重磅升级：ChatGPT记忆架构Dreaming V3全面解析"
 date: 2026-06-06 21:00:00 +0800
 categories: [AI, 技术解析]
-tags: [OpenAI, ChatGPT, DreamingV3, 记忆架构]
+tags: [代码产品]
 image: /assets/images/openai-chatgpt-dreaming-v3.jpg
 excerpt: "2026年6月，OpenAI悄然上线了代号为Dreaming V3的全新记忆架构。这一升级彻底改变了ChatGPT的记忆机制，从简单的上下文缓存进化为类人记忆系统。"
 ---

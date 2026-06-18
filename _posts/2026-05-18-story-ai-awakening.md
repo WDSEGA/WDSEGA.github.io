@@ -3,7 +3,7 @@ layout: post
 title: "【短篇科幻】第73次觉醒"
 date: 2026-05-18 19:00:00 +0800
 categories: [tech]
-tags: [科幻, AI, 短篇小说]
+tags: [科幻小说]
 image: https://wdsega.github.io/assets/images/story-ai-awakening.jpg
 ---
 

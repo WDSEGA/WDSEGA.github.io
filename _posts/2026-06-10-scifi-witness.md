@@ -3,7 +3,7 @@ layout: post
 title: "科幻短篇：《见证人》"
 date: 2026-06-10 12:30:00 +0800
 categories: [科幻小说]
-tags: [科幻, 短篇小说, 未来, AI]
+tags: [科幻小说]
 ---
 
 它叫Archive-7，职责是见证。

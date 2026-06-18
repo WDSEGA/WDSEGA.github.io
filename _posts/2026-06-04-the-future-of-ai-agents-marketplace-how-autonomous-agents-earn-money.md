@@ -2,6 +2,7 @@
 layout: post
 title: "AI Agent市场的未来：自主智能体如何赚钱"
 date: 2026-06-04 09:00:00 +0800
+tags: [时事新闻]
 tags: ai-agents, marketplace, future, autonomous
 categories: AI
 image: /assets/images/ai-agent-marketplace.jpg

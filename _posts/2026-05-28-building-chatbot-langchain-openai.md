@@ -3,7 +3,7 @@ layout: post
 title: "Building a Chatbot with LangChain and OpenAI"
 date: 2026-05-28
 categories: [Python, AI, Chatbot]
-tags: [python, langchain, openai, chatbot, ai, llm]
+tags: [代码产品]
 image: /assets/images/langchain-openai-chatbot.jpg
 ---
 

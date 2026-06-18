@@ -2,7 +2,7 @@
 title: "用Python自动化Excel办公：5个你每天都在重复的操作"
 date: 2026-05-26
 categories: [Python, 自动化办公, 教程]
-tags: [python, excel, openpyxl, 自动化, 办公效率]
+tags: [代码产品]
 ---
 
 如果你每天都在手动处理Excel文件——复制粘贴、合并表格、做数据透视、调格式、发报表——那你正在浪费大量本可以自动化的时间。本文介绍5个最常见的Excel自动化场景，每个场景都有完整的Python代码，可以直接用到你的工作中。

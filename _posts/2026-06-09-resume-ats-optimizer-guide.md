@@ -3,7 +3,7 @@ layout: post
 title: "Resume ATS Optimizer：用Python帮你的简历通过AI筛选关"
 date: 2026-06-09 10:30:00 +0800
 categories: [产品软文, 工具]
-tags: [Python, 简历, ATS, 求职, 自动化]
+tags: [代码产品]
 excerpt: "投了几十份简历没有回应？问题可能不在你的能力，而在ATS系统把你的简历筛掉了。Resume ATS Optimizer用Python帮你分析简历，找出被筛掉的原因。"
 ---
 

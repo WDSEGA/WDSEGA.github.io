@@ -3,7 +3,7 @@ layout: post
 title: "ChatGPT 记忆升级了，免费用户也能用，这事为什么重要？"
 date: 2026-06-08 10:30:00 +0800
 categories: [AI, 科技]
-tags: [ChatGPT, 记忆功能, AI助手]
+tags: [时事新闻]
 ---
 
 ## ChatGPT 记忆升级了，免费用户也能用，这事为什么重要？

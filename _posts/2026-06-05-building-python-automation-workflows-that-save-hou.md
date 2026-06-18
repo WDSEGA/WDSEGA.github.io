@@ -2,6 +2,7 @@
 layout: post
 title: "Building Python Automation Workflows That Save Hours"
 date: 2026-06-05 10:00:00 +0800
+tags: [时事新闻]
 categories: ai automation
 ---
 

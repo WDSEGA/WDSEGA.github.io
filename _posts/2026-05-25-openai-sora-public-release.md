@@ -2,7 +2,7 @@
 title: "OpenAI Sora正式开放公测：AI视频生成进入新时代"
 date: 2026-05-25
 categories: [技术]
-tags: [AI, OpenAI, Sora, 视频生成]
+tags: [时事新闻]
 author: TechWriter
 ---
 

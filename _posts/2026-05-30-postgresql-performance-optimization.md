@@ -3,7 +3,7 @@ layout: post
 title: "PostgreSQL性能优化：从索引到查询计划的完整指南"
 date: 2026-05-30 12:00:00 +0800
 categories: [PostgreSQL, 数据库, 性能优化]
-tags: [postgresql, database, optimization, indexing]
+tags: [代码产品]
 image: /assets/images/postgres-optimization.jpg
 ---
 

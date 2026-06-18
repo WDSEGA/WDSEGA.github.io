@@ -1,6 +1,7 @@
 ---
 title: "Claude 4来了：Anthropic用7小时不间断编程证明AI的边界正在被重新定义"
 date: 2026-05-22
+tags: [时事新闻]
 categories: [技术, 科普]
 tags: "ai, claude, anthropic, programming"
 ---

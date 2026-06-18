@@ -3,7 +3,7 @@ layout: post
 title: "机器学习工程化：MLOps最佳实践指南"
 date: 2026-05-30 17:00:00 +0800
 categories: [机器学习, MLOps, 工程化]
-tags: [mlops, machine-learning, mlflow, kubeflow]
+tags: [代码产品]
 image: /assets/images/mlops.jpg
 ---
 

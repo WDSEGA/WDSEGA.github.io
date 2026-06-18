@@ -3,7 +3,7 @@ layout: post
 title: "【短篇悬疑】最后的灯塔"
 date: 2026-05-18 20:00:00 +0800
 categories: [tech]
-tags: [悬疑, 短篇小说, 故事]
+tags: [科幻小说]
 image: https://wdsega.github.io/assets/images/story-last-lighthouse.jpg
 ---
 

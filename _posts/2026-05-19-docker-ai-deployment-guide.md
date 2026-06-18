@@ -3,7 +3,7 @@ layout: post
 title: "Docker部署AI应用完全指南：从零到生产环境的最佳实践"
 date: 2026-05-19 05:44:00 +0800
 categories: [tech]
-tags: [Docker, AI, 部署, DevOps, 教程]
+tags: [代码产品]
 image: https://wdsega.github.io/assets/images/docker-ai-deployment-guide.jpg
 ---
 

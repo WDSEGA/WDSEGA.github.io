@@ -2,6 +2,7 @@
 layout: post
 title: "读《波街，我的理想国》：智能互联网时代的创业梦想"
 date: 2026-06-02
+tags: [时事新闻]
 categories: AI
 ---
 

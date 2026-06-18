@@ -2,7 +2,7 @@
 title: "打工人效率神器：2025年最值得用的10款AI工具"
 date: 2026-05-16 12:00:00 +0800
 categories: [效率, 工具]
-tags: [AI工具, 效率提升, 办公软件, 生产力, 2025]
+tags: [时事新闻]
 image: /assets/images/ai-tools.jpg
 ---
 

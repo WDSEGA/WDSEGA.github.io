@@ -3,7 +3,7 @@ layout: post
 title: "时间旅行者的咖啡馆"
 date: 2026-05-20
 categories: [短篇小说, 科幻]
-tags: [科幻, 时间旅行, 短篇小说, 咖啡馆]
+tags: [科幻小说]
 image: /assets/images/story-time-traveler-cafe.jpg
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "GraphQL vs REST: Making the Right Choice for Your API in 2026"
 date: 2026-06-06 08:00:00 +0800
 categories: [api, architecture]
-tags: [graphql, rest, api, architecture, comparison]
+tags: [代码产品]
 author: "WDSEGA"
 ---
 

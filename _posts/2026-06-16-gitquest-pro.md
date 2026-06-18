@@ -3,7 +3,7 @@ layout: post
 title: "学Git为什么那么难？GitQuest Pro 让你打怪兽的时候把命令记住了 | Why Is Git So Hard to Learn? GitQuest Pro Makes You Learn by Fighting Monsters"
 date: 2026-06-16 09:30:00 +0800
 categories: [产品, 软文]
-tags: [git, game, developer, education]
+tags: [科幻小说]
 ---
 
 大多数人学 Git 是这样的：

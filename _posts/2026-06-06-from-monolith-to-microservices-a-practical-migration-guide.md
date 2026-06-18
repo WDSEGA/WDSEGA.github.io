@@ -3,7 +3,7 @@ layout: post
 title: "From Monolith to Microservices: A Practical Migration Guide"
 date: 2026-06-06 08:00:00 +0800
 categories: [architecture, microservices]
-tags: [microservices, architecture, migration, monolith, distributed-systems]
+tags: [代码产品]
 author: "WDSEGA"
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "Claude 4震撼发布：Anthropic推出能连续编程7小时的AI模型"
 date: 2026-05-23 08:00:00 +0800
 categories: [AI热点, 人工智能]
-tags: [Claude, Anthropic, AI编程, 大模型]
+tags: [时事新闻]
 image: /assets/images/covers/claude4-cover.jpg
 ---
 

@@ -2,7 +2,7 @@
 title: "数字游民生存指南：边旅行边工作真的可行吗"
 date: 2026-05-16 13:00:00 +0800
 categories: [生活方式, 职场]
-tags: [数字游民, 远程工作, 自由职业, 旅行, 生活方式]
+tags: [时事新闻]
 image: /assets/images/digital-nomad.jpg
 ---
 

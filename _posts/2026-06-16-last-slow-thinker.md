@@ -3,7 +3,7 @@ layout: post
 title: "最后一个慢思考者 [科幻短篇小说] | The Last Slow Thinker [Sci-Fi Short Story]"
 date: 2026-06-16 10:20:00 +0800
 categories: [小说, 科幻]
-tags: [scifi, shortstory, ai, intuition]
+tags: [科幻小说]
 ---
 
 会议从早上九点开到下午四点，中间没有休息。

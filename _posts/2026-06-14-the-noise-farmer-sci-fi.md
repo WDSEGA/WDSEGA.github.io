@@ -3,7 +3,7 @@ layout: post
 title: "噪音农夫 [科幻短篇小说] | The Noise Farmer [Sci-Fi Short Story]"
 date: 2026-06-14 14:00:00 +0800
 categories: [科幻, 短篇小说]
-tags: [科幻, 短篇小说, 创作]
+tags: [科幻小说]
 excerpt: "在AI训练数据市场化的年代，有一个职业叫做'噪音农夫'——专门生产垃圾数据出售给AI公司的竞争对手，以此破坏对手的训练质量。"
 ---
 

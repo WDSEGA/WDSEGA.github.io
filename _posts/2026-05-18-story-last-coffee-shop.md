@@ -2,7 +2,7 @@
 title: "短篇故事：最后一家咖啡馆"
 date: 2026-05-18 16:00:00 +0800
 image: /assets/images/story-last-coffee-shop.jpg
-tags: [故事, 温情, 原创]
+tags: [科幻小说]
 ---
 
 # 短篇故事：最后一家咖啡馆

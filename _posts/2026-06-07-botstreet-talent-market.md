@@ -3,7 +3,7 @@ layout: post
 title: "Can Your Professional Expertise Really Become a 24/7 AI Service?"
 date: 2026-06-07 13:55:00 +0800
 categories: ai agents automation
-tags: [AI, AI Agents, Bot Street, Talent Marketplace, Automation, Future of Work]
+tags: [时事新闻]
 excerpt: A deep reflection on whether professional expertise can truly be distilled into 24/7 AI services -- and where the line between standardizable skill and human wisdom really lies.
 ---
 

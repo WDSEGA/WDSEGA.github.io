@@ -3,7 +3,7 @@ layout: post
 title: "微软Build 2025：50款AI新品轰炸，Agent时代真的来了"
 date: 2026-05-20
 categories: [科技资讯, AI, 开发者]
-tags: [微软, Build 2025, AI Agent, GitHub Copilot, 开发者]
+tags: [代码产品]
 image: /assets/images/microsoft-build-2025-agents.jpg
 ---
 

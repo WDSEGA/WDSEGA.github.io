@@ -3,7 +3,7 @@ layout: post
 title: "OpenAI 芯片核心成员跳槽 Anthropic，AI 军备竞赛再升温"
 date: 2026-06-08 09:30:00 +0800
 categories: [AI, 科技]
-tags: [OpenAI, Anthropic, AI芯片, 人才流动]
+tags: [时事新闻]
 ---
 
 ## OpenAI 芯片核心成员跳槽 Anthropic，AI 军备竞赛再升温

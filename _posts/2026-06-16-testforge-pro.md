@@ -3,7 +3,7 @@ layout: post
 title: "不写 pytest 模板了：TestForge Pro 自动生成单元测试架构 | Stop Writing pytest Boilerplate: TestForge Pro Generates Your Test Scaffolding"
 date: 2026-06-16 09:40:00 +0800
 categories: [产品, 软文]
-tags: [testing, python, developer, productivity]
+tags: [代码产品]
 ---
 
 有一件事程序员普遍知道要做但普遍拖着不做：**写测试**。

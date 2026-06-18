@@ -3,7 +3,7 @@ layout: post
 title: "Anthropic估值突破900亿美元：Claude企业部署全面加速，AI行业格局正在被改写"
 date: 2026-05-21
 categories: [科技资讯, AI]
-tags: [Anthropic, Claude, AI, 融资, 企业AI]
+tags: [时事新闻]
 image: /assets/images/anthropic-900b-valuation.jpg
 ---
 

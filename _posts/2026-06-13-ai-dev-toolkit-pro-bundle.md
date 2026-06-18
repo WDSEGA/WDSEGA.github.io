@@ -3,7 +3,7 @@ layout: post
 title: "开发者工具包怎么卖？我把4个独立工具打包，结果比单独卖好10倍"
 date: 2026-06-13 15:00:00 +0800
 categories: [数字产品, 独立开发]
-tags: [数字产品, 独立开发, 工具包, 销售策略]
+tags: [代码产品]
 canonical_url: "https://wdsega.github.io/2026/06/13/ai-dev-toolkit-pro-bundle.html"
 ---
 

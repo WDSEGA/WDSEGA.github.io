@@ -3,7 +3,7 @@ layout: post
 title: "PDF和DOCX处理太烦？DocKit Pro用5行Python代码帮你搞定"
 date: 2026-06-13 14:30:00 +0800
 categories: [开发工具, PDF]
-tags: [PDF, DOCX, Python, 文档处理]
+tags: [代码产品]
 canonical_url: "https://wdsega.github.io/2026/06/13/dockit-pro-pdf-docx-tool.html"
 ---
 

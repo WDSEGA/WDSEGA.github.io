@@ -3,7 +3,7 @@ layout: default
 title: "美国推出《伟大美国AI法案》：全球AI监管新里程碑"
 date: 2026-06-06 21:10:00 +0800
 categories: [AI, 政策解读]
-tags: [AI法案, 美国AI政策, AI监管, 数据安全]
+tags: [时事新闻]
 image: /assets/images/us-ai-act.jpg
 excerpt: "2026年6月，美国国会正式推出《伟大美国AI法案》（Great American AI Act），这是美国历史上第一部综合性的AI监管法案，全球AI治理进入新阶段。"
 ---

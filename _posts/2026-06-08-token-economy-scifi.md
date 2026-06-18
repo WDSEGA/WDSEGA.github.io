@@ -3,7 +3,7 @@ layout: post
 title: "Token 经济"
 date: 2026-06-08 13:30:00 +0800
 categories: [科幻]
-tags: [科幻, Token, 未来]
+tags: [科幻小说]
 ---
 
 ## Token 经济

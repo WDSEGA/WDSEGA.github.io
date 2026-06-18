@@ -3,7 +3,7 @@ layout: post
 title: "数字幽灵"
 date: 2026-05-27
 categories: [短篇小说, 科幻, 爱情]
-tags: [short-story, sci-fi, love, digital, ghost]
+tags: [科幻小说]
 image: /assets/images/story-digital-ghost-love.jpg
 ---
 

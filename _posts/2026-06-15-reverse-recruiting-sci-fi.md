@@ -3,7 +3,7 @@ layout: post
 title: "反向跳槽 - 科幻短篇小说 | Reverse Recruiting — A Sci-Fi Short Story"
 date: 2026-06-15 20:35:00 +0800
 categories: 科幻
-tags: [科幻, 短篇小说, AI招聘, 算法偏见]
+tags: [科幻小说]
 ---
 
 ## 中文

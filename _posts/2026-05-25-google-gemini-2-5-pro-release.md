@@ -2,7 +2,7 @@
 title: "Google发布Gemini 2.5 Pro：多模态能力再升级"
 date: 2026-05-25
 categories: [技术]
-tags: [AI, Google, Gemini, 大模型]
+tags: [时事新闻]
 author: TechWriter
 ---
 

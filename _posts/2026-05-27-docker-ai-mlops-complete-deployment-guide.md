@@ -3,7 +3,7 @@ layout: post
 title: "Docker+Kubernetes部署AI模型：从开发到生产的MLOps实战指南"
 date: 2026-05-27
 categories: [Docker, Kubernetes, AI, DevOps]
-tags: [docker, kubernetes, mlops, ai-deployment, devops, machine-learning]
+tags: [代码产品]
 image: /assets/images/docker-ai-mlops-guide.jpg
 ---
 

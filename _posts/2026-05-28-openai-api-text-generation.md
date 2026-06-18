@@ -3,7 +3,7 @@ layout: post
 title: "How to Use OpenAI API for Text Generation"
 date: 2026-05-28
 categories: [Python, AI, OpenAI]
-tags: [python, openai, api, text generation, llm, gpt]
+tags: [代码产品]
 image: /assets/images/openai-api-text-generation.jpg
 ---
 

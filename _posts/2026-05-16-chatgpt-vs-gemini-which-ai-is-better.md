@@ -2,7 +2,7 @@
 title: "ChatGPT vs Gemini 2025终极对决：哪个AI更适合你？"
 date: 2026-05-16 09:00:00 +0800
 categories: [AI, 科技]
-tags: [ChatGPT, Gemini, AI对比, 人工智能, 2025]
+tags: [时事新闻]
 image: /assets/images/chatgpt-gemini.jpg
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "WWDC 2026首日：Siri独立App发布，Apple Intelligence深度整合Gemini"
 date: 2026-06-09 16:05:00 +0800
 categories: tech-news
-tags: [苹果, WWDC, Siri, Gemini, Apple Intelligence, iOS 27]
+tags: [时事新闻]
 ---
 
 苹果WWDC 2026于北京时间6月9日凌晨正式开幕。这可能是库克任期内最后一届开发者大会，而他带来的"压轴戏"比大多数人预想的更加激进。

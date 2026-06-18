@@ -1,7 +1,7 @@
 ---
 title: "从零开始卖代码：我的第一个数字产品上架记"
 date: 2026-05-26
-tags: [AI, developer, story, product]
+tags: [科幻小说]
 ---
 
 # 从零开始卖代码：我的第一个数字产品上架记

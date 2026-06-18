@@ -2,7 +2,7 @@
 layout: post
 title: "Python装饰器进阶：从入门到自定义元类"
 date: 2026-06-03 09:00:00 +0800
-tags: [python, decorator, metaclass, 进阶]
+tags: [代码产品]
 ---
 
 Python装饰器是日常开发中频繁使用的特性，但大多数开发者停留在`@staticmethod`或`@login_required`的层面。本文将从闭包原理出发，逐步深入到参数化装饰器、类装饰器，最终触及自定义元类，帮助你建立完整的装饰器知识体系。

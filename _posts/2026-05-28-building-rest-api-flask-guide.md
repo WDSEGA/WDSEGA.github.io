@@ -3,7 +3,7 @@ layout: post
 title: "Building a REST API with Flask: Complete Guide"
 date: 2026-05-28
 categories: [Python, Flask, API]
-tags: [python, flask, rest api, web development, backend]
+tags: [代码产品]
 image: /assets/images/flask-rest-api-guide.jpg
 ---
 

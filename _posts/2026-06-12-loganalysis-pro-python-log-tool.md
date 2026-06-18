@@ -2,7 +2,7 @@
 layout: post
 title: "Stop Manually Grepping Logs: LogAnalysis Pro Gives You 5 Engines in One Python Package"
 date: 2026-06-12
-tags: [python, tools, logging, devtools]
+tags: [代码产品]
 description: "LogAnalysis Pro bundles regex parsing, anomaly detection, pattern clustering, timeline analysis, and a severity classifier into one offline Python package. No SaaS subscription required."
 canonical_url: "https://wdsega.github.io/loganalysis-pro-python-log-tool"
 ---

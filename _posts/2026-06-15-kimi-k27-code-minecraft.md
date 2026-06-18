@@ -3,7 +3,7 @@ layout: post
 title: "Kimi K2.7 Code发布：不到5分钟复刻《我的世界》，编程模型的新天花板 | Kimi K2.7 Code Released: Recreating Minecraft in Under 5 Minutes"
 date: 2026-06-15 20:00:00 +0800
 categories: AI
-tags: [Kimi, AI编程, 大模型, 码农工具]
+tags: [时事新闻]
 ---
 
 ## 中文

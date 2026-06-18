@@ -3,7 +3,7 @@ layout: post
 title: "5 Essential openpyxl Techniques Every Python Developer Should Know"
 date: 2026-06-01 14:00:00 +0800
 categories: [Python, Automation, Tutorial]
-tags: [python, openpyxl, excel, automation]
+tags: [代码产品]
 image: /assets/images/ai-tools.jpg
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "ChatGPT API集成最佳实践：从入门到生产环境"
 date: 2026-05-29 09:00:00 +0800
 categories: [AI, OpenAI, API集成]
-tags: [chatgpt, openai, api, best-practices, production]
+tags: [代码产品]
 image: /assets/images/chatgpt-api-integration.jpg
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "谷歌Gemini 2.5 Flash：最便宜的高性能模型，每百万token仅$0.015"
 date: 2026-06-11 10:20:00 +0800
 categories: [科技, AI模型]
-tags: [谷歌, Gemini, 大模型, AI]
+tags: [时事新闻]
 ---
 
 谷歌在2026年用一个数字震惊了市场：**$0.015/百万输入token**。

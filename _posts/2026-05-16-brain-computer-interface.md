@@ -2,7 +2,7 @@
 title: "脑机接口不再是科幻：2026年技术现状与普通人距离"
 date: 2026-05-16 11:30:00 +0800
 categories: [科技, 前沿]
-tags: [脑机接口, Neuralink, 神经科学, 医疗科技, BCI]
+tags: [时事新闻]
 image: /assets/images/brain-computer.jpg
 ---
 

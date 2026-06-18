@@ -2,6 +2,7 @@
 layout: post
 title: "每个开发者都该知道的Redis缓存模式"
 date: 2026-06-04 09:00:00 +0800
+tags: [时事新闻]
 tags: redis, caching, backend, performance
 categories: Backend
 image: /assets/images/redis-caching.jpg

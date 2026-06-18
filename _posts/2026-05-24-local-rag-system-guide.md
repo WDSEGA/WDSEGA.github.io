@@ -3,7 +3,7 @@ layout: post
 title: "2026年构建本地RAG系统完全指南：LangChain + Chroma实战"
 date: 2026-05-24
 categories: [AI]
-tags: [RAG, LangChain, Python]
+tags: [代码产品]
 ---
 
 ## 什么是 RAG？为什么选择本地部署？

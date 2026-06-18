@@ -2,7 +2,7 @@
 layout: post
 title: "Kubernetes入门：从零部署你的第一个应用"
 date: 2026-06-03 10:00:00 +0800
-tags: [kubernetes, docker, devops, 容器编排]
+tags: [代码产品]
 ---
 
 Kubernetes（简称K8s）已成为容器编排领域的事实标准，但初学者往往被其复杂的概念体系所困扰。本文将从零开始，带你完成第一个应用的部署，涵盖核心概念、环境搭建和实际操作。

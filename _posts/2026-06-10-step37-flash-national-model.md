@@ -3,7 +3,7 @@ layout: post
 title: "阶跃星辰Step 3.7 Flash：416 tokens/s，成本是Claude的1/9，国产模型性价比天花板"
 date: 2026-06-10 10:00:00 +0800
 categories: [科技资讯, AI]
-tags: [国产AI, 大模型, 阶跃星辰, 性价比]
+tags: [时事新闻]
 ---
 
 阶跃星辰近日正式发布新模型**Step 3.7 Flash**，上线后迅速冲上OpenRouter Trending全球第二，在Artificial Analysis的速度、性价比、端到端三项榜单中同时排名第一。数据说话：这款模型做到了什么？

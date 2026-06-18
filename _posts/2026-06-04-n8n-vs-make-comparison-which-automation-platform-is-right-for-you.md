@@ -2,6 +2,7 @@
 layout: post
 title: "n8n vs Make：2026年自动化平台终极对比"
 date: 2026-06-04 09:00:00 +0800
+tags: [时事新闻]
 tags: automation, n8n, make, workflow
 categories: Automation
 image: /assets/images/n8n-vs-make.jpg

@@ -3,7 +3,7 @@ layout: post
 title: "Docker for Python Developers: Getting Started"
 date: 2026-05-28
 categories: [Python, Docker, DevOps]
-tags: [python, docker, containerization, devops, deployment]
+tags: [代码产品]
 image: /assets/images/docker-python-developers.jpg
 ---
 

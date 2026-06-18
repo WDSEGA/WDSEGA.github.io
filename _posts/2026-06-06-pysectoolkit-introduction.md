@@ -3,7 +3,7 @@ layout: default
 title: "PySecToolkit：Python安全工具包全面解析"
 date: 2026-06-06 21:30:00 +0800
 categories: [Python, 安全工具]
-tags: [Python安全, 渗透测试, 安全审计, PySecToolkit]
+tags: [代码产品]
 image: /assets/images/pysectoolkit.jpg
 excerpt: "PySecToolkit是一款集成了7大安全功能的Python工具包，涵盖密码强度检测、SQL注入检测、XSS防护等核心安全场景。"
 ---

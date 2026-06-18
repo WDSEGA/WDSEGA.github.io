@@ -2,7 +2,7 @@
 title: "科学减重10斤不是梦：2025年最新研究告诉我们的真相"
 date: 2026-05-16 09:30:00 +0800
 categories: [健康, 生活方式]
-tags: [减重, 科学减肥, 健康饮食, 运动, 2025]
+tags: [时事新闻]
 image: /assets/images/weight-loss.jpg
 ---
 

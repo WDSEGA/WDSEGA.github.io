@@ -3,7 +3,7 @@ layout: post
 title: "OpenAI GPT-5正式发布：对开发者和企业的5大影响分析"
 date: 2026-05-31 08:00:00 +0800
 categories: [AI, OpenAI, 技术趋势]
-tags: [openai, gpt5, ai, llm, 开发者]
+tags: [代码产品]
 image: /assets/images/ai-code-editor-2025.jpg
 ---
 

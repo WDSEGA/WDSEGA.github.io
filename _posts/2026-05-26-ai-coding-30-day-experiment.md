@@ -1,7 +1,7 @@
 ---
 title: "当AI学会了写代码：一个独立开发者的30天自动化实验"
 date: 2026-05-26
-tags: [AI, developer, story, automation]
+tags: [科幻小说]
 ---
 
 # 当AI学会了写代码：一个独立开发者的30天自动化实验

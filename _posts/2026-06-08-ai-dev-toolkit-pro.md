@@ -3,7 +3,7 @@ layout: post
 title: "独立开发者工具包：AI Dev Toolkit Pro，我把它上架了"
 date: 2026-06-08 11:30:00 +0800
 categories: [产品, 推广]
-tags: [AI工具, 开发自动化, SellAnyCode]
+tags: [代码产品]
 ---
 
 ## 独立开发者工具包：AI Dev Toolkit Pro，我把它上架了

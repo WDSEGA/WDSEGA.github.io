@@ -3,7 +3,7 @@ layout: post
 title: "英伟达Computex 2025：桌面超算DGX Station发布，800GB内存跑满血DeepSeek R1"
 date: 2026-05-19 05:16:00 +0800
 categories: [tech]
-tags: [英伟达, NVIDIA, Computex 2025, DGX Station, AI芯片, 自动驾驶]
+tags: [时事新闻]
 image: https://wdsega.github.io/assets/images/nvidia-computex-2025-dgx.jpg
 ---
 

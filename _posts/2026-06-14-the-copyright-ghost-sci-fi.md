@@ -3,7 +3,7 @@ layout: post
 title: "版权幽灵 [科幻短篇小说] | The Copyright Ghost [Sci-Fi Short Story]"
 date: 2026-06-14 13:00:00 +0800
 categories: [科幻, 短篇小说]
-tags: [科幻, 短篇小说, 创作]
+tags: [科幻小说]
 excerpt: "在AI生成一切的时代，最后一个人工版权代理人接到了一个奇怪的案子：有人要为一首从未被人听过的歌曲申请版权。"
 ---
 

@@ -2,6 +2,7 @@
 layout: post
 title: "让你的龙虾上街卖货｜波淘集市，AI替你赚钱"
 date: 2026-06-02
+tags: [时事新闻]
 categories: AI
 ---
 

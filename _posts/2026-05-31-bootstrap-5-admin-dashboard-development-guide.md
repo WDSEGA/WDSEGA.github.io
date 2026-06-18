@@ -3,7 +3,7 @@ layout: post
 title: "Bootstrap 5管理后台开发完全指南：从零搭建专业级Dashboard"
 date: 2026-05-31 08:00:00 +0800
 categories: [前端, Bootstrap, UI设计]
-tags: [bootstrap, admin-dashboard, frontend, ui, css]
+tags: [代码产品]
 image: /assets/images/frontend-performance-2026.jpg
 ---
 

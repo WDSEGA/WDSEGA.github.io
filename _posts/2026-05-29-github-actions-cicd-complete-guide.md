@@ -3,7 +3,7 @@ layout: post
 title: "GitHub Actions CI/CD完全指南：从零搭建自动化流水线"
 date: 2026-05-29 11:00:00 +0800
 categories: [DevOps, CI/CD, GitHub]
-tags: [github-actions, cicd, automation, devops, pipeline]
+tags: [代码产品]
 image: /assets/images/github-actions-cicd.jpg
 ---
 

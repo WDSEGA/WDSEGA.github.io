@@ -3,7 +3,7 @@ layout: post
 title: "Linux服务器运维必备：10个一键排查脚本解决80%的日常问题"
 date: 2026-05-28 12:00:00 +0800
 image: /assets/images/linux-server-ops-2026.jpg
-tags: [Linux, 运维, Shell脚本, 服务器管理, DevOps]
+tags: [代码产品]
 ---
 
 作为运维工程师或后端开发者，日常工作中最耗时的往往不是写代码，而是排查服务器问题。CPU飙高、内存泄漏、磁盘满了、网络不通、进程僵死...这些问题反复出现，每次都手动敲命令排查效率太低。

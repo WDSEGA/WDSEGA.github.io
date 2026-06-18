@@ -2,6 +2,7 @@
 layout: post
 title: "Web Scraping in 2026: Tools, Techniques, and Ethics"
 date: 2026-06-05 10:00:00 +0800
+tags: [时事新闻]
 categories: ai automation
 ---
 

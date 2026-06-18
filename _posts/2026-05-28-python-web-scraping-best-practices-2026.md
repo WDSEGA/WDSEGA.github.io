@@ -3,7 +3,7 @@ layout: post
 title: "Python Web Scraping Best Practices in 2026"
 date: 2026-05-28
 categories: [Python, Web Scraping, Best Practices]
-tags: [python, web scraping, best practices, automation, data extraction]
+tags: [代码产品]
 image: /assets/images/python-web-scraping-2026.jpg
 ---
 

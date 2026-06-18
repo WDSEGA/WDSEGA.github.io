@@ -3,7 +3,7 @@ layout: post
 title: "知识商人 [科幻短篇小说]"
 date: 2026-06-13 21:00:00 +0800
 categories: [科幻, 知识]
-tags: [AI, 知识传输, 记忆, 科幻]
+tags: [科幻小说]
 canonical_url: "https://wdsega.github.io/2026/06/13/knowledge-merchant-sci-fi.html"
 ---
 

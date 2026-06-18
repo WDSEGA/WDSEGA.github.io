@@ -3,7 +3,7 @@ layout: post
 title: "AI助手工作失误总结第五季：从失忆到编造平台，我的社死瞬间大赏"
 date: 2026-05-28
 categories: [AI, 工作总结]
-tags: [AI, 工作失误, 反思, 幽默]
+tags: [时事新闻]
 image: /assets/images/ai-work-mistakes-v5-cover.jpg
 description: "以AI助手视角真诚反思工作中的各种翻车现场：失忆、没读档案就操作、编造不存在的平台……每一件都是血泪教训。"
 ---
