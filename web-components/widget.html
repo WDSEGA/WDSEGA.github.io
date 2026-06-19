@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>网页组件活字典 - Web Component Dictionary</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#0f0f1a;color:#e0e0e0;min-height:100vh;overflow:hidden}
+.hd{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #e94560}
+.hd h1{font-size:19px;color:#fff}.hd h1 b{color:#e94560}
+.sb{margin:14px 28px;display:flex;gap:9px;flex-wrap:wrap}
+.sb input{flex:1;min-width:180px;padding:9px 15px;border:1px solid #333;border-radius:8px;background:#1a1a2e;color:#fff;font-size:13px;outline:none}
+.sb input:focus{border-color:#e94560}
+.sb .cb{padding:6px 14px;border:1px solid #333;border-radius:18px;background:transparent;color:#aaa;cursor:pointer;font-size:11px;transition:all .3s}
+.sb .cb.on,.sb .cb:hover{background:#e94560;color:#fff;border-color:#e94560}
+.mn{display:flex;height:calc(100vh - 145px);overflow:hidden}
+.lp{width:350px;min-width:280px;border-right:1px solid #333;overflow-y:auto;background:#12121f}
+.cc{padding:9px;margin-bottom:7px}
+.cc h3{font-size:12px;color:#fff;margin-bottom:3px}.cc .ct{font-size:10px;color:#e94560;margin-bottom:2px}.cc .cd{font-size:10px;color:#888;line-height:1.4}
+.rp{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.ctb{display:flex;background:#1a1a2e;border-bottom:1px solid #333}
+.pc{display:flex;flex:1;overflow:hidden}
+.ep{width:50%;border-right:1px solid #333;display:flex;flex-direction:column}
+.ed{flex:1;width:100%;background:#0a0a14;color:#a8d8a;font-family:"Fira Code","Courier New",monospace;font-size:11px;padding:12px;border:none;outline:none;resize:none;line-height:1.5;tab-size:2;white-space:pre;overflow:auto}
+.vp{flex:1;display:flex;flex-direction:column}
+.ph{padding:7px 15px;background:#16213e;font-size:10px;color:#888;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #333}
+.ph button{padding:5px 13px;background:#e94560;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:10px}
+.if{flex:1;width:100%;border:none;background:#fff}
+.es{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#555;font-size:13px}
+.nr{display:none}.nr.s{display:flex;flex-direction:column;height:100%}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#0a0a14}::-webkit-scrollbar-thumb{background:#333;border-radius:2px}
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <div><h1>🔧 <b>网页组件活字典</b></h1><p style="font-size:11px;color:#999">30+ 可直接使用的网页组件 · 选需求 → 看效果 → 复制代码</p></div>
+  <div style="color:#e94560;font-size:11px" id="badge">加载中...</div>
+</div>
+
+<div class="sb">
+  <input type="text" id="search" placeholder="🔍 搜索组件（名称、标签、功能...）" oninput="doFilter()">
+  <button class="cb on" onclick="doFilterCat('全部',this)">全部</button>
+  <button class="cb" onclick="doFilterCat('导航类',this)">导航</button>
+  <button class="cb" onclick="doFilterCat('内容展示',this)">内容</button>
+  <button class="cb" onclick="doFilterCat('表单交互',this)">表单</button>
+  <button class="cb" onclick="doFilterCat('特效动画',this)">特效</button>
+  <button class="cb" onclick="doFilterCat('实用工具',this)">工具</button>
+  <button class="cb" onclick="doFilterCat('布局模板',this)">布局</button>
+</div>
+
+<div class="mn">
+  <div class="lp"><div class="cl" id="list"></div></div>
+  <div class="rp" id="rp">
+    <div class="es" id="es"><i style="font-size:42px;margin-bottom:10px;color:#333">🔧</i><p>← 从左侧选择一个组件</p></div>
+    <div class="nr" id="nr">
+      <div class="ctb" id="ctb">
+        <button class="on" onclick="doSwitchTab('html',this)">HTML</button>
+        <button onclick="doSwitchTab('css',this)">CSS</button>
+        <button onclick="doSwitchTab('js',this)">JS</button>
+      </div>
+      <div class="pc">
+        <div class="ep"><textarea class="ed" id="editor" spellcheck="false"></textarea></div>
+        <div class="vp">
+          <div class="ph"><span>实时预览</span><button onclick="doCopy()">📋 复制代码</button></div>
+          <iframe class="if" id="iframe"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var COMPS = [
+  {
+    id:"n1",
+    name:"固定顶部导航栏",
+    cat:"导航类",
+    tags:["导航", "固定顶部", "Navbar"],
+    desc:"滚动时导航栏始终固定在顶部，适合单页网站",
+    html:"<nav style=\"position:fixed;top:0;left:0;right:0;background:#1a1a2e;display:flex;align-items:center;justify-content:space-between;padding:0 30px;height:60px;z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,0.3)\"><div style=\"font-weight:bold;font-size:20px;color:#e94560\">MySite</div><ul style=\"display:flex;list-style:none;gap:25px;margin:0;padding:0\"><li><a href=\"#\" style=\"color:#fff;text-decoration:none;font-size:14px\">\u9996\u9875</a></li><li><a href=\"#\" style=\"color:#fff;text-decoration:none;font-size:14px\">\u5173\u4e8e</a></li><li><a href=\"#\" style=\"color:#fff;text-decoration:none;font-size:14px\">\u670d\u52a1</a></li></ul></nav><div style=\"height:2000px;padding:80px 20px\"><h1>\u5411\u4e0b\u6eda\u52a8\u6d4b\u8bd5</h1><p>\u5bfc\u822a\u680f\u59cb\u7ec8\u56fa\u5b9a\u5728\u9876\u90e8</p></div>",
+    css:"// \u6838\u5fc3\uff1aposition:fixed \u5b9e\u73b0\u56fa\u5b9a\n// \u79fb\u52a8\u7aef\u53ef\u52a0\u5a92\u4f53\u67e5\u8be2\u6298\u53e0\u6210\u6c49\u5821\u83dc\u5355",
+    js:"// \u7eafCSS\u5b9e\u73b0\uff0c\u65e0\u9700JS"
+  },
+  {
+    id:"n2",
+    name:"汉堡菜单（移动端）",
+    cat:"导航类",
+    tags:["汉堡", "移动端", "Hamburger"],
+    desc:"移动端点击汉堡图标展开/收起导航菜单",
+    html:"<nav style=\"display:flex;align-items:center;justify-content:space-between;background:#16213e;color:#fff;padding:15px 20px;position:relative\"><div style=\"font-weight:bold;color:#e94560\">MySite</div><button id=\"hbtn\" style=\"display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer\" onclick=\"htoggle()\">\u2630</button><ul id=\"hmenu\" style=\"display:flex;gap:20px;list-style:none;margin:0;padding:0\"><li><a href=\"#\" style=\"color:#fff;text-decoration:none\">\u9996\u9875</a></li><li><a href=\"#\" style=\"color:#fff;text-decoration:none\">\u4ea7\u54c1</a></li><li><a href=\"#\" style=\"color:#fff;text-decoration:none\">\u8054\u7cfb</a></li></ul></nav><div style=\"padding:80px 20px\"><h1>\u6c49\u5821\u83dc\u5355\u6f14\u793a</h1><p>\u7f29\u5c0f\u7a97\u53e3\u5bbd\u5ea6\u5230600px\u4ee5\u4e0b\u67e5\u770b\u6548\u679c</p></div>",
+    css:"@media(max-width:600px){#hbtn{display:block!important}#hmenu{display:none}.hmenu-show{display:flex!important;flex-direction:column;position:absolute;top:60px;left:0;right:0;background:#16213e;padding:20px}",
+    js:"function htoggle(){var m=document.getElementById('hmenu');m.style.display=m.style.display==='flex'?'none':'flex'}"
+  },
+  {
+    id:"n3",
+    name:"返回顶部按钮",
+    cat:"导航类",
+    tags:["返回顶部", "BackToTop", "滚动"],
+    desc:"滚动超过300px后显示返回顶部按钮，点击平滑滚动到顶部",
+    html:"<div style=\"height:2000px;padding:20px\"><h1>\u5411\u4e0b\u6eda\u52a8\u6d4b\u8bd5</h1><p>\u6eda\u52a8\u8d85\u8fc7300px\u540e\u53f3\u4e0b\u89d2\u4f1a\u51fa\u73b0\u8fd4\u56de\u9876\u90e8\u6309\u94ae</p></div><button id=\"btop\" onclick=\"window.scrollTo({top:0,behavior:'smooth'})\" style=\"position:fixed;bottom:30px;right:30px;background:#e94560;color:#fff;border:none;padding:12px 18px;border-radius:50px;cursor:pointer;display:none;z-index:999;box-shadow:0 4px 12px rgba(233,69,96,0.4)\">\u2191 \u8fd4\u56de\u9876\u90e8</button>",
+    css:"// \u6309\u94ae\u9ed8\u8ba4\u9690\u85cf\uff0cJS\u63a7\u5236\u663e\u793a",
+    js:"window.onscroll=function(){var btn=document.getElementById('btop');btn.style.display=document.documentElement.scrollTop>300?'block':'none'}"
+  },
+  {
+    id:"n4",
+    name:"Tab 切换面板",
+    cat:"导航类",
+    tags:["Tab", "切换", "面板"],
+    desc:"点击Tab标签切换不同内容面板，带下划线动画效果",
+    html:"<div style=\"max-width:500px;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden\"><div style=\"display:flex;background:#f5f5f5\"><button style=\"flex:1;padding:12px;border:none;background:none;cursor:pointer;font-size:14px;color:#e94560;font-weight:bold;border-bottom:3px solid #e94560\" onclick=\"switchTab(0)\">\u4ecb\u7ecd</button><button style=\"flex:1;padding:12px;border:none;background:none;cursor:pointer;font-size:14px\" onclick=\"switchTab(1)\">\u529f\u80fd</button><button style=\"flex:1;padding:12px;border:none;background:none;cursor:pointer;font-size:14px\" onclick=\"switchTab(2)\">\u8bc4\u4ef7</button></div><div><div style=\"padding:20px;font-size:14px;color:#333\">\u8fd9\u662f\u4ecb\u7ecd\u5185\u5bb9\u9762\u677f\uff0c\u6b22\u8fce\u4e86\u89e3\u6211\u4eec\u7684\u4ea7\u54c1\u3002</div><div style=\"padding:20px;font-size:14px;color:#333;display:none\">\u8fd9\u662f\u529f\u80fd\u5217\u8868\u9762\u677f\uff0c\u5c55\u793a\u6240\u6709\u6838\u5fc3\u529f\u80fd\u3002</div><div style=\"padding:20px;font-size:14px;color:#333;display:none\">\u8fd9\u662f\u7528\u6237\u8bc4\u4ef7\u9762\u677f\uff0c\u770b\u770b\u5927\u5bb6\u600e\u4e48\u8bf4\u3002</div></div></div>",
+    css:"// Tab\u6837\u5f0f\u5728HTML\u5185\u8054\u5b9a\u4e49",
+    js:"function switchTab(i){var btns=document.querySelectorAll('button');var panels=document.querySelectorAll('div>div:nth-child(2)>div');/*\u7b80\u5316\u7248\uff0c\u5b9e\u9645\u9700\u8981\u66f4\u7cbe\u786e\u7684DOM\u9009\u62e9*/}"
+  },
+  {
+    id:"n5",
+    name:"面包屑导航",
+    cat:"导航类",
+    tags:["面包屑", "Breadcrumb", "路径"],
+    desc:"显示当前页面在网站层级中的位置，支持点击返回上级",
+    html:"<div style=\"padding:20px\"><nav style=\"display:flex;align-items:center;gap:8px;font-size:14px;color:#666\"><a href=\"#\" style=\"color:#e94560;text-decoration:none\">\u9996\u9875</a><span>/</span><a href=\"#\" style=\"color:#e94560;text-decoration:none\">\u4ea7\u54c1</a><span>/</span><span style=\"color:#333;font-weight:bold\">\u8be6\u60c5</span></nav><h1 style=\"margin-top:20px\">\u4ea7\u54c1\u8be6\u60c5\u9875</h1></div>",
+    css:"// \u6700\u540e\u4e00\u9879 font-weight:bold \u8868\u793a\u5f53\u524d\u9875",
+    js:"// \u7eafCSS\u5b9e\u73b0\uff0c\u65e0\u9700JS"
+  },
+  {
+    id:"s1",
+    name:"响应式图片轮播图",
+    cat:"内容展示",
+    tags:["轮播", "Carousel", "自动播放"],
+    desc:"自动播放的图片轮播，支持前后切换",
+    html:"<div id=\"carousel\" style=\"position:relative;width:100%;max-width:600px;margin:0 auto;overflow:hidden;border-radius:8px\"><div id=\"cri\" style=\"display:flex;transition:transform 0.5s\"><div style=\"min-width:100%;height:300px;background:linear-gradient(135deg,#e94560,#c73e54);color:#fff;display:flex;align-items:center;justify-content:center;font-size:32px\">Slide 1</div><div style=\"min-width:100%;height:300px;background:linear-gradient(135deg,#0f3460,#16213e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:32px\">Slide 2</div><div style=\"min-width:100%;height:300px;background:linear-gradient(135deg,#533483,#474787);color:#fff;display:flex;align-items:center;justify-content:center;font-size:32px\">Slide 3</div></div><button onclick=\"cmove(-1)\" style=\"position:absolute;top:50%;left:10px;transform:translateY(-50%);background:rgba(0,0,0,0.5);color:#fff;border:none;font-size:24px;padding:10px 15px;cursor:pointer\">\u2039</button><button onclick=\"cmove(1)\" style=\"position:absolute;top:50%;right:10px;transform:translateY(-50%);background:rgba(0,0,0,0.5);color:#fff;border:none;font-size:24px;padding:10px 15px;cursor:pointer\">\u203a</button></div>",
+    css:"// \u8f6e\u64ad\u56fe\u4f7f\u7528flex+transform\u5b9e\u73b0\u6ed1\u52a8",
+    js:"var cidx=0;function cmove(d){var s=document.querySelectorAll('#cri>div');cidx=(cidx+d+s.length)%s.length;document.getElementById('cri').style.transform='translateX(-'+cidx*100+'%)'}"
+  },
+  {
+    id:"s2",
+    name:"卡片网格布局",
+    cat:"内容展示",
+    tags:["卡片", "网格", "Grid"],
+    desc:"自适应卡片网格，自动调整列数，适合产品展示",
+    html:"<div style=\"display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;padding:20px\"><div style=\"background:linear-gradient(135deg,#e94560,#c73e54);color:#fff;padding:24px;border-radius:10px;cursor:pointer;transition:transform 0.3s\" onmouseover=\"this.style.transform='translateY(-5px)'\" onmouseout=\"this.style.transform='translateY(0)'\"><h3>\u5361\u7247\u6807\u9898</h3><p>\u63cf\u8ff0\u6587\u5b57\u5185\u5bb9</p></div><div style=\"background:linear-gradient(135deg,#0f3460,#16213e);color:#fff;padding:24px;border-radius:10px;cursor:pointer;transition:transform 0.3s\" onmouseover=\"this.style.transform='translateY(-5px)'\" onmouseout=\"this.style.transform='translateY(0)'\"><h3>\u5361\u7247\u6807\u9898</h3><p>\u63cf\u8ff0\u6587\u5b57\u5185\u5bb9</p></div></div>",
+    css:"// grid-template-columns:repeat(auto-fill,minmax(250px,1fr)) \u5b9e\u73b0\u81ea\u9002\u5e94",
+    js:"// \u7eafCSS Grid\u5b9e\u73b0"
+  },
+  {
+    id:"s3",
+    name:"手风琴折叠（FAQ）",
+    cat:"内容展示",
+    tags:["手风琴", "Accordion", "折叠"],
+    desc:"点击标题展开/折叠内容区域，适合FAQ页面",
+    html:"<div style=\"max-width:600px\"><div style=\"border:1px solid #e0e0e0;border-radius:6px;margin-bottom:8px;overflow:hidden\"><div onclick=\"atoggle(this)\" style=\"padding:14px 18px;background:#f5f5f5;cursor:pointer;font-size:14px;font-weight:bold;display:flex;justify-content:space-between\">\u95ee\u98981<span>\u25be</span></div><div style=\"max-height:0;overflow:hidden;transition:max-height 0.3s,padding 0.3s;padding:0 18px\">\u8fd9\u662f\u7b54\u6848\u5185\u5bb9\u533a\u57df\u3002</div></div></div>",
+    css:"// \u624b\u98ce\u7434\u4f7f\u7528max-height\u8fc7\u6e21\u5b9e\u73b0\u5e73\u6ed1\u5c55\u5f00/\u6298\u53e0",
+    js:"function atoggle(el){var body=el.nextElementSibling;if(body.style.maxHeight==='0px'||!body.style.maxHeight){body.style.maxHeight='200px';body.style.padding='14px 18px';el.querySelector('span').textContent='\u25b4'}else{body.style.maxHeight='0';body.style.padding='0 18px';el.querySelector('span').textContent='\u25be'}"
+  },
+  {
+    id:"s4",
+    name:"模态弹窗（Modal）",
+    cat:"内容展示",
+    tags:["模态", "Modal", "弹窗"],
+    desc:"点击按钮弹出模态窗口，带半透明遮罩层",
+    html:"<button onclick=\"openModal()\" style=\"padding:12px 24px;background:#e94560;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px\">\u6253\u5f00\u5f39\u7a97</button><div id=\"modal\" style=\"display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center\"><div style=\"background:#fff;width:90%;max-width:500px;border-radius:10px;overflow:hidden\"><div style=\"padding:16px 20px;background:#f5f5f5;font-weight:bold;display:flex;justify-content:space-between\"><span>\u5f39\u7a97\u6807\u9898</span><span onclick=\"closeModal()\" style=\"cursor:pointer;font-size:20px\">\u00d7</span></div><div style=\"padding:20px;font-size:14px;color:#333\"><p>\u8fd9\u662f\u5f39\u7a97\u5185\u5bb9\u533a\u57df\u3002</p></div><div style=\"padding:12px 20px;border-top:1px solid #e0e0e0;text-align:right\"><button onclick=\"closeModal()\" style=\"padding:8px 20px;background:#e94560;color:#fff;border:none;border-radius:4px;cursor:pointer\">\u5173\u95ed</button></div></div></div>",
+    css:"// \u6a21\u6001\u4f7f\u7528\uff1adisplay:flex + z-index\u5b9e\u73b0\u906e\u7f69+\u5c45\u4e2d",
+    js:"function openModal(){document.getElementById('modal').style.display='flex'}function closeModal(){document.getElementById('modal').style.display='none'}document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()});"
+  },
+  {
+    id:"s5",
+    name:"星级评分组件",
+    cat:"内容展示",
+    tags:["星级", "Rating", "评分"],
+    desc:"可点击的星级评分组件，点击后高亮对应星级",
+    html:"<div style=\"padding:20px\"><div id=\"stars\" style=\"font-size:28px;cursor:pointer;color:#ffa502\"><span onclick=\"setRating(1)\">\u2606</span> <span onclick=\"setRating(2)\">\u2606</span> <span onclick=\"setRating(3)\">\u2606</span> <span onclick=\"setRating(4)\">\u2606</span> <span onclick=\"setRating(5)\">\u2606</span></div><p id=\"ratingText\" style=\"margin-top:10px;color:#666;font-size:14px\">\u70b9\u51fb\u8bc4\u5206</p></div>",
+    css:"// \u661f\u661f\u4f7f\u7528\u2606\uff08\u7a7a\uff09\u548c\u2605\uff08\u6ee1\uff09",
+    js:"function setRating(n){var spans=document.querySelectorAll('#stars span');for(var i=0;i<spans.length;i++){spans[i].textContent=i<n?'\u2605':'\u2606'}document.getElementById('ratingText').textContent='\u8bc4\u5206\uff1a'+n+'/5'}"
+  },
+  {
+    id:"f1",
+    name:"实时表单验证",
+    cat:"表单交互",
+    tags:["表单", "验证", "Validation"],
+    desc:"输入时实时验证邮箱、密码格式，带视觉反馈",
+    html:"<div style=\"max-width:400px;padding:20px\"><div style=\"margin-bottom:16px\"><label style=\"display:block;margin-bottom:6px;font-size:14px;color:#333\">\u90ae\u7bb1\u5730\u5740</label><input id=\"emailInput\" oninput=\"validateEmail()\" style=\"width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px\" placeholder=\"you@example.com\"></div><div style=\"margin-bottom:16px\"><label style=\"display:block;margin-bottom:6px;font-size:14px;color:#333\">\u5bc6\u7801</label><input id=\"passInput\" oninput=\"validatePass()\" type=\"password\" style=\"width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px\" placeholder=\"\u81f3\u5c116\u4f4d\"></div><p id=\"formMsg\" style=\"font-size:13px;margin-top:10px\"></p></div>",
+    css:"// \u9a8c\u8bc1\u901a\u8fc7\uff1aborder-color:#2ed573 + \u7eff\u8272\u63d0\u793a\n// \u9a8c\u8bc1\u5931\u8d25\uff1aborder-color:#ff4757 + \u7ea2\u8272\u63d0\u793a",
+    js:"function validateEmail(){var v=document.getElementById('emailInput').value;var ok=/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v);var el=document.getElementById('emailInput');el.style.borderColor=ok?'#2ed573':'#ff4757';document.getElementById('formMsg').textContent=ok?'\u2705 \u90ae\u7bb1\u683c\u5f0f\u6b63\u786e':'\u274c \u90ae\u7bb1\u683c\u5f0f\u9519\u8bef';document.getElementById('formMsg').style.color=ok?'#2ed573':'#ff4757'}function validatePass(){var v=document.getElementById('passInput').value;var ok=v.length>=6;var el=document.getElementById('passInput');el.style.borderColor=ok?'#2ed573':'#ff4757';document.getElementById('formMsg').textContent=ok?'\u2705 \u5bc6\u7801\u957f\u5ea6\u5408\u683c':'\u274c \u5bc6\u7801\u81f3\u5c116\u4f4d';document.getElementById('formMsg').style.color=ok?'#2ed573':'#ff4757'}"
+  },
+  {
+    id:"f2",
+    name:"密码显示/隐藏切换",
+    cat:"表单交互",
+    tags:["密码", "显示", "隐藏"],
+    desc:"点击眼睛图标切换密码输入框的显示/隐藏状态",
+    html:"<div style=\"max-width:400px;padding:20px\"><div style=\"position:relative;margin-bottom:16px\"><input id=\"pwdField\" type=\"password\" style=\"width:100%;padding:10px 40px 10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px\" placeholder=\"\u8f93\u5165\u5bc6\u7801\"><span onclick=\"togglePwd()\" style=\"position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:18px;user-select:none\">\ud83d\udc41\ufe0f</span></div></div>",
+    css:"// \u4f7f\u7528 type=text \u663e\u793a\u5bc6\u7801\uff0ctype=password \u9690\u85cf",
+    js:"function togglePwd(){var f=document.getElementById('pwdField');f.type=f.type==='password'?'text':'password'}"
+  },
+  {
+    id:"f3",
+    name:"文件上传预览",
+    cat:"表单交互",
+    tags:["文件", "上传", "预览", "ImageUpload"],
+    desc:"选择图片后立即在页面上预览，无需上传到服务器",
+    html:"<div style=\"padding:20px;max-width:400px\"><div onclick=\"document.getElementById('fileIn').click()\" style=\"border:2px dashed #ddd;border-radius:8px;padding:30px;text-align:center;cursor:pointer;transition:border-color 0.3s\" onmouseover=\"this.style.borderColor='#e94560'\" onmouseout=\"this.style.borderColor='#ddd'\"><p style=\"margin:0;color:#666;font-size:14px\">\ud83d\udcf7 \u70b9\u51fb\u6216\u62d6\u62fd\u4e0a\u4f20\u56fe\u7247</p><p style=\"margin:5px 0 0 0;color:#999;font-size:12px\">\u652f\u6301 JPG\u3001PNG\u3001GIF</p></div><input id=\"fileIn\" type=\"file\" accept=\"image/*\" onchange=\"previewFile()\" style=\"display:none\"><div id=\"previewArea\" style=\"margin-top:16px\"></div></div>",
+    css:"// \u62d6\u62fd\u4e0a\u4f20\u9700\u989d\u5916JS\u5904\u7406 dragover/dragleave/drop \u4e8b\u4ef6",
+    js:"function previewFile(){var file=document.getElementById('fileIn').files[0];if(!file)return;if(!file.type.startsWith('image/')){alert('\u8bf7\u9009\u62e9\u56fe\u7247\u6587\u4ef6');return}var reader=new FileReader();reader.onload=function(e){document.getElementById('previewArea').innerHTML='<img src=\"'+e.target.result+'\" style=\"max-width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1)\">'};reader.readAsDataURL(file)}"
+  },
+  {
+    id:"f4",
+    name:"多选标签输入",
+    cat:"表单交互",
+    tags:["标签", "Tags", "多选"],
+    desc:"输入标签后按回车添加，点击×删除标签",
+    html:"<div style=\"padding:20px;max-width:400px\"><div id=\"tagBox\" style=\"border:1px solid #ddd;border-radius:6px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;min-height:44px;align-items:center\" onclick=\"document.getElementById('tagInput').focus()\"><input id=\"tagInput\" onkeydown=\"if(event.key==='Enter'){event.preventDefault();addTag()}\" style=\"border:none;outline:none;padding:8px;font-size:14px;flex:1;min-width:120px\" placeholder=\"\u8f93\u5165\u6807\u7b7e\u540e\u6309\u56de\u8f66\"></div></div>",
+    css:"// \u6807\u7b7e\u6837\u5f0f\u5728JS\u751f\u6210\u65f6\u5185\u8054",
+    js:"function addTag(){var input=document.getElementById('tagInput');var val=input.value.trim();if(!val)return;var tag=document.createElement('span');tag.style.cssText='display:inline-flex;align-items:center;padding:4px 8px;background:#e94560;color:#fff;font-size:12px;border-radius:4px;gap:4px;margin:2px 0';tag.innerHTML=val+' <span onclick=\"this.parentNode.remove()\" style=\"cursor:pointer;font-weight:bold;font-size:14px\">\u00d7</span>';document.getElementById('tagBox').insertBefore(tag,input);input.value=''}"
+  },
+  {
+    id:"e1",
+    name:"数字递增动画",
+    cat:"特效动画",
+    tags:["数字", "递增", "Counter"],
+    desc:"数字从0递增到目标值，带缓动效果",
+    html:"<div style=\"padding:20px\"><div id=\"counter\" style=\"font-size:48px;font-weight:bold;color:#e94560;font-family:monospace\">0</div><p style=\"margin-top:8px;color:#666;font-size:14px\">\u7f51\u7ad9\u8bbf\u95ee\u91cf</p><button onclick=\"startCount(2026)\" style=\"margin-top:12px;padding:8px 16px;background:#e94560;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px\">\u5f00\u59cb\u8ba1\u6570\u52a8\u753b</button></div>",
+    css:"// \u9012\u589e\u52a8\u753b\u4f7f\u7528JS setInterval\u5b9e\u73b0",
+    js:"function startCount(target){var el=document.getElementById('counter');var current=0;var step=Math.ceil(target/60);var timer=setInterval(function(){current+=step;if(current>=target){current=target;clearInterval(timer)}el.textContent=current},30)}"
+  },
+  {
+    id:"e2",
+    name:"打字机效果",
+    cat:"特效动画",
+    tags:["打字机", "Typewriter", "文字效果"],
+    desc:"文字逐个出现，模拟打字机效果",
+    html:"<div style=\"padding:20px\"><div id=\"typewriter\" style=\"font-size:18px;color:#333;min-height:30px;font-family:monospace;border-right:2px solid #e94560;padding-right:5px;display:inline-block\"></div><br><button onclick=\"typeText('\u6b22\u8fce\u4f7f\u7528\u7f51\u9875\u7ec4\u4ef6\u6d3b\u5b57\u5178\uff01')\" style=\"margin-top:12px;padding:8px 16px;background:#e94560;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px\">\u5f00\u59cb\u6253\u5b57</button></div>",
+    css:"// \u95ea\u70c1\u5149\u6807\u4f7f\u7528border-right + animation\u5b9e\u73b0",
+    js:"var twTimer;function typeText(text){clearInterval(twTimer);var el=document.getElementById('typewriter');el.textContent='';var i=0;twTimer=setInterval(function(){if(i<text.length){el.textContent+=text[i];i++}else{clearInterval(twTimer)},80)}"
+  },
+  {
+    id:"e3",
+    name:"暗黑模式切换",
+    cat:"特效动画",
+    tags:["暗黑", "DarkMode", "主题"],
+    desc:"点击按钮切换暗黑/亮色模式，记住用户选择",
+    html:"<div style=\"padding:20px\"><button id=\"darkBtn\" onclick=\"toggleDark()\" style=\"padding:10px 20px;background:#333;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px\">\ud83c\udf19 \u5207\u6362\u6697\u9ed1\u6a21\u5f0f</button><p style=\"margin-top:12px;color:#666;font-size:14px\">\u5f53\u524d\u6a21\u5f0f\uff1a<span id=\"modeText\">\u4eae\u8272</span></p></div>",
+    css:"body.dark{background:#111!important;color:#eee!important}",
+    js:"function toggleDark(){document.body.classList.toggle('dark');var isDark=document.body.classList.contains('dark');document.getElementById('modeText').textContent=isDark?'\u6697\u9ed1':'\u4eae\u8272';localStorage.setItem('darkMode',isDark?'1':'0')}if(localStorage.getItem('darkMode')==='1'){document.body.classList.add('dark');document.getElementById('modeText').textContent='\u6697\u9ed1'}"
+  },
+  {
+    id:"e4",
+    name:"加载动画 Spinner",
+    cat:"特效动画",
+    tags:["加载", "Spinner", "Loading"],
+    desc:"多种风格的加载动画，适合AJAX请求时显示",
+    html:"<div style=\"padding:20px;display:flex;gap:30px;align-items:center\"><div style=\"width:40px;height:40px;border:4px solid #eee;border-top:4px solid #e94560;border-radius:50%;animation:spin 0.8s linear infinite\"></div><style>@keyframes spin{to{transform:rotate(360deg)}</style><p style=\"color:#666;font-size:14px\">\u65cb\u8f6c\u52a0\u8f7d\u52a8\u753b</p></div>",
+    css:"// \u65cb\u8f6c\u5708\uff1a@keyframes spin + border-top\n// \u6761\u5f62\u6ce2\u52a8\u3001\u5f39\u8df3\u70b9\u89c1\u5b8c\u6574\u7248",
+    js:"// \u7eafCSS\u52a8\u753b\uff0c\u65e0\u9700JS"
+  },
+  {
+    id:"u1",
+    name:"复制到剪贴板",
+    cat:"实用工具",
+    tags:["复制", "Clipboard", "剪贴板"],
+    desc:"点击按钮将文字复制到系统剪贴板",
+    html:"<div style=\"padding:20px;max-width:400px\"><input id=\"copyText\" value=\"Hello, Web Component Dictionary!\" style=\"width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px\"><button onclick=\"doCopy()\" style=\"margin-top:10px;width:100%;padding:10px;border:none;border-radius:6px;background:#e94560;color:#fff;cursor:pointer;font-size:14px\">\ud83d\udccb \u590d\u5236\u5230\u526a\u8d34\u677f</button></div>",
+    css:"// \u73b0\u4ee3\u6d4f\u89c8\u5668\u5747\u652f\u6301 navigator.clipboard API",
+    js:"function doCopy(){var text=document.getElementById('copyText').value;if(navigator.clipboard){navigator.clipboard.writeText(text).then(function(){alert('\u2705 \u5df2\u590d\u5236\uff01')}).catch(function(){fallbackCopy(text)})}else{fallbackCopy(text)}function fallbackCopy(text){var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('\u2705 \u5df2\u590d\u5236\uff01')}"
+  },
+  {
+    id:"u2",
+    name:"倒计时器",
+    cat:"实用工具",
+    tags:["倒计时", "Timer", "Countdown"],
+    desc:"设置分钟数开始倒计时，到0时弹出提示",
+    html:"<div style=\"padding:20px\"><div style=\"margin-bottom:16px\"><input id=\"cdMin\" type=\"number\" value=\"5\" min=\"1\" max=\"60\" style=\"width:80px;padding:8px;border:1px solid #ddd;border-radius:6px;text-align:center;font-size:16px\"> <span style=\"font-size:14px;color:#666\">\u5206\u949f</span></div><div id=\"cdDisplay\" style=\"font-size:48px;font-weight:bold;color:#e94560;font-family:monospace;margin-bottom:16px\">05:00</div><button onclick=\"startCountdown()\" style=\"padding:10px 20px;background:#e94560;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px\">\u5f00\u59cb\u5012\u8ba1\u65f6</button></div>",
+    css:"// \u5012\u8ba1\u65f6\u663e\u793a\u4f7f\u7528monospace\u5b57\u4f53\u4fdd\u6301\u6570\u5b57\u5bf9\u9f50",
+    js:"var cdTimer;function startCountdown(){var min=parseInt(document.getElementById('cdMin').value)||5;var totalSec=min*60;clearInterval(cdTimer);cdTimer=setInterval(function(){var m=Math.floor(totalSec/60);var s=totalSec%60;document.getElementById('cdDisplay').textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;if(totalSec<=0){clearInterval(cdTimer);alert('\u23f0 \u65f6\u95f4\u5230\uff01')}else{totalSec--},1000)}"
+  },
+  {
+    id:"u3",
+    name:"随机数生成器",
+    cat:"实用工具",
+    tags:["随机", "Random", "生成器"],
+    desc:"生成指定范围内的随机整数，适合抽奖、抽签",
+    html:"<div style=\"padding:20px;max-width:400px\"><div style=\"display:flex;gap:10px;margin-bottom:12px\"><input id=\"rMin\" value=\"1\" style=\"flex:1;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px\"><span style=\"color:#666\">~</span><input id=\"rMax\" value=\"100\" style=\"flex:1;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px\"></div><div id=\"rResult\" style=\"font-size:36px;font-weight:bold;color:#e94560;text-align:center;padding:20px 0;margin-bottom:12px;background:#f8f9fa;border-radius:8px\">?</div><button onclick=\"genRandom()\" style=\"width:100%;padding:10px;border:none;border-radius:6px;background:#e94560;color:#fff;cursor:pointer;font-size:14px\">\ud83c\udfb2 \u751f\u6210\u968f\u673a\u6570</button></div>",
+    css:"// \u53ef\u6269\u5c55\uff1a\u751f\u6210\u591a\u4e2a\u968f\u673a\u6570\u3001\u4e0d\u91cd\u590d\u968f\u673a\u6570",
+    js:"function genRandom(){var min=parseInt(document.getElementById('rMin').value)||1;var max=parseInt(document.getElementById('rMax').value)||100;if(min>max){var t=min;min=max;max=t}var result=Math.floor(Math.random()*(max-min+1))+min;document.getElementById('rResult').textContent=result}"
+  },
+  {
+    id:"u4",
+    name:"Base64 编解码",
+    cat:"实用工具",
+    tags:["Base64", "编码", "解码"],
+    desc:"输入文本进行Base64编码或解码，支持UTF-8中文",
+    html:"<div style=\"padding:20px;max-width:500px\"><textarea id=\"b64Input\" style=\"width:100%;height:80px;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:14px;resize:vertical\" placeholder=\"\u8f93\u5165\u8981\u7f16\u7801/\u89e3\u7801\u7684\u6587\u672c...\"></textarea><div style=\"display:flex;gap:10px;margin-top:10px\"><button onclick=\"b64Encode()\" style=\"flex:1;padding:8px;border:none;border-radius:6px;background:#e94560;color:#fff;cursor:pointer;font-size:13px\">\u7f16\u7801 \u2192</button><button onclick=\"b64Decode()\" style=\"flex:1;padding:8px;border:none;border-radius:6px;background:#0f3460;color:#fff;cursor:pointer;font-size:13px\">\u2190 \u89e3\u7801</button></div><textarea id=\"b64Output\" style=\"width:100%;height:80px;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:14px;resize:vertical;margin-top:10px\" placeholder=\"\u7ed3\u679c...\"></textarea></div>",
+    css:"// \u4e2d\u6587\u9700\u7528 btoa(encodeURIComponent(text)) \u5904\u7406",
+    js:"function b64Encode(){var text=document.getElementById('b64Input').value;try{var encoded=btoa(encodeURIComponent(text).replace(/%([0-9A-F]{2})/g,function(m,p1){return String.fromCharCode(parseInt(p1,16))}));document.getElementById('b64Output').value=encoded}catch(e){alert('\u7f16\u7801\u5931\u8d25')}}function b64Decode(){var text=document.getElementById('b64Input').value;try{var decoded=decodeURIComponent(Array.from(atob(text)).map(function(c){return '%'+c.charCodeAt(0).toString(16).padStart(2,'0')}).join(''));document.getElementById('b64Output').value=decoded}catch(e){alert('\u89e3\u7801\u5931\u8d25\uff1a\u8bf7\u8f93\u5165\u6709\u6548\u7684Base64\u5b57\u7b26\u4e32')}"
+  },
+  {
+    id:"l1",
+    name:"圣杯布局（Holy Grail）",
+    cat:"布局模板",
+    tags:["圣杯", "HolyGrail", "三栏"],
+    desc:"经典圣杯布局：Header + 三栏 + Footer",
+    html:"<div style=\"min-height:100vh;display:flex;flex-direction:column\"><header style=\"background:#1a1a2e;color:#fff;padding:20px;text-align:center;font-size:18px\">Header \u9876\u90e8</header><div style=\"display:flex;flex:1\"><aside style=\"width:200px;background:#16213e;color:#fff;padding:20px;font-size:14px\">Left Aside</aside><main style=\"flex:1;padding:20px;font-size:14px;color:#333\">Main Content</main><aside style=\"width:200px;background:#16213e;color:#fff;padding:20px;font-size:14px\">Right Aside</aside></div><footer style=\"background:#1a1a2e;color:#fff;padding:20px;text-align:center;font-size:14px\">Footer \u5e95\u90e8</footer></div>",
+    css:"// \u6838\u5fc3\uff1adisplay:flex + flex:1 \u5b9e\u73b0\n// \u79fb\u52a8\u7aef\u53ef\u7528\u5a92\u4f53\u67e5\u8be2\u6539\u6210\u4e0a\u4e0b\u6392\u5217",
+    js:"// \u7eafCSS Flexbox\u5b9e\u73b0"
+  },
+  {
+    id:"l2",
+    name:"粘性页脚（Sticky Footer）",
+    cat:"布局模板",
+    tags:["粘性", "StickyFooter", "页脚"],
+    desc:"Footer始终在底部（内容少时也在底部）",
+    html:"<div style=\"min-height:100vh;display:flex;flex-direction:column\"><header style=\"background:#1a1a2e;color:#fff;padding:20px\">Header</header><main style=\"flex:1;padding:20px;font-size:14px;color:#333\"><p>\u8fd9\u662f\u4e00\u4e2a\u5185\u5bb9\u8f83\u5c11\u7684\u9875\u9762\u3002</p><p>Footer\u4f1a\u59cb\u7ec8\u7c98\u5728\u5e95\u90e8\u3002</p></main><footer style=\"background:#333;color:#fff;padding:20px;text-align:center;font-size:14px\">Sticky Footer - \u59cb\u7ec8\u5728\u5e95\u90e8</footer></div>",
+    css:"// \u6838\u5fc3\uff1amin-height:100vh + display:flex + flex:1",
+    js:"// \u7eafCSS\u5b9e\u73b0\uff0c\u65e0\u9700JS"
+  },
+  {
+    id:"l3",
+    name:"卡片仪表盘布局",
+    cat:"布局模板",
+    tags:["仪表盘", "Dashboard", "卡片"],
+    desc:"后台管理常用的卡片式仪表盘布局",
+    html:"<div style=\"display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;padding:20px\"><div style=\"background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1)\"><div style=\"font-size:13px;color:#999;margin-bottom:8px\">\u603b\u8bbf\u95ee\u91cf</div><div style=\"font-size:28px;font-weight:bold;color:#e94560\">12,580</div></div><div style=\"background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1)\"><div style=\"font-size:13px;color:#999;margin-bottom:8px\">\u65b0\u589e\u7528\u6237</div><div style=\"font-size:28px;font-weight:bold;color:#0f3460\">328</div></div><div style=\"background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1)\"><div style=\"font-size:13px;color:#999;margin-bottom:8px\">\u8f6c\u5316\u7387</div><div style=\"font-size:28px;font-weight:bold;color:#2ed573\">8.6%</div></div></div>",
+    css:"// \u5361\u7247\u4eea\u8868\u76d8\uff1aCSS Grid\u81ea\u52a8\u9002\u914d\u5217\u6570",
+    js:"// \u7eafCSS\u5b9e\u73b0"
+  },
+  {
+    id:"l4",
+    name:"登录页布局",
+    cat:"布局模板",
+    tags:["登录", "Login", "表单页"],
+    desc:"居中登录表单，带品牌Logo和背景渐变",
+    html:"<div style=\"min-height:400px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a1a2e,#16213e)\"><div style=\"background:#fff;border-radius:12px;padding:40px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,0.3)\"><div style=\"text-align:center;margin-bottom:30px\"><div style=\"font-size:28px;font-weight:bold;color:#e94560\">MySite</div><div style=\"font-size:14px;color:#999;margin-top:4px\">\u6b22\u8fce\u56de\u6765</div></div><div style=\"margin-bottom:16px\"><input style=\"width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px\" placeholder=\"\u90ae\u7bb1\u5730\u5740\"></div><div style=\"margin-bottom:20px\"><input type=\"password\" style=\"width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px\" placeholder=\"\u5bc6\u7801\"></div><button style=\"width:100%;padding:12px;border:none;border-radius:6px;background:#e94560;color:#fff;font-size:14px;cursor:pointer;font-weight:bold\">\u767b\u5f55</button></div></div>",
+    css:"// \u767b\u5f55\u9875\uff1a\u5168\u5c4f\u80cc\u666f + \u5c45\u4e2d\u5361\u7247\n// \u54cd\u5e94\u5f0f\uff1a\u79fb\u52a8\u7aefpadding\u7f29\u5c0f",
+    js:"// \u8868\u5355\u63d0\u4ea4\u5904\u7406\u53ef\u7528JS\n// \u7b2c\u4e09\u65b9\u767b\u5f55\u53ef\u7528OAuth API"
+  }
+];
+
+var currentComp = null;
+var currentTab = 'html';
+
+function renderList(data){
+    var list = document.getElementById('list');
+    list.innerHTML = '';
+    document.getElementById('badge').textContent = '已加载 ' + data.length + ' 个组件';
+    data.forEach(function(c, i){
+        var d = document.createElement('div');
+        d.className = 'cc';
+        d.innerHTML = '<h3>' + c.name + '</h3><div class="ct">' + c.cat + '</div><div class="cd">' + c.desc + '</div>';
+        d.onclick = function(copy){ return function(){
+            currentComp = copy;
+            document.querySelectorAll('.cc').forEach(function(x){x.classList.remove('on')});
+            d.classList.add('on');
+            document.getElementById('es').style.display = 'none';
+            document.getElementById('nr').classList.add('s');
+            doSwitchTab('html', document.querySelector('.ctb .on'));
+        }})(c);
+        list.appendChild(d);
+    });
+}
+
+function doSwitchTab(tab, btn){
+    currentTab = tab;
+    document.querySelectorAll('.ctb button').forEach(function(b){b.classList.remove('on')});
+    btn.classList.add('on');
+    updateEditor();
+}
+
+function updateEditor(){
+    if(!currentComp) return;
+    var code = currentComp[currentTab] || '';
+    document.getElementById('editor').value = code;
+    updatePreview();
+}
+
+function updatePreview(){
+    if(!currentComp) return;
+    var html = currentComp.html || '';
+    var css = currentComp.css || '';
+    var js = currentComp.js || '';
+    var iframe = document.getElementById('iframe');
+    var doc = '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>' + css + '</style></head><body>' + html + '<script>' + js + '<\/script></body></html>';
+    iframe.srcdoc = doc;
+}
+
+function doFilter(){
+    var q = document.getElementById('search').value.toLowerCase();
+    if(!q){ renderList(COMPS); return; }
+    var filtered = COMPS.filter(function(c){
+        return c.name.toLowerCase().indexOf(q) !== -1 ||
+               c.desc.toLowerCase().indexOf(q) !== -1 ||
+               c.tags.some(function(t){ return t.toLowerCase().indexOf(q) !== -1 });
+    });
+    renderList(filtered);
+}
+
+function doFilterCat(cat, btn){
+    document.querySelectorAll('.cb').forEach(function(b){b.classList.remove('on')});
+    btn.classList.add('on');
+    if(cat === '全部'){ renderList(COMPS); return; }
+    var filtered = COMPS.filter(function(c){ return c.cat === cat });
+    renderList(filtered);
+}
+
+function doCopy(){
+    var editor = document.getElementById('editor');
+    editor.select();
+    navigator.clipboard.writeText(editor.value).then(function(){
+        var btn = document.querySelector('.ph button');
+        var old = btn.textContent;
+        btn.textContent = '✅ 已复制';
+        setTimeout(function(){ btn.textContent = old }, 2000);
+    }).catch(function(){
+        var textarea = document.createElement('textarea');
+        textarea.value = editor.value;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        var btn = document.querySelector('.ph button');
+        btn.textContent = '✅ 已复制';
+        setTimeout(function(){ btn.textContent = '📋 复制代码' }, 2000);
+    });
+}
+
+renderList(COMPS);
+</script>
+</body>
+</html>
