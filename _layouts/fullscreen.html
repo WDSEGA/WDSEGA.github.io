@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{{ page.title }}</title>
+  <meta name="description" content="{{ page.description }}">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ page.title }}">
+  <meta property="og:description" content="{{ page.description }}">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site.title }}">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{{ site.logo | relative_url }}">
+
+  <!-- Site CSS -->
+  {{ site.stylesheet }}
+</head>
+<body style="margin:0;padding:0;overflow-x:hidden;">
+  {{ content }}
+</body>
+</html>
