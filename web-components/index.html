@@ -1,11 +1,11 @@
 ---
 layout: default
-title: "网页组件活字典 | Web Component Dictionary"
-description: "26个可直接使用的网页组件，选需求→看效果→复制代码，支持中英双语"
+title: "Web Component Dictionary | 26 Ready-to-Use Components"
+description: "26 ready-to-use web components. Select, preview, copy code. Bilingual support."
 ---
 
 <style>
-/* 覆盖默认布局样式，让iframe全屏显示 */
+/* Override default layout for full-width component page */
 main, .page-content, .post-content {
   max-width: 100% !important;
   padding: 0 !important;
@@ -16,116 +16,120 @@ body {
   overflow-x: hidden;
 }
 
-.component-hero {
+/* Compact header bar - minimal height */
+.compact-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 40px 20px;
-  text-align: center;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.component-hero h1 {
-  margin: 0 0 10px 0;
-  font-size: 2.5em;
+.compact-header .header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.compact-header h1 {
+  margin: 0;
+  font-size: 1.3em;
   font-weight: bold;
 }
 
-.component-hero p {
-  margin: 5px 0;
-  font-size: 1.2em;
-  opacity: 0.95;
+.compact-header .header-desc {
+  font-size: 0.85em;
+  opacity: 0.9;
+  max-width: 500px;
 }
 
-.component-hero .subtitle {
-  font-size: 1em;
-  opacity: 0.85;
-  margin-top: 8px;
+.compact-header .header-right a {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.85em;
+  border: 1px solid rgba(255,255,255,0.3);
+  transition: all 0.2s;
+}
+
+.compact-header .header-right a:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+/* Full-height iframe container */
+.widget-container {
+  width: 100%;
+  height: calc(100vh - 108px); /* ~48px header + ~60px bottom bar */
+  position: relative;
 }
 
 .widget-fullscreen {
   width: 100%;
-  height: calc(100vh - 200px);
+  height: 100%;
   border: none;
   display: block;
 }
 
+/* Compact bottom purchase bar */
 .purchase-bar {
-  background: #f8f9fa;
-  border-top: 3px solid #667eea;
-  padding: 30px 20px;
+  background: #1a1a2e;
+  border-top: 2px solid #667eea;
+  padding: 12px 20px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
-.purchase-bar h3 {
-  margin: 0 0 15px 0;
-  color: #333;
-  font-size: 1.4em;
+.purchase-bar span {
+  color: #aaa;
+  font-size: 0.88em;
 }
 
-.purchase-bar p {
-  color: #666;
-  margin: 0 0 20px 0;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+.purchase-bar strong {
+  color: #fff;
 }
 
 .payhip-btn {
   display: inline-block;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 14px 40px;
-  border-radius: 10px;
+  color: white !important;
+  padding: 8px 28px;
+  border-radius: 8px;
   text-decoration: none;
   font-weight: bold;
-  font-size: 1.1em;
-  transition: all 0.3s;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  font-size: 0.95em;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .payhip-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-  color: white;
-}
-
-.purchase-note {
-  margin-top: 15px;
-  font-size: 0.9em;
-  color: #999;
-}
-
-@media (max-width: 600px) {
-  .component-hero h1 {
-    font-size: 1.8em;
-  }
-  .component-hero p {
-    font-size: 1em;
-  }
-  .widget-fullscreen {
-    height: calc(100vh - 180px);
-  }
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(102,126,234,0.4);
 }
 </style>
 
-<!-- Hero 区域 -->
-<div class="component-hero">
-  <h1>📖 网页组件活字典</h1>
-  <p>Web Component Dictionary</p>
-  <p class="subtitle">26个可直接使用的网页组件 | 免费在线使用 | 支持中英双语</p>
+<div class="compact-header">
+  <div class="header-left">
+    <h1>Web Component Dictionary</h1>
+    <span class="header-desc">26 Ready-to-Use Components | Select → Preview → Copy</span>
+  </div>
+  <div class="header-right">
+    <a href="/">← Back to Blog</a>
+  </div>
 </div>
 
-<!-- 全屏组件演示 -->
-<iframe 
-  src="widget.html" 
-  class="widget-fullscreen" 
-  title="Web Component Dictionary - Interactive Demo"
-  loading="lazy">
-</iframe>
+<div class="widget-container">
+  <iframe src="widget.html" class="widget-fullscreen" title="Web Component Dictionary"></iframe>
+</div>
 
-<!-- 购买源代码区域（只保留Payhip） -->
 <div class="purchase-bar">
-  <h3>💻 获取完整源代码</h3>
-  <p>在线演示版可直接使用。如需下载完整版源代码（含所有组件代码、README、免责声明等），请访问：</p>
-  <a href="https://payhip.com/b/S9pj2" class="payhip-btn">🛒 购买完整版 - $9.99</a>
-  <p class="purchase-note">一次性买断 | 终身免费更新 | v2.0将补充至60个组件</p>
+  <span><strong>Like it?</strong> Get the full source code (offline version + README + free updates)</span>
+  <a href="https://payhip.com/b/S9pj2" target="_blank" rel="noopener" class="payhip-btn">Buy $9.99 on Payhip</a>
 </div>
