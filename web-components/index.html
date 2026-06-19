@@ -1,135 +1,150 @@
 ---
-layout: default
-title: "Web Component Dictionary | 26 Ready-to-Use Components"
-description: "26 ready-to-use web components. Select, preview, copy code. Bilingual support."
+layout: fullscreen
+title: "Web Component Dictionary - 26 Ready-to-Use Components"
+description: "26 ready-to-use web components. Select a component, preview it live, copy the code. Free to use online, download for offline."
 ---
 
 <style>
-/* Override default layout for full-width component page */
-main, .page-content, .post-content {
-  max-width: 100% !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-body {
-  overflow-x: hidden;
-}
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0f0f23;
+    color: #e0e0e0;
+    overflow-x: hidden;
+  }
 
-/* Compact header bar - minimal height */
-.compact-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 12px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-}
+  /* Thin top bar */
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    min-height: 44px;
+  }
 
-.compact-header .header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+  .top-bar .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 
-.compact-header h1 {
-  margin: 0;
-  font-size: 1.3em;
-  font-weight: bold;
-}
+  .top-bar .brand h1 {
+    font-size: 1.1em;
+    font-weight: 700;
+  }
 
-.compact-header .header-desc {
-  font-size: 0.85em;
-  opacity: 0.9;
-  max-width: 500px;
-}
+  .top-bar .brand .badge {
+    font-size: 0.72em;
+    background: rgba(255,255,255,0.2);
+    padding: 2px 8px;
+    border-radius: 10px;
+    opacity: 0.9;
+  }
 
-.compact-header .header-right a {
-  background: rgba(255,255,255,0.2);
-  color: white;
-  padding: 6px 16px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-size: 0.85em;
-  border: 1px solid rgba(255,255,255,0.3);
-  transition: all 0.2s;
-}
+  .top-bar .links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 
-.compact-header .header-right a:hover {
-  background: rgba(255,255,255,0.35);
-}
+  .top-bar .links a {
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+    font-size: 0.85em;
+    padding: 4px 12px;
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.25);
+    transition: all 0.2s;
+  }
 
-/* Full-height iframe container */
-.widget-container {
-  width: 100%;
-  height: calc(100vh - 108px); /* ~48px header + ~60px bottom bar */
-  position: relative;
-}
+  .top-bar .links a:hover {
+    background: rgba(255,255,255,0.15);
+    color: white;
+  }
 
-.widget-fullscreen {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-}
+  /* Iframe fills remaining viewport */
+  .iframe-wrap {
+    width: 100%;
+    height: calc(100vh - 96px); /* 44px top bar + ~52px bottom bar */
+  }
 
-/* Compact bottom purchase bar */
-.purchase-bar {
-  background: #1a1a2e;
-  border-top: 2px solid #667eea;
-  padding: 12px 20px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
+  .iframe-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
 
-.purchase-bar span {
-  color: #aaa;
-  font-size: 0.88em;
-}
+  /* Bottom CTA bar */
+  .bottom-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 10px 20px;
+    background: #16162a;
+    border-top: 2px solid #667eea;
+    flex-wrap: wrap;
+    min-height: 52px;
+  }
 
-.purchase-bar strong {
-  color: #fff;
-}
+  .bottom-cta .cta-text {
+    color: #8892b0;
+    font-size: 0.84em;
+  }
 
-.payhip-btn {
-  display: inline-block;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white !important;
-  padding: 8px 28px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 0.95em;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
+  .bottom-cta .cta-text strong {
+    color: #ccd6f6;
+  }
 
-.payhip-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(102,126,234,0.4);
-}
+  .buy-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white !important;
+    padding: 8px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.88em;
+    transition: transform 0.15s, box-shadow 0.2s;
+    white-space: nowrap;
+  }
+
+  .buy-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(102,126,234,0.45);
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 600px) {
+    .top-bar { padding: 8px 12px; flex-wrap: wrap; }
+    .top-bar .brand h1 { font-size: 0.95em; }
+    .bottom-cta { flex-direction: column; gap: 8px; padding: 12px; }
+    .iframe-wrap { height: calc(100vh - 130px); }
+  }
 </style>
 
-<div class="compact-header">
-  <div class="header-left">
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="brand">
     <h1>Web Component Dictionary</h1>
-    <span class="header-desc">26 Ready-to-Use Components | Select → Preview → Copy</span>
+    <span class="badge">26 Components</span>
   </div>
-  <div class="header-right">
-    <a href="/">← Back to Blog</a>
+  <div class="links">
+    <a href="/">Back to Blog</a>
   </div>
 </div>
 
-<div class="widget-container">
-  <iframe src="widget.html" class="widget-fullscreen" title="Web Component Dictionary"></iframe>
+<!-- Full-Screen Widget -->
+<div class="iframe-wrap">
+  <iframe src="widget.html" title="Web Component Dictionary" loading="eager"></iframe>
 </div>
 
-<div class="purchase-bar">
-  <span><strong>Like it?</strong> Get the full source code (offline version + README + free updates)</span>
-  <a href="https://payhip.com/b/S9pj2" target="_blank" rel="noopener" class="payhip-btn">Buy $9.99 on Payhip</a>
+<!-- Bottom Purchase Bar -->
+<div class="bottom-cta">
+  <span class="cta-text"><strong>Like this tool?</strong> Download offline version + source code + README + free updates</span>
+  <a href="https://payhip.com/b/S9pj2" target="_blank" rel="noopener" class="buy-btn">Buy $9.99 on Payhip &rarr;</a>
 </div>
