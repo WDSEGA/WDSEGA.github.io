@@ -6,7 +6,7 @@
 <title>Web Component Dictionary - 网页组件活字典</title>
 <style>
 /* ============================================================
-   Web Component Dictionary - Responsive CSS (fixed class names)
+   Web Component Dictionary - Responsive CSS
    ============================================================ */
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -25,10 +25,11 @@ body {
   gap: 12px;
   padding: 10px 20px;
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  border-bottom: 2px solid #667eea;
+  border-bottom: 2px solid #e94560;
   flex-shrink: 0;
 }
 .hd h1 { font-size: 1.05em; color: #fff; margin:0; }
+.hd h1 b { color: #e94560; }
 .hd p { font-size: 0.72em; color: #8892b0; margin:2px 0 0 0; }
 .hd .lang-btn {
   margin-left: auto;
@@ -59,7 +60,7 @@ body {
   flex: 1;
   min-width: 140px;
   max-width: 380px;
-  padding: 8px 16px;
+  padding: 8px 15px;
   border: 1px solid #333;
   border-radius: 20px;
   background: #1a1a2e;
@@ -68,7 +69,7 @@ body {
   outline: none;
   transition: border-color 0.2s;
 }
-.sb input:focus { border-color: #667eea; }
+.sb input:focus { border-color: #e94560; }
 .sb input::placeholder { color: #666; }
 
 /* === Category Filter Buttons === */
@@ -83,8 +84,8 @@ body {
   transition: all 0.2s;
   white-space: nowrap;
 }
-.cb:hover { border-color: #667eea; color: #aab4ff; }
-.cb.on { background: #667eea; color: #fff; border-color: #667eea; }
+.cb:hover { border-color: #e94560; color: #fff; }
+.cb.on { background: #e94560; color: #fff; border-color: #e94560; }
 
 /* === Main Layout === */
 .mn {
@@ -98,7 +99,7 @@ body {
   width: 300px;
   min-width: 240px;
   max-width: 360px;
-  background: #12122a;
+  background: #12121f;
   border-right: 1px solid #222244;
   flex-shrink: 0;
   overflow-y: auto;
@@ -109,9 +110,7 @@ body {
 .lp::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
 .lp::-webkit-scrollbar-thumb:hover { background: #555; }
 
-#list {
-  padding: 8px;
-}
+#list { padding: 8px; }
 
 /* === Component Card === */
 .cc {
@@ -122,8 +121,8 @@ body {
   transition: all 0.15s;
   border: 1px solid transparent;
 }
-.cc:hover { background: #1a1a3e; border-color: #333; }
-.cc.on { background: #1a1a3e; border-color: #667eea; }
+.cc:hover { background: #1a1a2e; border-color: #333; }
+.cc.on { background: #1a1a2e; border-color: #e94560; }
 .cc h3 {
   font-size: 0.95em;
   color: #ccd6f6;
@@ -132,8 +131,8 @@ body {
 }
 .cc .ct {
   font-size: 0.72em;
-  color: #667eea;
-  background: rgba(102,126,234,0.1);
+  color: #e94560;
+  background: rgba(233,69,96,0.1);
   padding: 2px 8px;
   border-radius: 4px;
   display: inline-block;
@@ -168,7 +167,7 @@ body {
 }
 .es i { font-size: 48px; margin-bottom: 12px; color: #444; font-style: normal; }
 
-/* === Not-Ready State (hidden by default) === */
+/* === Not-Ready State === */
 .nr { display: none; }
 .nr.s {
   display: flex;
@@ -196,8 +195,8 @@ body {
   transition: all 0.2s;
   border-bottom: 2px solid transparent;
 }
-.ctb button:hover { color: #ccd6f6; background: #222244; }
-.ctb button.on { color: #667eea; border-bottom-color: #667eea; font-weight: 600; }
+.ctb button:hover { color: #ccd6f6; background: #16213e; }
+.ctb button.on { color: #e94560; border-bottom-color: #e94560; font-weight: 600; }
 
 /* === Editor + Preview Container === */
 .pc {
@@ -206,8 +205,6 @@ body {
   min-height: 0;
   overflow: hidden;
 }
-
-/* === Editor Panel === */
 .ep {
   width: 50%;
   min-width: 200px;
@@ -215,13 +212,12 @@ body {
   flex-direction: column;
   border-right: 1px solid #222244;
 }
-.ep .ed {
+.ed {
   flex: 1;
   width: 100%;
   padding: 16px;
-  background: #0a0a1a;
-  color: #a8ffa8;
-  border: none;
+  background: #0a0a14;
+  color: #a8d8a;
   font-family: 'Fira Code', 'Cascadia Code', Consolas, monospace;
   font-size: 13px;
   line-height: 1.7;
@@ -230,10 +226,11 @@ body {
   overflow: auto;
   white-space: pre;
   tab-size: 2;
+  border: none;
 }
-.ep .ed::-webkit-scrollbar { width: 6px; }
-.ep .ed::-webkit-scrollbar-track { background: transparent; }
-.ep .ed::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+.ed::-webkit-scrollbar { width: 6px; }
+.ed::-webkit-scrollbar-track { background: transparent; }
+.ed::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
 
 /* === Preview Panel === */
 .vp {
@@ -243,7 +240,7 @@ body {
   flex-direction: column;
   overflow: hidden;
 }
-.vp .ph {
+.ph {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -254,8 +251,8 @@ body {
   color: #8892b0;
   flex-shrink: 0;
 }
-.vp .ph button {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+.ph button {
+  background: linear-gradient(135deg, #e94560, #c0392b);
   color: #fff;
   border: none;
   padding: 6px 16px;
@@ -264,15 +261,25 @@ body {
   font-size: 0.9em;
   transition: all 0.2s;
 }
-.vp .ph button:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(102,126,234,0.3); }
-.vp .if {
+.ph button:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(233,69,96,0.3); }
+.if {
   flex: 1;
   width: 100%;
   border: none;
   background: #fff;
 }
 
-/* === Responsive (Mobile) === */
+/* === No Results Message === */
+.no-results {
+  padding: 40px 20px;
+  text-align: center;
+  color: #666;
+}
+.no-results .icon { font-size: 36px; margin-bottom: 12px; }
+.no-results .msg { font-size: 14px; margin-bottom: 6px; }
+.no-results .hint { font-size: 12px; color: #555; }
+
+/* === Responsive === */
 @media (max-width: 768px) {
   .mn { flex-direction: column; height: auto; }
   .lp {
@@ -286,7 +293,7 @@ body {
   .rp { min-height: 60vh; }
   .pc { flex-direction: column; }
   .ep { width: 100%; min-width: 0; border-right: none; }
-  .ep .ed { min-height: 200px; }
+  .ed { min-height: 200px; }
   .vp { width: 100%; min-width: 0; min-height: 300px; }
   body { overflow: auto; height: auto; }
   .mn { height: auto; }
@@ -744,13 +751,15 @@ var lang = 'en';
 // Language map for display
 var LANG_MAP = {
   zh: { desc: '26个可直接使用的网页组件 | 选需求→看效果→复制代码',
-        search: '搜索组件（名称、标等、功能...）',
+        search: '🔍 搜索组件（名称、标签、功能...）',
         empty: '← 从左侧选择一个组件',
+        showing: '显示 %d/%d 个组件', noresult: '😕 没有找到匹配的组件', tryother: '试试其他关键词',
         preview: '实时预览', copy: '复制代码', copied: '✅ 已复制', loaded: '已加载' },
   en: { desc: '26 Ready-to-Use Components | Select → Preview → Copy',
-        search: '?? Search by name, tag, function...',
+        search: '🔍 Search by name, tag, function...',
         empty: '← Select a component from left',
-        preview: 'Live Preview', copy: '?? Copy Code', copied: '✅ Copied!', loaded: 'Loaded' }
+        showing: 'Showing %d / %d', noresult: '😕 No matching components', tryother: 'Try a different keyword',
+        preview: 'Live Preview', copy: '📋 Copy Code', copied: '✅ Copied!', loaded: 'Loaded' }
 };
 
 function toggleLang() { lang = lang === 'en' ? 'zh' : 'en'; updateLang(); }
@@ -768,13 +777,32 @@ function renderList(data){
     var list = document.getElementById('list');
     list.innerHTML = '';
     var t = LANG_MAP[lang] || LANG_MAP.en;
-    document.querySelector('#badge') && (document.querySelector('#badge').textContent = t.loaded + ' ' + data.length);
+    var total = COMPS.length;
+    
+    // Show results count in header
+    if(data.length === total){
+        document.getElementById('hd-desc').textContent = t.desc;
+    } else if(data.length === 0){
+        document.getElementById('hd-desc').textContent = t.noresult;
+        list.innerHTML = '<div class="no-results"><div class="icon">🔍</div><div class="msg">'+t.noresult+'</div><div class="hint">'+t.tryother+'</div></div>';
+        // Reset category buttons to match full list
+        var cats = ['All','Nav','Content','Form','FX','Tools','Layout'];
+        var catLabelsEn = ['All','Nav','UI','Form','FX','Tools','Layout'];
+        var catLabelsZh = ['全部','导航','内容','表单','特效','工具','布局'];
+        var cl = lang==='zh'?catLabelsZh:catLabelsEn;
+        document.querySelectorAll('.cb').forEach(function(b,i){ if(i<cl.length) b.textContent = cl[i]; });
+        return;
+    } else {
+        var showingText = t.showing.replace('%d', data.length).replace('%d', total);
+        document.getElementById('hd-desc').textContent = showingText;
+    }
+    
     // Update category buttons
     var cats = ['All','Nav','Content','Form','FX','Tools','Layout'];
     var catLabelsEn = ['All','Nav','UI','Form','FX','Tools','Layout'];
     var catLabelsZh = ['全部','导航','内容','表单','特效','工具','布局'];
     var cl = lang==='zh'?catLabelsZh:catLabelsEn;
-    document.querySelectorAll('.cb').forEach(function(b,i){ b.textContent = cl[i]; });
+    document.querySelectorAll('.cb').forEach(function(b,i){ if(i<cl.length) b.textContent = cl[i]; });
     
     data.forEach(function(c, i){
         var d = document.createElement('div');
@@ -817,7 +845,7 @@ function updatePreview(){
     var iframe = document.getElementById('iframe');
     var doc = '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>
 /* ============================================================
-   Web Component Dictionary - Responsive CSS (fixed class names)
+   Web Component Dictionary - Responsive CSS
    ============================================================ */
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -836,10 +864,11 @@ body {
   gap: 12px;
   padding: 10px 20px;
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  border-bottom: 2px solid #667eea;
+  border-bottom: 2px solid #e94560;
   flex-shrink: 0;
 }
 .hd h1 { font-size: 1.05em; color: #fff; margin:0; }
+.hd h1 b { color: #e94560; }
 .hd p { font-size: 0.72em; color: #8892b0; margin:2px 0 0 0; }
 .hd .lang-btn {
   margin-left: auto;
@@ -870,7 +899,7 @@ body {
   flex: 1;
   min-width: 140px;
   max-width: 380px;
-  padding: 8px 16px;
+  padding: 8px 15px;
   border: 1px solid #333;
   border-radius: 20px;
   background: #1a1a2e;
@@ -879,7 +908,7 @@ body {
   outline: none;
   transition: border-color 0.2s;
 }
-.sb input:focus { border-color: #667eea; }
+.sb input:focus { border-color: #e94560; }
 .sb input::placeholder { color: #666; }
 
 /* === Category Filter Buttons === */
@@ -894,8 +923,8 @@ body {
   transition: all 0.2s;
   white-space: nowrap;
 }
-.cb:hover { border-color: #667eea; color: #aab4ff; }
-.cb.on { background: #667eea; color: #fff; border-color: #667eea; }
+.cb:hover { border-color: #e94560; color: #fff; }
+.cb.on { background: #e94560; color: #fff; border-color: #e94560; }
 
 /* === Main Layout === */
 .mn {
@@ -909,7 +938,7 @@ body {
   width: 300px;
   min-width: 240px;
   max-width: 360px;
-  background: #12122a;
+  background: #12121f;
   border-right: 1px solid #222244;
   flex-shrink: 0;
   overflow-y: auto;
@@ -920,9 +949,7 @@ body {
 .lp::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
 .lp::-webkit-scrollbar-thumb:hover { background: #555; }
 
-#list {
-  padding: 8px;
-}
+#list { padding: 8px; }
 
 /* === Component Card === */
 .cc {
@@ -933,8 +960,8 @@ body {
   transition: all 0.15s;
   border: 1px solid transparent;
 }
-.cc:hover { background: #1a1a3e; border-color: #333; }
-.cc.on { background: #1a1a3e; border-color: #667eea; }
+.cc:hover { background: #1a1a2e; border-color: #333; }
+.cc.on { background: #1a1a2e; border-color: #e94560; }
 .cc h3 {
   font-size: 0.95em;
   color: #ccd6f6;
@@ -943,8 +970,8 @@ body {
 }
 .cc .ct {
   font-size: 0.72em;
-  color: #667eea;
-  background: rgba(102,126,234,0.1);
+  color: #e94560;
+  background: rgba(233,69,96,0.1);
   padding: 2px 8px;
   border-radius: 4px;
   display: inline-block;
@@ -979,7 +1006,7 @@ body {
 }
 .es i { font-size: 48px; margin-bottom: 12px; color: #444; font-style: normal; }
 
-/* === Not-Ready State (hidden by default) === */
+/* === Not-Ready State === */
 .nr { display: none; }
 .nr.s {
   display: flex;
@@ -1007,8 +1034,8 @@ body {
   transition: all 0.2s;
   border-bottom: 2px solid transparent;
 }
-.ctb button:hover { color: #ccd6f6; background: #222244; }
-.ctb button.on { color: #667eea; border-bottom-color: #667eea; font-weight: 600; }
+.ctb button:hover { color: #ccd6f6; background: #16213e; }
+.ctb button.on { color: #e94560; border-bottom-color: #e94560; font-weight: 600; }
 
 /* === Editor + Preview Container === */
 .pc {
@@ -1017,8 +1044,6 @@ body {
   min-height: 0;
   overflow: hidden;
 }
-
-/* === Editor Panel === */
 .ep {
   width: 50%;
   min-width: 200px;
@@ -1026,13 +1051,12 @@ body {
   flex-direction: column;
   border-right: 1px solid #222244;
 }
-.ep .ed {
+.ed {
   flex: 1;
   width: 100%;
   padding: 16px;
-  background: #0a0a1a;
-  color: #a8ffa8;
-  border: none;
+  background: #0a0a14;
+  color: #a8d8a;
   font-family: 'Fira Code', 'Cascadia Code', Consolas, monospace;
   font-size: 13px;
   line-height: 1.7;
@@ -1041,10 +1065,11 @@ body {
   overflow: auto;
   white-space: pre;
   tab-size: 2;
+  border: none;
 }
-.ep .ed::-webkit-scrollbar { width: 6px; }
-.ep .ed::-webkit-scrollbar-track { background: transparent; }
-.ep .ed::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+.ed::-webkit-scrollbar { width: 6px; }
+.ed::-webkit-scrollbar-track { background: transparent; }
+.ed::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
 
 /* === Preview Panel === */
 .vp {
@@ -1054,7 +1079,7 @@ body {
   flex-direction: column;
   overflow: hidden;
 }
-.vp .ph {
+.ph {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1065,8 +1090,8 @@ body {
   color: #8892b0;
   flex-shrink: 0;
 }
-.vp .ph button {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+.ph button {
+  background: linear-gradient(135deg, #e94560, #c0392b);
   color: #fff;
   border: none;
   padding: 6px 16px;
@@ -1075,15 +1100,25 @@ body {
   font-size: 0.9em;
   transition: all 0.2s;
 }
-.vp .ph button:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(102,126,234,0.3); }
-.vp .if {
+.ph button:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(233,69,96,0.3); }
+.if {
   flex: 1;
   width: 100%;
   border: none;
   background: #fff;
 }
 
-/* === Responsive (Mobile) === */
+/* === No Results Message === */
+.no-results {
+  padding: 40px 20px;
+  text-align: center;
+  color: #666;
+}
+.no-results .icon { font-size: 36px; margin-bottom: 12px; }
+.no-results .msg { font-size: 14px; margin-bottom: 6px; }
+.no-results .hint { font-size: 12px; color: #555; }
+
+/* === Responsive === */
 @media (max-width: 768px) {
   .mn { flex-direction: column; height: auto; }
   .lp {
@@ -1097,7 +1132,7 @@ body {
   .rp { min-height: 60vh; }
   .pc { flex-direction: column; }
   .ep { width: 100%; min-width: 0; border-right: none; }
-  .ep .ed { min-height: 200px; }
+  .ed { min-height: 200px; }
   .vp { width: 100%; min-width: 0; min-height: 300px; }
   body { overflow: auto; height: auto; }
   .mn { height: auto; }
