@@ -28,10 +28,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .ctb{display:flex;background:#1a1a2e;border-bottom:1px solid #333}
 .ctb button{padding:10px 20px;background:transparent;color:#888;border:none;cursor:pointer;font-size:13px;border-right:1px solid #333;transition:all .2s}
 .ctb button.on,.ctb button:hover{color:#fff;background:#e94560}
-.pc{display:flex;flex:1;overflow:hidden}
-.ep{width:50%;border-right:1px solid #333;display:flex;flex-direction:column}
-.ed{flex:1;width:100%;background:#0a0a14;color:#a8d8a;font-family:"Fira Code","Courier New",monospace;font-size:12px;padding:12px;border:none;outline:none;resize:none;line-height:1.6;tab-size:2;white-space:pre;overflow:auto}
-.vp{flex:1;display:flex;flex-direction:column}
+.pc{display:flex;flex:1;overflow:hidden;min-height:0}
+.ep{width:50%;min-width:200px;border-right:1px solid #333;display:flex;flex-direction:column;overflow:hidden}
+.ed{flex:1;width:100%;min-height:100%;background:#0a0a14;color:#7ec699;font-family:"Fira Code","Courier New",Consolas,monospace;font-size:12.5px;padding:16px;border:none;outline:none;resize:none;line-height:1.65;tab-size:2;white-space:pre;overflow:auto}
+.vp{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:200px}
 .ph{padding:8px 16px;background:#16213e;font-size:11px;color:#888;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #333}
 .ph button{padding:5px 14px;background:#e94560;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:11px;transition:opacity .2s}
 .ph button:hover{opacity:.85}
@@ -40,7 +40,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .es i{font-size:48px;margin-bottom:12px;color:#333}
 .nr{display:none}.nr.s{display:flex;flex-direction:column;height:100%}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#0a0a14}::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
-@media(max-width:650px){.mn{flex-direction:column;height:auto}.lp{width:100%;max-height:40vh;border-right:none;border-bottom:1px solid #333}.pc{flex-direction:column}.ep{width:100%;height:35vh}}
+@media(max-width:650px){.mn{flex-direction:column;height:auto;overflow:visible}.lp{width:100%;max-height:35vh;border-right:none;border-bottom:1px solid #333}.pc{flex-direction:column}.ep{width:100%;min-height:30vh}.vp{width:100%;min-height:35vh}}
 </style>
 </head>
 <body>
