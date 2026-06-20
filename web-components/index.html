@@ -7,33 +7,33 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#0f0f1a;color:#e0e0e0;min-height:100vh;overflow:hidden}
-.hd{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #e94560}
-.hd h1{font-size:19px;color:#fff}.hd h1 b{color:#e94560}
+.hd{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #2563eb}
+.hd h1{font-size:19px;color:#fff}.hd h1 b{color:#2563eb}
 .hd p{font-size:11px;color:#999}
-.hd .lang-btn{background:none;border:1px solid #e94560;color:#e94560;padding:4px 12px;border-radius:14px;cursor:pointer;font-size:12px;transition:all .2s}
-.hd .lang-btn:hover{background:#e94560;color:#fff}
+.hd .lang-btn{background:none;border:1px solid #2563eb;color:#2563eb;padding:4px 12px;border-radius:14px;cursor:pointer;font-size:12px;transition:all .2s}
+.hd .lang-btn:hover{background:#2563eb;color:#fff}
 .sb{margin:14px 28px;display:flex;gap:9px;flex-wrap:wrap;align-items:center}
 .sb input{flex:1;min-width:180px;padding:9px 15px;border:1px solid #333;border-radius:8px;background:#1a1a2e;color:#fff;font-size:13px;outline:none}
-.sb input:focus{border-color:#e94560}
+.sb input:focus{border-color:#2563eb}
 .sb .cb{padding:6px 14px;border:1px solid #333;border-radius:18px;background:transparent;color:#aaa;cursor:pointer;font-size:11px;transition:all .3s}
-.sb .cb.on,.sb .cb:hover{background:#e94560;color:#fff;border-color:#e94560}
+.sb .cb.on,.sb .cb:hover{background:#2563eb;color:#fff;border-color:#2563eb}
 .mn{display:flex;height:calc(100vh - 145px);overflow:hidden}
 .lp{width:340px;min-width:260px;border-right:1px solid #333;overflow-y:auto;background:#12121f}
 .cc{padding:10px;margin-bottom:6px;border-radius:8px;cursor:pointer;transition:background .2s}
 .cc:hover,.cc.on{background:#1a1a2e}
 .cc h3{font-size:13px;color:#fff;margin-bottom:3px}
-.cc .ct{font-size:10px;color:#e94560;margin-bottom:2px;display:inline-block}
+.cc .ct{font-size:10px;color:#2563eb;margin-bottom:2px;display:inline-block}
 .cc .cd{font-size:10px;color:#888;line-height:1.4}
 .rp{flex:1;display:flex;flex-direction:column;overflow:hidden}
 .ctb{display:flex;background:#1a1a2e;border-bottom:1px solid #333}
 .ctb button{padding:10px 20px;background:transparent;color:#888;border:none;cursor:pointer;font-size:13px;border-right:1px solid #333;transition:all .2s}
-.ctb button.on,.ctb button:hover{color:#fff;background:#e94560}
+.ctb button.on,.ctb button:hover{color:#fff;background:#2563eb}
 .pc{display:flex;flex:1;overflow:hidden;min-height:0}
 .ep{width:50%;min-width:200px;border-right:1px solid #333;display:flex;flex-direction:column;overflow:hidden}
 .ed{flex:1;width:100%;min-height:100%;background:#0d0d1a;color:#e8e8e8!important;font-family:Consolas,"Courier New",monospace;font-size:12.5px;padding:16px;border:none;outline:none;resize:none;line-height:1.65;tab-size:2;white-space:pre;overflow:auto}
 .vp{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:200px}
 .ph{padding:8px 16px;background:#16213e;font-size:11px;color:#888;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #333}
-.ph button{padding:5px 14px;background:#e94560;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:11px;transition:opacity .2s}
+.ph button{padding:5px 14px;background:#2563eb;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:11px;transition:opacity .2s}
 .ph button:hover{opacity:.85}
 .if{flex:1;width:100%;border:none;background:#fff}
 .es{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#555;font-size:14px}
@@ -100,7 +100,8 @@ var COMPS = [
     "desc_en": "Sticks to top when scrolling",
     "html": "<nav style=\"position:fixed;top:0;left:0;right:0;background:#1a1a2e;display:flex;align-items:center;justify-content:space-between;padding:0 30px;height:60px;z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,0.3)\"><div style=\"font-weight:bold;font-size:20px;color:#e94560\">MySite</div><ul style=\"display:flex;list-style:none;gap:25px;margin:0;padding:0\"><li><a href=\"#\" style=\"color:#fff;text-decoration:none;font-size:14px\">Home</a></li><li><a href=\"#\" style=\"color:#fff;text-decoration:none;font-size:14px\">About</a></li><li><a href=\"#\" style=\"color:#fff;text-decoration:none;font-size:14px\">Services</a></li></ul></nav><div style=\"height:2000px;padding:80px 20px\"><h1>Scroll Down</h1></div>",
     "css": "/* position:fixed for sticky */",
-    "js": "// Pure CSS"
+    "js": "// Pure CSS",
+    "desc_zh": "滚动时固定在页面顶部，不随内容滚动消失"
   },
   {
     "id": "n02",
@@ -115,7 +116,8 @@ var COMPS = [
     "desc_en": "Mobile toggle navigation",
     "html": "<nav style=\"display:flex;align-items:center;justify-content:space-between;background:#16213e;color:#fff;padding:15px 20px;position:relative\"><div style=\"font-weight:bold;color:#e94560\">MySite</div><button id=\"hbtn\" style=\"display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer\" onclick=\"htoggle()\">☰</button><ul id=\"hmenu\" style=\"display:flex;gap:20px;list-style:none;margin:0;padding:0\"><li><a href=\"#\" style=\"color:#fff\">Home</a></li><li><a href=\"#\" style=\"color:#fff\">Products</a></li></ul></nav><div style=\"padding:80px 20px\"><h1>Resize to &lt;600px</h1></div>",
     "css": "@media(max-width:600px){#hbtn{display:block!important}#hmenu{display:none}.hmenu-show{display:flex!important;flex-direction:column;position:absolute;top:60px;left:0;right:0;background:#16213e;padding:20px}}",
-    "js": "function htogle(){var m=document.getElementById('hmenu');m.style.display=m.style.display==='flex'?'none':'flex'}"
+    "js": "function htogle(){var m=document.getElementById('hmenu');m.style.display=m.style.display==='flex'?'none':'flex'}",
+    "desc_zh": "移动端响应式折叠菜单，点击展开导航"
   },
   {
     "id": "n03",
@@ -130,7 +132,8 @@ var COMPS = [
     "desc_en": "Smooth scroll to top",
     "html": "<div style=\"height:2000px;padding:20px\"><h1>Scroll down</h1></div><button id=\"btop\" onclick=\"window.scrollTo({top:0,behavior:'smooth'})\" style=\"position:fixed;bottom:30px;right:30px;background:#e94560;color:#fff;border:none;padding:12px 18px;border-radius:50px;cursor:pointer;display:none;z-index:999\">↑ Top</button>",
     "css": "/* JS controls visibility */",
-    "js": "window.addEventListener('scroll',function(){var b=document.getElementById('btop');b.style.display=window.scrollY>300?'block':'none'})"
+    "js": "window.addEventListener('scroll',function(){var b=document.getElementById('btop');b.style.display=window.scrollY>300?'block':'none'})",
+    "desc_zh": "一键平滑滚动返回页面顶部"
   },
   {
     "id": "n04",
@@ -145,7 +148,8 @@ var COMPS = [
     "desc_en": "Multiple content panels",
     "html": "<div style=\"padding:20px\"><div style=\"display:flex;gap:2px\"><button class=\"tb\" onclick=\"switchTab(0,this)\" style=\"padding:12px 24px;background:#e94560;color:#fff;border:none;cursor:pointer\">Tab1</button><button class=\"tb\" onclick=\"switchTab(1,this)\" style=\"padding:12px 24px;background:#333;color:#aaa;border:none;cursor:pointer\">Tab2</button><button class=\"tb\" onclick=\"switchTab(2,this)\" style=\"padding:12px 24px;background:#333;color:#aaa;border:none;cursor:pointer\">Tab3</button></div><div id=\"tab-panel\" style=\"background:#1a1a2e;padding:40px;color:#fff;min-height:200px;border-radius:0 8px 8px 8px\"><h2 id=\"tab-t\">Tab One</h2><p id=\"tab-c\">Content one</p></div></div>",
     "css": ".tb.active{background:#e94560!important;color:#fff!important}",
-    "js": "var tabs=[{t:'Tab One',c:'Content one'},{t:'Tab Two',c:'Content two'},{t:'Tab Three',c:'Content three'}];function switchTab(i,btn){document.querySelectorAll('.tb').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');document.getElementById('tab-t').textContent=tabs[i].t;document.getElementById('tab-c').textContent=tabs[i].c}"
+    "js": "var tabs=[{t:'Tab One',c:'Content one'},{t:'Tab Two',c:'Content two'},{t:'Tab Three',c:'Content three'}];function switchTab(i,btn){document.querySelectorAll('.tb').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');document.getElementById('tab-t').textContent=tabs[i].t;document.getElementById('tab-c').textContent=tabs[i].c}",
+    "desc_zh": "多内容面板点击切换显示"
   },
   {
     "id": "n05",
@@ -160,7 +164,8 @@ var COMPS = [
     "desc_en": "Show page hierarchy",
     "html": "<div style=\"padding:20px;background:#f8f9fa\"><nav style=\"font-size:14px;color:#666\"><a href=\"#\" style=\"color:#e94560\">Home</a> › <a href=\"#\" style=\"color:#666\">Products</a> › <a href=\"#\" style=\"color:#666\">Category</a> › <span style=\"color:#999\">Current</span></nav></div><div style=\"padding:20px\"><h1>Current Page</h1></div>",
     "css": "/* Simple text path */",
-    "js": "// Pure HTML/CSS"
+    "js": "// Pure HTML/CSS",
+    "desc_zh": "显示当前页面层级路径导航"
   },
   {
     "id": "n06",
@@ -175,7 +180,8 @@ var COMPS = [
     "desc_en": "Vertical nav with active state",
     "html": "<div style=\"display:flex;min-height:400px\"><div style=\"width:220px;background:#1a1a2e;padding:20px 0;display:flex;flex-direction:column;gap:2px\"><div style=\"padding:18px 24px;color:#e94560;font-weight:bold;border-left:3px solid #e94560;background:rgba(233,69,96,0.1)\">Dashboard</div><div style=\"padding:18px 24px;color:#aaa;cursor:pointer;border-left:3px solid transparent\">Analytics</div><div style=\"padding:18px 24px;color:#aaa;cursor:pointer;border-left:3px solid transparent\">Users</div><div style=\"padding:18px 24px;color:#aaa;cursor:pointer;border-left:3px solid transparent\">Settings</div></div><div style=\"flex:1;padding:40px;background:#fff\"><h2>Main Content</h2></div></div>",
     "css": "/* Active: left border + BG tint */",
-    "js": "// Toggle active via JS"
+    "js": "// Toggle active via JS",
+    "desc_zh": "垂直侧边导航，带活跃状态高亮"
   },
   {
     "id": "n07",
@@ -190,7 +196,8 @@ var COMPS = [
     "desc_en": "Page navigation buttons",
     "html": "<div style=\"display:flex;justify-content:center;align-items:center;gap:6px;padding:30px\"><button style=\"padding:8px 14px;border:1px solid #ddd;background:#fff;cursor:pointer;border-radius:6px\">‹ Prev</button><button style=\"padding:8px 14px;border:1px solid #e94560;background:#e94560;color:#fff;cursor:pointer;border-radius:6px\">1</button><button style=\"padding:8px 14px;border:1px solid #ddd;background:#fff;cursor:pointer;border-radius:6px\">2</button><button style=\"padding:8px 14px;border:1px solid #ddd;background:#fff;cursor:pointer;border-radius:6px\">3</button><button style=\"padding:8px 14px;border:1px solid #ddd;background:#fff;cursor:pointer;border-radius:6px\">…</button><button style=\"padding:8px 14px;border:1px solid #ddd;background:#fff;cursor:pointer;border-radius:6px\">12</button><button style=\"padding:8px 14px;border:1px solid #ddd;background:#fff;cursor:pointer;border-radius:6px\">Next ›</button></div>",
     "css": "/* Active: primary color BG */",
-    "js": "// Wire up click handlers"
+    "js": "// Wire up click handlers",
+    "desc_zh": "数据分页导航，支持翻页跳转"
   },
   {
     "id": "n08",
@@ -205,7 +212,8 @@ var COMPS = [
     "desc_en": "Multi-step progress",
     "html": "<div style=\"display:flex;justify-content:center;align-items:center;gap:0;padding:40px 20px\"><div style=\"display:flex;align-items:center\"><div style=\"width:36px;height:36px;border-radius:50%;background:#2ed573;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold\">✓</div><div style=\"width:80px;height:3px;background:#2ed573\"></div></div><div style=\"display:flex;align-items:center\"><div style=\"width:36px;height:36px;border-radius:50%;background:#e94560;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold\">2</div><div style=\"width:80px;height:3px;background:#ddd\"></div></div><div style=\"display:flex;align-items:center\"><div style=\"width:36px;height:36px;border-radius:50%;background:#ddd;color:#999;display:flex;align-items:center;justify-content:center;font-weight:bold\">3</div></div></div>",
     "css": "/* Completed:green, Active:primary, Inactive:gray */",
-    "js": "// Update step states via JS"
+    "js": "// Update step states via JS",
+    "desc_zh": "多步骤流程进度指示器"
   },
   {
     "id": "n09",
@@ -220,7 +228,8 @@ var COMPS = [
     "desc_en": "Hover to reveal sub-menu",
     "html": "<div style=\"padding:30px;background:#1a1a2e;display:flex;gap:30px;justify-content:center\"><div style=\"position:relative\" onmouseenter=\"this.querySelector('.dd').style.display='block'\" onmouseleave=\"this.querySelector('.dd').style.display='none'\"><button style=\"padding:10px 20px;background:#333;color:#fff;border:none;cursor:pointer;border-radius:6px\">Products ▾</button><div class=\"dd\" style=\"display:none;position:absolute;top:100%;left:0;background:#fff;min-width:180px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.2);overflow:hidden;z-index:99\"><div style=\"padding:12px 18px;cursor:pointer;font-size:13px;color:#333\">Web Components</div><div style=\"padding:12px 18px;cursor:pointer;font-size:13px;color:#333\">Templates</div><div style=\"padding:12px 18px;cursor:pointer;font-size:13px;color:#333\">Source Code</div></div></div></div>",
     "css": "/* Dropdown: absolute position + box-shadow */",
-    "js": "// Pure CSS hover, or click toggle"
+    "js": "// Pure CSS hover, or click toggle",
+    "desc_zh": "悬停或点击展开下拉子菜单"
   },
   {
     "id": "n10",
@@ -235,7 +244,8 @@ var COMPS = [
     "desc_en": "Smooth scroll to sections",
     "html": "<div style=\"position:fixed;left:20px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:99\"><a href=\"#s1\" style=\"width:12px;height:12px;border-radius:50%;background:#e94560;display:block\" title=\"S1\"></a><a href=\"#s2\" style=\"width:12px;height:12px;border-radius:50%;background:#333;display:block\" title=\"S2\"></a><a href=\"#s3\" style=\"width:12px;height:12px;border-radius:50%;background:#333;display:block\" title=\"S3\"></a></div><div id=\"s1\" style=\"height:400px;padding:60px 80px;background:#1a1a2e;color:#fff\"><h2>Section 1</h2></div><div id=\"s2\" style=\"height:400px;padding:60px 80px;background:#16213e;color:#fff\"><h2>Section 2</h2></div><div id=\"s3\" style=\"height:400px;padding:60px 80px;background:#0f0f1a;color:#fff\"><h2>Section 3</h2></div>",
     "css": "/* Dots: fixed left, active=primary */",
-    "js": "// Add scroll spy via JS"
+    "js": "// Add scroll spy via JS",
+    "desc_zh": "点击平滑滚动到页面指定锚点区块"
   },
   {
     "id": "n11",
@@ -250,7 +260,8 @@ var COMPS = [
     "desc_en": "Mobile bottom bar",
     "html": "<div style=\"height:500px;padding:20px;background:#f8f9fa;position:relative\"><p>Scroll...</p><div style=\"position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:12px 0;border-top:1px solid #eee;z-index:100\"><div style=\"text-align:center;color:#e94560;font-size:12px;cursor:pointer\"><div style=\"font-size:22px\">🏠</div>Home</div><div style=\"text-align:center;color:#999;font-size:12px;cursor:pointer\"><div style=\"font-size:22px\">🔍</div>Search</div><div style=\"text-align:center;color:#999;font-size:12px;cursor:pointer\"><div style=\"font-size:22px\">📦</div>Orders</div><div style=\"text-align:center;color:#999;font-size:12px;cursor:pointer\"><div style=\"font-size:22px\">👤</div>Profile</div></div></div>",
     "css": "/* Fixed bottom bar: mobile style */",
-    "js": "// Toggle active state via JS"
+    "js": "// Toggle active state via JS",
+    "desc_zh": "固定在页面底部的导航栏"
   },
   {
     "id": "n12",
@@ -265,7 +276,8 @@ var COMPS = [
     "desc_en": "Doc sidebar navigation",
     "html": "<div style=\"display:flex;padding:20px;gap:30px\"><nav style=\"width:220px;position:sticky;top:20px;align-self:flex-start\"><p style=\"font-weight:bold;margin-bottom:12px;color:#333\">Contents</p><div style=\"font-size:13px;line-height:2.2\"><a href=\"#t1\" style=\"color:#e94560;text-decoration:none\">1. Intro</a><br><a href=\"#t2\" style=\"color:#666;text-decoration:none\">2. Getting Started</a><br><a href=\"#t3\" style=\"color:#666;text-decoration:none\">3. API</a></div></nav><div style=\"flex:1;max-width:600px;color:#333;line-height:1.8\"><h2 id=\"t1\">1. Intro</h2><p>Content...</p><h2 id=\"t2\">2. Getting Started</h2><p>Content...</p><h2 id=\"t3\">3. API</h2><p>Content...</p></div></div>",
     "css": "/* TOC: sticky sidebar */",
-    "js": "// Scroll spy for active link"
+    "js": "// Scroll spy for active link",
+    "desc_zh": "文章内容目录快速跳转导航"
   },
   {
     "id": "c01",
@@ -280,7 +292,8 @@ var COMPS = [
     "desc_en": "Auto-play image slider",
     "html": "<div style=\"max-width:700px;margin:20px auto;position:relative;overflow:hidden;border-radius:12px\"><div id=\"car\" style=\"display:flex;transition:transform 0.5s ease\"><div style=\"min-width:100%;height:350px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px\">Slide 1</div><div style=\"min-width:100%;height:350px;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px\">Slide 2</div><div style=\"min-width:100%;height:350px;background:linear-gradient(135deg,#4facfe,#00f2fe);display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px\">Slide 3</div></div><div style=\"text-align:center;margin-top:15px\"><span onclick=\"goSlide(0)\" style=\"display:inline-block;width:12px;height:12px;border-radius:50%;background:#e94560;margin:0 5px;cursor:pointer\"></span><span onclick=\"goSlide(1)\" style=\"display:inline-block;width:12px;height:12px;border-radius:50%;background:#666;margin:0 5px;cursor:pointer\"></span><span onclick=\"goSlide(2)\" style=\"display:inline-block;width:12px;height:12px;border-radius:50%;background:#666;margin:0 5px;cursor:pointer\"></span></div></div>",
     "css": ".dot-active{background:#e94560!important}",
-    "js": "var cur=0;function goSlide(n){cur=n;document.getElementById('car').style.transform='translateX(-'+cur*100+'%)'};setInterval(function(){cur=(cur+1)%3;goSlide(cur)},3000)"
+    "js": "var cur=0;function goSlide(n){cur=n;document.getElementById('car').style.transform='translateX(-'+cur*100+'%)'};setInterval(function(){cur=(cur+1)%3;goSlide(cur)},3000)",
+    "desc_zh": "自动播放的图片轮播/幻灯片组件"
   },
   {
     "id": "c02",
@@ -295,7 +308,8 @@ var COMPS = [
     "desc_en": "Responsive card grid",
     "html": "<div style=\"display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;padding:20px\"><div style=\"background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.1)\"><div style=\"height:150px;background:linear-gradient(135deg,#667eea,#764ba2)\"></div><div style=\"padding:16px\"><h3 style=\"color:#333\">Card One</h3><p style=\"font-size:13px;color:#666\">Description here.</p></div></div><div style=\"background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.1)\"><div style=\"height:150px;background:linear-gradient(135deg,#f093fb,#f5576c)\"></div><div style=\"padding:16px\"><h3 style=\"color:#333\">Card Two</h3><p style=\"font-size:13px;color:#666\">Description here.</p></div></div><div style=\"background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.1)\"><div style=\"height:150px;background:linear-gradient(135deg,#4facfe,#00f2fe)\"></div><div style=\"padding:16px\"><h3 style=\"color:#333\">Card Three</h3><p style=\"font-size:13px;color:#666\">Description here.</p></div></div></div>",
     "css": "/* CSS Grid auto-fill: responsive columns */",
-    "js": "// Pure CSS"
+    "js": "// Pure CSS",
+    "desc_zh": "响应式卡片网格排列展示"
   },
   {
     "id": "c03",
@@ -310,7 +324,8 @@ var COMPS = [
     "desc_en": "Expand/collapse sections",
     "html": "<div style=\"max-width:600px;margin:20px auto\"><div onclick=\"var b=this.querySelector('.ab');b.style.display=b.style.display==='block'?'none':'block'\" style=\"border-bottom:1px solid #ddd;cursor:pointer\"><div style=\"padding:18px;font-weight:bold;background:#f8f9fa\">▸ Question One</div><div class=\"ab\" style=\"display:none;padding:18px;background:#fff;color:#555\">Answer one.</div></div><div onclick=\"var b=this.querySelector('.ab');b.style.display=b.style.display==='block'?'none':'block'\" style=\"border-bottom:1px solid #ddd;cursor:pointer\"><div style=\"padding:18px;font-weight:bold;background:#f8f9fa\">▸ Question Two</div><div class=\"ab\" style=\"display:none;padding:18px;background:#fff;color:#555\">Answer two.</div></div></div>",
     "css": "/* Header hover effect */",
-    "js": "// Inline onclick handles toggle"
+    "js": "// Inline onclick handles toggle",
+    "desc_zh": "可折叠展开的FAQ手风琴面板"
   },
   {
     "id": "c04",
@@ -325,7 +340,8 @@ var COMPS = [
     "desc_en": "Popup with ESC close",
     "html": "<div style=\"padding:40px;text-align:center\"><button onclick=\"document.getElementById('modal').style.display='flex'\" style=\"padding:14px 32px;background:#e94560;color:#fff;border:none;border-radius:8px;font-size:16px;cursor:pointer\">Open Modal</button></div><div id=\"modal\" style=\"display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center\" onclick=\"if(event.target===this)this.style.display='none'\"><div style=\"background:#fff;border-radius:16px;padding:32px;max-width:480px;width:90%\"><h2>Modal Title</h2><p style=\"color:#666;margin:16px 0\">This is a modal dialog.</p><button onclick=\"document.getElementById('modal').style.display='none'\" style=\"padding:10px 24px;background:#333;color:#fff;border:none;border-radius:6px;cursor:pointer\">Close</button></div></div>",
     "css": "/* Fixed + flex center, backdrop click closes */",
-    "js": "document.addEventListener('keydown',function(e){if(e.key==='Escape'){var m=document.getElementById('modal');if(m)m.style.display='none'}})"
+    "js": "document.addEventListener('keydown',function(e){if(e.key==='Escape'){var m=document.getElementById('modal');if(m)m.style.display='none'}})",
+    "desc_zh": "弹出模态对话框窗口，带遮罩层"
   },
   {
     "id": "c05",
@@ -340,7 +356,8 @@ var COMPS = [
     "desc_en": "Auto-dismiss notification",
     "html": "<div style=\"padding:40px;text-align:center\"><button onclick=\"showToast('success','Done!')\" style=\"padding:10px 20px;background:#2ed573;color:#fff;border:none;border-radius:6px;cursor:pointer;margin:5px\">Success</button> <button onclick=\"showToast('error','Failed!')\" style=\"padding:10px 20px;background:#ff4757;color:#fff;border:none;border-radius:6px;cursor:pointer;margin:5px\">Error</button></div><div id=\"toast-box\" style=\"position:fixed;top:20px;right:20px;z-index:99999\"></div>",
     "css": ".toast{padding:14px 22px;border-radius:8px;color:#fff;margin-bottom:10px;animation:slideIn 0.3s ease}@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}",
-    "js": "function showToast(type,msg){var d=document.createElement('div');d.className='toast';d.style.background={success:'#2ed573',error:'#ff4757'}[type];d.textContent=msg;document.getElementById('toast-box').appendChild(d);setTimeout(function(){d.remove()},3000)}"
+    "js": "function showToast(type,msg){var d=document.createElement('div');d.className='toast';d.style.background={success:'#2ed573',error:'#ff4757'}[type];d.textContent=msg;document.getElementById('toast-box').appendChild(d);setTimeout(function(){d.remove()},3000)}",
+    "desc_zh": "成功/错误/警告等轻量级提示消息"
   },
   {
     "id": "c06",
@@ -355,7 +372,8 @@ var COMPS = [
     "desc_en": "Hover for extra info",
     "html": "<div style=\"padding:80px;text-align:center\"><button id=\"tipbtn\" style=\"padding:12px 24px;background:#667eea;color:#fff;border:none;border-radius:8px;cursor:pointer;position:relative\" onmouseenter=\"document.getElementById('tip').style.display='block'\" onmouseleave=\"document.getElementById('tip').style.display='none'\">Hover me<div id=\"tip\" style=\"display:none;position:absolute;top:110%;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:8px 14px;border-radius:6px;font-size:12px;white-space:nowrap;z-index:99\">Helpful tooltip!</div></button></div>",
     "css": "/* Absolute position below trigger */",
-    "js": "// Pure CSS hover, or click toggle"
+    "js": "// Pure CSS hover, or click toggle",
+    "desc_zh": "鼠标悬停显示提示文本气泡"
   },
   {
     "id": "c07",
@@ -370,7 +388,8 @@ var COMPS = [
     "desc_en": "Animated progress bar",
     "html": "<div style=\"max-width:500px;margin:40px auto\"><div style=\"margin-bottom:20px\"><p style=\"font-size:13px;color:#666;margin-bottom:8px\">Completion</p><div style=\"height:12px;background:#eee;border-radius:6px;overflow:hidden\"><div id=\"pbar\" style=\"height:100%;width:65%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:6px;transition:width 0.5s\"></div></div><p id=\"plabel\" style=\"font-size:12px;color:#999;margin-top:6px\">65%</p></div><div style=\"display:flex;gap:10px\"><button onclick=\"setP(25)\" style=\"padding:8px 16px;background:#333;color:#fff;border:none;border-radius:6px;cursor:pointer\">25%</button><button onclick=\"setP(50)\" style=\"padding:8px 16px;background:#333;color:#fff;border:none;border-radius:6px;cursor:pointer\">50%</button><button onclick=\"setP(100)\" style=\"padding:8px 16px;background:#2ed573;color:#fff;border:none;border-radius:6px;cursor:pointer\">100%</button></div></div>",
     "css": "/* Gradient fill for visual appeal */",
-    "js": "function setP(pct){document.getElementById('pbar').style.width=pct+'%';document.getElementById('plabel').textContent=pct+'%'}"
+    "js": "function setP(pct){document.getElementById('pbar').style.width=pct+'%';document.getElementById('plabel').textContent=pct+'%'}",
+    "desc_zh": "任务完成度百分比进度条"
   },
   {
     "id": "c08",
@@ -385,7 +404,8 @@ var COMPS = [
     "desc_en": "Status indicators",
     "html": "<div style=\"padding:40px;display:flex;flex-wrap:wrap;gap:20px;align-items:center\"><span style=\"background:#e94560;color:#fff;padding:4px 12px;border-radius:12px;font-size:12px;font-weight:bold\">NEW</span><span style=\"background:#2ed573;color:#fff;padding:4px 12px;border-radius:12px;font-size:12px;font-weight:bold\">SUCCESS</span><span style=\"background:#3742fa;color:#fff;padding:4px 12px;border-radius:12px;font-size:12px;font-weight:bold\">INFO</span><span style=\"position:relative;display:inline-block;font-size:20px\">🛒<span style=\"position:absolute;top:-8px;right:-10px;background:#e94560;color:#fff;font-size:10px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold\">3</span></span></div>",
     "css": "/* Badge: pill-shaped, with count: absolute child */",
-    "js": "// Dynamic count via JS"
+    "js": "// Dynamic count via JS",
+    "desc_zh": "状态标记徽章/标签组件"
   },
   {
     "id": "c09",
@@ -400,7 +420,8 @@ var COMPS = [
     "desc_en": "Chronological events",
     "html": "<div style=\"max-width:600px;margin:40px auto;padding:0 20px\"><div style=\"position:relative;padding-left:30px\"><div style=\"position:absolute;left:8px;top:0;bottom:0;width:2px;background:#ddd\"></div><div style=\"position:relative;margin-bottom:30px\"><div style=\"position:absolute;left:-26px;top:0;width:18px;height:18px;border-radius:50%;background:#e94560;border:3px solid #fff;box-shadow:0 0 0 2px #e94560\"></div><p style=\"font-size:12px;color:#999\">2026 Jun</p><h3 style=\"color:#333\">v2.0 Released</h3><p style=\"font-size:13px;color:#666\">80+ components added.</p></div><div style=\"position:relative;margin-bottom:30px\"><div style=\"position:absolute;left:-26px;top:0;width:18px;height:18px;border-radius:50%;background:#2ed573;border:3px solid #fff;box-shadow:0 0 0 2px #2ed573\"></div><p style=\"font-size:12px;color:#999\">2026 May</p><h3 style=\"color:#333\">v1.0 Launched</h3><p style=\"font-size:13px;color:#666\">First 26 components.</p></div></div></div>",
     "css": "/* Vertical line + dot per item */",
-    "js": "// Pure CSS, generate dynamically via JS"
+    "js": "// Pure CSS, generate dynamically via JS",
+    "desc_zh": "多步骤时间线/历程纵向展示"
   },
   {
     "id": "c10",
@@ -415,7 +436,8 @@ var COMPS = [
     "desc_en": "Interactive star rating",
     "html": "<div style=\"padding:40px;text-align:center\"><div id=\"stars\" style=\"display:inline-flex;gap:6px;font-size:36px;cursor:pointer\"><span onclick=\"setStar(1)\">☆</span><span onclick=\"setStar(2)\">☆</span><span onclick=\"setStar(3)\">☆</span><span onclick=\"setStar(4)\">☆</span><span onclick=\"setStar(5)\">☆</span></div><p id=\"rating-label\" style=\"margin-top:12px;color:#666;font-size:14px\">Click to rate</p></div>",
     "css": "/* Empty ☆ vs filled ★ */",
-    "js": "var rv=0;function setStar(n){rv=n;for(var i=1;i<=5;i++){var s=document.getElementById('stars').children[i-1];s.textContent=i<=n?'★':'☆';s.style.color=i<=n?'#ffa502':'#ddd'}}document.getElementById('stars').addEventListener('mouseleave',function(){setStar(rv)})"
+    "js": "var rv=0;function setStar(n){rv=n;for(var i=1;i<=5;i++){var s=document.getElementById('stars').children[i-1];s.textContent=i<=n?'★':'☆';s.style.color=i<=n?'#ffa502':'#ddd'}}document.getElementById('stars').addEventListener('mouseleave',function(){setStar(rv)})",
+    "desc_zh": "5星评分交互组件"
   },
   {
     "id": "c11",
@@ -430,7 +452,8 @@ var COMPS = [
     "desc_en": "Collection of tag pills",
     "html": "<div style=\"max-width:600px;margin:40px auto;padding:30px;text-align:center;background:#f8f9fa;border-radius:12px\"><p style=\"font-size:12px;color:#999;margin-bottom:16px\">POPULAR TAGS</p><div style=\"display:flex;flex-wrap:wrap;gap:10px;justify-content:center\"><a href=\"#\" style=\"display:inline-block;padding:6px 14px;background:#667eea;color:#fff;text-decoration:none;border-radius:20px;font-size:13px\">HTML</a> <a href=\"#\" style=\"display:inline-block;padding:6px 14px;background:#764ba2;color:#fff;text-decoration:none;border-radius:20px;font-size:15px\">CSS</a> <a href=\"#\" style=\"display:inline-block;padding:8px 16px;background:#e94560;color:#fff;text-decoration:none;border-radius:20px;font-size:16px\">JavaScript</a> <a href=\"#\" style=\"display:inline-block;padding:6px 12px;background:#61dafb;color:#fff;text-decoration:none;border-radius:20px;font-size:12px\">React</a></div></div>",
     "css": "/* Varying sizes for visual interest */",
-    "js": "// Generate via JS for dynamic clouds"
+    "js": "// Generate via JS for dynamic clouds",
+    "desc_zh": "标签关键词云展示"
   },
   {
     "id": "c12",
@@ -445,7 +468,8 @@ var COMPS = [
     "desc_en": "Friendly no-data placeholder",
     "html": "<div style=\"max-width:400px;margin:40px auto;text-align:center;padding:60px 20px;color:#999\"><div style=\"font-size:64px;margin-bottom:20px;opacity:0.4\">📭</div><h3 style=\"color:#666;margin-bottom:8px\">No items yet</h3><p style=\"font-size:13px;line-height:1.6\">Get started by creating your first item.</p><button style=\"margin-top:20px;padding:10px 24px;background:#667eea;color:#fff;border:none;border-radius:8px;cursor:pointer\">+ Create New</button></div>",
     "css": "/* Centered layout, large icon, CTA button */",
-    "js": "// Show/hide based on data state"
+    "js": "// Show/hide based on data state",
+    "desc_zh": "数据为空时的友好提示占位"
   },
   {
     "id": "c13",
@@ -460,7 +484,8 @@ var COMPS = [
     "desc_en": "Animated loading placeholder",
     "html": "<div style=\"max-width:500px;margin:40px auto;padding:20px\"><div style=\"display:flex;align-items:center;gap:14px;margin-bottom:20px\"><div style=\"width:48px;height:48px;border-radius:50%;background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%);background-size:200% 100%;animation:skel 1.5s infinite;flex-shrink:0\"></div><div style=\"flex:1\"><div style=\"height:14px;background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%);background-size:200% 100%;animation:skel 1.5s infinite;margin-bottom:8px;border-radius:4px\"></div><div style=\"height:12px;width:60%;background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%);background-size:200% 100%;animation:skel 1.5s infinite 0.2s;border-radius:4px\"></div></div></div><div style=\"height:20px;margin-bottom:14px;background:linear-gradient(90deg,#eee 25%,#f5f5f5 50%,#eee 75%);background-size:200% 100%;animation:skel 1.5s infinite 0.4s;border-radius:4px\"></div></div>",
     "css": "@keyframes skel{0%{background-position:200% 0}100%{background-position:-200% 0}}/* Shimmer effect */",
-    "js": "// Replace with real content when loaded"
+    "js": "// Replace with real content when loaded",
+    "desc_zh": "内容加载前的骨架屏占位动画"
   },
   {
     "id": "c14",
@@ -475,7 +500,8 @@ var COMPS = [
     "desc_en": "Overlapping user avatars",
     "html": "<div style=\"padding:40px;display:flex;align-items:center;gap:12px;flex-wrap:wrap\"><div style=\"display:flex\"><div style=\"width:44px;height:44px;border-radius:50%;background:#667eea;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;border:3px solid #fff;margin-right:-12px;position:relative;z-index:1\">A</div><div style=\"width:44px;height:44px;border-radius:50%;background:#e94560;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;border:3px solid #fff;margin-right:-12px;position:relative;z-index:2\">B</div><div style=\"width:44px;height:44px;border-radius:50%;background:#2ed573;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;border:3px solid #fff;position:relative;z-index:3\">+5</div></div><p style=\"color:#666;font-size:13px;margin-left:12px\">Alice, Bob + 5 others</p></div>",
     "css": "/* Negative margin + z-index for overlap */",
-    "js": "// Generate avatars dynamically via JS"
+    "js": "// Generate avatars dynamically via JS",
+    "desc_zh": "多个用户头像叠加展示"
   },
   {
     "id": "c15",
@@ -490,7 +516,8 @@ var COMPS = [
     "desc_en": "Styled testimonial block",
     "html": "<div style=\"max-width:600px;margin:40px auto;padding:30px 40px;background:#f8f9fa;border-left:5px solid #e94560;border-radius:0 8px 8px 0\"><p style=\"font-size:16px;color:#333;line-height:1.8;font-style:italic;margin-bottom:16px\">\"This dictionary saved me hours. Every component I needed was right there.\"</p><div style=\"display:flex;align-items:center;gap:12px\"><div style=\"width:40px;height:40px;border-radius:50%;background:#667eea;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold\">J</div><div><div style=\"font-weight:bold;color:#333;font-size:14px\">Jane Dev</div><div style=\"font-size:12px;color:#999\">Frontend Engineer</div></div></div></div>",
     "css": "/* Left border + italic text + author row */",
-    "js": "// Pure CSS/HTML"
+    "js": "// Pure CSS/HTML",
+    "desc_zh": "引用/摘录文本块样式"
   },
   {
     "id": "f01",
@@ -505,7 +532,8 @@ var COMPS = [
     "desc_en": "Real-time input validation",
     "html": "<form style=\"max-width:500px;margin:20px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1)\" onsubmit=\"return false\"><label style=\"display:block;margin-bottom:6px;font-weight:bold;color:#333\">Email</label><input type=\"email\" id=\"vemail\" placeholder=\"Enter email\" oninput=\"vEmail()\" style=\"width:100%;padding:11px 14px;border:2px solid #ddd;border-radius:8px;font-size:14px;margin-bottom:16px\"><p id=\"vemail-msg\" style=\"font-size:12px;height:18px;margin:-10px 0 16px\"></p><label style=\"display:block;margin-bottom:6px;font-weight:bold;color:#333\">Password</label><input type=\"password\" id=\"vpass\" placeholder=\"Min 6 chars\" oninput=\"vPass()\" style=\"width:100%;padding:11px 14px;border:2px solid #ddd;border-radius:8px;font-size:14px;margin-bottom:16px\"><p id=\"vpass-msg\" style=\"font-size:12px;height:18px;margin:-10px 0 16px\"></p><button style=\"width:100%;padding:12px;background:#e94560;color:#fff;border:none;border-radius:8px;font-size:15px;cursor:pointer;font-weight:bold\">Submit</button></form>",
     "css": "input.valid{border-color:#2ed573!important} input.invalid{border-color:#ff4757!important}",
-    "js": "function vEmail(){var v=document.getElementById('vemail'),m=document.getElementById('vemail-msg'),ok=/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v.value);v.className=ok?'valid':'invalid';m.textContent=ok?'✓ Valid':'✗ Invalid';m.style.color=ok?'#2ed573':'#ff4757'}function vPass(){var v=document.getElementById('vpass'),m=document.getElementById('vpass-msg'),ok=v.value.length>=6;v.className=ok?'valid':'invalid';m.textContent=ok?'✓ OK':'✗ Min 6';m.style.color=ok?'#2ed573':'#ff4757'}"
+    "js": "function vEmail(){var v=document.getElementById('vemail'),m=document.getElementById('vemail-msg'),ok=/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v.value);v.className=ok?'valid':'invalid';m.textContent=ok?'✓ Valid':'✗ Invalid';m.style.color=ok?'#2ed573':'#ff4757'}function vPass(){var v=document.getElementById('vpass'),m=document.getElementById('vpass-msg'),ok=v.value.length>=6;v.className=ok?'valid':'invalid';m.textContent=ok?'✓ OK':'✗ Min 6';m.style.color=ok?'#2ed573':'#ff4757'}",
+    "desc_zh": "输入时实时校验表单字段"
   },
   {
     "id": "f02",
@@ -520,7 +548,8 @@ var COMPS = [
     "desc_en": "Eye icon toggles visibility",
     "html": "<div style=\"max-width:400px;margin:40px auto\"><label style=\"display:block;margin-bottom:8px;font-weight:bold;color:#333\">Password</label><div style=\"position:relative\"><input type=\"password\" id=\"pwd-i\" value=\"mypassword\" style=\"width:100%;padding:12px 44px 12px 14px;border:2px solid #ddd;border-radius:8px;font-size:14px\"><button type=\"button\" onclick=\"togglePwd()\" style=\"position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:20px;cursor:pointer\" id=\"pwd-b\">👁️</button></div></div>",
     "css": "/* Toggle button inside input */",
-    "js": "function togglePwd(){var i=document.getElementById('pwd-i'),b=document.getElementById('pwd-b');if(i.type==='password'){i.type='text';b.textContent='🙈'}else{i.type='password';b.textContent='👁️'}}"
+    "js": "function togglePwd(){var i=document.getElementById('pwd-i'),b=document.getElementById('pwd-b');if(i.type==='password'){i.type='text';b.textContent='🙈'}else{i.type='password';b.textContent='👁️'}}",
+    "desc_zh": "点击切换密码明文/密文显示"
   },
   {
     "id": "f03",
@@ -535,7 +564,8 @@ var COMPS = [
     "desc_en": "Preview image before upload",
     "html": "<div style=\"max-width:450px;margin:30px auto;text-align:center\"><div id=\"dropz\" style=\"border:3px dashed #ccc;border-radius:12px;padding:50px 20px;cursor:pointer;background:#fafafa\" onclick=\"document.getElementById('filein').click()\" ondragover=\"event.preventDefault();this.style.borderColor='#667eea'\" ondragleave=\"this.style.borderColor='#ccc'\" ondrop=\"event.preventDefault();handleDrop(event)\"><p style=\"color:#888;font-size:16px\">📎 Drag & drop or click</p><input type=\"file\" id=\"filein\" accept=\"image/*\" style=\"display:none\" onchange=\"handleFile(this.files[0])\"></div><div id=\"preview\" style=\"margin-top:20px\"></div></div>",
     "css": "#dropz:hover{border-color:#667eea!important;background:#f0f4ff}",
-    "js": "function handleFile(f){if(!f)return;var r=new FileReader();r.onload=function(e){document.getElementById('preview').innerHTML='<img src=\"'+e.target.result+'\" style=\"max-width:100%;border-radius:8px\">'};r.readAsDataURL(f)}function handleDrop(e){handleFile(e.dataTransfer.files[0])}"
+    "js": "function handleFile(f){if(!f)return;var r=new FileReader();r.onload=function(e){document.getElementById('preview').innerHTML='<img src=\"'+e.target.result+'\" style=\"max-width:100%;border-radius:8px\">'};r.readAsDataURL(f)}function handleDrop(e){handleFile(e.dataTransfer.files[0])}",
+    "desc_zh": "拖拽或点击上传文件并预览"
   },
   {
     "id": "f04",
@@ -550,7 +580,8 @@ var COMPS = [
     "desc_en": "Type + Enter to add tags",
     "html": "<div style=\"max-width:500px;margin:30px auto\"><div id=\"tagbox\" style=\"display:flex;flex-wrap:wrap;gap:6px;padding:10px 14px;border:2px solid #ddd;border-radius:8px;align-items:center;background:#fff\" onclick=\"document.getElementById('tagin').focus()\"><div id=\"taglist\" style=\"display:flex;flex-wrap:wrap;gap:6px\"></div><input id=\"tagin\" style=\"flex:1;min-width:120px;border:none;outline:none;font-size:14px;padding:4px\" placeholder=\"Type + Enter...\" onkeydown=\"if(event.key==='Enter'){event.preventDefault();addTag(this.value);this.value=''}\"></div></div>",
     "css": ".tag-pill{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;background:#667eea;color:#fff;border-radius:16px;font-size:12px}",
-    "js": "function addTag(v){v=v.trim();if(!v)return;var d=document.createElement('span');d.className='tag-pill';d.innerHTML=v+'<span style=\"cursor:pointer;margin-left:4px;font-weight:bold\" onclick=\"this.parentElement.remove()\">×</span>';document.getElementById('taglist').appendChild(d)}"
+    "js": "function addTag(v){v=v.trim();if(!v)return;var d=document.createElement('span');d.className='tag-pill';d.innerHTML=v+'<span style=\"cursor:pointer;margin-left:4px;font-weight:bold\" onclick=\"this.parentElement.remove()\">×</span>';document.getElementById('taglist').appendChild(d)}",
+    "desc_zh": "输入标签后回车添加多个标签"
   },
   {
     "id": "f05",
@@ -565,7 +596,8 @@ var COMPS = [
     "desc_en": "Custom range with value display",
     "html": "<div style=\"max-width:400px;margin:40px auto;padding:20px\"><label style=\"display:block;margin-bottom:12px;font-weight:bold;color:#333\">Volume</label><div style=\"display:flex;align-items:center;gap:16px\"><input type=\"range\" id=\"range-i\" min=\"0\" max=\"100\" value=\"50\" style=\"flex:1;accent-color:#e94560\" oninput=\"document.getElementById('range-v').textContent=this.value\"><span id=\"range-v\" style=\"font-size:20px;font-weight:bold;color:#e94560;min-width:40px;text-align:center\">50</span></div></div>",
     "css": "/* accent-color for modern browsers */",
-    "js": "// Inline oninput, no extra JS"
+    "js": "// Inline oninput, no extra JS",
+    "desc_zh": "拖动滑块选择数值范围"
   },
   {
     "id": "f06",
@@ -580,7 +612,8 @@ var COMPS = [
     "desc_en": "Dropdown suggestions on type",
     "html": "<div style=\"max-width:400px;margin:40px auto;position:relative\"><input type=\"text\" id=\"autoin\" placeholder=\"Search...\" oninput=\"showSug(this.value)\" style=\"width:100%;padding:12px 16px;border:2px solid #ddd;border-radius:8px;font-size:14px\"><div id=\"sugbox\" style=\"display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #ddd;border-radius:0 0 8px 8px;max-height:180px;overflow-y:auto;z-index:99\"></div></div>",
     "css": "/* Suggestions dropdown: absolute below input */",
-    "js": "var data=['Apple','Banana','Cherry','Grape','Orange'];function showSug(q){var el=document.getElementById('sugbox');if(!q){el.style.display='none';return}var m=data.filter(function(d){return d.toLowerCase().indexOf(q.toLowerCase())!==-1});if(!m.length){el.style.display='none';return}el.innerHTML=m.map(function(d){return '<div style=\"padding:10px 16px;cursor:pointer;font-size:13px\" onclick=\"selectSug(this.textContent)\">'+d+'</div>'}).join('');el.style.display='block'}function selectSug(v){document.getElementById('autoin').value=v;document.getElementById('sugbox').style.display='none'}"
+    "js": "var data=['Apple','Banana','Cherry','Grape','Orange'];function showSug(q){var el=document.getElementById('sugbox');if(!q){el.style.display='none';return}var m=data.filter(function(d){return d.toLowerCase().indexOf(q.toLowerCase())!==-1});if(!m.length){el.style.display='none';return}el.innerHTML=m.map(function(d){return '<div style=\"padding:10px 16px;cursor:pointer;font-size:13px\" onclick=\"selectSug(this.textContent)\">'+d+'</div>'}).join('');el.style.display='block'}function selectSug(v){document.getElementById('autoin').value=v;document.getElementById('sugbox').style.display='none'}",
+    "desc_zh": "输入时弹出匹配建议列表"
   },
   {
     "id": "f07",
@@ -595,7 +628,8 @@ var COMPS = [
     "desc_en": "iOS-style on/off switch",
     "html": "<div style=\"padding:40px\"><div style=\"display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid #eee\"><span style=\"color:#333;font-size:14px\">Notifications</span><div id=\"tog1\" style=\"width:52px;height:28px;border-radius:14px;background:#ccc;cursor:pointer;position:relative;transition:background 0.3s\" onclick=\"toggleSw(this)\"><div style=\"position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,0.2);transition:left 0.3s\"></div></div></div></div>",
     "css": "/* Background color + circle position = state */",
-    "js": "function toggleSw(el){var on=el.style.background==='#e94560'||el.style.background==='rgb(233, 69, 96)';el.style.background=on?'#ccc':'#e94560';el.querySelector('div').style.left=on?'2px':'26px'}"
+    "js": "function toggleSw(el){var on=el.style.background==='#e94560'||el.style.background==='rgb(233, 69, 96)';el.style.background=on?'#ccc':'#e94560';el.querySelector('div').style.left=on?'2px':'26px'}",
+    "desc_zh": "开关式布尔值切换按钮"
   },
   {
     "id": "f08",
@@ -610,7 +644,8 @@ var COMPS = [
     "desc_en": "Click stars to rate",
     "html": "<div style=\"padding:40px;text-align:center\"><p style=\"color:#666;margin-bottom:12px;font-size:14px\">Rate:</p><div id=\"starin\" style=\"display:inline-flex;gap:8px;font-size:32px;cursor:pointer\"><span data-v=\"1\" onclick=\"setR(1)\">☆</span><span data-v=\"2\" onclick=\"setR(2)\">☆</span><span data-v=\"3\" onclick=\"setR(3)\">☆</span><span data-v=\"4\" onclick=\"setR(4)\">☆</span><span data-v=\"5\" onclick=\"setR(5)\">☆</span></div><p id=\"starout\" style=\"margin-top:8px;color:#999;font-size:13px\">Not rated</p></div>",
     "css": "/* Filled ★ for selected */",
-    "js": "var rv=0;function setR(v){rv=v;var s=document.getElementById('starin').children;for(var i=0;i<5;i++){s[i].textContent=i<v?'★':'☆';s[i].style.color=i<v?'#ffa502':'#ddd'}document.getElementById('starout').textContent='Rating: '+v+'/5'}"
+    "js": "var rv=0;function setR(v){rv=v;var s=document.getElementById('starin').children;for(var i=0;i<5;i++){s[i].textContent=i<v?'★':'☆';s[i].style.color=i<v?'#ffa502':'#ddd'}document.getElementById('starout').textContent='Rating: '+v+'/5'}",
+    "desc_zh": "点击星星进行评分输入"
   },
   {
     "id": "f09",
@@ -625,7 +660,8 @@ var COMPS = [
     "desc_en": "Multiple checkbox selection",
     "html": "<div style=\"max-width:400px;margin:40px auto;padding:20px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08)\"><label style=\"display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #eee;font-weight:bold;color:#333\"><input type=\"checkbox\" onchange=\"toggleAll(this)\"> Select All</label><label style=\"display:flex;align-items:center;gap:10px;padding:10px 0;cursor:pointer\"><input type=\"checkbox\" class=\"cb-item\"> Option A</label><label style=\"display:flex;align-items:center;gap:10px;padding:10px 0;cursor:pointer\"><input type=\"checkbox\" class=\"cb-item\"> Option B</label><label style=\"display:flex;align-items:center;gap:10px;padding:10px 0;cursor:pointer\"><input type=\"checkbox\" class=\"cb-item\"> Option C</label></div>",
     "css": "/* accent-color for modern checkboxes */",
-    "js": "function toggleAll(el){document.querySelectorAll('.cb-item').forEach(function(cb){cb.checked=el.checked})}"
+    "js": "function toggleAll(el){document.querySelectorAll('.cb-item').forEach(function(cb){cb.checked=el.checked})}",
+    "desc_zh": "多选框组，支持全选/取消"
   },
   {
     "id": "f10",
@@ -640,7 +676,8 @@ var COMPS = [
     "desc_en": "Exclusive selection group",
     "html": "<div style=\"max-width:400px;margin:40px auto;padding:20px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08)\"><p style=\"font-weight:bold;color:#333;margin-bottom:14px\">Choose plan:</p><label style=\"display:flex;align-items:center;gap:12px;padding:12px 16px;margin-bottom:8px;border:2px solid #e94560;background:rgba(233,69,96,0.03);border-radius:8px;cursor:pointer\"><input type=\"radio\" name=\"plan\" value=\"pro\" checked> <div><div style=\"font-weight:bold;color:#333\">Pro</div><div style=\"font-size:12px;color:#999\">$9.99/mo</div></div></label><label style=\"display:flex;align-items:center;gap:12px;padding:12px 16px;border:2px solid #ddd;border-radius:8px;cursor:pointer\"><input type=\"radio\" name=\"plan\" value=\"basic\"> <div><div style=\"font-weight:bold;color:#333\">Basic</div><div style=\"font-size:12px;color:#999\">Free</div></div></label></div>",
     "css": "/* Selected: primary border + tint BG */",
-    "js": "// Read radio value on form submit"
+    "js": "// Read radio value on form submit",
+    "desc_zh": "单选按钮组切换选择"
   },
   {
     "id": "f11",
@@ -655,7 +692,8 @@ var COMPS = [
     "desc_en": "Search with icon and clear",
     "html": "<div style=\"max-width:400px;margin:40px auto;position:relative\"><input type=\"text\" id=\"searchin\" placeholder=\"Search...\" style=\"width:100%;padding:12px 44px 12px 44px;border:2px solid #ddd;border-radius:24px;font-size:14px\" oninput=\"this.nextElementSibling.style.display=this.value?'flex':'none'\"><span style=\"position:absolute;left:16px;top:50%;transform:translateY(-50%);color:#999;font-size:18px\">🔍</span><button id=\"clearbtn\" onclick=\"document.getElementById('searchin').value='';this.style.display='none'\" style=\"display:none;position:absolute;right:16px;top:50%;transform:translateY(-50%);background:none;border:none;color:#999;font-size:18px;cursor:pointer\">✕</button></div>",
     "css": "/* Rounded search input with icon overlay */",
-    "js": "// Wire up search handler as needed"
+    "js": "// Wire up search handler as needed",
+    "desc_zh": "带搜索图标的输入框"
   },
   {
     "id": "f12",
@@ -670,7 +708,8 @@ var COMPS = [
     "desc_en": "Custom styled select",
     "html": "<div style=\"max-width:400px;margin:40px auto\"><label style=\"display:block;margin-bottom:8px;font-weight:bold;color:#333\">Country</label><div style=\"position:relative\"><select style=\"width:100%;padding:12px 16px;border:2px solid #ddd;border-radius:8px;font-size:14px;appearance:none;background:#fff;cursor:pointer\"><option>United States</option><option>United Kingdom</option><option>Germany</option><option>Japan</option></select><span style=\"position:absolute;right:16px;top:50%;transform:translateY(-50%);pointer-events:none;color:#999\">▾</span></div></div>",
     "css": "/* appearance:none + custom arrow */",
-    "js": "// Handle change via onchange"
+    "js": "// Handle change via onchange",
+    "desc_zh": "原生下拉选择框组件"
   },
   {
     "id": "f13",
@@ -685,7 +724,8 @@ var COMPS = [
     "desc_en": "Textarea grows with content",
     "html": "<div style=\"max-width:500px;margin:40px auto\"><label style=\"display:block;margin-bottom:8px;font-weight:bold;color:#333\">Comment</label><textarea id=\"autota\" placeholder=\"Type...\" style=\"width:100%;min-height:60px;padding:12px 16px;border:2px solid #ddd;border-radius:8px;font-size:14px;resize:vertical;overflow:hidden\" oninput=\"this.style.height='auto';this.style.height=this.scrollHeight+'px'\"></textarea></div>",
     "css": "/* overflow:hidden + auto height */",
-    "js": "// Inline oninput, no separate function needed"
+    "js": "// Inline oninput, no separate function needed",
+    "desc_zh": "内容增加时自动扩展高度的文本域"
   },
   {
     "id": "f14",
@@ -700,7 +740,8 @@ var COMPS = [
     "desc_en": "Shows remaining characters",
     "html": "<div style=\"max-width:500px;margin:40px auto\"><label style=\"display:block;margin-bottom:8px;font-weight:bold;color:#333\">Bio (max 140)</label><textarea id=\"charin\" maxlength=\"140\" placeholder=\"Tell about yourself...\" style=\"width:100%;height:80px;padding:12px 16px;border:2px solid #ddd;border-radius:8px;font-size:14px;resize:vertical\" oninput=\"updateCount()\"></textarea><div style=\"display:flex;justify-content:space-between;margin-top:6px\"><span id=\"charcnt\" style=\"font-size:12px;color:#999\">0/140</span><span id=\"charwarn\" style=\"font-size:12px;color:#ff4757;display:none\">Limit!</span></div></div>",
     "css": "/* Counter color changes near limit */",
-    "js": "function updateCount(){var el=document.getElementById('charin'),c=document.getElementById('charcnt'),w=document.getElementById('charwarn');c.textContent=el.value.length+'/140';w.style.display=el.value.length>=130?'block':'none';c.style.color=el.value.length>=130?'#ff4757':'#999'}"
+    "js": "function updateCount(){var el=document.getElementById('charin'),c=document.getElementById('charcnt'),w=document.getElementById('charwarn');c.textContent=el.value.length+'/140';w.style.display=el.value.length>=130?'block':'none';c.style.color=el.value.length>=130?'#ff4757':'#999'}",
+    "desc_zh": "实时显示已输入字符数"
   },
   {
     "id": "f15",
@@ -715,7 +756,8 @@ var COMPS = [
     "desc_en": "Native color input with preview",
     "html": "<div style=\"max-width:400px;margin:40px auto\"><label style=\"display:block;margin-bottom:12px;font-weight:bold;color:#333\">Pick a color</label><div style=\"display:flex;align-items:center;gap:16px\"><input type=\"color\" id=\"colorin\" value=\"#e94560\" style=\"width:60px;height:60px;border:none;cursor:pointer;border-radius:8px\" oninput=\"document.getElementById('colorprev').style.background=this.value\"><div id=\"colorprev\" style=\"flex:1;height:60px;background:#e94560;border-radius:8px;border:2px solid #ddd\"></div></div><p id=\"colorval\" style=\"margin-top:8px;font-size:13px;color:#999;font-family:monospace\">#e94560</p></div>",
     "css": "/* Native color input styling */",
-    "js": "document.getElementById('colorin').addEventListener('input',function(){document.getElementById('colorprev').style.background=this.value;document.getElementById('colorval').textContent=this.value})"
+    "js": "document.getElementById('colorin').addEventListener('input',function(){document.getElementById('colorprev').style.background=this.value;document.getElementById('colorval').textContent=this.value})",
+    "desc_zh": "原生颜色选择器+实时预览"
   },
   {
     "id": "e01",
@@ -730,7 +772,8 @@ var COMPS = [
     "desc_en": "Animate numbers on scroll",
     "html": "<div style=\"display:flex;justify-content:center;gap:40px;padding:60px 20px;flex-wrap:wrap\"><div style=\"text-align:center\"><div class=\"counter\" data-target=\"12580\" style=\"font-size:42px;font-weight:bold;color:#e94560\">0</div><p style=\"color:#888;margin-top:8px\">Visitors</p></div><div style=\"text-align:center\"><div class=\"counter\" data-target=\"328\" style=\"font-size:42px;font-weight:bold;color:#2ed573\">0</div><p style=\"color:#888;margin-top:8px\">Users</p></div></div><div style=\"height:300px\"></div>",
     "css": "/* Counter: large bold numbers */",
-    "js": "function countUp(el){var t=+el.dataset.target,dur=2000,start=null;function step(ts){start||(start=ts);var p=Math.min((ts-start)/dur,1);el.textContent=Math.floor(p*t).toLocaleString();if(p<1)requestAnimationFrame(step)}requestAnimationFrame(step)}var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){countUp(e.target);obs.unobserve(e.target)}})},{threshold:0.5});document.querySelectorAll('.counter').forEach(function(c){obs.observe(c)})"
+    "js": "function countUp(el){var t=+el.dataset.target,dur=2000,start=null;function step(ts){start||(start=ts);var p=Math.min((ts-start)/dur,1);el.textContent=Math.floor(p*t).toLocaleString();if(p<1)requestAnimationFrame(step)}requestAnimationFrame(step)}var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){countUp(e.target);obs.unobserve(e.target)}})},{threshold:0.5});document.querySelectorAll('.counter').forEach(function(c){obs.observe(c)})",
+    "desc_zh": "数字从0滚动到目标值"
   },
   {
     "id": "e02",
@@ -745,7 +788,8 @@ var COMPS = [
     "desc_en": "Text appears character by character",
     "html": "<div style=\"padding:80px 20px;text-align:center;background:#1a1a2e;color:#fff\"><p style=\"color:#888;margin-bottom:16px;font-size:14px\">Typewriter Effect</p><span id=\"tw-text\" style=\"font-size:28px;font-weight:bold;color:#e94560;border-right:3px solid #e94560;padding-right:4px\"></span></div>",
     "css": "@keyframes blink{0%,50%{border-color:transparent}51%,100%{border-color:#e94560}}#tw-text{animation:blink 0.8s infinite}",
-    "js": "var txt='Welcome to Web Component Dictionary!',i=0;function type(){if(i<txt.length){document.getElementById('tw-text').textContent+=txt.charAt(i);i++;setTimeout(type,80)}}type()"
+    "js": "var txt='Welcome to Web Component Dictionary!',i=0;function type(){if(i<txt.length){document.getElementById('tw-text').textContent+=txt.charAt(i);i++;setTimeout(type,80)}}type()",
+    "desc_zh": "逐字打印文字的打字机动画"
   },
   {
     "id": "e03",
@@ -760,7 +804,8 @@ var COMPS = [
     "desc_en": "Switch light/dark theme",
     "html": "<div style=\"padding:40px;text-align:center;transition:background 0.3s,color 0.3s\" id=\"theme-root\"><button onclick=\"toggleDark()\" style=\"padding:12px 24px;border:2px solid currentColor;background:transparent;color:inherit;border-radius:8px;font-size:16px;cursor:pointer\">🌙 Toggle Dark</button><h2 style=\"margin-top:30px\">Theme Demo</h2><p>This container changes theme!</p><div style=\"margin-top:20px;padding:20px;border-radius:12px;border:1px solid currentColor\">Bordered box</div></div>",
     "css": ".dark-mode{background:#0f0f1a;color:#e0e0e0}.light-mode{background:#fff;color:#333}",
-    "js": "var root=document.getElementById('theme-root');root.className=localStorage.getItem('theme')||'light-mode';function toggleDark(){root.className=root.className==='light-mode'?'dark-mode':'light-mode';localStorage.setItem('theme',root.className)}"
+    "js": "var root=document.getElementById('theme-root');root.className=localStorage.getItem('theme')||'light-mode';function toggleDark(){root.className=root.className==='light-mode'?'dark-mode':'light-mode';localStorage.setItem('theme',root.className)}",
+    "desc_zh": "一键切换明暗主题配色"
   },
   {
     "id": "e04",
@@ -775,7 +820,8 @@ var COMPS = [
     "desc_en": "Collection of spinners",
     "html": "<div style=\"display:flex;justify-content:center;gap:50px;padding:60px 20px;flex-wrap:wrap\"><div style=\"text-align:center\"><div style=\"width:48px;height:48px;border:4px solid #ddd;border-top-color:#e94560;border-radius:50%;animation:spin 0.8s linear infinite\"></div><p style=\"margin-top:12px;color:#666;font-size:13px\">Spinner</p></div><div style=\"text-align:center\"><div style=\"display:flex;gap:6px\"><div style=\"width:12px;height:40px;background:#667eea;border-radius:6px;animation:bounce 0.6s ease infinite alternate\"></div><div style=\"width:12px;height:40px;background:#764ba2;border-radius:6px;animation:bounce 0.6s ease 0.1s infinite alternate\"></div><div style=\"width:12px;height:40px;background:#e94560;border-radius:6px;animation:bounce 0.6s ease 0.2s infinite alternate\"></div></div><p style=\"margin-top:12px;color:#666;font-size:13px\">Bars</p></div></div>",
     "css": "@keyframes spin{to{transform:rotate(360deg)}}@keyframes bounce{to{transform:scaleY(0.5)}}",
-    "js": "// Pure CSS animations"
+    "js": "// Pure CSS animations",
+    "desc_zh": "页面/组件加载中的旋转动画"
   },
   {
     "id": "e05",
@@ -790,7 +836,8 @@ var COMPS = [
     "desc_en": "Background moves at different speed",
     "html": "<div style=\"height:100vh;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff\" id=\"parallax-bg\"><div style=\"position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,#667eea,#764ba2);z-index:-1\"></div><h1 style=\"font-size:48px;text-shadow:0 4px 12px rgba(0,0,0,0.3)\">Parallax Effect</h1></div><div style=\"height:100vh;padding:80px 20px;background:#fff;color:#333\"><h2>Next Section</h2><p>Scroll back up to see the effect.</p></div>",
     "css": "/* Background transformed on scroll */",
-    "js": "window.addEventListener('scroll',function(){var bg=document.getElementById('parallax-bg');bg.style.transform='translateY('+window.scrollY*0.5+'px)'})"
+    "js": "window.addEventListener('scroll',function(){var bg=document.getElementById('parallax-bg');bg.style.transform='translateY('+window.scrollY*0.5+'px)'})",
+    "desc_zh": "背景与前景不同速度滚动的视差效果"
   },
   {
     "id": "e06",
@@ -805,7 +852,8 @@ var COMPS = [
     "desc_en": "Animated particle network background",
     "html": "<div style=\"height:400px;background:#1a1a2e;position:relative;overflow:hidden\" id=\"particle-canvas\"><canvas id=\"pcanvas\" style=\"position:absolute;top:0;left:0;width:100%;height:100%\"></canvas><div style=\"position:relative;z-index:1;color:#fff;display:flex;align-items:center;justify-content:center;height:100%\"><h2>Particle Background</h2></div></div>",
     "css": "/* Canvas covers container */",
-    "js": "var canvas=document.getElementById('pcanvas'),ctx=canvas.getContext('2d'),particles=[];canvas.width=canvas.parentElement.offsetWidth;canvas.height=canvas.parentElement.offsetHeight;for(var i=0;i<60;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-0.5)*2,vy:(Math.random()-0.5)*2})}function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(function(p,i){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>canvas.width)p.vx*=-1;if(p.y<0||p.y>canvas.height)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,2,0,Math.PI*2);ctx.fillStyle='#e94560';ctx.fill()});requestAnimationFrame(draw)}draw()"
+    "js": "var canvas=document.getElementById('pcanvas'),ctx=canvas.getContext('2d'),particles=[];canvas.width=canvas.parentElement.offsetWidth;canvas.height=canvas.parentElement.offsetHeight;for(var i=0;i<60;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-0.5)*2,vy:(Math.random()-0.5)*2})}function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(function(p,i){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>canvas.width)p.vx*=-1;if(p.y<0||p.y>canvas.height)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,2,0,Math.PI*2);ctx.fillStyle='#e94560';ctx.fill()});requestAnimationFrame(draw)}draw()",
+    "desc_zh": "动态粒子背景动画效果"
   },
   {
     "id": "e07",
@@ -820,7 +868,8 @@ var COMPS = [
     "desc_en": "Elements fade in on scroll",
     "html": "<div style=\"padding:20px\"><div class=\"fade-el\" style=\"opacity:0;transform:translateY(30px);transition:opacity 0.6s,transform 0.6s;padding:40px;margin-bottom:20px;background:#f8f9fa;border-radius:8px\"><h3>Fade In Element</h3><p>Scroll down to see me appear!</p></div><div class=\"fade-el\" style=\"opacity:0;transform:translateY(30px);transition:opacity 0.6s,transform 0.6s;padding:40px;margin-bottom:20px;background:#f8f9fa;border-radius:8px\"><h3>Another Element</h3><p>Also fades in when visible.</p></div></div>",
     "css": "/* Initial: opacity:0 + translateY */",
-    "js": "var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)'}})},{threshold:0.1});document.querySelectorAll('.fade-el').forEach(function(el){obs.observe(el)})"
+    "js": "var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)'}})},{threshold:0.1});document.querySelectorAll('.fade-el').forEach(function(el){obs.observe(el)})",
+    "desc_zh": "元素滚动到可视区域时淡入显示"
   },
   {
     "id": "e08",
@@ -835,7 +884,8 @@ var COMPS = [
     "desc_en": "Material-style ripple on click",
     "html": "<div style=\"padding:60px;text-align:center\"><button onclick=\"ripple(event,this)\" style=\"position:relative;overflow:hidden;padding:14px 32px;background:#e94560;color:#fff;border:none;border-radius:8px;font-size:16px;cursor:pointer\"><span style=\"position:relative;z-index:1\">Click for Ripple</span></button></div>",
     "css": "/* Ripple: absolutely positioned expanding circle */",
-    "js": "function ripple(e,btn){var circle=document.createElement('span');circle.style.cssText='position:absolute;border-radius:50%;background:rgba(255,255,255,0.4);pointer-events:none;animation:ripple-anim 0.6s ease';var d=Math.max(btn.offsetWidth,btn.offsetHeight);circle.style.width=circle.style.height=d+'px';var r=btn.getBoundingClientRect();circle.style.left=(e.clientX-r.left-d/2)+'px';circle.style.top=(e.clientY-r.top-d/2)+'px';btn.appendChild(circle);setTimeout(function(){circle.remove()},600)}"
+    "js": "function ripple(e,btn){var circle=document.createElement('span');circle.style.cssText='position:absolute;border-radius:50%;background:rgba(255,255,255,0.4);pointer-events:none;animation:ripple-anim 0.6s ease';var d=Math.max(btn.offsetWidth,btn.offsetHeight);circle.style.width=circle.style.height=d+'px';var r=btn.getBoundingClientRect();circle.style.left=(e.clientX-r.left-d/2)+'px';circle.style.top=(e.clientY-r.top-d/2)+'px';btn.appendChild(circle);setTimeout(function(){circle.remove()},600)}",
+    "desc_zh": "点击按钮产生波纹扩散动画"
   },
   {
     "id": "e09",
@@ -850,7 +900,8 @@ var COMPS = [
     "desc_en": "Text highlight animates on load",
     "html": "<div style=\"padding:60px;text-align:center;background:#1a1a2e;color:#fff\"><h2 style=\"font-size:32px\">This is <span style=\"background:linear-gradient(90deg,#e94560,#667eea);background-size:200% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:hl 2s ease infinite\">highlighted</span> text</h2></div>",
     "css": "@keyframes hl{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}",
-    "js": "// Pure CSS animation"
+    "js": "// Pure CSS animation",
+    "desc_zh": "鼠标悬停文字高亮变色动画"
   },
   {
     "id": "e10",
@@ -865,7 +916,8 @@ var COMPS = [
     "desc_en": "Multiple hover effects on images",
     "html": "<div style=\"display:flex;gap:20px;padding:40px;flex-wrap:wrap;justify-content:center\"><div style=\"width:200px;height:200px;overflow:hidden;border-radius:12px;position:relative\"><div style=\"width:100%;height:100%;background:linear-gradient(135deg,#667eea,#764ba2);transition:transform 0.5s\"></div><div style=\"position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(233,69,96,0.8);color:#fff;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.5s\">Zoom + Overlay</div></div></div>",
     "css": "/* Zoom: transform:scale on hover */",
-    "js": "// Pure CSS :hover, or add touch support via JS"
+    "js": "// Pure CSS :hover, or add touch support via JS",
+    "desc_zh": "鼠标悬停图片时放大/变暗特效"
   },
   {
     "id": "u01",
@@ -880,7 +932,8 @@ var COMPS = [
     "desc_en": "One-click copy text",
     "html": "<div style=\"max-width:500px;margin:40px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08)\"><textarea id=\"copy-src\" style=\"width:100%;height:80px;padding:12px;border:2px solid #e0e0e0;border-radius:8px;font-family:monospace;resize:vertical\">Hello World!</textarea><button onclick=\"doCopy()\" style=\"margin-top:12px;padding:10px 24px;background:#667eea;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px\">📋 Copy</button><p id=\"copy-msg\" style=\"margin-top:10px;font-size:13px;color:#888\"></p></div>",
     "css": "/* Clean button with icon */",
-    "js": "function doCopy(){navigator.clipboard.writeText(document.getElementById('copy-src').value).then(function(){document.getElementById('copy-msg').textContent='Copied!';document.getElementById('copy-msg').style.color='#2ed573'}).catch(function(){document.getElementById('copy-msg').textContent='Failed'})}"
+    "js": "function doCopy(){navigator.clipboard.writeText(document.getElementById('copy-src').value).then(function(){document.getElementById('copy-msg').textContent='Copied!';document.getElementById('copy-msg').style.color='#2ed573'}).catch(function(){document.getElementById('copy-msg').textContent='Failed'})}",
+    "desc_zh": "一键复制文本到系统剪贴板"
   },
   {
     "id": "u02",
@@ -895,7 +948,8 @@ var COMPS = [
     "desc_en": "Customizable countdown",
     "html": "<div style=\"text-align:center;padding:40px\"><div id=\"cd-disp\" style=\"font-size:36px;font-weight:bold;color:#e94560;font-family:monospace;letter-spacing:4px;margin-bottom:24px\">05:00</div><div style=\"display:flex;justify-content:center;gap:12px;flex-wrap:wrap\"><input id=\"cd-m\" type=\"number\" min=\"0\" max=\"59\" value=\"5\" style=\"width:70px;padding:8px;text-align:center;border:2px solid #ddd;border-radius:8px;font-size:16px\">:<input id=\"cd-s\" type=\"number\" min=\"0\" max=\"59\" value=\"0\" style=\"width:70px;padding:8px;text-align:center;border:2px solid #ddd;border-radius:8px;font-size:16px\"><button onclick=\"startCD()\" style=\"padding:10px 20px;background:#2ed573;color:#fff;border:none;border-radius:8px;cursor:pointer\">Start</button><button onclick=\"resetCD()\" style=\"padding:10px 20px;background:#ff4757;color:#fff;border:none;border-radius:8px;cursor:pointer\">Reset</button></div></div>",
     "css": "#cd-disp{text-shadow:0 2px 4px rgba(233,69,96,0.3)}",
-    "js": "var cdInt=null,cdTotal=300,cdRem=300;function updateCD(){var m=Math.floor(cdRem/60),s=cdRem%60;document.getElementById('cd-disp').textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;if(cdRem<=0){clearInterval(cdInt)}}function startCD(){if(cdInt)return;cdRem=cdTotal;cdInt=setInterval(function(){cdRem--;updateCD();if(cdRem<=0)clearInterval(cdInt)},1000);updateCD()}function resetCD(){clearInterval(cdInt);cdInt=null;cdRem=0;updateCD()}"
+    "js": "var cdInt=null,cdTotal=300,cdRem=300;function updateCD(){var m=Math.floor(cdRem/60),s=cdRem%60;document.getElementById('cd-disp').textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;if(cdRem<=0){clearInterval(cdInt)}}function startCD(){if(cdInt)return;cdRem=cdTotal;cdInt=setInterval(function(){cdRem--;updateCD();if(cdRem<=0)clearInterval(cdInt)},1000);updateCD()}function resetCD(){clearInterval(cdInt);cdInt=null;cdRem=0;updateCD()}",
+    "desc_zh": "时分秒倒计时器组件"
   },
   {
     "id": "u03",
@@ -910,7 +964,8 @@ var COMPS = [
     "desc_en": "Random number in custom range",
     "html": "<div style=\"max-width:420px;margin:30px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08)\"><div style=\"display:flex;gap:12px;margin-bottom:20px;align-items:center\"><label style=\"font-weight:bold;color:#333;white-space:nowrap\">Range:</label><input type=\"number\" id=\"rn-min\" value=\"1\" style=\"width:90px;padding:8px;border:2px solid #ddd;border-radius:8px;font-size:14px;text-align:center\"><span style=\"color:#888\">to</span><input type=\"number\" id=\"rn-max\" value=\"100\" style=\"width:90px;padding:8px;border:2px solid #ddd;border-radius:8px;font-size:14px;text-align:center\"><button onclick=\"genRN()\" style=\"padding:10px 20px;background:#e94560;color:#fff;border:none;border-radius:8px;cursor:pointer\">Generate</button></div><div id=\"rn-res\" style=\"font-size:48px;font-weight:bold;color:#667eea;text-align:center;padding:20px;background:#f8f9fa;border-radius:8px\">-</div></div>",
     "css": "#rn-res{font-family:monospace}",
-    "js": "function genRN(){var mn=parseInt(document.getElementById('rn-min').value)||1,mx=parseInt(document.getElementById('rn-max').value)||100;document.getElementById('rn-res').textContent=Math.floor(Math.random()*(mx-mn+1))+mn}"
+    "js": "function genRN(){var mn=parseInt(document.getElementById('rn-min').value)||1,mx=parseInt(document.getElementById('rn-max').value)||100;document.getElementById('rn-res').textContent=Math.floor(Math.random()*(mx-mn+1))+mn}",
+    "desc_zh": "指定范围生成随机整数"
   },
   {
     "id": "u04",
@@ -925,7 +980,8 @@ var COMPS = [
     "desc_en": "Encode/decode Base64 text",
     "html": "<div style=\"max-width:520px;margin:30px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08)\"><div style=\"display:flex;gap:10px;margin-bottom:16px\"><button onclick=\"doEnc()\" style=\"flex:1;padding:10px;background:#667eea;color:#fff;border:none;border-radius:8px;cursor:pointer\">Encode →</button><button onclick=\"doDec()\" style=\"flex:1;padding:10px;background:#764ba2;color:#fff;border:none;border-radius:8px;cursor:pointer\">← Decode</button></div><textarea id=\"b64in\" style=\"width:100%;height:80px;padding:12px;border:2px solid #e0e0e0;border-radius:8px;font-family:monospace;resize:vertical\" placeholder=\"Enter text...\"></textarea><textarea id=\"b64out\" readonly style=\"width:100%;height:80px;margin-top:12px;padding:12px;border:2px solid #e0e0e0;border-radius:8px;font-family:monospace;resize:vertical;background:#f8f9fa\"></textarea></div>",
     "css": "/* Dual textarea layout */",
-    "js": "function doEnc(){try{document.getElementById('b64out').value=btoa(unescape(encodeURIComponent(document.getElementById('b64in').value)))}catch(e){}}function doDec(){try{document.getElementById('b64out').value=decodeURIComponent(escape(atob(document.getElementById('b64in').value)))}catch(e){}}"
+    "js": "function doEnc(){try{document.getElementById('b64out').value=btoa(unescape(encodeURIComponent(document.getElementById('b64in').value)))}catch(e){}}function doDec(){try{document.getElementById('b64out').value=decodeURIComponent(escape(atob(document.getElementById('b64in').value)))}catch(e){}}",
+    "desc_zh": "Base64编码/解码实用工具"
   },
   {
     "id": "u05",
@@ -940,7 +996,8 @@ var COMPS = [
     "desc_en": "Parse and display URL parameters",
     "html": "<div style=\"max-width:500px;margin:30px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08)\"><input type=\"text\" id=\"url-in\" value=\"https://example.com?name=John&age=30\" style=\"width:100%;padding:10px 14px;border:2px solid #ddd;border-radius:8px;font-size:13px;margin-bottom:16px\"><button onclick=\"parseURL()\" style=\"padding:10px 20px;background:#667eea;color:#fff;border:none;border-radius:8px;cursor:pointer;margin-bottom:16px\">Parse URL</button><div id=\"url-out\" style=\"font-size:13px;color:#333;line-height:1.8\"></div></div>",
     "css": "/* Results in a clean list */",
-    "js": "function parseURL(){var u=new URL(document.getElementById('url-in').value);var html='<p><strong>Host:</strong> '+u.host+'</p>';u.searchParams.forEach(function(v,k){html+='<p><strong>'+k+':</strong> '+v+'</p>'});document.getElementById('url-out').innerHTML=html}"
+    "js": "function parseURL(){var u=new URL(document.getElementById('url-in').value);var html='<p><strong>Host:</strong> '+u.host+'</p>';u.searchParams.forEach(function(v,k){html+='<p><strong>'+k+':</strong> '+v+'</p>'});document.getElementById('url-out').innerHTML=html}",
+    "desc_zh": "解析URL查询参数的实用工具"
   },
   {
     "id": "u06",
@@ -955,7 +1012,8 @@ var COMPS = [
     "desc_en": "Save/load data from localStorage",
     "html": "<div style=\"max-width:500px;margin:30px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08)\"><input type=\"text\" id=\"ls-key\" placeholder=\"Key\" style=\"width:100%;padding:10px 14px;border:2px solid #ddd;border-radius:8px;font-size:14px;margin-bottom:10px\"><textarea id=\"ls-val\" placeholder=\"Value\" style=\"width:100%;height:60px;padding:10px 14px;border:2px solid #ddd;border-radius:8px;font-size:14px;resize:vertical;margin-bottom:12px\"></textarea><div style=\"display:flex;gap:10px\"><button onclick=\"lsSave()\" style=\"flex:1;padding:10px;background:#2ed573;color:#fff;border:none;border-radius:8px;cursor:pointer\">Save</button><button onclick=\"lsLoad()\" style=\"flex:1;padding:10px;background:#667eea;color:#fff;border:none;border-radius:8px;cursor:pointer\">Load</button><button onclick=\"lsClear()\" style=\"flex:1;padding:10px;background:#ff4757;color:#fff;border:none;border-radius:8px;cursor:pointer\">Clear</button></div><p id=\"ls-msg\" style=\"margin-top:10px;font-size:12px;color:#888\"></p></div>",
     "css": "/* Buttons: green=save, blue=load, red=clear */",
-    "js": "function lsSave(){localStorage.setItem(document.getElementById('ls-key').value,document.getElementById('ls-val').value);document.getElementById('ls-msg').textContent='Saved!'}function lsLoad(){document.getElementById('ls-val').value=localStorage.getItem(document.getElementById('ls-key').value)||''}function lsClear(){localStorage.clear();document.getElementById('ls-msg').textContent='Cleared!'}"
+    "js": "function lsSave(){localStorage.setItem(document.getElementById('ls-key').value,document.getElementById('ls-val').value);document.getElementById('ls-msg').textContent='Saved!'}function lsLoad(){document.getElementById('ls-val').value=localStorage.getItem(document.getElementById('ls-key').value)||''}function lsClear(){localStorage.clear();document.getElementById('ls-msg').textContent='Cleared!'}",
+    "desc_zh": "浏览器LocalStorage键值存取管理"
   },
   {
     "id": "u07",
@@ -970,7 +1028,8 @@ var COMPS = [
     "desc_en": "Browser-native text-to-speech",
     "html": "<div style=\"max-width:500px;margin:30px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08)\"><textarea id=\"tts-text\" placeholder=\"Enter text to speak...\" style=\"width:100%;height:80px;padding:12px;border:2px solid #ddd;border-radius:8px;font-size:14px;resize:vertical;margin-bottom:16px\">Hello, this is a text-to-speech demo.</textarea><div style=\"display:flex;gap:10px;align-items:center;flex-wrap:wrap\"><button onclick=\"speakText()\" style=\"padding:10px 20px;background:#667eea;color:#fff;border:none;border-radius:8px;cursor:pointer\">🔊 Speak</button><button onclick=\"stopSpeech()\" style=\"padding:10px 20px;background:#ff4757;color:#fff;border:none;border-radius:8px;cursor:pointer\">⏹ Stop</button><select id=\"tts-voice\" style=\"padding:8px 12px;border:2px solid #ddd;border-radius:8px;font-size:13px\"></select></div></div>",
     "css": "/* Controls: row with gap */",
-    "js": "function speakText(){var u=new SpeechSynthesisUtterance(document.getElementById('tts-text').value);speechSynthesis.speak(u)}function stopSpeech(){speechSynthesis.cancel()}"
+    "js": "function speakText(){var u=new SpeechSynthesisUtterance(document.getElementById('tts-text').value);speechSynthesis.speak(u)}function stopSpeech(){speechSynthesis.cancel()}",
+    "desc_zh": "文字转语音朗读工具"
   },
   {
     "id": "u08",
@@ -985,7 +1044,8 @@ var COMPS = [
     "desc_en": "CSS filter adjustments on image",
     "html": "<div style=\"max-width:600px;margin:30px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08)\"><img id=\"filter-img\" src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='250'%3E%3Crect fill='%23667eea' width='400' height='250'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-size='24'%3EDemo Image%3C/text%3E%3C/svg%3E\" style=\"width:100%;border-radius:8px;transition:filter 0.3s\"><div style=\"display:flex;gap:10px;margin-top:16px;flex-wrap:wrap\"><label>Blur:<input type=\"range\" min=\"0\" max=\"10\" value=\"0\" oninput=\"applyFilter()\" id=\"f-blur\" style=\"width:80px\"></label><label>Brightness:<input type=\"range\" min=\"50\" max=\"150\" value=\"100\" oninput=\"applyFilter()\" id=\"f-bright\" style=\"width:80px\"></label></div></div>",
     "css": "/* Image with filter transition */",
-    "js": "function applyFilter(){var img=document.getElementById('filter-img');var b=document.getElementById('f-blur').value;var br=document.getElementById('f-bright').value;img.style.filter='blur('+b+'px) brightness('+br+'%)'}"
+    "js": "function applyFilter(){var img=document.getElementById('filter-img');var b=document.getElementById('f-blur').value;var br=document.getElementById('f-bright').value;img.style.filter='blur('+b+'px) brightness('+br+'%)'}",
+    "desc_zh": "实时预览CSS图像滤镜效果"
   },
   {
     "id": "u09",
@@ -1000,7 +1060,8 @@ var COMPS = [
     "desc_en": "Track copied text history",
     "html": "<div style=\"max-width:500px;margin:30px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08)\"><textarea id=\"clip-src\" placeholder=\"Type text then click Copy...\" style=\"width:100%;height:80px;padding:12px;border:2px solid #ddd;border-radius:8px;font-family:monospace;resize:vertical;margin-bottom:12px\"></textarea><button onclick=\"copyToHistory()\" style=\"padding:10px 20px;background:#667eea;color:#fff;border:none;border-radius:8px;cursor:pointer;margin-bottom:16px\">📋 Copy & Save</button><div id=\"clip-hist\" style=\"font-size:13px;color:#333;max-height:200px;overflow-y:auto\"></div></div>",
     "css": "/* History list: scrollable */",
-    "js": "var clipHistory=[];function copyToHistory(){var t=document.getElementById('clip-src').value;if(!t)return;navigator.clipboard.writeText(t);clipHistory.unshift(t);if(clipHistory.length>5)clipHistory.pop();document.getElementById('clip-hist').innerHTML=clipHistory.map(function(h,i){return '<div style=\"padding:8px;background:#f8f9fa;margin-bottom:6px;border-radius:6px;font-size:12px;font-family:monospace\">'+(i+1)+'. '+h.substring(0,50)+'...</div>'}).join('')}"
+    "js": "var clipHistory=[];function copyToHistory(){var t=document.getElementById('clip-src').value;if(!t)return;navigator.clipboard.writeText(t);clipHistory.unshift(t);if(clipHistory.length>5)clipHistory.pop();document.getElementById('clip-hist').innerHTML=clipHistory.map(function(h,i){return '<div style=\"padding:8px;background:#f8f9fa;margin-bottom:6px;border-radius:6px;font-size:12px;font-family:monospace\">'+(i+1)+'. '+h.substring(0,50)+'...</div>'}).join('')}",
+    "desc_zh": "带历史记录的剪贴板管理器"
   },
   {
     "id": "u10",
@@ -1015,7 +1076,8 @@ var COMPS = [
     "desc_en": "Limit function call frequency",
     "html": "<div style=\"padding:40px;text-align:center\"><p style=\"color:#666;margin-bottom:20px\">Type in console to see debounce in action</p><p style=\"font-size:13px;color:#999\">This is a utility component - use the JS code in your own projects.</p><div style=\"margin-top:20px;padding:20px;background:#1a1a2e;color:#fff;border-radius:8px;font-family:monospace;font-size:12px;text-align:left;padding:20px;max-width:500px;margin:0 auto\">function debounce(fn,delay){var timer;return function(){var ctx=this,args=arguments;clearTimeout(timer);timer=setTimeout(function(){fn.apply(ctx,args)},delay)}}</div></div>",
     "css": "/* Code display box */",
-    "js": "// Debounce: use this function to limit expensive operations\n// Example: var search=debounce(function(q){...},300)"
+    "js": "// Debounce: use this function to limit expensive operations\n// Example: var search=debounce(function(q){...},300)",
+    "desc_zh": "限制函数调用频率的防抖工具"
   },
   {
     "id": "l01",
@@ -1030,7 +1092,8 @@ var COMPS = [
     "desc_en": "Classic three-column layout",
     "html": "<div style=\"display:grid;grid-template-columns:200px 1fr 200px;grid-template-rows:auto 1fr auto;min-height:100vh;gap:1px\"><header style=\"grid-column:1/-1;padding:20px;background:#667eea;color:#fff;text-align:center\"><h2>Header</h2></header><aside style=\"padding:20px;background:#f0f0f0\"><strong>Left</strong></aside><main style=\"padding:30px;background:#fff\"><h3>Main</h3></main><aside style=\"padding:20px;background:#f0f0f0\"><strong>Right</strong></aside><footer style=\"grid-column:1/-1;padding:20px;background:#333;color:#fff;text-align:center\">Footer</footer></div>",
     "css": "/* CSS Grid makes Holy Grail trivial */",
-    "js": "// Pure CSS Grid"
+    "js": "// Pure CSS Grid",
+    "desc_zh": "经典页头+内容+页脚三栏布局"
   },
   {
     "id": "l02",
@@ -1045,7 +1108,8 @@ var COMPS = [
     "desc_en": "Footer sticks to bottom when content is short",
     "html": "<div style=\"display:flex;flex-direction:column;min-height:400px;border:1px solid #ddd;border-radius:8px\"><main style=\"flex:1;padding:40px;background:#fff\"><h2>Main Content</h2><p>When content is short, footer stays at bottom.</p></main><footer style=\"padding:24px;background:#1a1a2e;color:#fff;text-align:center\">Sticky Footer</footer></div>",
     "css": "/* Key: flex-direction:column + flex:1 on main */",
-    "js": "// Pure CSS Flexbox"
+    "js": "// Pure CSS Flexbox",
+    "desc_zh": "页脚始终固定在页面底部"
   },
   {
     "id": "l03",
@@ -1060,7 +1124,8 @@ var COMPS = [
     "desc_en": "Admin dashboard with stat cards",
     "html": "<div style=\"padding:20px;background:#f0f2f5;min-height:100vh\"><div style=\"display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:20px\"><div style=\"background:#fff;padding:20px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06)\"><div style=\"font-size:12px;color:#999;margin-bottom:8px\">Revenue</div><div style=\"font-size:28px;font-weight:bold;color:#2ed573\">$48,290</div></div><div style=\"background:#fff;padding:20px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06)\"><div style=\"font-size:12px;color:#999;margin-bottom:8px\">Users</div><div style=\"font-size:28px;font-weight:bold;color:#667eea\">2,847</div></div><div style=\"background:#fff;padding:20px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06)\"><div style=\"font-size:12px;color:#999;margin-bottom:8px\">Orders</div><div style=\"font-size:28px;font-weight:bold;color:#e94560\">892</div></div></div></div>",
     "css": "/* Dashboard: CSS Grid cards */",
-    "js": "// Pure CSS"
+    "js": "// Pure CSS",
+    "desc_zh": "CSS Grid卡片风格仪表盘布局"
   },
   {
     "id": "l04",
@@ -1075,7 +1140,8 @@ var COMPS = [
     "desc_en": "Centered login form with gradient background",
     "html": "<div style=\"min-height:400px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a1a2e,#16213e)\"><div style=\"background:#fff;border-radius:12px;padding:40px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,0.3)\"><div style=\"text-align:center;margin-bottom:30px\"><div style=\"font-size:28px;font-weight:bold;color:#e94560\">MySite</div></div><input style=\"width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px;margin-bottom:16px\" placeholder=\"Email\"><input type=\"password\" style=\"width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px;margin-bottom:20px\" placeholder=\"Password\"><button style=\"width:100%;padding:12px;border:none;border-radius:6px;background:#e94560;color:#fff;font-size:14px;cursor:pointer;font-weight:bold\">Sign In</button></div></div>",
     "css": "/* Login: full-screen BG + centered card */",
-    "js": "// Add form submit handler"
+    "js": "// Add form submit handler",
+    "desc_zh": "居中卡片式登录页面布局"
   },
   {
     "id": "l05",
@@ -1090,7 +1156,8 @@ var COMPS = [
     "desc_en": "Sidebar + header + content admin layout",
     "html": "<div style=\"display:flex;min-height:400px\"><div style=\"width:200px;background:#1a1a2e;color:#fff;padding:20px 0\"><div style=\"padding:0 20px 20px;border-bottom:1px solid #333;margin-bottom:20px;font-weight:bold;color:#e94560\">Admin Panel</div><div style=\"padding:12px 20px;cursor:pointer;font-size:14px;color:#aaa\">📊 Dashboard</div><div style=\"padding:12px 20px;cursor:pointer;font-size:14px;color:#aaa\">👥 Users</div><div style=\"padding:12px 20px;cursor:pointer;font-size:14px;color:#aaa\">📦 Orders</div><div style=\"padding:12px 20px;cursor:pointer;font-size:14px;color:#aaa\">⚙️ Settings</div></div><div style=\"flex:1;display:flex;flex-direction:column\"><div style=\"height:60px;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,0.05);display:flex;align-items:center;padding:0 24px;font-size:14px;color:#666\">Admin Header Bar</div><div style=\"flex:1;padding:24px;background:#f8f9fa\"><h2>Dashboard</h2><p>Admin content area.</p></div></div></div>",
     "css": "/* Admin: sidebar + top header + content */",
-    "js": "// Toggle sidebar collapse via JS"
+    "js": "// Toggle sidebar collapse via JS",
+    "desc_zh": "侧边栏+顶栏+内容区后台管理布局"
   },
   {
     "id": "l06",
@@ -1105,7 +1172,8 @@ var COMPS = [
     "desc_en": "Pinterest-style waterfall layout",
     "html": "<div style=\"padding:20px;columns:3;gap:16px\"><div style=\"break-inside:avoid;margin-bottom:16px;background:#667eea;color:#fff;padding:40px 20px;border-radius:12px;font-size:18px;font-weight:bold\">A</div><div style=\"break-inside:avoid;margin-bottom:16px;background:#764ba2;color:#fff;padding:60px 20px;border-radius:12px;font-size:18px;font-weight:bold\">B</div><div style=\"break-inside:avoid;margin-bottom:16px;background:#e94560;color:#fff;padding:30px 20px;border-radius:12px;font-size:18px;font-weight:bold\">C</div><div style=\"break-inside:avoid;margin-bottom:16px;background:#2ed573;color:#fff;padding:50px 20px;border-radius:12px;font-size:18px;font-weight:bold\">D</div><div style=\"break-inside:avoid;margin-bottom:16px;background:#3742fa;color:#fff;padding:35px 20px;border-radius:12px;font-size:18px;font-weight:bold\">E</div></div>",
     "css": "/* CSS columns: auto masonry */\n/* JS masonry for more control */",
-    "js": "// For JS-based masonry: calculate positions manually\n// or use a library like Masonry.js"
+    "js": "// For JS-based masonry: calculate positions manually\n// or use a library like Masonry.js",
+    "desc_zh": "CSS Grid实现的不规则瀑布流布局"
   },
   {
     "id": "l07",
@@ -1120,7 +1188,8 @@ var COMPS = [
     "desc_en": "Full-width hero banner with CTA",
     "html": "<div style=\"height:400px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:20px\"><h1 style=\"font-size:48px;margin-bottom:16px\">Build Amazing Things</h1><p style=\"font-size:18px;max-width:500px;margin-bottom:32px;opacity:0.9\">The ultimate component dictionary for modern web development.</p><button style=\"padding:14px 32px;background:#fff;color:#667eea;border:none;border-radius:8px;font-size:16px;cursor:pointer;font-weight:bold\">Get Started</button></div>",
     "css": "/* Hero: full-width gradient + centered content */",
-    "js": "// Pure CSS"
+    "js": "// Pure CSS",
+    "desc_zh": "全屏Hero横幅区域布局"
   },
   {
     "id": "l08",
@@ -1135,7 +1204,8 @@ var COMPS = [
     "desc_en": "50/50 vertical split layout",
     "html": "<div style=\"display:flex;min-height:400px\"><div style=\"flex:1;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:bold\">Left Side</div><div style=\"flex:1;background:#f8f9fa;display:flex;align-items:center;justify-content:center;color:#333;font-size:28px;font-weight:bold\">Right Side</div></div>",
     "css": "/* Flex: 50/50 split */",
-    "js": "// Pure CSS"
+    "js": "// Pure CSS",
+    "desc_zh": "左右两栏等分屏幕布局"
   },
   {
     "id": "d01",
@@ -1150,7 +1220,8 @@ var COMPS = [
     "desc_en": "Simple CSS bar chart",
     "html": "<div style=\"max-width:500px;margin:40px auto;padding:20px\"><div style=\"display:flex;align-items:flex-end;gap:12px;height:200px;padding:20px 0\"><div style=\"flex:1;background:linear-gradient(0deg,#667eea,#764ba2);border-radius:6px 6px 0 0;height:60%\"></div><div style=\"flex:1;background:linear-gradient(0deg,#667eea,#764ba2);border-radius:6px 6px 0 0;height:80%\"></div><div style=\"flex:1;background:linear-gradient(0deg,#667eea,#764ba2);border-radius:6px 6px 0 0;height:45%\"></div><div style=\"flex:1;background:linear-gradient(0deg,#667eea,#764ba2);border-radius:6px 6px 0 0;height:100%\"></div><div style=\"flex:1;background:linear-gradient(0deg,#667eea,#764ba2);border-radius:6px 6px 0 0;height:70%\"></div></div><div style=\"display:flex;justify-content:space-between;font-size:12px;color:#999;margin-top:8px\"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span></div></div>",
     "css": "/* Bar chart: flex containers with height % */",
-    "js": "// For dynamic charts, generate bars via JS\n// or use Chart.js / D3.js"
+    "js": "// For dynamic charts, generate bars via JS\n// or use Chart.js / D3.js",
+    "desc_zh": "纯CSS实现的垂直柱状图"
   },
   {
     "id": "d02",
@@ -1165,7 +1236,8 @@ var COMPS = [
     "desc_en": "CSS conic-gradient pie chart",
     "html": "<div style=\"padding:40px;text-align:center\"><div style=\"width:200px;height:200px;border-radius:50%;background:conic-gradient(#667eea 0% 35%,#764ba2 35% 60%,#e94560 60% 80%,#2ed573 80% 100%);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold;font-size:14px;position:relative\"><div style=\"width:120px;height:120px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:#333\">Total</div></div><div style=\"display:flex;gap:16px;justify-content:center;flex-wrap:wrap;font-size:13px\"><span style=\"color:#667eea\">● A (35%)</span><span style=\"color:#764ba2\">● B (25%)</span><span style=\"color:#e94560\">● C (20%)</span><span style=\"color:#2ed573\">● D (20%)</span></div></div>",
     "css": "/* Pie: conic-gradient for modern browsers */",
-    "js": "// Update conic-gradient dynamically via JS"
+    "js": "// Update conic-gradient dynamically via JS",
+    "desc_zh": "SVG/CSS实现的扇形饼图"
   },
   {
     "id": "d03",
@@ -1180,7 +1252,8 @@ var COMPS = [
     "desc_en": "Simple SVG line chart",
     "html": "<div style=\"max-width:500px;margin:40px auto;padding:20px\"><svg viewBox=\"0 0 400 200\" style=\"width:100%;height:auto;border:1px solid #eee;border-radius:8px;background:#fff\"><polyline fill=\"none\" stroke=\"#667eea\" stroke-width=\"3\" points=\"0,180 50,120 100,150 150,80 200,130 250,60 300,100 350,70 400,110\"></polyline><polyline fill=\"none\" stroke=\"#e94560\" stroke-width=\"3\" stroke-dasharray=\"6\" points=\"0,180 50,140 100,170 150,100 200,150 250,90 300,120 350,90 400,130\"></polyline></svg><div style=\"display:flex;gap:16px;justify-content:center;margin-top:12px;font-size:12px\"><span style=\"color:#667eea\">● Series A</span><span style=\"color:#e94560\">● Series B</span></div></div>",
     "css": "/* SVG line chart: polyline + stroke-dasharray */",
-    "js": "// For dynamic data, generate polyline points via JS"
+    "js": "// For dynamic data, generate polyline points via JS",
+    "desc_zh": "SVG实现的折线数据趋势图"
   },
   {
     "id": "d04",
@@ -1195,7 +1268,8 @@ var COMPS = [
     "desc_en": "Speedometer-style gauge",
     "html": "<div style=\"text-align:center;padding:40px\"><div style=\"width:200px;height:100px;margin:0 auto;overflow:hidden;position:relative\"><div style=\"width:200px;height:200px;border-radius:50%;border:20px solid #eee;border-top-color:#2ed573;border-right-color:#2ed573;transform:rotate(45deg);position:absolute;top:0\"></div></div><div style=\"margin-top:-20px;font-size:36px;font-weight:bold;color:#2ed573\">72%</div><p style=\"color:#999;font-size:13px\">Performance Score</p></div>",
     "css": "/* Gauge: half-circle with border colors */",
-    "js": "// Update gauge needle/color via JS"
+    "js": "// Update gauge needle/color via JS",
+    "desc_zh": "带统计数据的仪表盘信息卡片"
   },
   {
     "id": "d05",
@@ -1210,7 +1284,8 @@ var COMPS = [
     "desc_en": "Grid-based heatmap visualization",
     "html": "<div style=\"padding:40px\"><div style=\"display:inline-flex;flex-direction:column;gap:4px;margin:0 auto\"><div style=\"display:flex;gap:4px\"><div style=\"width:32px;height:32px;background:#2ed573;border-radius:4px\"></div><div style=\"width:32px;height:32px;background:#a8e6c2;border-radius:4px\"></div><div style=\"width:32px;height:32px;background:#fff9c4;border-radius:4px\"></div><div style=\"width:32px;height:32px;background:#ffcc80;border-radius:4px\"></div><div style=\"width:32px;height:32px;background:#ff6b6b;border-radius:4px\"></div></div></div><div style=\"display:flex;gap:8px;align-items:center;margin-top:16px;font-size:12px;color:#999;justify-content:center\"><span>Low</span><div style=\"width:80px;height:8px;background:linear-gradient(90deg,#2ed573,#ffcc80,#ff6b6b);border-radius:4px\"></div><span>High</span></div></div>",
     "css": "/* Heatmap: colored cells in a grid */",
-    "js": "// Generate heatmap cells dynamically via JS"
+    "js": "// Generate heatmap cells dynamically via JS",
+    "desc_zh": "色块网格展示数据密度的热力图"
   },
   {
     "id": "d06",
@@ -1225,7 +1300,8 @@ var COMPS = [
     "desc_en": "Real-time analog + digital clock",
     "html": "<div style=\"padding:40px;text-align:center\"><div style=\"width:160px;height:160px;border-radius:50%;border:6px solid #333;margin:0 auto 20px;position:relative\"><div id=\"clk-h\" style=\"position:absolute;width:4px;height:40px;background:#333;top:30%;left:50%;transform:translateX(-50%) rotate(0deg);transform-origin:bottom center\"></div><div id=\"clk-m\" style=\"position:absolute;width:3px;height:55px;background:#666;top:18%;left:50%;transform:translateX(-50%) rotate(0deg);transform-origin:bottom center\"></div><div id=\"clk-s\" style=\"position:absolute;width:2px;height:65px;background:#e94560;top:10%;left:50%;transform:translateX(-50%) rotate(0deg);transform-origin:bottom center\"></div></div><div id=\"clk-digital\" style=\"font-size:24px;font-family:monospace;color:#333\"></div></div>",
     "css": "/* Clock: circles + rotating hands */",
-    "js": "function updateClock(){var now=new Date(),h=now.getHours()%12,m=now.getMinutes(),s=now.getSeconds();document.getElementById('clk-h').style.transform='translateX(-50%) rotate('+h*30+'deg)';document.getElementById('clk-m').style.transform='translateX(-50%) rotate('+m*6+'deg)';document.getElementById('clk-s').style.transform='translateX(-50%) rotate('+s*6+'deg)';document.getElementById('clk-digital').textContent=now.toLocaleTimeString()}setInterval(updateClock,1000);updateClock()"
+    "js": "function updateClock(){var now=new Date(),h=now.getHours()%12,m=now.getMinutes(),s=now.getSeconds();document.getElementById('clk-h').style.transform='translateX(-50%) rotate('+h*30+'deg)';document.getElementById('clk-m').style.transform='translateX(-50%) rotate('+m*6+'deg)';document.getElementById('clk-s').style.transform='translateX(-50%) rotate('+s*6+'deg)';document.getElementById('clk-digital').textContent=now.toLocaleTimeString()}setInterval(updateClock,1000);updateClock()",
+    "desc_zh": "模拟时钟+数字时间显示"
   },
   {
     "id": "m01",
@@ -1240,7 +1316,8 @@ var COMPS = [
     "desc_en": "Video that scales with container",
     "html": "<div style=\"max-width:700px;margin:40px auto\"><div style=\"position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px\"><div style=\"position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:bold\">Video Placeholder (16:9)</div></div><p style=\"margin-top:12px;color:#999;font-size:13px;text-align:center\">16:9 aspect ratio, responsive</p></div>",
     "css": "/* Responsive video: padding-bottom hack for 16:9 */",
-    "js": "// For real video: <iframe> or <video> tag inside container"
+    "js": "// For real video: <iframe> or <video> tag inside container",
+    "desc_zh": "16:9响应式视频嵌入容器"
   },
   {
     "id": "m02",
@@ -1255,7 +1332,8 @@ var COMPS = [
     "desc_en": "Custom styled audio player",
     "html": "<div style=\"max-width:400px;margin:40px auto;padding:20px;background:#1a1a2e;border-radius:12px\"><div style=\"display:flex;align-items:center;gap:16px;margin-bottom:16px\"><button id=\"aud-btn\" onclick=\"toggleAudio()\" style=\"width:48px;height:48px;border-radius:50%;background:#e94560;border:none;color:#fff;font-size:20px;cursor:pointer\">▶</button><div style=\"flex:1\"><div style=\"height:4px;background:#333;border-radius:2px;position:relative\"><div id=\"aud-prog\" style=\"height:100%;width:35%;background:#e94560;border-radius:2px\"></div></div></div><span style=\"color:#999;font-size:12px\" id=\"aud-time\">1:24 / 4:02</span></div><p style=\"color:#999;font-size:12px\">Custom audio player UI</p></div>",
     "css": "/* Audio player: play button + progress bar */",
-    "js": "// Wire up with Web Audio API or <audio> element"
+    "js": "// Wire up with Web Audio API or <audio> element",
+    "desc_zh": "带播放/暂停控制的音频播放器"
   },
   {
     "id": "m03",
@@ -1270,7 +1348,8 @@ var COMPS = [
     "desc_en": "Click to view image fullscreen",
     "html": "<div style=\"padding:40px;text-align:center\"><img src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='150'%3E%3Crect fill='%23667eea' width='200' height='150'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23fff'%3EClick Me%3C/text%3E%3C/svg%3E\" style=\"width:200px;height:150px;border-radius:8px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.15)\" onclick=\"document.getElementById('lb').style.display='flex'\"><div id=\"lb\" style=\"display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:9999;align-items:center;justify-content:center;flex-direction:column\" onclick=\"this.style.display='none'\"><div style=\"color:#fff;font-size:48px;margin-bottom:20px\">🖼️</div><p style=\"color:#fff\">Click anywhere to close</p></div></div>",
     "css": "/* Lightbox: fixed fullscreen overlay */",
-    "js": "// Open lightbox with specific image src\n// Add ESC key support"
+    "js": "// Open lightbox with specific image src\n// Add ESC key support",
+    "desc_zh": "点击图片放大预览的灯箱效果"
   },
   {
     "id": "m04",
@@ -1285,7 +1364,8 @@ var COMPS = [
     "desc_en": "Access webcam via WebRTC",
     "html": "<div style=\"padding:40px;text-align:center\"><div style=\"width:100%;max-width:500px;height:300px;background:#1a1a2e;margin:0 auto 20px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#999;font-size:14px\" id=\"cam-placeholder\">Camera Preview (requires HTTPS)</div><div style=\"display:flex;gap:10px;justify-content:center\"><button onclick=\"startCam()\" style=\"padding:10px 20px;background:#2ed573;color:#fff;border:none;border-radius:8px;cursor:pointer\">Start Camera</button><button onclick=\"stopCam()\" style=\"padding:10px 20px;background:#ff4757;color:#fff;border:none;border-radius:8px;cursor:pointer\">Stop</button></div></div>",
     "css": "/* Camera container: video element fills it */",
-    "js": "// var stream=await navigator.mediaDevices.getUserMedia({video:true})\n// document.getElementById('cam-placeholder').innerHTML='<video autoplay></video>'"
+    "js": "// var stream=await navigator.mediaDevices.getUserMedia({video:true})\n// document.getElementById('cam-placeholder').innerHTML='<video autoplay></video>'",
+    "desc_zh": "调用摄像头实时预览画面"
   },
   {
     "id": "m05",
@@ -1300,7 +1380,8 @@ var COMPS = [
     "desc_en": "Before/after image comparison slider",
     "html": "<div style=\"max-width:500px;margin:40px auto;position:relative;height:250px;overflow:hidden;border-radius:12px\" id=\"comp-slider\"><div style=\"position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:bold;clip-path:inset(0 50% 0 0)\">BEFORE</div><div style=\"position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:bold\">AFTER</div><input type=\"range\" min=\"0\" max=\"100\" value=\"50\" style=\"position:absolute;top:0;left:0;right:0;bottom:0;width:100%;opacity:0;cursor:ew-resize\" oninput=\"document.querySelector('#comp-slider div').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'\"></div>",
     "css": "/* Compare: clip-path + range input */",
-    "js": "// Enhanced: show slider handle, update clip on input"
+    "js": "// Enhanced: show slider handle, update clip on input",
+    "desc_zh": "拖动滑块对比两张图片效果"
   },
   {
     "id": "m06",
@@ -1315,7 +1396,8 @@ var COMPS = [
     "desc_en": "Simple contenteditable rich text toolbar",
     "html": "<div style=\"max-width:500px;margin:40px auto;border:2px solid #ddd;border-radius:8px;overflow:hidden\"><div style=\"display:flex;gap:2px;padding:8px;background:#f8f9fa;border-bottom:1px solid #ddd\"><button onclick=\"document.execCommand('bold')\" style=\"padding:6px 10px;border:1px solid #ddd;background:#fff;cursor:pointer;border-radius:4px;font-weight:bold\">B</button><button onclick=\"document.execCommand('italic')\" style=\"padding:6px 10px;border:1px solid #ddd;background:#fff;cursor:pointer;border-radius:4px;font-style:italic\">I</button><button onclick=\"document.execCommand('underline')\" style=\"padding:6px 10px;border:1px solid #ddd;background:#fff;cursor:pointer;border-radius:4px;text-decoration:underline\">U</button></div><div contenteditable=\"true\" style=\"padding:16px;min-height:150px;font-size:14px;color:#333;outline:none\">Type here...</div></div>",
     "css": "/* Toolbar: button row + editable area */",
-    "js": "// document.execCommand is deprecated but works\n// Modern: use the Selection API"
+    "js": "// document.execCommand is deprecated but works\n// Modern: use the Selection API",
+    "desc_zh": "contenteditable实现的简易富文本编辑"
   },
   {
     "id": "m07",
@@ -1330,9 +1412,12 @@ var COMPS = [
     "desc_en": "Generate QR code from text",
     "html": "<div style=\"padding:40px;text-align:center\"><div style=\"display:inline-block;padding:20px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1)\"><div style=\"width:160px;height:160px;background:#fff;display:flex;flex-wrap:wrap;gap:0;align-items:center;justify-content:center;position:relative\"><div style=\"width:20px;height:20px;background:#000;border-radius:2px\"></div><div style=\"width:20px;height:20px;background:#000;border-radius:2px;position:absolute;top:20px;left:20px\"></div><div style=\"width:20px;height:20px;background:#000;border-radius:2px;position:absolute;bottom:20px;right:20px\"></div><div style=\"font-size:14px;color:#333;width:100%;margin-top:8px\">QR Code</div></div></div><p style=\"margin-top:12px;color:#999;font-size:13px\">Use a library like qrcode.js for real QR generation</p></div>",
     "css": "/* QR code: grid of dark/light cells */",
-    "js": "// For real QR: use qrcode.js or server-side generation\n// This is a visual placeholder"
+    "js": "// For real QR: use qrcode.js or server-side generation\n// This is a visual placeholder",
+    "desc_zh": "展示QR码生成效果占位组件"
   }
 ];
+
+
     var currentComp = null;
 var currentTab = 'html';
 var lang = 'en';
@@ -1420,7 +1505,7 @@ function doFilter(){
     if(!q){ renderList(COMPS); return; }
     var filtered = COMPS.filter(function(c){
         var name = (c.name || '').toLowerCase() + ' ' + (c.name_en || '').toLowerCase();
-        var desc = (c.desc_en || '').toLowerCase();
+        var desc = ((c.desc_en || '') + ' ' + (c.desc_zh || '')).toLowerCase();
         var tags = (c.tags || []).map(function(t){return t.toLowerCase()}).join(' ');
         return name.indexOf(q) !== -1 || desc.indexOf(q) !== -1 || tags.indexOf(q) !== -1;
     });
