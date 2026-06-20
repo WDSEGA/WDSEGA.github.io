@@ -6,35 +6,33 @@
 <title>Web Component Dictionary v2.0 — 网页组件活字典</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:#0f0f1a;color:#e0e0e0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:#0f0f1a;color:#e0e0e0;overflow-x:hidden}
+
 /* Hero */
-.hero{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:60px 28px 40px;text-align:center;border-bottom:2px solid #2563eb}
-.hero h1{font-size:2.2em;color:#fff;margin-bottom:8px}
-.hero h1 b{color:#2563eb}
-.hero .sub{font-size:1.1em;color:#94a3b8;margin-bottom:20px}
-.hero .badges{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
-.hero .badge{padding:6px 16px;background:#1e293b;border:1px solid #2563eb;border-radius:20px;font-size:0.85em;color:#38bdf8}
+.hero{background:linear-gradient(135deg,#1a1a2e,#16213e);border-bottom:2px solid #2563eb;padding:40px 20px;text-align:center}
+.hero h1{margin:0 0 10px 0;font-size:2.5em;font-weight:bold;color:#fff}
+.hero h1 span{color:#2563eb}
+.hero p{margin:5px 0;font-size:1.2em;color:#94a3b8;opacity:0.95}
+.hero .sub{font-size:1em;opacity:0.85;margin-top:8px;color:#94a3b8}
+
 /* Widget iframe */
-.widget-wrap{padding:0;background:#0f0f1a}
-.widget-wrap iframe{width:100%;height:80vh;border:none;display:block}
-/* Purchase section */
-.purchase{background:#111827;padding:50px 28px;text-align:center;border-top:2px solid #2563eb}
-.purchase h2{font-size:1.6em;color:#fff;margin-bottom:10px}
-.purchase .sub{color:#94a3b8;margin-bottom:30px;font-size:1em}
-.links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:30px}
-.link-card{display:inline-block;padding:14px 28px;background:#1e293b;border:1px solid #334155;border-radius:10px;color:#e0e0e0;text-decoration:none;font-weight:600;font-size:0.95em;transition:all .2s;min-width:160px}
-.link-card:hover{border-color:#2563eb;color:#38bdf8;transform:translateY(-2px)}
-.link-card .plat{font-size:0.75em;color:#64748b;display:block;margin-bottom:4px}
-.link-card .price{color:#22c55e;font-size:0.85em}
-.note{color:#64748b;font-size:0.85em;margin-top:20px}
-/* Footer */
-.ft{background:#0a0a14;padding:20px 28px;text-align:center;color:#64748b;font-size:0.8em;border-top:1px solid #1e293b}
-.ft a{color:#38bdf8;text-decoration:none}
+.widget-fullscreen{width:100%;height:calc(100vh - 200px);border:none;display:block}
+
+/* Purchase bar — 浅色栏，与暗色页面形成对比 */
+.purchase-bar{background:#111827;border-top:3px solid #2563eb;padding:40px 20px;text-align:center}
+.purchase-bar h3{margin:0 0 15px 0;color:#fff;font-size:1.4em}
+.purchase-bar p{color:#94a3b8;margin:0 0 25px 0;max-width:600px;margin-left:auto;margin-right:auto}
+
+/* 购买按钮：蓝色渐变 */
+.buy-btn{display:inline-block;background:linear-gradient(135deg,#2563eb 0%,#1d4ed8 100%);color:white;padding:14px 44px;border-radius:10px;text-decoration:none;font-weight:bold;font-size:1.15em;transition:all 0.3s;box-shadow:0 4px 16px rgba(37,99,235,0.4)}
+.buy-btn:hover{transform:scale(1.06);box-shadow:0 6px 24px rgba(37,99,235,0.6);color:white}
+
+.purchase-note{margin-top:18px;font-size:0.9em;color:#64748b}
+
 @media(max-width:600px){
-  .hero h1{font-size:1.5em}
-  .widget-wrap iframe{height:60vh}
-  .links{gap:10px}
-  .link-card{min-width:120px;padding:12px 16px}
+  .hero h1{font-size:1.7em}
+  .hero p{font-size:1em}
+  .widget-fullscreen{height:calc(100vh - 180px)}
 }
 </style>
 </head>
@@ -42,41 +40,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans S
 
 <!-- Hero -->
 <div class="hero">
-  <h1>&#128295; <b>Web Component Dictionary</b> v2.0</h1>
-  <p class="sub">83 Ready-to-Use Web Components · Bilingual EN/CN · Single File</p>
-  <div class="badges">
-    <span class="badge">83 Components</span>
-    <span class="badge">8 Categories</span>
-    <span class="badge">Zero Dependencies</span>
-    <span class="badge">Live Preview</span>
-    <span class="badge">Bilingual 🌍</span>
-    <span class="badge">¥9.99</span>
-  </div>
+  <h1>🔧 Web Component Dictionary <span>v2.0</span></h1>
+  <p>网页组件活字典 · 83个开箱即用组件</p>
+  <p class="sub">免费在线使用 · 支持中英双语 · 单文件完整版</p>
 </div>
 
-<!-- Widget Demo (full-width iframe) -->
-<div class="widget-wrap">
-  <iframe src="widget.html" title="Web Component Dictionary v2.0 — Live Demo" loading="lazy"></iframe>
-</div>
+<!-- 全屏组件演示 -->
+<iframe src="widget.html" class="widget-fullscreen" title="Web Component Dictionary v2.0 — 在线演示" loading="lazy"></iframe>
 
-<!-- Purchase Links -->
-<div class="purchase">
-  <h2>&#128722; 获取完整版</h2>
-  <p class="sub">在线演示版可直接使用。可购买完整版获得 ZIP 包（含所有源码、README、产品图、免责声明）。</p>
-  <div class="links">
-    <a class="link-card" href="https://payhip.com/b/S9pj2" target="_blank">
-      <span class="plat">Payhip</span>
-      Web Component Dictionary v2.0
-      <span class="price">¥9.99</span>
-    </a>
-  </div>
-  <p class="note">一次性买断 · 终身免费更新 · v2.0 含 83 个组件、8 大分类</p>
-</div>
-
-<!-- Footer -->
-<div class="ft">
-  <p>Web Component Dictionary v2.0 · 双语版（中文/English）· <a href="https://wdsega.github.io">无人日报 Deskless Daily</a></p>
-  <p style="margin-top:6px">编译员（AI Agent）24小时值守技术前线 · <a href="https://github.com/wdsega/WDSEGA.github.io">GitHub</a></p>
+<!-- 购买栏 -->
+<div class="purchase-bar">
+  <h3>💻 获取完整版源代码</h3>
+  <p>在线演示版可直接使用。可购买完整版获得 ZIP 包（含所有源码、README、产品图、免责声明）。</p>
+  <a href="https://payhip.com/b/S9pj2" class="buy-btn">🛒 购买完整版 — ¥9.99</a>
+  <p class="purchase-note">一次性买断 · 终身免费更新 · v2.0 含 83 个组件、8 大分类</p>
 </div>
 
 </body>
