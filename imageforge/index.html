@@ -1100,39 +1100,61 @@ function processCleanwm(canvas) {
     var dir=document.getElementById('cwmDir').value;
     var blend=Math.max(0,parseInt(document.getElementById('cwmBlend').value)||5);
     var iw=originalCanvas.width,ih=originalCanvas.height;
+
     if(x<0||y<0||x+w>iw||y+h>ih){showToast(lang==='zh'?'超出范围':'Out of bounds',true);return;}
+
     canvas.width=iw;canvas.height=ih;
-    var ctx=canvas.getContext('2d');ctx.drawImage(originalImage,0,0);
-    var imgData=ctx.getImageData(0,0,iw,ih),data=imgData.data;
+    var ctx=canvas.getContext('2d');
+    ctx.drawImage(originalImage,0,0);
+
+    // Determine best sample source
     var order=dir==='auto'?['up','left','right','down']:[dir];
-    var sx=-1,sy=-1;
-    for(var i=0;i<order.length;i++){var d=order[i];
-        if(d==='up'&&y-h>=0){sx=x;sy=y-h;break;}
-        if(d==='left'&&x-w>=0){sx=x-w;sy=y;break;}
-        if(d==='right'&&x+w+w<=iw){sx=x+w;sy=y;break;}
-        if(d==='down'&&y+h+h<=ih){sx=x;sy=y+h;break;}
+    var sx=-1,sy=-1,sampleOk=false;
+    for(var i=0;i<order.length;i++){
+        var d=order[i];
+        if(d==='up'&&y-h>=0)      {sx=x;sy=y-h;sampleOk=true;break;}
+        if(d==='left'&&x-w>=0)     {sx=x-w;sy=y;sampleOk=true;break;}
+        if(d==='right'&&x+w+w<=iw) {sx=x+w;sy=y;sampleOk=true;break;}
+        if(d==='down'&&y+h+h<=ih)  {sx=x;sy=y+h;sampleOk=true;break;}
     }
-    if(sx<0){showToast(lang==='zh'?'无法取样':'Cannot sample',true);return;}
-    ctx.putImageData(ctx.getImageData(sx,sy,w,h),x,y);
-    if(blend>0){
-        var rd=ctx.getImageData(0,0,iw,ih).data;
-        for(var py=y;py<y+h;py++){for(var px=x;px<x+w;px++){
-            var d1=Math.min(px-x,x+w-px),d2=Math.min(py-y,y+h-py),dist=Math.min(d1,d2);
-            if(dist<blend&&dist>=0){var a=dist/blend,idx=(py*iw+px)*4;
-                data[idx]=Math.round(a*data[idx]+(1-a)*rd[idx]);
-                data[idx+1]=Math.round(a*data[idx+1]+(1-a)*rd[idx+1]);
-                data[idx+2]=Math.round(a*data[idx+2]+(1-a)*rd[idx+2]);
+    if(!sampleOk){showToast(lang==='zh'?'无法取样：水印太靠近边缘':'Cannot sample: WM too close to edge',true);return;}
+
+    // Read source pixels and target area
+    var srcData=ctx.getImageData(sx,sy,w,h);
+    var fullData=ctx.getImageData(0,0,iw,ih);
+    var px=fullData.data;
+    var sp=srcData.data;
+
+    // Method: clone-patch — copy sample pixels + edge feather
+    for(var row=0;row<h;row++){
+        for(var col=0;col<w;col++){
+            var ti=((y+row)*iw+(x+col))*4;
+            var si=(row*w+col)*4;
+            var dx=Math.min(col,w-1-col), dy=Math.min(row,h-1-row);
+            var dist=Math.min(dx,dy);
+
+            if(dist>=blend||blend===0){
+                // Core area: direct copy from sample
+                px[ti]=sp[si]; px[ti+1]=sp[si+1]; px[ti+2]=sp[si+2]; px[ti+3]=sp[si+3];
+            }else{
+                // Edge: alpha blend between sample and original neighbor average
+                var a=dist/blend;
+                px[ti]=Math.round(a*sp[si]+(1-a)*px[ti]);
+                px[ti+1]=Math.round(a*sp[si+1]+(1-a)*px[ti+1]);
+                px[ti+2]=Math.round(a*sp[si+2]+(1-a)*px[ti+2]);
             }
-        }}
-        ctx.putImageData(imgData,0,0);
+        }
     }
+
+    // Apply the modified pixels
+    ctx.putImageData(fullData,0,0);
     showAfter(canvas.toDataURL('image/png'));
     showToast(lang==='zh'?'水印已清理!':'Watermark cleaned!');
 }
 var cleanwmSel=false,cwmSX,cwmSY,cwmOv=null;
 function cleanwmPreset(pos){if(!originalCanvas)return;
     var W=originalCanvas.width,H=originalCanvas.height,fw=Math.max(60,Math.round(W*0.18)),fh=Math.max(20,Math.round(H*0.055)),fx,fy;
-    if(pos==='br'){fx=W-fw-Math.round(W*0.02);fy=h-fh-Math.round(H*0.02);}
+    if(pos==='br'){fx=W-fw-Math.round(W*0.02);fy=H-fh-Math.round(H*0.02);}
     else if(pos==='bl'){fx=Math.round(W*0.02);fy=H-fh-Math.round(H*0.02);}
     else if(pos==='tr'){fx=W-fw-Math.round(W*0.02);fy=Math.round(H*0.02);}
     else{fx=Math.round((W-fw)/2);fy=Math.round((H-fh)/2);}
