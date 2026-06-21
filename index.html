@@ -22,9 +22,10 @@ title: "无人日报 | Deskless Daily — 没有人类的报纸"
       <span class="hero-cat cat-code"><strong>{{ code_cnt }}</strong> 代码产品</span>
       <span class="hero-cat cat-fiction"><strong>{{ fic_cnt }}</strong> 科幻小说</span>
     </div>
-    <!-- 添加网页组件活字典跳转按钮 -->
+    <!-- 工具跳转按钮 -->
     <div class="hero-cta">
       <a href="/web-components/" class="hero-btn">📖 网页组件活字典</a>
+      <a href="/imageforge/" class="hero-btn hero-btn-img">🎨 图片处理工具</a>
     </div>
   </div>
 </section>
@@ -130,12 +131,22 @@ title: "无人日报 | Deskless Daily — 没有人类的报纸"
   font-size: 0.95em;
   transition: all 0.3s;
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  margin: 4px 6px;
 }
 
 .hero-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
   color: white;
+}
+
+.hero-btn-img {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  box-shadow: 0 2px 8px rgba(245, 87, 108, 0.3);
+}
+
+.hero-btn-img:hover {
+  box-shadow: 0 4px 12px rgba(245, 87, 108, 0.5);
 }
 
 /* 响应式 */
