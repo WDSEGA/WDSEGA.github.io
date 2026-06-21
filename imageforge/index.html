@@ -256,6 +256,20 @@ body {
     <button class="lang-btn" id="langToggle" onclick="toggleLang()">EN</button>
 </div>
 
+<!-- Marketing / Feature Cards (top of page) -->
+<div class="marketing" id="marketingSection">
+    <h2><span data-lang="zh">ImageForge Pro — 功能亮点</span><span data-lang="en" style="display:none">ImageForge Pro — Key Features</span></h2>
+    <p class="subtitle"><span data-lang="zh">26 项专业工具，全部免费在线使用。完整离线版 $9.99 买断。</span><span data-lang="en" style="display:none">26 professional tools, all free online. Full offline version $9.99 one-time.</span></p>
+    <div class="feature-grid">
+        <div class="feature-card"><strong>🛠️ 26 项工具</strong><p data-lang="zh">智能压缩、批量处理、印章提取、AI 抠图、水印清理、格式转换、滤镜调色、拼图制 GIF 等，一站式搞定。</p><p data-lang="en" style="display:none">Compress, batch, stamp extract, AI BG remove, watermark clean, convert, filters, collage, GIF — all in one.</p></div>
+        <div class="feature-card"><strong>🔒 100% 离线</strong><p data-lang="zh">图片永不离开你的设备，零云端上传，零隐私风险。纯浏览器端处理，敏感图片也安心。</p><p data-lang="en" style="display:none">Images never leave your device. Zero cloud upload, zero privacy risk. Pure browser-side processing.</p></div>
+        <div class="feature-card"><strong>📦 免安装</strong><p data-lang="zh">独立版仅一个 index.html 文件，双击即可在任何浏览器中打开使用，无需服务器，无需安装。</p><p data-lang="en" style="display:none">Standalone version is a single index.html file. Double-click to open in any browser. No server, no install.</p></div>
+        <div class="feature-card"><strong>🎨 印章提取与盖印</strong><p data-lang="zh">HSV 颜色空间精确提取红色印章，与黑色签字分离。框选印章区域，一键应用到目标文档。</p><p data-lang="en" style="display:none">HSV color extraction precisely separates red stamps from black signatures. Select, extract, apply.</p></div>
+        <div class="feature-card"><strong>🤖 AI 智能抠图</strong><p data-lang="zh">内置 U²-Net 深度学习模型，自动检测前景物体，一键移除背景，发丝级精细边缘。</p><p data-lang="en" style="display:none">Built-in U²-Net deep learning model. Auto-detect objects, one-click BG remove with hair-level edges.</p></div>
+        <div class="feature-card"><strong>💡 一次性买断</strong><p data-lang="zh">$9.99 永久授权，无订阅、无追踪、无隐藏费用。含终身免费更新，后续新工具自动获得。</p><p data-lang="en" style="display:none">$9.99 forever. No subscription, no tracking, no hidden fees. Lifetime free updates included.</p></div>
+    </div>
+</div>
+
 <!-- App -->
 <div class="app-wrap">
     <!-- Sidebar -->
@@ -315,20 +329,6 @@ body {
             </div>
         </div>
 
-        <!-- Marketing Section (shown before tool panel) -->
-        <div class="marketing" id="marketingSection">
-            <h2><span data-lang="zh">ImageForge Pro — 功能亮点</span><span data-lang="en" style="display:none">ImageForge Pro — Key Features</span></h2>
-            <p class="subtitle"><span data-lang="zh">26 项专业工具，全部免费在线使用。完整离线版 ￥9.99 买断。</span><span data-lang="en" style="display:none">26 professional tools, all free online. Full offline version $9.99 one-time.</span></p>
-            <div class="feature-grid">
-                <div class="feature-card"><strong>🛠️ 26 项工具</strong><p data-lang="zh">智能压缩、批量处理、印章提取、AI 抠图、水印清理、格式转换、滤镜调色、拼图制 GIF 等，一站式搞定。</p><p data-lang="en" style="display:none">Compress, batch, stamp extract, AI BG remove, watermark clean, convert, filters, collage, GIF — all in one.</p></div>
-                <div class="feature-card"><strong>🔒 100% 离线</strong><p data-lang="zh">图片永不离开你的设备，零云端上传，零隐私风险。纯浏览器端处理，敏感图片也安心。</p><p data-lang="en" style="display:none">Images never leave your device. Zero cloud upload, zero privacy risk. Pure browser-side processing.</p></div>
-                <div class="feature-card"><strong>📦 免安装</strong><p data-lang="zh">独立版仅一个 index.html 文件，双击即可在任何浏览器中打开使用，无需服务器，无需安装。</p><p data-lang="en" style="display:none">Standalone version is a single index.html file. Double-click to open in any browser. No server, no install.</p></div>
-                <div class="feature-card"><strong>🎨 印章提取与盖印</strong><p data-lang="zh">HSV 颜色空间精确提取红色印章，与黑色签字分离。框选印章区域，一键应用到目标文档。</p><p data-lang="en" style="display:none">HSV color extraction precisely separates red stamps from black signatures. Select, extract, apply.</p></div>
-                <div class="feature-card"><strong>🤖 AI 智能抠图</strong><p data-lang="zh">内置 U²-Net 深度学习模型，自动检测前景物体，一键移除背景，发丝级精细边缘。</p><p data-lang="en" style="display:none">Built-in U²-Net deep learning model. Auto-detect objects, one-click BG remove with hair-level edges.</p></div>
-                <div class="feature-card"><strong>💡 一次性买断</strong><p data-lang="zh">$9.99 永久授权，无订阅、无追踪、无隐藏费用。含终身免费更新，后续新工具自动获得。</p><p data-lang="en" style="display:none">$9.99 forever. No subscription, no tracking, no hidden fees. Lifetime free updates included.</p></div>
-            </div>
-        </div>
-
         <!-- Tool Panel -->
         <div class="tool-panel hidden" id="toolPanel">
             <h3><span class="tname-icon" id="toolIcon"></span><span id="toolTitle"></span></h3>
@@ -362,7 +362,7 @@ body {
 <div class="purchase-bar">
     <h3><span data-lang="zh">💻 获取完整离线版本</span><span data-lang="en" style="display:none">💻 Get Full Offline Version</span></h3>
     <p><span data-lang="zh">在线版完全免费可用。购买完整版获得 ZIP 包（含源码、README、产品图、免责声明），Python 3.8+ 一键运行。</span><span data-lang="en" style="display:none">Online version is fully free. Purchase full version for ZIP package (source, README, images, disclaimer). Python 3.8+, one command to run.</span></p>
-    <a href="https://payhip.com/b/h0EFC" class="buy-btn">🛒 <span data-lang="zh">购买完整版 — ￥9.99</span><span data-lang="en" style="display:none">Buy Full Version — $9.99</span></a>
+    <a href="https://payhip.com/b/h0EFC" class="buy-btn">🛒 <span data-lang="zh">购买完整版 — $9.99</span><span data-lang="en" style="display:none">Buy Full Version — $9.99</span></a>
     <p style="color:#64748b;font-size:0.8em;margin-top:16px"><span data-lang="zh">一次性买断 · 终身免费更新 · v1.0.1 含 26 项功能</span><span data-lang="en" style="display:none">One-time purchase · Lifetime free updates · v1.0.1 with 26 features</span></p>
 </div>
 
