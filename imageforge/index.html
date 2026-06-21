@@ -1332,7 +1332,8 @@ function cleanwmPreset(pos){if(!originalCanvas)return;
 }
 function initCleanwmOverlay(){
     var pane=document.getElementById('beforePane');
-    if(!pane)return;
+    var bi=document.getElementById('beforeImg');
+    if(!pane||!bi)return;
     // Remove old overlay
     var old=document.getElementById('cwmOverlay');
     if(old)old.remove();
@@ -1351,54 +1352,55 @@ function initCleanwmOverlay(){
 
     setTimeout(function(){cleanwmPreset('br');},400);
 
-    function getRelPos(e){
-        var r=cwmOvDiv.getBoundingClientRect();
-        return{x:e.clientX-r.left,y:e.clientY-r.top};
+    function getImgRelPos(e){
+        // Use <img> element's actual display rect, NOT the overlay/pane
+        var imgRect=bi.getBoundingClientRect();
+        return{x:e.clientX-imgRect.left,y:e.clientY-imgRect.top,iw:imgRect.width,ih:imgRect.height};
+    }
+    function toImgCoords(cssX,cssY,iw,ih){
+        var natW=bi.naturalWidth||originalCanvas.width;
+        var natH=bi.naturalHeight||originalCanvas.height;
+        return{x:Math.round(cssX*natW/iw),y:Math.round(cssY*natH/ih),sx:natW/iw,sy:natH/ih};
     }
     cwmOvDiv.addEventListener('mousedown',function(e){
         e.preventDefault();
-        var p=getRelPos(e);cwmSX=p.x;cwmSY=p.y;cleanwmSel=true;
+        var p=getImgRelPos(e);
+        if(p.x<0||p.y<0||p.x>p.iw||p.y>p.ih)return;
+        cwmSX=p.x;cwmSY=p.y;cleanwmSel=true;
     });
     cwmOvDiv.addEventListener('mousemove',function(e){
         if(!cleanwmSel)return;e.preventDefault();
-        var p=getRelPos(e);
+        var p=getImgRelPos(e);
         var rx=Math.min(cwmSX,p.x),ry=Math.min(cwmSY,p.y);
         var rw=Math.abs(p.x-cwmSX),rh=Math.abs(p.y-cwmSY);
-        // Convert CSS pixels to image coordinates
-        var bi=document.getElementById('beforeImg');
-        var scaleX=(bi.naturalWidth||originalCanvas.width)/cwmOvDiv.offsetWidth;
-        var scaleY=(bi.naturalHeight||originalCanvas.height)/cwmOvDiv.offsetHeight;
-        var fx=Math.round(rx*scaleX),fy=Math.round(ry*scaleY);
-        var fw=Math.max(10,Math.round(rw*scaleX)),fh=Math.max(10,Math.round(rh*scaleY));
-        // Update input fields live
-        document.getElementById('cwmX').value=fx;document.getElementById('cwmY').value=fy;
+        var tc=toImgCoords(rx,ry,p.iw,p.ih);
+        var fw=Math.max(1,Math.round(rw*tc.sx)),fh=Math.max(1,Math.round(rh*tc.sy));
+        document.getElementById('cwmX').value=tc.x;document.getElementById('cwmY').value=tc.y;
         document.getElementById('cwmW').value=fw;document.getElementById('cwmH').value=fh;
-        // Visual rect
         var sr=document.getElementById('cwmSelRect');
         sr.style.display='block';sr.style.left=rx+'px';sr.style.top=ry+'px';sr.style.width=rw+'px';sr.style.height=rh+'px';
     });
     cwmOvDiv.addEventListener('mouseup',function(e){
         if(!cleanwmSel)return;cleanwmSel=false;
-        var p=getRelPos(e);
-        var bi=document.getElementById('beforeImg');
-        var scaleX=(bi.naturalWidth||originalCanvas.width)/cwmOvDiv.offsetWidth;
-        var scaleY=(bi.naturalHeight||originalCanvas.height)/cwmOvDiv.offsetHeight;
-        var fx=Math.round(Math.min(cwmSX,p.x)*scaleX);
-        var fy=Math.round(Math.min(cwmSY,p.y)*scaleY);
-        var fw=Math.max(10,Math.round(Math.abs(p.x-cwmSX)*scaleX));
-        var fh=Math.max(10,Math.round(Math.abs(p.y-cwmSY)*scaleY));
-        document.getElementById('cwmX').value=fx;document.getElementById('cwmY').value=fy;
+        var p=getImgRelPos(e);
+        var fx=Math.min(cwmSX,p.x),fy=Math.min(cwmSY,p.y);
+        var tc=toImgCoords(fx,fy,p.iw,p.ih);
+        var fw=Math.max(1,Math.round(Math.abs(p.x-cwmSX)*tc.sx)),fh=Math.max(1,Math.round(Math.abs(p.y-cwmSY)*tc.sy));
+        document.getElementById('cwmX').value=tc.x;document.getElementById('cwmY').value=tc.y;
         document.getElementById('cwmW').value=fw;document.getElementById('cwmH').value=fh;
         var info=document.getElementById('cleanwmSelectionInfo');
-        if(info)info.textContent='Selected: ('+fx+','+fy+') '+fw+'x'+fh;
+        if(info)info.textContent='Selected: ('+tc.x+','+tc.y+') '+fw+'x'+fh;
     });
 }
 function drawCWMRect(x,y,w,h){
     var sr=document.getElementById('cwmSelRect');
     if(!sr||!cwmOvDiv)return;
     var bi=document.getElementById('beforeImg');
-    var scaleX=cwmOvDiv.offsetWidth/(bi.naturalWidth||originalCanvas.width);
-    var scaleY=cwmOvDiv.offsetHeight/(bi.naturalHeight||originalCanvas.height);
+    // Use image display size for correct CSS positioning of selection rect
+    var imgRect=bi.getBoundingClientRect();
+    var natW=bi.naturalWidth||originalCanvas.width;
+    var natH=bi.naturalHeight||originalCanvas.height;
+    var scaleX=imgRect.width/natW,scaleY=imgRect.height/natH;
     sr.style.display='block';
     sr.style.left=(x*scaleX)+'px';sr.style.top=(y*scaleY)+'px';
     sr.style.width=(w*scaleX)+'px';sr.style.height=(h*scaleY)+'px';
@@ -1569,7 +1571,8 @@ function applyEffect(type) {
 var mosOvDiv = null, mosSel = false, mosSX = 0, mosSY = 0;
 function initMosaicOverlay() {
     var pane = document.getElementById('beforePane');
-    if (!pane) return;
+    var bi = document.getElementById('beforeImg');
+    if (!pane || !bi) return;
     var old = document.getElementById('mosOverlay');
     if (old) old.remove();
     mosOvDiv = document.createElement('div');
@@ -1582,43 +1585,58 @@ function initMosaicOverlay() {
     selRect.className = 'sel-rect';
     mosOvDiv.appendChild(selRect);
 
-    function getRelPos(e) {
-        var r = mosOvDiv.getBoundingClientRect();
-        return { x: e.clientX - r.left, y: e.clientY - r.top };
+    function getImgRelPos(e) {
+        // Always use the <img> element's actual display rectangle
+        var imgRect = bi.getBoundingClientRect();
+        return {
+            x: e.clientX - imgRect.left,
+            y: e.clientY - imgRect.top,
+            iw: imgRect.width,
+            ih: imgRect.height
+        };
+    }
+    function toImgCoords(cssX, cssY, iw, ih) {
+        var natW = bi.naturalWidth || originalCanvas.width;
+        var natH = bi.naturalHeight || originalCanvas.height;
+        return {
+            x: Math.round(cssX * natW / iw),
+            y: Math.round(cssY * natH / ih),
+            sx: natW / iw,
+            sy: natH / ih
+        };
     }
     mosOvDiv.onmousedown = function(e) {
         e.preventDefault();
-        var p = getRelPos(e); mosSX = p.x; mosSY = p.y; mosSel = true;
+        var p = getImgRelPos(e);
+        // Ignore clicks outside the image area
+        if (p.x < 0 || p.y < 0 || p.x > p.iw || p.y > p.ih) return;
+        mosSX = p.x; mosSY = p.y; mosSel = true;
     };
     mosOvDiv.onmousemove = function(e) {
         if (!mosSel) return; e.preventDefault();
-        var p = getRelPos(e);
+        var p = getImgRelPos(e);
         var rx = Math.min(mosSX, p.x), ry = Math.min(mosSY, p.y);
         var rw = Math.abs(p.x - mosSX), rh = Math.abs(p.y - mosSY);
-        var bi = document.getElementById('beforeImg');
-        var sX = mosOvDiv.offsetWidth / (bi.naturalWidth || originalCanvas.width);
-        var sY = mosOvDiv.offsetHeight / (bi.naturalHeight || originalCanvas.height);
-        document.getElementById('mosX').value = Math.round(rx / sX);
-        document.getElementById('mosY').value = Math.round(ry / sY);
-        document.getElementById('mosW').value = Math.max(1, Math.round(rw / sX));
-        document.getElementById('mosH').value = Math.max(1, Math.round(rh / sY));
+        var tc = toImgCoords(rx, ry, p.iw, p.ih);
+        document.getElementById('mosX').value = tc.x;
+        document.getElementById('mosY').value = tc.y;
+        document.getElementById('mosW').value = Math.max(1, Math.round(rw * tc.sx));
+        document.getElementById('mosH').value = Math.max(1, Math.round(rh * tc.sy));
         var sr = document.getElementById('mosSelRect');
         sr.style.display = 'block'; sr.style.left = rx + 'px'; sr.style.top = ry + 'px';
         sr.style.width = rw + 'px'; sr.style.height = rh + 'px';
     };
     mosOvDiv.onmouseup = function(e) {
         if (!mosSel) return; mosSel = false;
-        var p = getRelPos(e);
-        var bi = document.getElementById('beforeImg');
-        var sX = mosOvDiv.offsetWidth / (bi.naturalWidth || originalCanvas.width);
-        var sY = mosOvDiv.offsetHeight / (bi.naturalHeight || originalCanvas.height);
-        var fx = Math.round(Math.min(mosSX, p.x) / sX), fy = Math.round(Math.min(mosSY, p.y) / sY);
-        var fw = Math.max(1, Math.round(Math.abs(p.x - mosSX) / sX));
-        var fh = Math.max(1, Math.round(Math.abs(p.y - mosSY) / sY));
-        document.getElementById('mosX').value = fx; document.getElementById('mosY').value = fy;
-        document.getElementById('mosW').value = fw; document.getElementById('mosH').value = fh;
+        var p = getImgRelPos(e);
+        var fx = Math.min(mosSX, p.x), fy = Math.min(mosSY, p.y);
+        var fw = Math.abs(p.x - mosSX), fh = Math.abs(p.y - mosSY);
+        var tc = toImgCoords(fx, fy, p.iw, p.ih);
+        document.getElementById('mosX').value = tc.x; document.getElementById('mosY').value = tc.y;
+        document.getElementById('mosW').value = Math.max(1, Math.round(fw * tc.sx));
+        document.getElementById('mosH').value = Math.max(1, Math.round(fh * tc.sy));
         var info = document.getElementById('mosSelInfo');
-        if (info) info.textContent = (lang==='zh'?'已选区: ':'Selected: ') + '(' + fx + ',' + fy + ') ' + fw + 'x' + fh;
+        if (info) info.textContent = (lang==='zh'?'已选区: ':'Selected: ') + '(' + tc.x + ',' + tc.y + ') ' + Math.round(fw*tc.sx) + 'x' + Math.round(fh*tc.sy);
     };
 }
 
