@@ -674,6 +674,8 @@ function selectTool(toolId) {
     if (cwmOvDiv) { var old=document.getElementById('cwmOverlay'); if(old)old.remove(); cwmOvDiv = null; }
     if (mosOvDiv) { var old=document.getElementById('mosOverlay'); if(old)old.remove(); mosOvDiv = null; }
     if (stampOvDiv) { stampOvDiv.remove(); stampOvDiv = null; }
+    var sac = document.getElementById('stampApplyCanvas'); if (sac) sac.remove();
+    stampApplyImg = null; stampImg = null;
     // 清理多图工具上传区样式
     var up = document.getElementById('uploadZone');
     if (up) up.classList.remove('multi-drop-zone');
@@ -995,9 +997,14 @@ function renderControls(tool) {
                             <button class="preset-btn" onclick="stampSelType='polygon';stampSelPts=[];showToast(lang==='zh'?'点击图片添加顶点，双击完成':'Click to add points, double-click to finish')">⬠ 多边形</button>
                         </div>
                     </div>
-                    <div class="form-group"><label><span data-lang="zh">颜色容差</span><span data-lang="en" style="display:none">Color Tolerance</span>: <span class="range-val" id="stampTolVal">80</span></label><input type="range" id="stampTolerance" min="10" max="200" value="80" oninput="document.getElementById('stampTolVal').textContent=this.value"></div>
+                    <div class="form-group"><label><span data-lang="zh">颜色容差</span><span data-lang="en" style="display:none">Hue Tolerance</span>: <span class="range-val" id="stampTolVal">40</span></label><input type="range" id="stampTolerance" min="10" max="100" value="40" oninput="document.getElementById('stampTolVal').textContent=this.value"></div>
+                    <div class="form-group">
+                        <button class="action-btn" onclick="stampStartPickColor()" style="background:var(--success);width:100%;margin-bottom:4px"><span data-lang="zh">🎨 点击取色（精确分离颜色）</span><span data-lang="en" style="display:none">🎨 Pick Target Color</span></button>
+                        <div id="stampColorChip" style="display:inline-block;width:24px;height:24px;border:1px solid var(--border);border-radius:4px;vertical-align:middle;background:#ccc;line-height:24px;text-align:center;font-size:12px;color:#fff;margin-right:6px">?</div>
+                        <span style="font-size:0.78em;color:var(--sub)"><span data-lang="zh">点击取色按钮后在图上点选目标颜色</span><span data-lang="en" style="display:none">Click picker then click on target color</span></span>
+                    </div>
                     <div class="form-group"><label><span data-lang="zh">使用说明</span><span data-lang="en" style="display:none">How to use</span></label><div style="font-size:0.8em;color:var(--sub);line-height:1.6;padding:6px 8px;background:var(--bg);border-radius:6px">
-                        <span data-lang="zh">1.在左侧图上拖拽框选图章区域<br>2.选框越贴近图章效果越好<br>3.调整容差：值越大提取范围越广<br>4.点击"提取图章"完成抠图<br>5.可下载PNG(透明)或JPG(白底)</span><span data-lang="en" style="display:none">1.Drag on left image to select stamp area<br>2.Closer selection = better result<br>3.Adjust tolerance: higher = wider range<br>4.Click "Extract Stamp" to finish<br>5.Download PNG(transparent) or JPG(white BG)</span>
+                        <span data-lang="zh">1.拖拽框选图章区域<br>2.点击取色器 → 点红色图章取色<br>3.调整容差：越大提取越多<br>4.选区可拖拽移动和四角调整<br>5.点击"提取图章"完成抠图<br>6.可下载PNG(透明)或JPG(白底)</span><span data-lang="en" style="display:none">1.Drag to select stamp area<br>2.Use picker → click target color<br>3.Adjust tolerance for wider/narrower<br>4.Drag to move selection, corners to resize<br>5.Click "Extract Stamp"<br>6.Download PNG or JPG</span>
                     </div></div>
                     <button class="action-btn" onclick="extractStamp()" style="width:100%;margin:8px 0"><span data-lang="zh">🔖 提取图章</span><span data-lang="en" style="display:none">🔖 Extract Stamp</span></button>
                     <div id="stampExtractPreviewWrap" style="margin:8px 0;display:none"><img id="stampExtractPreview" style="max-width:100%;border:1px solid var(--border);border-radius:6px;background:repeating-conic-gradient(#ccc 0% 25%,#fff 0% 50%) 50% / 12px 12px"></div>
@@ -2632,7 +2639,29 @@ var stampApplyImg = null;
 var stampApplyX = 0, stampApplyY = 0, stampApplyW = 0, stampApplyH = 0;
 var stampApplyDrag = false, stampApplyResize = false, stampApplyResizeCorner = '';
 var stampApplyDragStartX = 0, stampApplyDragStartY = 0;
+// Selection move/resize state
+var stampSelDone = false; // selection finalized (mouseup done), can be moved/resized
+var stampSelDragMode = ''; // 'move' | 'resizeNw' | 'resizeNe' | 'resizeSw' | 'resizeSe'
+var stampSelDragBase = null; // saved {pts:..., type:...} before drag starts
+var stampSelMoveBase = { mx: 0, my: 0 }; // mouse anchor for move
+// Color picker state
+var stampPickColor = null; // { r, g, b, h, s, v } manually picked color
+var stampPickMode = false; // true when color picker is active
 
+// ---- HSV utilities ----
+function rgbToHsv(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    var mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn;
+    var h = 0, s = mx === 0 ? 0 : d / mx, v = mx;
+    if (d !== 0) {
+        if (mx === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+        else if (mx === g) h = ((b - r) / d + 2) / 6;
+        else h = ((r - g) / d + 4) / 6;
+    }
+    return { h: Math.round(h * 360), s: Math.round(s * 100), v: Math.round(v * 100) };
+}
+
+// ---- Overlay init ----
 function initStampOverlay() {
     var pane = document.getElementById('beforePane');
     var bi = document.getElementById('beforeImg');
@@ -2654,321 +2683,406 @@ function initStampOverlay() {
     div.addEventListener('mouseup', stampOnMouseUp);
     div.addEventListener('dblclick', stampOnDoubleClick);
     stampOvDiv = div;
-    // Create selection canvas
+    stampSelDone = false; stampSelDragMode = ''; stampPickMode = false;
     var cv = document.createElement('canvas');
     cv.id = 'stampSelCanvas';
     cv.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;';
     div.appendChild(cv);
 }
 
+// ---- Mouse handlers with move/resize support ----
 function stampOnMouseDown(e) {
     if (stampMode !== 'extract') return;
+    if (stampPickMode) { stampPickColorAt(e); return; }
     e.preventDefault(); e.stopPropagation();
     var rect = stampOvDiv.getBoundingClientRect();
     var sx = e.clientX - rect.left, sy = e.clientY - rect.top;
-    if (stampSelType === 'polygon') {
-        stampSelPts.push([sx, sy]);
-        stampDrawSel();
-        return;
+    // If we have a completed selection, check if user is clicking to move/resize it
+    if (stampSelDone && stampSelPts.length >= 2 && stampSelType !== 'polygon') {
+        var sel = getStampSelRect(); var ch = 10;
+        if (!sel) { stampStartNewSel(sx, sy); return; }
+        // Check 4 corners first
+        if (Math.abs(sx - sel.x) < ch && Math.abs(sy - sel.y) < ch) { stampSelDragMode = 'resizeNw'; stampSelDragBase = { pts: stampSelPts.slice(), type: stampSelType }; stampSelMoveBase = { mx: sel.x + sel.w, my: sel.y + sel.h }; return; }
+        if (Math.abs(sx - (sel.x + sel.w)) < ch && Math.abs(sy - sel.y) < ch) { stampSelDragMode = 'resizeNe'; stampSelDragBase = { pts: stampSelPts.slice(), type: stampSelType }; stampSelMoveBase = { mx: sel.x, my: sel.y + sel.h }; return; }
+        if (Math.abs(sx - sel.x) < ch && Math.abs(sy - (sel.y + sel.h)) < ch) { stampSelDragMode = 'resizeSw'; stampSelDragBase = { pts: stampSelPts.slice(), type: stampSelType }; stampSelMoveBase = { mx: sel.x + sel.w, my: sel.y }; return; }
+        if (Math.abs(sx - (sel.x + sel.w)) < ch && Math.abs(sy - (sel.y + sel.h)) < ch) { stampSelDragMode = 'resizeSe'; stampSelDragBase = { pts: stampSelPts.slice(), type: stampSelType }; stampSelMoveBase = { mx: sel.x, my: sel.y }; return; }
+        // Check if inside selection → move
+        if (sx > sel.x && sx < sel.x + sel.w && sy > sel.y && sy < sel.y + sel.h) {
+            stampSelDragMode = 'move'; stampSelDragBase = { pts: stampSelPts.slice(), type: stampSelType };
+            stampSelMoveBase = { mx: sx, my: sy }; return;
+        }
+        // Click outside → start new selection
+        stampStartNewSel(sx, sy); return;
     }
-    stampSelDown = true;
-    stampSelStartX = sx; stampSelStartY = sy;
-    stampSelPts = [[sx, sy]];
+    // Polygon mode
+    if (stampSelType === 'polygon') {
+        stampSelPts.push([sx, sy]); stampSelDone = true; stampDrawSel(); return;
+    }
+    stampStartNewSel(sx, sy);
 }
 
-// rAF throttle for smooth selection dragging
+function stampStartNewSel(sx, sy) {
+    stampSelDone = false; stampSelDragMode = ''; stampSelDown = true;
+    stampSelStartX = sx; stampSelStartY = sy;
+    stampSelPts = [[sx, sy]]; stampDrawSel();
+}
+
+// rAF throttle for smooth dragging
 var stampRafId = null, stampMovePending = null;
 function stampOnMouseMove(e) {
-    if (stampMode !== 'extract' || !stampSelDown) return;
+    if (stampMode !== 'extract') return;
     stampMovePending = e;
     if (stampRafId) return;
     stampRafId = requestAnimationFrame(function() {
         stampRafId = null;
-        if (!stampMovePending || !stampSelDown) return;
+        if (!stampMovePending) return;
         var ev = stampMovePending; stampMovePending = null;
         var rect = stampOvDiv.getBoundingClientRect();
-        var ex = ev.clientX - rect.left, ey = ev.clientY - rect.top;
+        var mx = ev.clientX - rect.left, my = ev.clientY - rect.top;
+        // Pick mode: change cursor to eye-dropper
+        if (stampPickMode) { stampOvDiv.style.cursor = 'crosshair'; return; }
+        // Selection drag mode: move or resize existing selection
+        if (stampSelDragMode) {
+            if (stampSelDragMode === 'move') {
+                var dx = mx - stampSelMoveBase.mx, dy = my - stampSelMoveBase.my;
+                stampSelMoveBase.mx = mx; stampSelMoveBase.my = my;
+                for (var i = 0; i < stampSelPts.length; i++) { stampSelPts[i][0] += dx; stampSelPts[i][1] += dy; }
+                clampStampSelToOverlay();
+                stampDrawSel();
+            } else {
+                handleStampResize(mx, my);
+            }
+            return;
+        }
+        // Normal drawing mode
+        if (!stampSelDown) return;
+        var ex = mx, ey = my;
         stampSelPts = [[stampSelStartX, stampSelStartY], [ex, ey]];
         stampDrawSel();
     });
 }
 
+function handleStampResize(mx, my) {
+    var base = stampSelDragBase.pts;
+    var bx = Math.min(base[0][0], base[1][0]), by = Math.min(base[0][1], base[1][1]);
+    var bw = Math.abs(base[1][0] - base[0][0]), bh = Math.abs(base[1][1] - base[0][1]);
+    switch (stampSelDragMode) {
+        case 'resizeNw': stampSelPts = [[mx, my], [bx+bw, by+bh]]; break;
+        case 'resizeNe': stampSelPts = [[bx, my], [mx, by+bh]]; break;
+        case 'resizeSw': stampSelPts = [[mx, by], [bx+bw, my]]; break;
+        case 'resizeSe': stampSelPts = [[bx, by], [mx, my]]; break;
+    }
+    clampStampSelToOverlay(); stampDrawSel();
+}
+
+function clampStampSelToOverlay() {
+    var maxW = stampOvDiv.offsetWidth, maxH = stampOvDiv.offsetHeight;
+    for (var i = 0; i < stampSelPts.length; i++) {
+        stampSelPts[i][0] = Math.max(0, Math.min(maxW, stampSelPts[i][0]));
+        stampSelPts[i][1] = Math.max(0, Math.min(maxH, stampSelPts[i][1]));
+    }
+}
+
 function stampOnMouseUp(e) {
-    stampSelDown = false;
+    if (stampSelDown) { stampSelDown = false; stampSelDone = true; }
+    stampSelDragMode = '';
 }
 
-function stampDrawSel() {
-    if (!stampOvDiv) return;
-    var cv = document.getElementById('stampSelCanvas');
-    if (!cv) return;
-    cv.width = stampOvDiv.offsetWidth;
-    cv.height = stampOvDiv.offsetHeight;
-    var ctx = cv.getContext('2d');
-    ctx.clearRect(0, 0, cv.width, cv.height);
-    if (!stampSelPts.length) return;
-    ctx.strokeStyle = '#ff4444';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([6, 3]);
-    ctx.beginPath();
-    if (stampSelType === 'rect') {
-        var x = stampSelPts[0][0], y = stampSelPts[0][1];
-        var w = (stampSelPts[1]?stampSelPts[1][0]:x) - x;
-        var h = (stampSelPts[1]?stampSelPts[1][1]:y) - y;
-        ctx.rect(x, y, w, h);
-    } else if (stampSelType === 'ellipse' || stampSelType === 'circle') {
-        var x = stampSelPts[0][0], y = stampSelPts[0][1];
-        var ex = stampSelPts[1]?stampSelPts[1][0]:x;
-        var ey = stampSelPts[1]?stampSelPts[1][1]:y;
-        var rx = Math.abs(ex - x), ry = stampSelType==='circle'?rx:Math.abs(ey - y);
-        ctx.ellipse(x + (ex-x)/2, y + (ey-y)/2, rx/2, ry/2, 0, 0, Math.PI*2);
-    } else if (stampSelType === 'polygon') {
-        ctx.moveTo(stampSelPts[0][0], stampSelPts[0][1]);
-        for (var i=1;i<stampSelPts.length;i++) ctx.lineTo(stampSelPts[i][0], stampSelPts[i][1]);
-        ctx.closePath();
-    }
-    ctx.stroke();
-    ctx.fillStyle = 'rgba(255,68,68,0.08)';
-    ctx.fill();
-    ctx.setLineDash([]);
+// ---- Color picker ----
+function stampStartPickColor() {
+    if (stampMode !== 'extract' || !stampOvDiv) return;
+    stampPickMode = true;
+    stampOvDiv.style.cursor = 'crosshair';
+    showToast(lang==='zh'?'请点击图片上要提取的颜色':'Click the color to extract');
 }
 
-function getStampSelRect() {
-    if (!stampSelPts.length) return null;
-    if (stampSelType === 'polygon') {
-        var minX=stampSelPts[0][0],minY=stampSelPts[0][1],maxX=minX,maxY=minY;
-        for (var i=1;i<stampSelPts.length;i++) {
-            if(stampSelPts[i][0]<minX)minX=stampSelPts[i][0];
-            if(stampSelPts[i][1]<minY)minY=stampSelPts[i][1];
-            if(stampSelPts[i][0]>maxX)maxX=stampSelPts[i][0];
-            if(stampSelPts[i][1]>maxY)maxY=stampSelPts[i][1];
-        }
-        return {x:minX,y:minY,w:maxX-minX,h:maxY-minY};
-    }
-    var x=stampSelPts[0][0],y=stampSelPts[0][1];
-    var ex=stampSelPts[1]?stampSelPts[1][0]:x,ey=stampSelPts[1]?stampSelPts[1][1]:y;
-    return {x:Math.min(x,ex),y:Math.min(y,ey),w:Math.abs(ex-x),h:Math.abs(ey-y)};
+function stampPickColorAt(e) {
+    if (!stampPickMode) return;
+    e.preventDefault(); e.stopPropagation();
+    var rect = stampOvDiv.getBoundingClientRect();
+    var sx = e.clientX - rect.left, sy = e.clientY - rect.top;
+    var bi = document.getElementById('beforeImg');
+    if (!bi || !bi.naturalWidth) { stampPickMode = false; return; }
+    var imgRect = bi.getBoundingClientRect();
+    var scaleX = bi.naturalWidth / imgRect.width;
+    var scaleY = bi.naturalHeight / imgRect.height;
+    var px = Math.round(sx * scaleX), py = Math.round(sy * scaleY);
+    px = Math.max(0, Math.min(bi.naturalWidth - 1, px));
+    py = Math.max(0, Math.min(bi.naturalHeight - 1, py));
+    var tmpCv = document.createElement('canvas');
+    tmpCv.width = bi.naturalWidth; tmpCv.height = bi.naturalHeight;
+    var ctx = tmpCv.getContext('2d');
+    ctx.drawImage(bi, 0, 0);
+    var pd = ctx.getImageData(px, py, 1, 1).data;
+    stampPickColor = { r: pd[0], g: pd[1], b: pd[2] };
+    var hsv = rgbToHsv(pd[0], pd[1], pd[2]);
+    stampPickColor.h = hsv.h; stampPickColor.s = hsv.s; stampPickColor.v = hsv.v;
+    stampPickMode = false;
+    stampOvDiv.style.cursor = 'crosshair';
+    // Show color chip
+    var chip = document.getElementById('stampColorChip');
+    if (chip) { chip.style.background = 'rgb('+pd[0]+','+pd[1]+','+pd[2]+')'; chip.textContent = '+'; }
+    showToast(lang==='zh'?'已取色 H:'+hsv.h+' S:'+hsv.s+' V:'+hsv.v:'Sampled H:'+hsv.h+' S:'+hsv.s+' V:'+hsv.v);
 }
 
+// ---- Extract with HSV color matching ----
 function extractStamp() {
     var sel = getStampSelRect();
-    if (!sel || sel.w<5 || sel.h<5) return showToast(lang==='zh'?'请先框选图章区域':'Select stamp area first', true);
+    if (!sel || sel.w < 5 || sel.h < 5) return showToast(lang==='zh'?'请先框选图章区域':'Select stamp area first', true);
+    // Use picked color or auto-sample from center
+    var tr, tg, tb, th, ts, tv;
+    if (stampPickColor) { tr = stampPickColor.r; tg = stampPickColor.g; tb = stampPickColor.b; th = stampPickColor.h; ts = stampPickColor.s; tv = stampPickColor.v; }
+    else {
+        var biTmp = document.getElementById('beforeImg');
+        if (!biTmp.naturalWidth) return;
+        var imgRTmp = biTmp.getBoundingClientRect();
+        var sXTmp = biTmp.naturalWidth / imgRTmp.width, sYTmp = biTmp.naturalHeight / imgRTmp.height;
+        var cx = Math.round((sel.x + sel.w / 2) * sXTmp), cy = Math.round((sel.y + sel.h / 2) * sYTmp);
+        var tmpCv2 = document.createElement('canvas');
+        tmpCv2.width = biTmp.naturalWidth; tmpCv2.height = biTmp.naturalHeight;
+        var tctx2 = tmpCv2.getContext('2d');
+        tctx2.drawImage(biTmp, 0, 0);
+        var sd = tctx2.getImageData(Math.max(0,cx), Math.max(0,cy), 1, 1).data;
+        tr = sd[0]; tg = sd[1]; tb = sd[2];
+        var hsv = rgbToHsv(tr, tg, tb); th = hsv.h; ts = hsv.s; tv = hsv.v;
+    }
     var bi = document.getElementById('beforeImg');
     if (!bi.naturalWidth) return;
     var imgRect = bi.getBoundingClientRect();
     var scaleX = bi.naturalWidth / imgRect.width;
     var scaleY = bi.naturalHeight / imgRect.height;
-    var sx=Math.round(sel.x*scaleX), sy=Math.round(sel.y*scaleY);
-    var sw=Math.round(sel.w*scaleX), sh=Math.round(sel.h*scaleY);
-    sx=Math.max(0,sx); sy=Math.max(0,sy);
-    sw=Math.min(bi.naturalWidth-sx,sw); sh=Math.min(bi.naturalHeight-sy,sh);
-    // Get image data
-    var tmpCv=document.createElement('canvas');
-    tmpCv.width=bi.naturalWidth; tmpCv.height=bi.naturalHeight;
-    var tmpCtx=tmpCv.getContext('2d');
-    tmpCtx.drawImage(bi,0,0);
-    var imgData=tmpCtx.getImageData(0,0,bi.naturalWidth,bi.naturalHeight);
-    var data=imgData.data;
-    // Sample center color
-    var cx=Math.round(sx+sw/2), cy=Math.round(sy+sh/2);
-    var idx=(cy*bi.naturalWidth+cx)*4;
-    var tr=data[idx],tg=data[idx+1],tb=data[idx+2];
+    var sx = Math.round(sel.x * scaleX), sy = Math.round(sel.y * scaleY);
+    var sw = Math.round(sel.w * scaleX), sh = Math.round(sel.h * scaleY);
+    sx = Math.max(0, sx); sy = Math.max(0, sy);
+    sw = Math.min(bi.naturalWidth - sx, sw); sh = Math.min(bi.naturalHeight - sy, sh);
+    // Get full image data
+    var tmpCv = document.createElement('canvas');
+    tmpCv.width = bi.naturalWidth; tmpCv.height = bi.naturalHeight;
+    var tmpCtx = tmpCv.getContext('2d');
+    tmpCtx.drawImage(bi, 0, 0);
+    var imgData = tmpCtx.getImageData(0, 0, bi.naturalWidth, bi.naturalHeight);
+    var data = imgData.data;
+    // HSV tolerance
+    var tol = parseInt(document.getElementById('stampTolerance') ? document.getElementById('stampTolerance').value : 40);
+    var hTol = tol; // hue tolerance in degrees
+    var sMin = Math.max(5, ts - tol * 1.5);
+    var vMin = Math.max(5, tv - tol * 1.5);
     // Output canvas
-    var outCv=document.createElement('canvas');
-    outCv.width=sw; outCv.height=sh;
-    var outCtx=outCv.getContext('2d');
-    var outData=outCtx.createImageData(sw,sh);
-    var od=outData.data;
-    var tol=parseInt(document.getElementById('stampTolerance')?document.getElementById('stampTolerance').value:80);
-    for (var y=0;y<sh;y++) {
-        for (var x=0;x<sw;x++) {
-            var si=((sy+y)*bi.naturalWidth+(sx+x))*4;
-            var di=(y*sw+x)*4;
-            var r=data[si],g=data[si+1],b=data[si+2];
-            var dr=Math.abs(r-tr)+Math.abs(g-tg)+Math.abs(b-tb);
-            if (dr<=tol*3) { od[di]=r; od[di+1]=g; od[di+2]=b; od[di+3]=255; }
-            else { od[di+3]=0; }
+    var outCv = document.createElement('canvas');
+    outCv.width = sw; outCv.height = sh;
+    var outCtx = outCv.getContext('2d');
+    var outData = outCtx.createImageData(sw, sh);
+    var od = outData.data;
+    var matched = 0;
+    for (var y = 0; y < sh; y++) {
+        for (var x = 0; x < sw; x++) {
+            var si = ((sy + y) * bi.naturalWidth + (sx + x)) * 4;
+            var di = (y * sw + x) * 4;
+            var r = data[si], g = data[si + 1], b = data[si + 2];
+            var hsv = rgbToHsv(r, g, b);
+            // Skip near-black and near-white (they have unreliable hue)
+            if (hsv.v < 10 || hsv.v > 98 && hsv.s < 5) { continue; }
+            // Hue circle: need to handle wrap-around at 360
+            var hDiff = Math.abs(hsv.h - th);
+            if (hDiff > 180) hDiff = 360 - hDiff;
+            // Match: close hue AND sufficient saturation
+            if (hDiff <= hTol && hsv.s >= 10) {
+                od[di] = r; od[di + 1] = g; od[di + 2] = b; od[di + 3] = 255;
+                matched++;
+            }
         }
     }
-    outCtx.putImageData(outData,0,0);
+    // If HSV matched nothing, fall back to RGB tolerance on similar colors
+    if (matched < 10) {
+        var rgbTol = tol * 3;
+        for (var y2 = 0; y2 < sh; y2++) {
+            for (var x2 = 0; x2 < sw; x2++) {
+                var si2 = ((sy + y2) * bi.naturalWidth + (sx + x2)) * 4;
+                var di2 = (y2 * sw + x2) * 4;
+                var r2 = data[si2], g2 = data[si2 + 1], b2 = data[si2 + 2];
+                var dr = Math.abs(r2 - tr) + Math.abs(g2 - tg) + Math.abs(b2 - tb);
+                if (dr <= rgbTol) { od[di2] = r2; od[di2 + 1] = g2; od[di2 + 2] = b2; od[di2 + 3] = 255; }
+            }
+        }
+    }
+    outCtx.putImageData(outData, 0, 0);
     stampImg = outCv;
     // Show preview
-    var preview=document.getElementById('stampExtractPreview');
-    if (preview) { preview.src=outCv.toDataURL('image/png'); preview.style.display=''; }
-    showToast(lang==='zh'?'图章提取完成！可下载或继续盖章':'Stamp extracted! Download or apply');
-    var btn=document.getElementById('stampApplyFromExtractBtn');
-    if (btn) btn.disabled=false;
-    // Show preview and download buttons
+    var preview = document.getElementById('stampExtractPreview');
+    if (preview) { preview.src = outCv.toDataURL('image/png'); preview.style.display = ''; }
+    showToast(lang === 'zh' ? '图章提取完成！匹配' + matched + '像素，可用取色器精确定义目标色' : 'Stamp extracted! Matched ' + matched + ' pixels');
+    var btn = document.getElementById('stampApplyFromExtractBtn');
+    if (btn) btn.disabled = false;
     var wrap = document.getElementById('stampExtractPreviewWrap');
     if (wrap) wrap.style.display = '';
     var dlBtns = document.getElementById('stampDownloadBtns');
     if (dlBtns) dlBtns.style.display = '';
 }
 
+// ---- Download & export ----
 function downloadStamp(format) {
-    if (!stampImg) return showToast(lang==='zh'?'请先提取图章':'Extract stamp first', true);
-    var cv=stampImg, url;
-    if (format==='jpg') {
-        var tmp=document.createElement('canvas');
-        tmp.width=cv.width; tmp.height=cv.height;
-        var c=tmp.getContext('2d');
-        c.fillStyle='#ffffff'; c.fillRect(0,0,tmp.width,tmp.height);
-        c.drawImage(cv,0,0);
-        url=tmp.toDataURL('image/jpeg',0.95);
-    } else { url=cv.toDataURL('image/png'); }
-    var a=document.createElement('a');
-    a.download='stamp.'+(format==='jpg'?'jpg':'png');
-    a.href=url; a.click();
+    if (!stampImg) return showToast(lang === 'zh' ? '请先提取图章' : 'Extract stamp first', true);
+    var cv = stampImg, url;
+    if (format === 'jpg') {
+        var tmp = document.createElement('canvas');
+        tmp.width = cv.width; tmp.height = cv.height;
+        var c = tmp.getContext('2d');
+        c.fillStyle = '#ffffff'; c.fillRect(0, 0, tmp.width, tmp.height);
+        c.drawImage(cv, 0, 0);
+        url = tmp.toDataURL('image/jpeg', 0.95);
+    } else { url = cv.toDataURL('image/png'); }
+    var a = document.createElement('a');
+    a.download = 'stamp.' + (format === 'jpg' ? 'jpg' : 'png');
+    a.href = url; a.click();
 }
 
+// ---- Apply stamp overlay ----
 function loadStampApplyImg(src) {
-    var img=new Image();
-    img.onload=function() {
-        stampApplyImg=img;
-        var pa=document.getElementById('previewArea');
-        stampApplyX=(pa.offsetWidth-img.width)/2;
-        stampApplyY=(pa.offsetHeight-img.height)/2;
-        stampApplyW=img.width; stampApplyH=img.height;
+    var img = new Image();
+    img.onload = function () {
+        stampApplyImg = img;
+        var pa = document.getElementById('previewArea');
+        stampApplyX = (pa.offsetWidth - img.width) / 2;
+        stampApplyY = (pa.offsetHeight - img.height) / 2;
+        stampApplyW = img.width; stampApplyH = img.height;
         renderStampApplyPreview();
         enableStampApplyDrag();
     };
-    img.src=src;
+    img.src = src;
 }
 
 function enableStampApplyDrag() {
-    var pa=document.getElementById('previewArea');
-    pa.style.position='relative';
-    pa.onmousedown = function(e) {
-        if (stampMode!=='apply' || !stampApplyImg) return;
-        var rect=pa.getBoundingClientRect();
-        var mx=e.clientX-rect.left, my=e.clientY-rect.top;
-        // Check if clicking on corner handle
-        var ch=12;
-        var corners=[[stampApplyX,stampApplyY],[stampApplyX+stampApplyW,stampApplyY],[stampApplyX,stampApplyY+stampApplyH],[stampApplyX+stampApplyW,stampApplyY+stampApplyH]];
-        for (var i=0;i<corners.length;i++) {
-            if (Math.abs(mx-corners[i][0])<ch && Math.abs(my-corners[i][1])<ch) {
-                stampApplyResize=true; stampApplyResizeCorner=i;
+    var pa = document.getElementById('previewArea');
+    pa.style.position = 'relative';
+    pa.onmousedown = function (e) {
+        if (stampMode !== 'apply' || !stampApplyImg) return;
+        var rect = pa.getBoundingClientRect();
+        var mx = e.clientX - rect.left, my = e.clientY - rect.top;
+        var ch = 12;
+        var corners = [[stampApplyX, stampApplyY], [stampApplyX + stampApplyW, stampApplyY], [stampApplyX, stampApplyY + stampApplyH], [stampApplyX + stampApplyW, stampApplyY + stampApplyH]];
+        for (var i = 0; i < corners.length; i++) {
+            if (Math.abs(mx - corners[i][0]) < ch && Math.abs(my - corners[i][1]) < ch) {
+                stampApplyResize = true; stampApplyResizeCorner = i;
                 e.preventDefault(); e.stopPropagation(); return;
             }
         }
-        // Check if clicking on stamp image
-        if (mx>=stampApplyX && mx<=stampApplyX+stampApplyW && my>=stampApplyY && my<=stampApplyY+stampApplyH) {
-            stampApplyDrag=true;
-            stampApplyDragStartX=e.clientX-stampApplyX;
-            stampApplyDragStartY=e.clientY-stampApplyY;
+        if (mx >= stampApplyX && mx <= stampApplyX + stampApplyW && my >= stampApplyY && my <= stampApplyY + stampApplyH) {
+            stampApplyDrag = true;
+            stampApplyDragStartX = e.clientX - stampApplyX;
+            stampApplyDragStartY = e.clientY - stampApplyY;
             e.preventDefault(); e.stopPropagation();
         }
     };
-    pa.onmousemove=function(e) {
+    pa.onmousemove = function (e) {
         if (!stampApplyImg) return;
-        var rect=pa.getBoundingClientRect();
-        var mx=e.clientX-rect.left, my=e.clientY-rect.top;
+        var rect = pa.getBoundingClientRect();
+        var mx = e.clientX - rect.left, my = e.clientY - rect.top;
         if (stampApplyResize) {
-            if (stampApplyResizeCorner===0) { stampApplyW+=stampApplyX-mx; stampApplyH+=stampApplyY-my; stampApplyX=mx; stampApplyY=my; }
-            else if (stampApplyResizeCorner===1) { stampApplyW=mx-stampApplyX; stampApplyH+=stampApplyY-my; stampApplyY=my; }
-            else if (stampApplyResizeCorner===2) { stampApplyW+=stampApplyX-mx; stampApplyH=my-stampApplyY; stampApplyX=mx; }
-            else if (stampApplyResizeCorner===3) { stampApplyW=mx-stampApplyX; stampApplyH=my-stampApplyY; }
-            if (stampApplyW<10) stampApplyW=10; if (stampApplyH<10) stampApplyH=10;
+            if (stampApplyResizeCorner === 0) { stampApplyW += stampApplyX - mx; stampApplyH += stampApplyY - my; stampApplyX = mx; stampApplyY = my; }
+            else if (stampApplyResizeCorner === 1) { stampApplyW = mx - stampApplyX; stampApplyH += stampApplyY - my; stampApplyY = my; }
+            else if (stampApplyResizeCorner === 2) { stampApplyW += stampApplyX - mx; stampApplyH = my - stampApplyY; stampApplyX = mx; }
+            else if (stampApplyResizeCorner === 3) { stampApplyW = mx - stampApplyX; stampApplyH = my - stampApplyY; }
+            if (stampApplyW < 10) stampApplyW = 10; if (stampApplyH < 10) stampApplyH = 10;
             renderStampApplyPreview();
             e.preventDefault(); e.stopPropagation();
         } else if (stampApplyDrag) {
-            stampApplyX=e.clientX-stampApplyDragStartX;
-            stampApplyY=e.clientY-stampApplyDragStartY;
+            stampApplyX = e.clientX - stampApplyDragStartX;
+            stampApplyY = e.clientY - stampApplyDragStartY;
             renderStampApplyPreview();
             e.preventDefault(); e.stopPropagation();
         }
     };
-    pa.onmouseup=function(e) {
-        stampApplyDrag=false; stampApplyResize=false;
-    };
+    pa.onmouseup = function (e) { stampApplyDrag = false; stampApplyResize = false; };
 }
 
 function renderStampApplyPreview() {
     if (!stampApplyImg) return;
-    var pa=document.getElementById('previewArea');
-    var cv=document.getElementById('stampApplyCanvas');
+    var pa = document.getElementById('previewArea');
+    var cv = document.getElementById('stampApplyCanvas');
     if (!cv) {
-        cv=document.createElement('canvas');
-        cv.id='stampApplyCanvas';
-        cv.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:26;';
+        cv = document.createElement('canvas');
+        cv.id = 'stampApplyCanvas';
+        cv.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:26;';
         pa.appendChild(cv);
     }
-    cv.width=pa.offsetWidth; cv.height=pa.offsetHeight;
-    var ctx=cv.getContext('2d');
-    ctx.clearRect(0,0,cv.width,cv.height);
-    var op=parseFloat(document.getElementById('stampOpacity')?document.getElementById('stampOpacity').value/100:0.85);
-    ctx.globalAlpha=op;
-    ctx.drawImage(stampApplyImg,stampApplyX,stampApplyY,stampApplyW,stampApplyH);
-    ctx.globalAlpha=1.0;
-    // Draw handles
-    var ch=12;
-    ctx.fillStyle='#ff4444'; ctx.strokeStyle='#ffffff'; ctx.lineWidth=2;
-    var corners=[[stampApplyX,stampApplyY],[stampApplyX+stampApplyW,stampApplyY],[stampApplyX,stampApplyY+stampApplyH],[stampApplyX+stampApplyW,stampApplyY+stampApplyH]];
-    corners.forEach(function(c){ctx.fillRect(c[0]-ch/2,c[1]-ch/2,ch,ch);ctx.strokeRect(c[0]-ch/2,c[1]-ch/2,ch,ch);});
+    cv.width = pa.offsetWidth; cv.height = pa.offsetHeight;
+    var ctx = cv.getContext('2d');
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    var op = parseFloat(document.getElementById('stampOpacity') ? document.getElementById('stampOpacity').value / 100 : 0.85);
+    ctx.globalAlpha = op;
+    ctx.drawImage(stampApplyImg, stampApplyX, stampApplyY, stampApplyW, stampApplyH);
+    ctx.globalAlpha = 1.0;
+    var ch = 12;
+    ctx.fillStyle = '#ff4444'; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2;
+    var corners = [[stampApplyX, stampApplyY], [stampApplyX + stampApplyW, stampApplyY], [stampApplyX, stampApplyY + stampApplyH], [stampApplyX + stampApplyW, stampApplyY + stampApplyH]];
+    corners.forEach(function (c) { ctx.fillRect(c[0] - ch / 2, c[1] - ch / 2, ch, ch); ctx.strokeRect(c[0] - ch / 2, c[1] - ch / 2, ch, ch); });
 }
 
+// ---- Apply stamp to final image ----
 function processStamp(canvas) {
-    if (!stampApplyImg) return showToast(lang==='zh'?'请先导入图章图片':'Import stamp image first', true);
+    if (!stampApplyImg) return showToast(lang === 'zh' ? '请先导入图章图片' : 'Import stamp image first', true);
+    // Remove stamp overlay canvas from preview area before final render
+    var ac = document.getElementById('stampApplyCanvas'); if (ac) ac.remove();
     // Initialize canvas with original image
     canvas.width = originalCanvas.width;
     canvas.height = originalCanvas.height;
-    var ctx=canvas.getContext('2d');
+    var ctx = canvas.getContext('2d');
     ctx.drawImage(originalImage, 0, 0);
     // Apply stamp overlay
-    var op=parseFloat(document.getElementById('stampOpacity')?document.getElementById('stampOpacity').value/100:0.85);
-    ctx.globalAlpha=op;
-    var pa=document.getElementById('previewArea');
-    var sx=stampApplyX/pa.offsetWidth*canvas.width;
-    var sy=stampApplyY/pa.offsetHeight*canvas.height;
-    var sw=stampApplyW/pa.offsetWidth*canvas.width;
-    var sh=stampApplyH/pa.offsetHeight*canvas.height;
-    ctx.drawImage(stampApplyImg,sx,sy,sw,sh);
-    ctx.globalAlpha=1.0;
+    var op = parseFloat(document.getElementById('stampOpacity') ? document.getElementById('stampOpacity').value / 100 : 0.85);
+    ctx.globalAlpha = op;
+    var pa = document.getElementById('previewArea');
+    var sx = stampApplyX / pa.offsetWidth * canvas.width;
+    var sy = stampApplyY / pa.offsetHeight * canvas.height;
+    var sw = stampApplyW / pa.offsetWidth * canvas.width;
+    var sh = stampApplyH / pa.offsetHeight * canvas.height;
+    ctx.drawImage(stampApplyImg, sx, sy, sw, sh);
+    ctx.globalAlpha = 1.0;
     processedDataUrl = canvas.toDataURL('image/png');
     showAfter(processedDataUrl);
-    showToast(lang==='zh'?'图章已加盖！可下载':'Stamp applied! Download ready');
+    showToast(lang === 'zh' ? '图章已加盖！可下载' : 'Stamp applied! Download ready');
 }
 
+// ---- Background conversion ----
 function convertStampBg(toWhite) {
-    var src=stampImg||stampApplyImg;
-    if (!src) return showToast(lang==='zh'?'请先提取或导入图章':'Load stamp first', true);
-    var w=src.width||src.naturalWidth, h=src.height||src.naturalHeight;
-    var cv=document.createElement('canvas');
-    cv.width=w; cv.height=h;
-    var ctx=cv.getContext('2d');
-    if (toWhite) {
-        ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,w,h);
-        ctx.drawImage(src,0,0);
-    } else {
-        ctx.drawImage(src,0,0);
-        var d=ctx.getImageData(0,0,w,h);
-        for (var i=0;i<d.data.length;i+=4) {
-            if (d.data[i]>245&&d.data[i+1]>245&&d.data[i+2]>245) d.data[i+3]=0;
+    var src = stampImg || stampApplyImg;
+    if (!src) return showToast(lang === 'zh' ? '请先提取或导入图章' : 'Load stamp first', true);
+    var w = src.width || src.naturalWidth, h = src.height || src.naturalHeight;
+    var cv = document.createElement('canvas');
+    cv.width = w; cv.height = h;
+    var ctx = cv.getContext('2d');
+    if (toWhite) { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h); ctx.drawImage(src, 0, 0); }
+    else {
+        ctx.drawImage(src, 0, 0);
+        var d = ctx.getImageData(0, 0, w, h);
+        for (var i = 0; i < d.data.length; i += 4) {
+            if (d.data[i] > 245 && d.data[i + 1] > 245 && d.data[i + 2] > 245) d.data[i + 3] = 0;
         }
-        ctx.putImageData(d,0,0);
+        ctx.putImageData(d, 0, 0);
     }
-    // Update stampImg
-    var newCv=document.createElement('canvas');
-    newCv.width=w; newCv.height=h;
-    newCv.getContext('2d').drawImage(cv,0,0);
-    if (stampImg) stampImg=newCv;
-    if (stampApplyImg) stampApplyImg=newCv;
-    // Update preview
-    var preview=document.getElementById('stampExtractPreview');
-    if (preview) preview.src=cv.toDataURL('image/png');
+    var newCv = document.createElement('canvas');
+    newCv.width = w; newCv.height = h;
+    newCv.getContext('2d').drawImage(cv, 0, 0);
+    if (stampImg) stampImg = newCv;
+    if (stampApplyImg) stampApplyImg = newCv;
+    var preview = document.getElementById('stampExtractPreview');
+    if (preview) preview.src = cv.toDataURL('image/png');
     renderStampApplyPreview();
-    showToast(lang==='zh'?(toWhite?'已转白底':'已转透明底'):'Converted');
+    showToast(lang === 'zh' ? (toWhite ? '已转白底' : '已转透明底') : 'Converted');
 }
 
+// ---- Mode switch ----
 function switchStampMode(mode) {
     stampMode = mode;
-    document.getElementById('stampExtractBtn').style.background = mode==='extract' ? 'var(--accent)' : '';
-    document.getElementById('stampExtractBtn').style.color = mode==='extract' ? '#fff' : '';
-    document.getElementById('stampApplyBtn').style.background = mode==='apply' ? 'var(--accent)' : '';
-    document.getElementById('stampApplyBtn').style.color = mode==='apply' ? '#fff' : '';
-    document.getElementById('stampExtractPanel').style.display = mode==='extract' ? '' : 'none';
-    document.getElementById('stampApplyPanel').style.display = mode==='apply' ? '' : 'none';
+    document.getElementById('stampExtractBtn').style.background = mode === 'extract' ? 'var(--accent)' : '';
+    document.getElementById('stampExtractBtn').style.color = mode === 'extract' ? '#fff' : '';
+    document.getElementById('stampApplyBtn').style.background = mode === 'apply' ? 'var(--accent)' : '';
+    document.getElementById('stampApplyBtn').style.color = mode === 'apply' ? '#fff' : '';
+    document.getElementById('stampExtractPanel').style.display = mode === 'extract' ? '' : 'none';
+    document.getElementById('stampApplyPanel').style.display = mode === 'apply' ? '' : 'none';
     if (mode === 'extract') {
         if (stampOvDiv) stampOvDiv.style.display = '';
+        stampSelDone = false; stampSelDragMode = ''; stampPickMode = false; stampSelPts = [];
         initStampOverlay();
     } else {
         if (stampOvDiv) stampOvDiv.style.display = 'none';
@@ -2976,12 +3090,10 @@ function switchStampMode(mode) {
     }
 }
 
-
 function stampOnDoubleClick(e) {
     if (stampMode !== 'extract' || stampSelType !== 'polygon' || stampSelPts.length < 3) return;
     e.preventDefault(); e.stopPropagation();
-    stampDrawSel();
-    // Finish polygon selection
+    stampSelDone = true; stampDrawSel();
 }
 
 // ============ END STAMP TOOL ============
