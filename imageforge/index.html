@@ -2646,12 +2646,13 @@ function initStampOverlay() {
     var imgTop = imgRect.top - paneRect.top - pt;
     var div = document.createElement('div');
     div.id = 'stampOverlay';
-    div.style.cssText = 'position:absolute;left:'+imgLeft+'px;top:'+imgTop+'px;width:'+imgRect.width+'px;height:'+imgRect.height+'px;z-index:25;cursor:crosshair;pointer-events:auto;';
+    div.style.cssText = 'position:absolute;left:'+Math.round(imgLeft)+'px;top:'+Math.round(imgTop)+'px;width:'+Math.round(imgRect.width)+'px;height:'+Math.round(imgRect.height)+'px;z-index:25;cursor:crosshair;pointer-events:auto;';
+    pane.style.position = 'relative';
+    pane.appendChild(div);
     div.addEventListener('mousedown', stampOnMouseDown);
     div.addEventListener('mousemove', stampOnMouseMove);
     div.addEventListener('mouseup', stampOnMouseUp);
     div.addEventListener('dblclick', stampOnDoubleClick);
-    pane.appendChild(div);
     stampOvDiv = div;
     // Create selection canvas
     var cv = document.createElement('canvas');
@@ -2675,12 +2676,21 @@ function stampOnMouseDown(e) {
     stampSelPts = [[sx, sy]];
 }
 
+// rAF throttle for smooth selection dragging
+var stampRafId = null, stampMovePending = null;
 function stampOnMouseMove(e) {
     if (stampMode !== 'extract' || !stampSelDown) return;
-    var rect = stampOvDiv.getBoundingClientRect();
-    var ex = e.clientX - rect.left, ey = e.clientY - rect.top;
-    stampSelPts = [[stampSelStartX, stampSelStartY], [ex, ey]];
-    stampDrawSel();
+    stampMovePending = e;
+    if (stampRafId) return;
+    stampRafId = requestAnimationFrame(function() {
+        stampRafId = null;
+        if (!stampMovePending || !stampSelDown) return;
+        var ev = stampMovePending; stampMovePending = null;
+        var rect = stampOvDiv.getBoundingClientRect();
+        var ex = ev.clientX - rect.left, ey = ev.clientY - rect.top;
+        stampSelPts = [[stampSelStartX, stampSelStartY], [ex, ey]];
+        stampDrawSel();
+    });
 }
 
 function stampOnMouseUp(e) {
