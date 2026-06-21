@@ -1337,14 +1337,18 @@ function initCleanwmOverlay(){
     // Remove old overlay
     var old=document.getElementById('cwmOverlay');
     if(old)old.remove();
-    // Create DIV overlay (not canvas — more reliable)
+    // Create overlay that precisely covers the image area only
+    var imgRect=bi.getBoundingClientRect();
+    var paneRect=pane.getBoundingClientRect();
     cwmOvDiv=document.createElement('div');
     cwmOvDiv.id='cwmOverlay';
-    cwmOvDiv.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;z-index:20;overflow:hidden;';
+    var imgLeft=imgRect.left-paneRect.left;
+    var imgTop=imgRect.top-paneRect.top;
+    cwmOvDiv.style.cssText='position:absolute;left:'+imgLeft+'px;top:'+imgTop+'px;width:'+imgRect.width+'px;height:'+imgRect.height+'px;cursor:crosshair;z-index:20;overflow:hidden;';
     pane.style.position='relative';
     pane.appendChild(cwmOvDiv);
 
-    // Selection rectangle inside overlay
+    // Selection rectangle inside overlay (coords now 1:1 with image)
     var selRect=document.createElement('div');
     selRect.id='cwmSelRect';
     selRect.style.cssText='position:absolute;display:none;border:2.5px dashed #6366f1;background:rgba(99,102,241,0.13);pointer-events:none;';
@@ -1352,58 +1356,56 @@ function initCleanwmOverlay(){
 
     setTimeout(function(){cleanwmPreset('br');},400);
 
-    function getImgRelPos(e){
-        // Use <img> element's actual display rect, NOT the overlay/pane
-        var imgRect=bi.getBoundingClientRect();
-        return{x:e.clientX-imgRect.left,y:e.clientY-imgRect.top,iw:imgRect.width,ih:imgRect.height};
-    }
-    function toImgCoords(cssX,cssY,iw,ih){
-        var natW=bi.naturalWidth||originalCanvas.width;
-        var natH=bi.naturalHeight||originalCanvas.height;
-        return{x:Math.round(cssX*natW/iw),y:Math.round(cssY*natH/ih),sx:natW/iw,sy:natH/ih};
-    }
+    // Scale factor: CSS px → canvas pixels
+    var natW=bi.naturalWidth||originalCanvas.width;
+    var natH=bi.naturalHeight||originalCanvas.height;
+    var scaleX=natW/imgRect.width,scaleY=natH/imgRect.height;
+
     cwmOvDiv.addEventListener('mousedown',function(e){
-        e.preventDefault();
-        var p=getImgRelPos(e);
-        if(p.x<0||p.y<0||p.x>p.iw||p.y>p.ih)return;
-        cwmSX=p.x;cwmSY=p.y;cleanwmSel=true;
+        e.preventDefault();e.stopPropagation();
+        var r=cwmOvDiv.getBoundingClientRect();
+        cwmSX=e.clientX-r.left;cwmSY=e.clientY-r.top;cleanwmSel=true;
     });
     cwmOvDiv.addEventListener('mousemove',function(e){
         if(!cleanwmSel)return;e.preventDefault();
-        var p=getImgRelPos(e);
-        var rx=Math.min(cwmSX,p.x),ry=Math.min(cwmSY,p.y);
-        var rw=Math.abs(p.x-cwmSX),rh=Math.abs(p.y-cwmSY);
-        var tc=toImgCoords(rx,ry,p.iw,p.ih);
-        var fw=Math.max(1,Math.round(rw*tc.sx)),fh=Math.max(1,Math.round(rh*tc.sy));
-        document.getElementById('cwmX').value=tc.x;document.getElementById('cwmY').value=tc.y;
-        document.getElementById('cwmW').value=fw;document.getElementById('cwmH').value=fh;
+        var r=cwmOvDiv.getBoundingClientRect();
+        var cx=e.clientX-r.left,cy=e.clientY-r.top;
+        var rx=Math.min(cwmSX,cx),ry=Math.min(cwmSY,cy);
+        var rw=Math.abs(cx-cwmSX),rh=Math.abs(cy-cwmSY);
+        document.getElementById('cwmX').value=Math.max(0,Math.round(rx*scaleX));
+        document.getElementById('cwmY').value=Math.max(0,Math.round(ry*scaleY));
+        document.getElementById('cwmW').value=Math.max(10,Math.round(rw*scaleX));
+        document.getElementById('cwmH').value=Math.max(10,Math.round(rh*scaleY));
         var sr=document.getElementById('cwmSelRect');
-        sr.style.display='block';sr.style.left=rx+'px';sr.style.top=ry+'px';sr.style.width=rw+'px';sr.style.height=rh+'px';
+        sr.style.display='block';sr.style.left=rx+'px';sr.style.top=ry+'px';
+        sr.style.width=rw+'px';sr.style.height=rh+'px';
     });
     cwmOvDiv.addEventListener('mouseup',function(e){
         if(!cleanwmSel)return;cleanwmSel=false;
-        var p=getImgRelPos(e);
-        var fx=Math.min(cwmSX,p.x),fy=Math.min(cwmSY,p.y);
-        var tc=toImgCoords(fx,fy,p.iw,p.ih);
-        var fw=Math.max(1,Math.round(Math.abs(p.x-cwmSX)*tc.sx)),fh=Math.max(1,Math.round(Math.abs(p.y-cwmSY)*tc.sy));
-        document.getElementById('cwmX').value=tc.x;document.getElementById('cwmY').value=tc.y;
-        document.getElementById('cwmW').value=fw;document.getElementById('cwmH').value=fh;
+        var r=cwmOvDiv.getBoundingClientRect();
+        var cx=e.clientX-r.left,cy=e.clientY-r.top;
+        var fx=Math.min(cwmSX,cx),fy=Math.min(cwmSY,cy);
+        var fw=Math.abs(cx-cwmSX),fh=Math.abs(cy-cwmSY);
+        document.getElementById('cwmX').value=Math.max(0,Math.round(fx*scaleX));
+        document.getElementById('cwmY').value=Math.max(0,Math.round(fy*scaleY));
+        document.getElementById('cwmW').value=Math.max(10,Math.round(fw*scaleX));
+        document.getElementById('cwmH').value=Math.max(10,Math.round(fh*scaleY));
         var info=document.getElementById('cleanwmSelectionInfo');
-        if(info)info.textContent='Selected: ('+tc.x+','+tc.y+') '+fw+'x'+fh;
+        if(info)info.textContent='Selected: ('+Math.round(fx*scaleX)+','+Math.round(fy*scaleY)+') '+Math.max(10,Math.round(fw*scaleX))+'x'+Math.max(10,Math.round(fh*scaleY));
     });
 }
 function drawCWMRect(x,y,w,h){
     var sr=document.getElementById('cwmSelRect');
     if(!sr||!cwmOvDiv)return;
+    // Overlay is already sized to match image, so convert canvas→CSS with scale
     var bi=document.getElementById('beforeImg');
-    // Use image display size for correct CSS positioning of selection rect
-    var imgRect=bi.getBoundingClientRect();
     var natW=bi.naturalWidth||originalCanvas.width;
     var natH=bi.naturalHeight||originalCanvas.height;
-    var scaleX=imgRect.width/natW,scaleY=imgRect.height/natH;
+    var imgRect=bi.getBoundingClientRect();
+    var scX=imgRect.width/natW,scY=imgRect.height/natH;
     sr.style.display='block';
-    sr.style.left=(x*scaleX)+'px';sr.style.top=(y*scaleY)+'px';
-    sr.style.width=(w*scaleX)+'px';sr.style.height=(h*scaleY)+'px';
+    sr.style.left=(x*scX)+'px';sr.style.top=(y*scY)+'px';
+    sr.style.width=(w*scX)+'px';sr.style.height=(h*scY)+'px';
 }
 function applyCleanwm(){if(!originalCanvas){showToast(lang==='zh'?'先上传图片':'Upload image',true);return;}document.getElementById('applyBtn').click();}
 
@@ -1573,70 +1575,67 @@ function initMosaicOverlay() {
     var pane = document.getElementById('beforePane');
     var bi = document.getElementById('beforeImg');
     if (!pane || !bi) return;
+    // Remove old
     var old = document.getElementById('mosOverlay');
     if (old) old.remove();
+    // Get image's EXACT position and size within the pane
+    var imgRect = bi.getBoundingClientRect();
+    var paneRect = pane.getBoundingClientRect();
+    // Create overlay that precisely covers the image area only
     mosOvDiv = document.createElement('div');
     mosOvDiv.id = 'mosOverlay';
-    mosOvDiv.className = 'mosaic-overlay';
+    var imgLeft = imgRect.left - paneRect.left;
+    var imgTop = imgRect.top - paneRect.top;
+    mosOvDiv.style.cssText = 'position:absolute;left:'+imgLeft+'px;top:'+imgTop+'px;width:'+imgRect.width+'px;height:'+imgRect.height+'px;cursor:crosshair;z-index:20;';
     pane.style.position = 'relative';
     pane.appendChild(mosOvDiv);
+    // Selection rect inside overlay (now coords are 1:1 with image)
     var selRect = document.createElement('div');
     selRect.id = 'mosSelRect';
     selRect.className = 'sel-rect';
     mosOvDiv.appendChild(selRect);
+    // Scale factor: CSS pixels → canvas pixels
+    var natW = bi.naturalWidth || originalCanvas.width;
+    var natH = bi.naturalHeight || originalCanvas.height;
+    var scaleX = natW / imgRect.width;
+    var scaleY = natH / imgRect.height;
 
-    function getImgRelPos(e) {
-        // Always use the <img> element's actual display rectangle
-        var imgRect = bi.getBoundingClientRect();
-        return {
-            x: e.clientX - imgRect.left,
-            y: e.clientY - imgRect.top,
-            iw: imgRect.width,
-            ih: imgRect.height
-        };
-    }
-    function toImgCoords(cssX, cssY, iw, ih) {
-        var natW = bi.naturalWidth || originalCanvas.width;
-        var natH = bi.naturalHeight || originalCanvas.height;
-        return {
-            x: Math.round(cssX * natW / iw),
-            y: Math.round(cssY * natH / ih),
-            sx: natW / iw,
-            sy: natH / ih
-        };
-    }
     mosOvDiv.onmousedown = function(e) {
-        e.preventDefault();
-        var p = getImgRelPos(e);
-        // Ignore clicks outside the image area
-        if (p.x < 0 || p.y < 0 || p.x > p.iw || p.y > p.ih) return;
-        mosSX = p.x; mosSY = p.y; mosSel = true;
+        e.preventDefault(); e.stopPropagation();
+        var rect = mosOvDiv.getBoundingClientRect();
+        mosSX = e.clientX - rect.left; mosSY = e.clientY - rect.top; mosSel = true;
     };
     mosOvDiv.onmousemove = function(e) {
         if (!mosSel) return; e.preventDefault();
-        var p = getImgRelPos(e);
-        var rx = Math.min(mosSX, p.x), ry = Math.min(mosSY, p.y);
-        var rw = Math.abs(p.x - mosSX), rh = Math.abs(p.y - mosSY);
-        var tc = toImgCoords(rx, ry, p.iw, p.ih);
-        document.getElementById('mosX').value = tc.x;
-        document.getElementById('mosY').value = tc.y;
-        document.getElementById('mosW').value = Math.max(1, Math.round(rw * tc.sx));
-        document.getElementById('mosH').value = Math.max(1, Math.round(rh * tc.sy));
+        var rect = mosOvDiv.getBoundingClientRect();
+        var cx = e.clientX - rect.left, cy = e.clientY - rect.top;
+        var rx = Math.min(mosSX, cx), ry = Math.min(mosSY, cy);
+        var rw = Math.abs(cx - mosSX), rh = Math.abs(cy - mosSY);
+        // Convert to canvas pixel coords for inputs
+        document.getElementById('mosX').value = Math.max(0, Math.round(rx * scaleX));
+        document.getElementById('mosY').value = Math.max(0, Math.round(ry * scaleY));
+        document.getElementById('mosW').value = Math.max(1, Math.round(rw * scaleX));
+        document.getElementById('mosH').value = Math.max(1, Math.round(rh * scaleY));
         var sr = document.getElementById('mosSelRect');
         sr.style.display = 'block'; sr.style.left = rx + 'px'; sr.style.top = ry + 'px';
         sr.style.width = rw + 'px'; sr.style.height = rh + 'px';
     };
     mosOvDiv.onmouseup = function(e) {
         if (!mosSel) return; mosSel = false;
-        var p = getImgRelPos(e);
-        var fx = Math.min(mosSX, p.x), fy = Math.min(mosSY, p.y);
-        var fw = Math.abs(p.x - mosSX), fh = Math.abs(p.y - mosSY);
-        var tc = toImgCoords(fx, fy, p.iw, p.ih);
-        document.getElementById('mosX').value = tc.x; document.getElementById('mosY').value = tc.y;
-        document.getElementById('mosW').value = Math.max(1, Math.round(fw * tc.sx));
-        document.getElementById('mosH').value = Math.max(1, Math.round(fh * tc.sy));
+        var rect = mosOvDiv.getBoundingClientRect();
+        var cx = e.clientX - rect.left, cy = e.clientY - rect.top;
+        var fx = Math.min(mosSX, cx), fy = Math.min(mosSY, cy);
+        var fw = Math.abs(cx - mosSX), fh = Math.abs(cy - mosSY);
+        var canvasX = Math.max(0, Math.round(fx * scaleX));
+        var canvasY = Math.max(0, Math.round(fy * scaleY));
+        var canvasW = Math.max(1, Math.round(fw * scaleX));
+        var canvasH = Math.max(1, Math.round(fh * scaleY));
+        document.getElementById('mosX').value = canvasX;
+        document.getElementById('mosY').value = canvasY;
+        document.getElementById('mosW').value = canvasW;
+        document.getElementById('mosH').value = canvasH;
         var info = document.getElementById('mosSelInfo');
-        if (info) info.textContent = (lang==='zh'?'已选区: ':'Selected: ') + '(' + tc.x + ',' + tc.y + ') ' + Math.round(fw*tc.sx) + 'x' + Math.round(fh*tc.sy);
+        if (info) info.textContent = (lang==='zh'?'已选区: ':'Selected: ') + '(' + canvasX + ',' + canvasY + ') ' + canvasW + 'x' + canvasH;
     };
 }
 
