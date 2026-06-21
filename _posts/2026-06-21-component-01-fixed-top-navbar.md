@@ -3,7 +3,7 @@ layout: post
 title: "组件详解#1：固定顶部导航栏，3行CSS搞定滚动吸顶 | Component Deep Dive #1: Fixed Top Navbar — Sticky Header with 3 Lines of CSS"
 date: 2026-06-21 11:00:00 +0800
 categories: [代码产品, 组件详解]
-tags: [Web Components, CSS, Navbar]
+tags: [代码产品, 组件详解, Web Components, CSS, Navbar]
 ---
 
 > **本文组件来自 [Web Component Dictionary v2.0 · 网页组件活字典](https://wdsega.github.io/web-components/)**，收录83个开箱即用组件，8大分类，支持中英双语切换，实时预览代码效果，单文件无依赖。
