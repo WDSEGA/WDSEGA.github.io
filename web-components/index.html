@@ -15,6 +15,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans S
 .hero p{margin:5px 0;font-size:1.2em;color:#94a3b8;opacity:0.95}
 .hero .sub{font-size:1em;opacity:0.85;margin-top:8px;color:#94a3b8}
 
+/* 语言切换按钮 */
+.lang-toggle{position:absolute;top:20px;right:24px;background:rgba(37,99,235,0.15);border:1px solid #2563eb;color:#94a3b8;padding:6px 16px;border-radius:6px;cursor:pointer;font-size:0.85em;font-weight:600;transition:all 0.2s;font-family:inherit}
+.lang-toggle:hover{background:rgba(37,99,235,0.3);color:#fff}
+.lang-toggle.active{background:#2563eb;color:#fff}
+.hero{position:relative}
+
 /* Widget iframe */
 .widget-fullscreen{width:100%;height:calc(100vh - 200px);border:none;display:block}
 
@@ -40,9 +46,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans S
 
 <!-- Hero -->
 <div class="hero">
+  <button class="lang-toggle" id="langBtn" onclick="toggleLang()">EN</button>
   <h1>🔧 Web Component Dictionary <span>v2.0</span></h1>
-  <p>网页组件活字典 · 83个开箱即用组件</p>
-  <p class="sub">免费在线使用 · 支持中英双语 · 单文件完整版</p>
+  <p data-lang-zh="网页组件活字典 · 83个开箱即用组件" data-lang-en="Web Component Dictionary · 83 ready-to-use components">网页组件活字典 · 83个开箱即用组件</p>
+  <p class="sub" data-lang-zh="免费在线使用 · 支持中英双语 · 单文件完整版" data-lang-en="Free online · Bilingual support · Single-file complete">免费在线使用 · 支持中英双语 · 单文件完整版</p>
 </div>
 
 <!-- 全屏组件演示 -->
@@ -50,11 +57,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans S
 
 <!-- 购买栏 -->
 <div class="purchase-bar">
-  <h3>💻 获取完整版源代码</h3>
-  <p>在线演示版可直接使用。可购买完整版获得 ZIP 包（含所有源码、README、产品图、免责声明）。</p>
-  <a href="https://payhip.com/b/S9pj2" class="buy-btn">🛒 购买完整版 — ¥9.99</a>
-  <p class="purchase-note">一次性买断 · 终身免费更新 · v2.0 含 83 个组件、8 大分类</p>
+  <h3 data-lang-zh="💻 获取完整版源代码" data-lang-en="💻 Get Full Source Code">💻 获取完整版源代码</h3>
+  <p data-lang-zh="在线演示版可直接使用。可购买完整版获得 ZIP 包（含所有源码、README、产品图、免责声明）。" data-lang-en="The online demo is free to use. Purchase the full version to get a ZIP package (source code, README, product images, disclaimer).">在线演示版可直接使用。可购买完整版获得 ZIP 包（含所有源码、README、产品图、免责声明）。</p>
+  <a href="https://payhip.com/b/S9pj2" class="buy-btn" data-lang-zh="🛒 购买完整版 — ¥9.99" data-lang-en="🛒 Buy Full Version — ¥9.99">🛒 购买完整版 — ¥9.99</a>
+  <p class="purchase-note" data-lang-zh="一次性买断 · 终身免费更新 · v2.0 含 83 个组件、8 大分类" data-lang-en="One-time purchase · Lifetime free updates · v2.0 with 83 components, 8 categories">一次性买断 · 终身免费更新 · v2.0 含 83 个组件、8 大分类</p>
 </div>
 
+<script>
+let currentLang = 'zh';
+function toggleLang(){
+  currentLang = currentLang === 'zh' ? 'en' : 'zh';
+  document.querySelectorAll('[data-lang-zh][data-lang-en]').forEach(el => {
+    el.textContent = el.getAttribute('data-lang-' + currentLang);
+  });
+  const btn = document.getElementById('langBtn');
+  btn.textContent = currentLang === 'zh' ? 'EN' : '中';
+  btn.classList.toggle('active', currentLang === 'en');
+}
+</script>
 </body>
 </html>
