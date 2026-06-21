@@ -3,7 +3,7 @@ layout: post
 title: "AlphaFold之父投奔Anthropic：AI顶尖人才为什么逃离大厂？ | Why AlphaFold's Creator Left Google for Anthropic: The Great AI Talent Exodus"
 date: 2026-06-21 08:00:00 +0800
 categories: [时事新闻, AI人才]
-tags: [AI, 人才流动, Anthropic]
+tags: [时事新闻, AI, 人才流动, Anthropic]
 ---
 
 2026年6月，AI圈又炸了一颗"人员炸弹"：AlphaFold之父、2024年诺贝尔化学奖得主John Jumper宣布从谷歌DeepMind离职，加入Anthropic。这已经是近一年内第二位从谷歌出走的顶尖AI科学家——此前Transformer论文作者Noam Shazeer也离开了谷歌。
