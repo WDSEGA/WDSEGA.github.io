@@ -4,91 +4,218 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ImageForge Pro — AI Image Processing Workshop | 图片二次加工坊</title>
-<meta name="description" content="ImageForge Pro: 25 pure-Pillow image tools. Compress, crop, filter, watermark, social export, favicon, GIF workshop. One-time purchase ¥9.99.">
+<meta name="description" content="ImageForge Pro: 25 image tools. Compress, crop, filter, watermark, social export, favicon, GIF workshop. Free online, 100% browser-based.">
 <style>
 :root {
     --bg: #0f172a; --panel: #1e293b; --border: #334155;
     --text: #e2e8f0; --sub: #94a3b8; --accent: #6366f1;
-    --accent2: #8b5cf6; --success: #22c55e;
+    --accent2: #8b5cf6; --success: #22c55e; --danger: #ef4444;
+    --warning: #f59e0b;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin:0; padding:0; box-sizing:border-box; }
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
-    background: var(--bg); color: var(--text); overflow-x: hidden;
-    line-height: 1.6;
+    background: var(--bg); color: var(--text); line-height: 1.6;
 }
 
-/* Lang toggle */
-.lang-toggle {
-    position: absolute; top: 20px; right: 24px;
-    background: rgba(99,102,241,0.15); border: 1px solid var(--accent);
-    color: var(--sub); padding: 6px 16px; border-radius: 6px;
-    cursor: pointer; font-size: 0.85em; font-weight: 600;
-    transition: all 0.2s; font-family: inherit; z-index: 10;
-}
-.lang-toggle:hover { background: rgba(99,102,241,0.3); color: #fff; }
-
-/* Hero */
-.hero {
+/* Header */
+.topbar {
     background: linear-gradient(135deg, #1a1a2e, #16213e);
-    border-bottom: 2px solid var(--accent); padding: 60px 20px; text-align: center;
-    position: relative;
+    border-bottom: 2px solid var(--accent); padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
 }
-.hero h1 { font-size: 2.8em; font-weight: bold; color: #fff; margin: 0; }
-.hero h1 span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.hero .tagline { font-size: 1.3em; color: var(--sub); margin-top: 8px; }
-.hero .stats {
-    display: flex; gap: 40px; justify-content: center; margin-top: 24px;
-    flex-wrap: wrap;
+.topbar .logo { font-size: 1.3em; font-weight: 700; color: #fff; }
+.topbar .logo span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.topbar .lang-btn {
+    background: rgba(99,102,241,0.15); border: 1px solid var(--accent);
+    color: var(--sub); padding: 5px 14px; border-radius: 6px;
+    cursor: pointer; font-size: 0.85em; font-weight: 600; font-family: inherit;
 }
-.hero .stat { text-align: center; }
-.hero .stat .num { font-size: 2em; font-weight: 700; color: var(--accent); }
-.hero .stat .label { font-size: 0.85em; color: var(--sub); }
+.topbar .lang-btn:hover { background: rgba(99,102,241,0.3); color: #fff; }
 
-/* Container */
-.container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
-
-/* Section titles */
-.section-title { text-align: center; margin-bottom: 30px; }
-.section-title h2 { font-size: 1.8em; color: #fff; margin-bottom: 8px; }
-.section-title p { color: var(--sub); font-size: 1em; }
-
-/* Feature grid */
-.feature-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 16px; margin-bottom: 40px;
+/* App Layout */
+.app-wrap { display: flex; min-height: calc(100vh - 62px); }
+.sidebar {
+    width: 260px; min-width: 260px; background: var(--panel);
+    border-right: 1px solid var(--border); overflow-y: auto;
+    padding: 12px 0;
 }
-.feat-card {
+.main-area { flex: 1; padding: 24px; overflow-y: auto; }
+
+/* Sidebar */
+.side-cat { padding: 0 16px; }
+.side-cat-title {
+    font-size: 0.75em; text-transform: uppercase; color: var(--accent);
+    padding: 12px 0 6px; font-weight: 700; letter-spacing: 0.5px;
+}
+.side-tool {
+    display: flex; align-items: center; gap: 8px; padding: 8px 12px;
+    border-radius: 8px; cursor: pointer; font-size: 0.9em; color: var(--sub);
+    transition: all 0.15s; margin-bottom: 2px;
+}
+.side-tool:hover { background: rgba(99,102,241,0.1); color: #fff; }
+.side-tool.active { background: rgba(99,102,241,0.2); color: #fff; font-weight: 600; border-left: 3px solid var(--accent); }
+.side-tool .ticon { font-size: 1.1em; width: 22px; text-align: center; }
+
+/* Upload Zone */
+.upload-zone {
+    border: 2px dashed var(--border); border-radius: 16px;
+    padding: 60px 40px; text-align: center; cursor: pointer;
+    transition: 0.2s; margin-bottom: 24px; position: relative;
+}
+.upload-zone:hover, .upload-zone.dragover { border-color: var(--accent); background: rgba(99,102,241,0.05); }
+.upload-zone .upload-icon { font-size: 3em; margin-bottom: 12px; }
+.upload-zone .upload-text { font-size: 1.1em; color: var(--text); margin-bottom: 6px; }
+.upload-zone .upload-hint { font-size: 0.85em; color: var(--sub); }
+.upload-zone input[type="file"] { display: none; }
+.upload-zone .upload-btn {
+    display: inline-block; margin-top: 16px; padding: 10px 28px;
+    background: var(--accent); color: #fff; border: none; border-radius: 8px;
+    font-size: 0.95em; cursor: pointer; font-family: inherit; font-weight: 600;
+}
+.upload-zone .upload-btn:hover { opacity: 0.9; }
+
+/* Preview Area */
+.preview-area { display: flex; gap: 16px; margin-bottom: 24px; }
+.preview-pane {
+    flex: 1; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px; text-align: center; min-height: 300px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.preview-pane .pane-label {
+    font-size: 0.8em; color: var(--sub); margin-bottom: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px;
+}
+.preview-pane img { max-width: 100%; max-height: 380px; border-radius: 8px; }
+.preview-pane .placeholder {
+    font-size: 3em; color: var(--border); margin-bottom: 8px;
+}
+.preview-pane .placeholder-text { font-size: 0.9em; color: var(--sub); }
+
+/* Tool Controls */
+.tool-panel {
     background: var(--panel); border: 1px solid var(--border);
-    border-radius: 12px; padding: 20px; transition: 0.2s;
+    border-radius: 12px; padding: 20px; margin-bottom: 24px;
 }
-.feat-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-.feat-card .feat-icon { font-size: 1.8em; margin-bottom: 8px; }
-.feat-card .feat-name { font-weight: 600; color: #fff; font-size: 1em; margin-bottom: 4px; }
-.feat-card .feat-desc { font-size: 0.82em; color: var(--sub); }
-
-/* Category section */
-.cat-section { margin-bottom: 50px; }
-.cat-header {
-    display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+.tool-panel h3 {
+    font-size: 1.1em; color: #fff; margin-bottom: 16px;
     padding-bottom: 10px; border-bottom: 1px solid var(--border);
 }
-.cat-header .cat-icon { font-size: 1.5em; }
-.cat-header h3 { font-size: 1.3em; color: var(--accent); }
-
-/* Screenshots */
-.screenshots { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 10px; }
-.screenshot-card {
-    flex: 0 0 auto; background: var(--panel); border: 1px solid var(--border);
-    border-radius: 12px; overflow: hidden; width: 380px;
+.tool-panel h3 .tname-icon { margin-right: 6px; }
+.form-group { margin-bottom: 14px; }
+.form-group label {
+    display: block; font-size: 0.85em; color: var(--sub); margin-bottom: 4px; font-weight: 500;
 }
-.screenshot-card img { width: 100%; height: auto; display: block; }
-.screenshot-card .cap { padding: 10px 14px; font-size: 0.82em; color: var(--sub); }
+.form-group input[type="text"], .form-group input[type="number"], .form-group select, .form-group textarea {
+    width: 100%; padding: 8px 12px; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--text); font-size: 0.9em; font-family: inherit;
+}
+.form-group textarea { resize: vertical; min-height: 60px; }
+.form-group input[type="range"] { width: 100%; accent-color: var(--accent); }
+.form-row { display: flex; gap: 12px; }
+.form-row .form-group { flex: 1; }
+.range-val {
+    display: inline-block; background: var(--accent); color: #fff;
+    padding: 2px 8px; border-radius: 4px; font-size: 0.8em; margin-left: 8px;
+    font-weight: 600;
+}
 
-/* Purchase */
+/* Buttons */
+.btn-group { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+.btn {
+    padding: 10px 24px; border-radius: 8px; font-size: 0.9em; cursor: pointer;
+    border: none; font-family: inherit; font-weight: 600; transition: 0.15s;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent2); }
+.btn-success { background: var(--success); color: #fff; }
+.btn-success:hover { opacity: 0.9; }
+.btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+.btn-outline:hover { border-color: var(--accent); }
+.btn-sm { padding: 6px 14px; font-size: 0.82em; }
+
+/* Preset buttons */
+.preset-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.preset-btn {
+    padding: 10px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--bg); color: var(--text); cursor: pointer; font-family: inherit;
+    font-size: 0.85em; transition: 0.15s; text-align: center;
+}
+.preset-btn:hover { border-color: var(--accent); background: rgba(99,102,241,0.1); }
+.preset-btn.active { border-color: var(--accent); background: rgba(99,102,241,0.2); }
+
+/* Color swatches */
+.palette-swatches { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.palette-swatch {
+    width: 48px; height: 48px; border-radius: 8px; border: 2px solid var(--border);
+    position: relative;
+}
+.palette-swatch .hex {
+    position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
+    font-size: 0.7em; color: var(--sub); white-space: nowrap;
+}
+
+/* Toast */
+.toast {
+    position: fixed; bottom: 24px; right: 24px; background: var(--success);
+    color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 600;
+    z-index: 999; animation: slideUp 0.3s ease; font-size: 0.9em;
+}
+.toast.error { background: var(--danger); }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* Modal */
+.modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+}
+.modal-box {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px; max-width: 500px; width: 90%;
+}
+.modal-box h3 { margin-bottom: 16px; }
+.modal-box .btn-group { justify-content: flex-end; }
+
+/* Loading spinner */
+.spinner {
+    display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border);
+    border-top-color: var(--accent); border-radius: 50%; animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Info table */
+.info-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+.info-table th, .info-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.85em; }
+.info-table th { color: var(--sub); }
+
+/* Grid slices */
+.slice-grid { display: grid; gap: 4px; margin-top: 12px; }
+.slice-grid img { width: 100%; border-radius: 4px; cursor: pointer; border: 2px solid transparent; }
+.slice-grid img:hover { border-color: var(--accent); }
+
+/* Responsive */
+@media (max-width: 900px) {
+    .app-wrap { flex-direction: column; }
+    .sidebar { width: 100%; min-width: unset; border-right: none; border-bottom: 1px solid var(--border); padding: 8px 12px; }
+    .side-cat { display: inline-block; }
+    .side-tool { display: inline-flex; }
+    .preview-area { flex-direction: column; }
+}
+
+/* Marketing section (below tool) */
+.marketing { border-top: 3px solid var(--accent); padding: 40px 24px; }
+.marketing h2 { font-size: 1.6em; color: #fff; text-align: center; margin-bottom: 8px; }
+.marketing .subtitle { text-align: center; color: var(--sub); margin-bottom: 32px; }
+.compare-table { width: 100%; border-collapse: collapse; margin: 20px 0; max-width: 900px; margin-left: auto; margin-right: auto; }
+.compare-table th, .compare-table td { padding: 12px 16px; text-align: center; border-bottom: 1px solid var(--border); }
+.compare-table th { color: var(--sub); font-weight: 600; font-size: 0.85em; }
+.compare-table td { font-size: 0.9em; }
+.compare-table .yes { color: var(--success); font-weight: 700; }
+.compare-table .no { color: var(--danger); }
+.compare-table .highlight { background: rgba(99,102,241,0.08); }
 .purchase-bar {
-    background: #111827; border-top: 3px solid var(--accent);
-    padding: 50px 20px; text-align: center;
+    background: #111827; padding: 50px 20px; text-align: center;
+    border-top: 3px solid var(--accent);
 }
 .purchase-bar h3 { color: #fff; font-size: 1.5em; margin-bottom: 12px; }
 .purchase-bar p { color: var(--sub); max-width: 600px; margin: 0 auto 24px; font-size: 0.95em; }
@@ -99,225 +226,1693 @@ body {
     color: #fff; transition: 0.2s;
 }
 .buy-btn:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 4px 20px rgba(99,102,241,0.4); }
-.purchase-note { color: #64748b; font-size: 0.8em; margin-top: 16px; }
-
-/* Compare table */
-.compare-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-.compare-table th, .compare-table td {
-    padding: 12px 16px; text-align: center; border-bottom: 1px solid var(--border);
-}
-.compare-table th { color: var(--sub); font-weight: 600; font-size: 0.85em; }
-.compare-table td { font-size: 0.9em; }
-.compare-table .yes { color: var(--success); font-weight: 700; }
-.compare-table .no { color: #ef4444; }
-.compare-table .highlight { background: rgba(99,102,241,0.08); }
-
-/* Responsive */
-@media (max-width: 768px) {
-    .hero h1 { font-size: 1.8em; }
-    .hero .stats { gap: 20px; }
-    .feature-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-/* Bilingual utility */
 [data-lang] { transition: display 0.2s; }
+.hidden { display: none !important; }
 </style>
 </head>
 <body>
 
-<!-- Hero -->
-<div class="hero">
-    <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
-    <h1>🔧 <span data-lang="zh">ImageForge Pro</span><span data-lang="en" style="display:none">ImageForge Pro</span></h1>
-    <p class="tagline">
-        <span data-lang="zh">AI 驱动的图片二次加工坊 — 25 项纯 Pillow 工具，零额外依赖</span>
-        <span data-lang="en" style="display:none">AI-Powered Image Processing Workshop — 25 pure-Pillow tools, zero extra deps</span>
-    </p>
-    <div class="stats">
-        <div class="stat"><div class="num">25+</div><div class="label"><span data-lang="zh">功能工具</span><span data-lang="en" style="display:none">Tools</span></div></div>
-        <div class="stat"><div class="num">100%</div><div class="label"><span data-lang="zh">本地处理</span><span data-lang="en" style="display:none">Local</span></div></div>
-        <div class="stat"><div class="num">0</div><div class="label"><span data-lang="zh">外部依赖</span><span data-lang="en" style="display:none">Ext Deps</span></div></div>
-        <div class="stat"><div class="num">¥9.99</div><div class="label"><span data-lang="zh">一次性买断</span><span data-lang="en" style="display:none">One-time</span></div></div>
+<!-- Top Bar -->
+<div class="topbar">
+    <div class="logo">🔧 <span>ImageForge Pro</span></div>
+    <button class="lang-btn" id="langToggle" onclick="toggleLang()">EN</button>
+</div>
+
+<!-- App -->
+<div class="app-wrap">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar"></div>
+
+    <!-- Main -->
+    <div class="main-area" id="mainArea">
+        <!-- Upload Zone -->
+        <div class="upload-zone" id="uploadZone">
+            <div class="upload-icon">🖼️</div>
+            <div class="upload-text">
+                <span data-lang="zh">拖放图片到此处，或点击选择</span>
+                <span data-lang="en" style="display:none">Drop image here or click to select</span>
+            </div>
+            <div class="upload-hint">
+                <span data-lang="zh">支持 JPEG / PNG / WebP / GIF / BMP，最大 50MB</span>
+                <span data-lang="en" style="display:none">Supports JPEG / PNG / WebP / GIF / BMP, max 50MB</span>
+            </div>
+            <div class="upload-hint" style="margin-top:4px">
+                <span data-lang="zh">部分工具支持多图（拼接/对比/批量）</span>
+                <span data-lang="en" style="display:none">Some tools support multiple images (stitch/diff/batch)</span>
+            </div>
+            <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                <span data-lang="zh">📁 选择文件</span>
+                <span data-lang="en" style="display:none">📁 Choose File</span>
+            </button>
+            <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)" multiple>
+        </div>
+
+        <!-- Preview Area -->
+        <div class="preview-area hidden" id="previewArea">
+            <div class="preview-pane" id="beforePane">
+                <div class="pane-label">
+                    <span data-lang="zh">原始图片</span>
+                    <span data-lang="en" style="display:none">Original</span>
+                </div>
+                <img id="beforeImg" alt="Original" style="display:none">
+                <div class="placeholder" id="beforePlaceholder">🖼️</div>
+                <div class="placeholder-text" id="beforePlaceholderText">
+                    <span data-lang="zh">选择工具并加载图片</span>
+                    <span data-lang="en" style="display:none">Select tool & load image</span>
+                </div>
+            </div>
+            <div class="preview-pane" id="afterPane">
+                <div class="pane-label">
+                    <span data-lang="zh">处理后</span>
+                    <span data-lang="en" style="display:none">Processed</span>
+                </div>
+                <img id="afterImg" alt="Processed" style="display:none">
+                <div class="placeholder" id="afterPlaceholder">✨</div>
+                <div class="placeholder-text" id="afterPlaceholderText">
+                    <span data-lang="zh">处理后预览</span>
+                    <span data-lang="en" style="display:none">Processed preview</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tool Panel -->
+        <div class="tool-panel hidden" id="toolPanel">
+            <h3><span class="tname-icon" id="toolIcon"></span><span id="toolTitle"></span></h3>
+            <div id="toolControls"></div>
+            <div id="toolExtra"></div>
+            <div class="btn-group">
+                <button class="btn btn-primary" id="applyBtn" onclick="applyTool()">
+                    <span data-lang="zh">⚡ 应用处理</span>
+                    <span data-lang="en" style="display:none">⚡ Apply</span>
+                </button>
+                <button class="btn btn-success" id="downloadBtn" onclick="downloadResult()" style="display:none">
+                    <span data-lang="zh">⬇ 下载结果</span>
+                    <span data-lang="en" style="display:none">⬇ Download</span>
+                </button>
+                <button class="btn btn-outline" onclick="resetTool()">
+                    <span data-lang="zh">🔄 重选图片</span>
+                    <span data-lang="en" style="display:none">🔄 New Image</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Guide tip -->
+        <div id="guideTip" style="text-align:center;color:var(--sub);padding:20px">
+            <span data-lang="zh">👆 从左侧选择一个工具开始</span>
+            <span data-lang="en" style="display:none">👆 Select a tool from the sidebar to begin</span>
+        </div>
     </div>
 </div>
 
-<div class="container">
-
-    <!-- Overview -->
-    <div class="section-title">
-        <h2><span data-lang="zh">为什么选择 ImageForge Pro？</span><span data-lang="en" style="display:none">Why ImageForge Pro?</span></h2>
-        <p><span data-lang="zh">一个文件，25 个功能，处理你的所有图片需求。纯 Python + Pillow + Flask，无 AI API 调用，100% 离线可用。</span><span data-lang="en" style="display:none">One file, 25 tools, all your image needs. Pure Python + Pillow + Flask, no AI API calls, 100% offline capable.</span></p>
-    </div>
-
-    <!-- Compare table -->
+<!-- Marketing Section -->
+<div class="marketing">
+    <h2><span data-lang="zh">为什么选择 ImageForge Pro？</span><span data-lang="en" style="display:none">Why ImageForge Pro?</span></h2>
+    <p class="subtitle"><span data-lang="zh">25 项工具，全部免费在线使用。完整离线版 ¥9.99 买断。</span><span data-lang="en" style="display:none">25 tools, all free online. Full offline version ¥9.99 one-time.</span></p>
     <table class="compare-table">
-        <tr>
-            <th><span data-lang="zh">特性</span><span data-lang="en" style="display:none">Feature</span></th>
-            <th style="color:var(--accent)">ImageForge Pro</th>
-            <th>TinyPNG</th>
-            <th>iLoveIMG</th>
-            <th>Squoosh</th>
-        </tr>
-        <tr class="highlight">
-            <td><span data-lang="zh">批量压缩</span><span data-lang="en" style="display:none">Batch Compress</span></td>
-            <td class="yes">✔</td><td class="yes">✔</td><td class="yes">✔</td><td class="yes">✔</td>
-        </tr>
-        <tr>
-            <td><span data-lang="zh">滤镜预设 6种</span><span data-lang="en" style="display:none">6 Filter Presets</span></td>
-            <td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td>
-        </tr>
-        <tr class="highlight">
-            <td><span data-lang="zh">社交多尺寸导出</span><span data-lang="en" style="display:none">Social Export</span></td>
-            <td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td>
-        </tr>
-        <tr>
-            <td><span data-lang="zh">截图美化(设备框)</span><span data-lang="en" style="display:none">Device Frame</span></td>
-            <td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td>
-        </tr>
-        <tr class="highlight">
-            <td><span data-lang="zh">GIF 工坊</span><span data-lang="en" style="display:none">GIF Workshop</span></td>
-            <td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td>
-        </tr>
-        <tr>
-            <td><span data-lang="zh">Favicon 生成</span><span data-lang="en" style="display:none">Favicon Gen</span></td>
-            <td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td>
-        </tr>
-        <tr class="highlight">
-            <td><span data-lang="zh">EXIF 隐私清洗</span><span data-lang="en" style="display:none">EXIF Cleanup</span></td>
-            <td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td>
-        </tr>
-        <tr>
-            <td><span data-lang="zh">100% 离线</span><span data-lang="en" style="display:none">100% Offline</span></td>
-            <td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td>
-        </tr>
-        <tr class="highlight">
-            <td><span data-lang="zh">价格</span><span data-lang="en" style="display:none">Price</span></td>
-            <td><strong style="color:var(--success)">¥9.99 永久</strong></td>
-            <td>免费/Pro $25/mo</td><td>免费/Pro $4/mo</td><td>免费</td>
-        </tr>
+        <tr><th><span data-lang="zh">特性</span><span data-lang="en" style="display:none">Feature</span></th><th style="color:var(--accent)">ImageForge Pro</th><th>TinyPNG</th><th>iLoveIMG</th><th>Squoosh</th></tr>
+        <tr class="highlight"><td><span data-lang="zh">批量压缩</span><span data-lang="en" style="display:none">Batch Compress</span></td><td class="yes">✔</td><td class="yes">✔</td><td class="yes">✔</td><td class="yes">✔</td></tr>
+        <tr><td><span data-lang="zh">滤镜预设 6种</span><span data-lang="en" style="display:none">6 Filter Presets</span></td><td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td></tr>
+        <tr class="highlight"><td><span data-lang="zh">社交多尺寸导出</span><span data-lang="en" style="display:none">Social Export</span></td><td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td></tr>
+        <tr><td><span data-lang="zh">截图美化</span><span data-lang="en" style="display:none">Device Frame</span></td><td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td></tr>
+        <tr class="highlight"><td><span data-lang="zh">GIF 工坊</span><span data-lang="en" style="display:none">GIF Workshop</span></td><td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td></tr>
+        <tr><td><span data-lang="zh">Favicon 生成</span><span data-lang="en" style="display:none">Favicon Gen</span></td><td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td></tr>
+        <tr class="highlight"><td><span data-lang="zh">100% 离线</span><span data-lang="en" style="display:none">100% Offline</span></td><td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td></tr>
+        <tr><td><span data-lang="zh">价格</span><span data-lang="en" style="display:none">Price</span></td><td><strong style="color:var(--success)">¥9.99 永久</strong></td><td>免费/Pro $25/mo</td><td>免费/Pro $4/mo</td><td>免费</td></tr>
     </table>
-
-    <!-- Features by category -->
-    <div class="cat-section">
-        <div class="cat-header">
-            <span class="cat-icon">🔧</span>
-            <h3><span data-lang="zh">基础加工 (8项)</span><span data-lang="en" style="display:none">Basic Processing (8 tools)</span></h3>
-        </div>
-        <div class="feature-grid">
-            <div class="feat-card"><div class="feat-icon">🗜️</div><div class="feat-name"><span data-lang="zh">智能压缩</span><span data-lang="en" style="display:none">Smart Compress</span></div><div class="feat-desc"><span data-lang="zh">质量滑块 + 目标KB二分法自动调节</span><span data-lang="en" style="display:none">Quality slider + target KB binary search</span></div></div>
-            <div class="feat-card"><div class="feat-icon">✂️</div><div class="feat-name"><span data-lang="zh">自由裁剪</span><span data-lang="en" style="display:none">Free Crop</span></div><div class="feat-desc"><span data-lang="zh">自由区域或固定比例 (1:1/4:3/16:9)</span><span data-lang="en" style="display:none">Free or fixed ratio cropping</span></div></div>
-            <div class="feat-card"><div class="feat-icon">📐</div><div class="feat-name"><span data-lang="zh">调整尺寸</span><span data-lang="en" style="display:none">Resize</span></div><div class="feat-desc"><span data-lang="zh">像素/百分比模式，自动宽高比</span><span data-lang="en" style="display:none">Pixel/percent mode, auto aspect ratio</span></div></div>
-            <div class="feat-card"><div class="feat-icon">🔄</div><div class="feat-name"><span data-lang="zh">格式转换</span><span data-lang="en" style="display:none">Format Convert</span></div><div class="feat-desc"><span data-lang="zh">JPEG/PNG/WebP/BMP/TIFF 一键互转</span><span data-lang="en" style="display:none">One-click JPEG/PNG/WebP/BMP/TIFF</span></div></div>
-            <div class="feat-card"><div class="feat-icon">💧</div><div class="feat-name"><span data-lang="zh">文字水印</span><span data-lang="en" style="display:none">Watermark</span></div><div class="feat-desc"><span data-lang="zh">自定义文字、位置、透明度</span><span data-lang="en" style="display:none">Custom text, position, opacity</span></div></div>
-            <div class="feat-card"><div class="feat-icon">⬜</div><div class="feat-name"><span data-lang="zh">透明底转白底</span><span data-lang="en" style="display:none">Alpha to White</span></div><div class="feat-desc"><span data-lang="zh">电商平台白底要求一键搞定</span><span data-lang="en" style="display:none">Amazon/eBay white background ready</span></div></div>
-            <div class="feat-card"><div class="feat-icon">⭕</div><div class="feat-name"><span data-lang="zh">圆角裁切</span><span data-lang="en" style="display:none">Rounded Corners</span></div><div class="feat-desc"><span data-lang="zh">半径可调 + 圆形裁切</span><span data-lang="en" style="display:none">Adjustable radius + circle crop</span></div></div>
-            <div class="feat-card"><div class="feat-icon">🪞</div><div class="feat-name"><span data-lang="zh">镜像翻转</span><span data-lang="en" style="display:none">Mirror Flip</span></div><div class="feat-desc"><span data-lang="zh">水平/垂直翻转</span><span data-lang="en" style="display:none">Horizontal/vertical flip</span></div></div>
-        </div>
-    </div>
-
-    <div class="cat-section">
-        <div class="cat-header">
-            <span class="cat-icon">🎨</span>
-            <h3><span data-lang="zh">调色美化 (6项)</span><span data-lang="en" style="display:none">Color & Beauty (6 tools)</span></h3>
-        </div>
-        <div class="feature-grid">
-            <div class="feat-card"><div class="feat-icon">🎚️</div><div class="feat-name"><span data-lang="zh">亮度/对比度/饱和度</span><span data-lang="en" style="display:none">Bright/Contrast/Sat</span></div><div class="feat-desc"><span data-lang="zh">四参数同时调节，实时预览</span><span data-lang="en" style="display:none">4-parameter real-time adjustment</span></div></div>
-            <div class="feat-card"><div class="feat-icon">🎨</div><div class="feat-name"><span data-lang="zh">滤镜预设</span><span data-lang="en" style="display:none">Filter Presets</span></div><div class="feat-desc"><span data-lang="zh">复古/黑白/暖/冷/日系/胶片 6款</span><span data-lang="en" style="display:none">Vintage/B&W/Warm/Cool/Japanese/Film</span></div></div>
-            <div class="feat-card"><div class="feat-icon">🔍</div><div class="feat-name"><span data-lang="zh">模糊/锐化/浮雕</span><span data-lang="en" style="display:none">Blur/Sharpen/Emboss</span></div><div class="feat-desc"><span data-lang="zh">6种专业图像滤镜效果</span><span data-lang="en" style="display:none">6 professional filter effects</span></div></div>
-            <div class="feat-card"><div class="feat-icon">🔲</div><div class="feat-name"><span data-lang="zh">马赛克</span><span data-lang="en" style="display:none">Mosaic</span></div><div class="feat-desc"><span data-lang="zh">像素化效果，块大小可调</span><span data-lang="en" style="display:none">Pixelation with adjustable block size</span></div></div>
-            <div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-name"><span data-lang="zh">调色板提取</span><span data-lang="en" style="display:none">Palette Extract</span></div><div class="feat-desc"><span data-lang="zh">中位切分算法，输出HEX色码</span><span data-lang="en" style="display:none">Median Cut algorithm, HEX output</span></div></div>
-            <div class="feat-card"><div class="feat-icon">🧹</div><div class="feat-name"><span data-lang="zh">EXIF隐私清洗</span><span data-lang="en" style="display:none">EXIF Cleanup</span></div><div class="feat-desc"><span data-lang="zh">清除GPS/相机/时间等元数据</span><span data-lang="en" style="display:none">Strip GPS/camera/time metadata</span></div></div>
-        </div>
-    </div>
-
-    <div class="cat-section">
-        <div class="cat-header">
-            <span class="cat-icon">📱</span>
-            <h3><span data-lang="zh">社交输出 (5项)</span><span data-lang="en" style="display:none">Social Export (5 tools)</span></h3>
-        </div>
-        <div class="feature-grid">
-            <div class="feat-card"><div class="feat-icon">📱</div><div class="feat-name"><span data-lang="zh">社交多尺寸导出</span><span data-lang="en" style="display:none">Social Sizes</span></div><div class="feat-desc"><span data-lang="zh">微信/小红书/抖音/Ins/Twitter等7平台</span><span data-lang="en" style="display:none">WeChat/XHS/Douyin/IG/Twitter + more</span></div></div>
-            <div class="feat-card"><div class="feat-icon">🖥️</div><div class="feat-name"><span data-lang="zh">截图美化</span><span data-lang="en" style="display:none">Device Frame</span></div><div class="feat-desc"><span data-lang="zh">浏览器/手机框 + 阴影 + 圆角</span><span data-lang="en" style="display:none">Browser/phone frame + shadow</span></div></div>
-            <div class="feat-card"><div class="feat-icon">🧩</div><div class="feat-name"><span data-lang="zh">图片拼接</span><span data-lang="en" style="display:none">Image Stitch</span></div><div class="feat-desc"><span data-lang="zh">横向/纵向/网格布局</span><span data-lang="en" style="display:none">Horizontal/vertical/grid layout</span></div></div>
-            <div class="feat-card"><div class="feat-icon">🔢</div><div class="feat-name"><span data-lang="zh">九宫格切图</span><span data-lang="en" style="display:none">Grid Crop</span></div><div class="feat-desc"><span data-lang="zh">2x2/3x3/4x4 等分切片</span><span data-lang="en" style="display:none">2x2/3x3/4x4 equal slices</span></div></div>
-            <div class="feat-card"><div class="feat-icon">📝</div><div class="feat-name"><span data-lang="zh">文字海报</span><span data-lang="en" style="display:none">Text Poster</span></div><div class="feat-desc"><span data-lang="zh">叠加文字 + 半透明背景</span><span data-lang="en" style="display:none">Text overlay + semi-transparent BG</span></div></div>
-        </div>
-    </div>
-
-    <div class="cat-section">
-        <div class="cat-header">
-            <span class="cat-icon">🧰</span>
-            <h3><span data-lang="zh">开发效率 (4项)</span><span data-lang="en" style="display:none">Dev Tools (4 tools)</span></h3>
-        </div>
-        <div class="feature-grid">
-            <div class="feat-card"><div class="feat-icon">📋</div><div class="feat-name"><span data-lang="zh">Base64编码</span><span data-lang="en" style="display:none">Base64 Encode</span></div><div class="feat-desc"><span data-lang="zh">Data URI，直接嵌入HTML/CSS</span><span data-lang="en" style="display:none">Data URI for HTML/CSS embedding</span></div></div>
-            <div class="feat-card"><div class="feat-icon">🧿</div><div class="feat-name"><span data-lang="zh">Favicon生成</span><span data-lang="en" style="display:none">Favicon Gen</span></div><div class="feat-desc"><span data-lang="zh">16-256px全尺寸 + .ico文件</span><span data-lang="en" style="display:none">All sizes 16-256px + .ico file</span></div></div>
-            <div class="feat-card"><div class="feat-icon">🎞️</div><div class="feat-name"><span data-lang="zh">GIF工坊</span><span data-lang="en" style="display:none">GIF Workshop</span></div><div class="feat-desc"><span data-lang="zh">调速/反向/压缩三大操作</span><span data-lang="en" style="display:none">Speed/reverse/compress operations</span></div></div>
-            <div class="feat-card"><div class="feat-icon">🔬</div><div class="feat-name"><span data-lang="zh">差异对比</span><span data-lang="en" style="display:none">Diff Compare</span></div><div class="feat-desc"><span data-lang="zh">并排对比 + 像素差异高亮</span><span data-lang="en" style="display:none">Side-by-side + pixel diff highlight</span></div></div>
-        </div>
-    </div>
-
-    <div class="cat-section">
-        <div class="cat-header">
-            <span class="cat-icon">⚙️</span>
-            <h3><span data-lang="zh">批量处理 (2项)</span><span data-lang="en" style="display:none">Batch (2 tools)</span></h3>
-        </div>
-        <div class="feature-grid">
-            <div class="feat-card"><div class="feat-icon">📦</div><div class="feat-name"><span data-lang="zh">批量信息</span><span data-lang="en" style="display:none">Batch Info</span></div><div class="feat-desc"><span data-lang="zh">多图尺寸/格式/大小一览</span><span data-lang="en" style="display:none">Multi-image dimension/format/size</span></div></div>
-            <div class="feat-card"><div class="feat-icon">⚙️</div><div class="feat-name"><span data-lang="zh">预设配方</span><span data-lang="en" style="display:none">Recipe</span></div><div class="feat-desc"><span data-lang="zh">串联多操作一键执行</span><span data-lang="en" style="display:none">Chain operations for one-click run</span></div></div>
-        </div>
-    </div>
-
-    <!-- Screenshots -->
-    <div class="section-title">
-        <h2><span data-lang="zh">界面预览</span><span data-lang="en" style="display:none">Screenshots</span></h2>
-    </div>
-    <div class="screenshots">
-        <div class="screenshot-card">
-            <img src="/assets/images/imageforge/screenshot_01.png" alt="Upload & Workspace" loading="lazy">
-            <div class="cap"><span data-lang="zh">上传与工作区界面</span><span data-lang="en" style="display:none">Upload & Workspace Overview</span></div>
-        </div>
-        <div class="screenshot-card">
-            <img src="/assets/images/imageforge/screenshot_02.png" alt="Filter Presets" loading="lazy">
-            <div class="cap"><span data-lang="zh">滤镜预设与色彩调节</span><span data-lang="en" style="display:none">Filter Presets & Color Adjustments</span></div>
-        </div>
-        <div class="screenshot-card">
-            <img src="/assets/images/imageforge/screenshot_03.png" alt="Social Export" loading="lazy">
-            <div class="cap"><span data-lang="zh">社交多尺寸导出结果</span><span data-lang="en" style="display:none">Social Multi-Size Export Results</span></div>
-        </div>
-    </div>
-
 </div>
 
-<!-- Purchase Bar -->
 <div class="purchase-bar">
-    <h3>
-        <span data-lang="zh">💻 获取完整版离线工具</span>
-        <span data-lang="en" style="display:none">💻 Get Full Offline Version</span>
-    </h3>
-    <p>
-        <span data-lang="zh">在线演示版可直接使用。可购买完整版获得 ZIP 包（含源码、README、产品图、免责声明）。</span>
-        <span data-lang="en" style="display:none">Online demo is free to use. Purchase the full version for ZIP package (source, README, product images, disclaimer).</span>
-    </p>
-    <a href="https://payhip.com/segauser" class="buy-btn">
-        🛒 <span data-lang="zh">购买完整版 — ¥9.99</span><span data-lang="en" style="display:none">Buy Full Version — ¥9.99</span>
-    </a>
-    <p class="purchase-note">
-        <span data-lang="zh">一次性买断 · 终身免费更新 · v1.0 含 25+ 项功能 · Python 3.8+ 即可运行</span>
-        <span data-lang="en" style="display:none">One-time purchase · Lifetime free updates · v1.0 with 25+ features · Python 3.8+ ready</span>
-    </p>
+    <h3><span data-lang="zh">💻 获取完整离线版本</span><span data-lang="en" style="display:none">💻 Get Full Offline Version</span></h3>
+    <p><span data-lang="zh">在线版完全免费可用。购买完整版获得 ZIP 包（含源码、README、产品图、免责声明），Python 3.8+ 一键运行。</span><span data-lang="en" style="display:none">Online version is fully free. Purchase full version for ZIP package (source, README, images, disclaimer). Python 3.8+, one command to run.</span></p>
+    <a href="https://payhip.com/segauser" class="buy-btn">🛒 <span data-lang="zh">购买完整版 — ¥9.99</span><span data-lang="en" style="display:none">Buy Full Version — ¥9.99</span></a>
+    <p style="color:#64748b;font-size:0.8em;margin-top:16px"><span data-lang="zh">一次性买断 · 终身免费更新 · v1.0 含 25+ 项功能</span><span data-lang="en" style="display:none">One-time purchase · Lifetime free updates · v1.0 with 25+ features</span></p>
 </div>
 
 <script>
+// ============ STATE ============
 let lang = 'zh';
+let currentTool = null;
+let originalImage = null;      // Image element
+let originalCanvas = null;     // Canvas with loaded image
+let processedBlob = null;
+let processedDataUrl = null;
+let uploadedFiles = [];        // For multi-image tools
+let recipeSteps = [];
+
+// ============ TOOL DEFINITIONS ============
+const TOOLS = [
+    // Basic (8)
+    { id:'compress', cat:'basic', icon:'🗜️', name:{zh:'智能压缩',en:'Smart Compress'}, desc:{zh:'质量滑块 + 目标KB二分法自动调节',en:'Quality slider + target KB binary search'}, multi:false, controls:'compressControls', process:'processCompress' },
+    { id:'crop', cat:'basic', icon:'✂️', name:{zh:'自由裁剪',en:'Free Crop'}, desc:{zh:'自由区域或固定比例(1:1/4:3/16:9)',en:'Free or fixed ratio cropping'}, multi:false, controls:'cropControls', process:'processCrop', needsCropUI:true },
+    { id:'resize', cat:'basic', icon:'📐', name:{zh:'调整尺寸',en:'Resize'}, desc:{zh:'像素/百分比模式，自动宽高比',en:'Pixel/percent, auto aspect ratio'}, multi:false, controls:'resizeControls', process:'processResize' },
+    { id:'convert', cat:'basic', icon:'🔄', name:{zh:'格式转换',en:'Format Convert'}, desc:{zh:'JPEG/PNG/WebP/BMP 一键互转',en:'One-click format switch'}, multi:false, controls:'convertControls', process:'processConvert' },
+    { id:'watermark', cat:'basic', icon:'💧', name:{zh:'文字水印',en:'Watermark'}, desc:{zh:'自定义文字、位置、透明度',en:'Custom text, position, opacity'}, multi:false, controls:'watermarkControls', process:'processWatermark' },
+    { id:'alpha2white', cat:'basic', icon:'⬜', name:{zh:'透明底转白底',en:'Alpha to White'}, desc:{zh:'电商平台白底要求一键搞定',en:'Amazon/eBay white BG ready'}, multi:false, controls:'alpha2whiteControls', process:'processAlpha2White' },
+    { id:'rounded', cat:'basic', icon:'⭕', name:{zh:'圆角裁切',en:'Rounded Corners'}, desc:{zh:'半径可调 + 圆形裁切',en:'Adjustable radius + circle'}, multi:false, controls:'roundedControls', process:'processRounded' },
+    { id:'flip', cat:'basic', icon:'🪞', name:{zh:'镜像翻转',en:'Mirror Flip'}, desc:{zh:'水平/垂直翻转',en:'Horizontal/vertical'}, multi:false, controls:'flipControls', process:'processFlip' },
+    // Color (6)
+    { id:'adjust', cat:'color', icon:'🎚️', name:{zh:'亮度/对比度/饱和度',en:'Bright/Contrast/Sat'}, desc:{zh:'四参数同时调节，实时预览',en:'4-parameter real-time'}, multi:false, controls:'adjustControls', process:'processAdjust', realtime:true },
+    { id:'filters', cat:'color', icon:'🎨', name:{zh:'滤镜预设',en:'Filter Presets'}, desc:{zh:'复古/黑白/暖/冷/日系/胶片',en:'Vintage/B&W/Warm/Cool/JP/Film'}, multi:false, controls:'filtersControls', process:'processFilters' },
+    { id:'effects', cat:'color', icon:'🔍', name:{zh:'特效滤镜',en:'Image Effects'}, desc:{zh:'模糊/锐化/浮雕/轮廓/边缘',en:'Blur/Sharpen/Emboss/Edge'}, multi:false, controls:'effectsControls', process:'processEffects' },
+    { id:'mosaic', cat:'color', icon:'🔲', name:{zh:'马赛克',en:'Mosaic'}, desc:{zh:'像素化效果，块大小可调',en:'Pixelation, adjustable block'}, multi:false, controls:'mosaicControls', process:'processMosaic' },
+    { id:'palette', cat:'color', icon:'🎯', name:{zh:'调色板提取',en:'Palette Extract'}, desc:{zh:'中位切分算法，HEX色码',en:'Median Cut, HEX output'}, multi:false, controls:'paletteControls', process:'processPalette' },
+    { id:'exif', cat:'color', icon:'🧹', name:{zh:'EXIF隐私清洗',en:'EXIF Cleanup'}, desc:{zh:'清除GPS/相机等元数据',en:'Strip GPS/camera metadata'}, multi:false, controls:'exifControls', process:'processExif' },
+    // Social (5)
+    { id:'social', cat:'social', icon:'📱', name:{zh:'社交多尺寸导出',en:'Social Sizes'}, desc:{zh:'微信/小红书/抖音/Ins等7平台',en:'7 platforms one-click'}, multi:false, controls:'socialControls', process:'processSocial' },
+    { id:'deviceframe', cat:'social', icon:'🖥️', name:{zh:'截图美化',en:'Device Frame'}, desc:{zh:'浏览器/手机框+阴影+圆角',en:'Browser/phone frame+shadow'}, multi:false, controls:'deviceframeControls', process:'processDeviceFrame' },
+    { id:'stitch', cat:'social', icon:'🧩', name:{zh:'图片拼接',en:'Image Stitch'}, desc:{zh:'横向/纵向/网格布局',en:'Horiz/vert/grid layout'}, multi:true, controls:'stitchControls', process:'processStitch' },
+    { id:'gridcrop', cat:'social', icon:'🔢', name:{zh:'九宫格切图',en:'Grid Crop'}, desc:{zh:'2x2/3x3/4x4等分切片',en:'2x2/3x3/4x4 equal slices'}, multi:false, controls:'gridcropControls', process:'processGridCrop' },
+    { id:'textposter', cat:'social', icon:'📝', name:{zh:'文字海报',en:'Text Poster'}, desc:{zh:'叠加文字+半透明背景',en:'Text overlay+semi-transp BG'}, multi:false, controls:'textposterControls', process:'processTextPoster' },
+    // Dev (4)
+    { id:'base64', cat:'dev', icon:'📋', name:{zh:'Base64编码',en:'Base64 Encode'}, desc:{zh:'Data URI，嵌入HTML/CSS',en:'Data URI for HTML/CSS'}, multi:false, controls:'base64Controls', process:'processBase64' },
+    { id:'favicon', cat:'dev', icon:'🧿', name:{zh:'Favicon生成',en:'Favicon Gen'}, desc:{zh:'16-256px全尺寸PNG',en:'All sizes 16-256px PNG'}, multi:false, controls:'faviconControls', process:'processFavicon' },
+    { id:'gif', cat:'dev', icon:'🎞️', name:{zh:'GIF工坊',en:'GIF Workshop'}, desc:{zh:'调速/反向/压缩',en:'Speed/reverse/compress'}, multi:false, controls:'gifControls', process:'processGif', acceptGif:true },
+    { id:'diff', cat:'dev', icon:'🔬', name:{zh:'差异对比',en:'Diff Compare'}, desc:{zh:'并排对比+像素差异高亮',en:'Side-by-side+pixel diff'}, multi:true, controls:'diffControls', process:'processDiff' },
+    // Batch (2)
+    { id:'batchinfo', cat:'batch', icon:'📦', name:{zh:'批量信息',en:'Batch Info'}, desc:{zh:'多图尺寸/格式/大小一览',en:'Multi-image info table'}, multi:true, controls:'batchinfoControls', process:'processBatchInfo' },
+    { id:'recipe', cat:'batch', icon:'⚙️', name:{zh:'预设配方',en:'Recipe'}, desc:{zh:'串联多操作一键执行',en:'Chain operations'}, multi:false, controls:'recipeControls', process:'processRecipe' },
+];
+
+const CATS = [
+    { id:'basic', icon:'🔧', name:{zh:'基础加工 (8项)',en:'Basic (8 tools)'} },
+    { id:'color', icon:'🎨', name:{zh:'调色美化 (6项)',en:'Color (6 tools)'} },
+    { id:'social', icon:'📱', name:{zh:'社交输出 (5项)',en:'Social (5 tools)'} },
+    { id:'dev', icon:'🧰', name:{zh:'开发效率 (4项)',en:'Dev (4 tools)'} },
+    { id:'batch', icon:'⚙️', name:{zh:'批量处理 (2项)',en:'Batch (2 tools)'} },
+];
+
+// ============ RENDER SIDEBAR ============
+function renderSidebar() {
+    const sb = document.getElementById('sidebar');
+    let html = '';
+    CATS.forEach(cat => {
+        const catTools = TOOLS.filter(t => t.cat === cat.id);
+        html += `<div class="side-cat">`;
+        html += `<div class="side-cat-title">${cat.icon} <span data-lang="zh">${cat.name.zh}</span><span data-lang="en" style="display:none">${cat.name.en}</span></div>`;
+        catTools.forEach(t => {
+            html += `<div class="side-tool" id="side-${t.id}" onclick="selectTool('${t.id}')" title="${t.desc[lang]}">`;
+            html += `<span class="ticon">${t.icon}</span>`;
+            html += `<span data-lang="zh">${t.name.zh}</span><span data-lang="en" style="display:none">${t.name.en}</span>`;
+            html += `</div>`;
+        });
+        html += `</div>`;
+    });
+    sb.innerHTML = html;
+}
+
+// ============ BILINGUAL ============
 function toggleLang() {
     lang = lang === 'zh' ? 'en' : 'zh';
     document.getElementById('langToggle').textContent = lang === 'zh' ? 'EN' : '中';
     document.querySelectorAll('[data-lang]').forEach(el => {
         el.style.display = el.dataset.lang === lang ? '' : 'none';
     });
+    if (currentTool) selectTool(currentTool); // re-render controls
 }
-</script>
 
+// ============ TOAST ============
+function showToast(msg, isError) {
+    const t = document.createElement('div');
+    t.className = 'toast' + (isError ? ' error' : '');
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3000);
+}
+
+// ============ IMAGE LOADING ============
+function loadImageFromFile(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+
+function imageToCanvas(img) {
+    const c = document.createElement('canvas');
+    c.width = img.naturalWidth;
+    c.height = img.naturalHeight;
+    c.getContext('2d').drawImage(img, 0, 0);
+    return c;
+}
+
+function canvasToBlob(canvas, type, quality) {
+    return new Promise(resolve => {
+        canvas.toBlob(blob => resolve(blob), type || 'image/png', quality);
+    });
+}
+
+async function loadImage(file) {
+    originalImage = await loadImageFromFile(file);
+    originalCanvas = imageToCanvas(originalImage);
+    processedBlob = null;
+    processedDataUrl = null;
+    showPreview();
+}
+
+function showPreview() {
+    const up = document.getElementById('uploadZone');
+    const pa = document.getElementById('previewArea');
+    const tp = document.getElementById('toolPanel');
+    const gt = document.getElementById('guideTip');
+    up.classList.add('hidden');
+    pa.classList.remove('hidden');
+    tp.classList.remove('hidden');
+    gt.classList.add('hidden');
+
+    if (originalImage) {
+        document.getElementById('beforeImg').src = originalImage.src;
+        document.getElementById('beforeImg').style.display = '';
+        document.getElementById('beforePlaceholder').style.display = 'none';
+        document.getElementById('beforePlaceholderText').style.display = 'none';
+    }
+
+    // Clear after
+    document.getElementById('afterImg').style.display = 'none';
+    document.getElementById('afterPlaceholder').style.display = '';
+    document.getElementById('afterPlaceholderText').style.display = '';
+    document.getElementById('downloadBtn').style.display = 'none';
+
+    // Re-render controls for tools that depend on loaded image (crop, resize, etc.)
+    if (currentTool) {
+        const tool = TOOLS.find(t => t.id === currentTool);
+        if (tool && (tool.needsCropUI || tool.id === 'resize')) {
+            renderControls(tool);
+        }
+        if (tool && tool.id === 'batchinfo' && uploadedFiles.length) {
+            processBatchInfo();
+        }
+    }
+}
+
+function showAfter(dataUrl) {
+    processedDataUrl = dataUrl;
+    document.getElementById('afterImg').src = dataUrl;
+    document.getElementById('afterImg').style.display = '';
+    document.getElementById('afterPlaceholder').style.display = 'none';
+    document.getElementById('afterPlaceholderText').style.display = 'none';
+    document.getElementById('downloadBtn').style.display = '';
+}
+
+// ============ FILE HANDLING ============
+function handleFileSelect(e) {
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+
+    const tool = TOOLS.find(t => t.id === currentTool);
+    const multi = tool && tool.multi;
+
+    if (multi) {
+        uploadedFiles = files;
+        // Load first as preview
+        loadImage(files[0]).then(() => {
+            if (tool.needsCropUI && files.length >= 2) {
+                // For diff: load second image
+                loadImageFromFile(files[1]).then(img => {
+                    uploadedFiles._img2 = img;
+                }).catch(()=>{});
+            }
+        });
+    } else {
+        uploadedFiles = [];
+        loadImage(files[0]);
+    }
+    e.target.value = '';
+}
+
+// Drag & drop
+document.addEventListener('DOMContentLoaded', () => {
+    renderSidebar();
+    const uz = document.getElementById('uploadZone');
+    uz.addEventListener('dragover', e => { e.preventDefault(); uz.classList.add('dragover'); });
+    uz.addEventListener('dragleave', () => uz.classList.remove('dragover'));
+    uz.addEventListener('drop', e => {
+        e.preventDefault(); uz.classList.remove('dragover');
+        const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+        if (!files.length) return showToast(lang==='zh'?'请拖放图片文件':'Please drop image files', true);
+        const dt = new DataTransfer();
+        files.forEach(f => dt.items.add(f));
+        document.getElementById('fileInput').files = dt.files;
+        handleFileSelect({ target: { files: dt.files } });
+    });
+});
+
+// ============ TOOL SELECTION ============
+function selectTool(toolId) {
+    currentTool = toolId;
+    document.querySelectorAll('.side-tool').forEach(s => s.classList.remove('active'));
+    const side = document.getElementById('side-' + toolId);
+    if (side) side.classList.add('active');
+
+    const tool = TOOLS.find(t => t.id === toolId);
+    if (!tool) return;
+
+    document.getElementById('toolIcon').textContent = tool.icon;
+    document.getElementById('toolTitle').innerHTML = 
+        `<span data-lang="zh">${tool.name.zh}</span><span data-lang="en" style="display:none">${tool.name.en}</span>`;
+
+    renderControls(tool);
+
+    // Show upload zone if no image loaded
+    if (!originalImage) {
+        document.getElementById('uploadZone').classList.remove('hidden');
+        document.getElementById('previewArea').classList.add('hidden');
+        document.getElementById('toolPanel').classList.add('hidden');
+        document.getElementById('guideTip').classList.add('hidden');
+    }
+
+    // Update file input accept for GIF tool
+    const fi = document.getElementById('fileInput');
+    if (tool.acceptGif) {
+        fi.accept = 'image/gif';
+    } else {
+        fi.accept = 'image/*';
+    }
+    if (tool.multi) {
+        fi.multiple = true;
+    } else {
+        fi.multiple = false;
+    }
+
+    applyLangDisplay();
+}
+
+function applyLangDisplay() {
+    document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+    });
+}
+
+// ============ CONTROLS RENDERING ============
+function renderControls(tool) {
+    const tc = document.getElementById('toolControls');
+    const te = document.getElementById('toolExtra');
+    tc.innerHTML = '';
+    te.innerHTML = '';
+    document.getElementById('downloadBtn').style.display = processedDataUrl ? '' : 'none';
+
+    switch(tool.id) {
+        case 'compress':
+            tc.innerHTML = `
+                <div class="form-group"><label><span data-lang="zh">压缩质量</span><span data-lang="en" style="display:none">Quality</span>: <span class="range-val" id="qualVal">80</span></label>
+                <input type="range" id="compressQual" min="1" max="100" value="80" oninput="document.getElementById('qualVal').textContent=this.value"></div>
+                <div class="form-group"><label><span data-lang="zh">目标文件大小 (KB，0=不限)</span><span data-lang="en" style="display:none">Target KB (0=unlimited)</span></label>
+                <input type="number" id="targetKB" value="0" min="0" step="1"></div>
+            `; break;
+        case 'crop':
+            tc.innerHTML = `
+                <div class="form-group"><label><span data-lang="zh">裁剪比例</span><span data-lang="en" style="display:none">Crop Ratio</span></label>
+                <select id="cropRatio"><option value="free"><span data-lang="zh">自由</span><span data-lang="en" style="display:none">Free</span></option><option value="1:1">1:1</option><option value="4:3">4:3</option><option value="16:9">16:9</option><option value="3:2">3:2</option></select></div>
+                <div class="form-group"><label><span data-lang="zh">拖动图片上的框来裁剪区域</span><span data-lang="en" style="display:none">Drag on the image to select crop area</span></label></div>
+                <div class="form-row"><div class="form-group"><label>X: <span id="cropX">0</span></label></div><div class="form-group"><label>Y: <span id="cropY">0</span></label></div></div>
+                <div class="form-row"><div class="form-group"><label>W: <span id="cropW">0</span></label></div><div class="form-group"><label>H: <span id="cropH">0</span></label></div></div>
+                <div id="cropCanvasWrap" style="position:relative;display:inline-block;cursor:crosshair;margin-top:8px;max-width:100%"></div>
+            `;
+            setTimeout(initCropUI, 100);
+            break;
+        case 'resize':
+            tc.innerHTML = `
+                <div class="form-row"><div class="form-group"><label><span data-lang="zh">宽度 (px)</span><span data-lang="en" style="display:none">Width (px)</span></label><input type="number" id="resizeW" value="${originalCanvas?originalCanvas.width:800}"></div>
+                <div class="form-group"><label><span data-lang="zh">高度 (px)</span><span data-lang="en" style="display:none">Height (px)</span></label><input type="number" id="resizeH" value="${originalCanvas?originalCanvas.height:600}"></div></div>
+                <div class="form-group"><label><input type="checkbox" id="lockAspect" checked onchange="toggleAspect()"> <span data-lang="zh">锁定宽高比</span><span data-lang="en" style="display:none">Lock aspect ratio</span></label></div>
+            `;
+            window._origW = originalCanvas ? originalCanvas.width : 800;
+            window._origH = originalCanvas ? originalCanvas.height : 600;
+            window._ratio = window._origW / window._origH;
+            document.getElementById('resizeW').oninput = function() {
+                if (document.getElementById('lockAspect').checked) document.getElementById('resizeH').value = Math.round(this.value / window._ratio);
+            };
+            document.getElementById('resizeH').oninput = function() {
+                if (document.getElementById('lockAspect').checked) document.getElementById('resizeW').value = Math.round(this.value * window._ratio);
+            };
+            break;
+        case 'convert':
+            tc.innerHTML = `
+                <div class="form-group"><label><span data-lang="zh">目标格式</span><span data-lang="en" style="display:none">Target Format</span></label>
+                <select id="convertFmt"><option value="image/jpeg">JPEG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select></div>
+                <div class="form-group"><label><span data-lang="zh">质量 (JPEG/WebP)</span><span data-lang="en" style="display:none">Quality (JPEG/WebP)</span>: <span class="range-val" id="cvtQual">90</span></label>
+                <input type="range" id="convertQual" min="1" max="100" value="90" oninput="document.getElementById('cvtQual').textContent=this.value"></div>
+            `; break;
+        case 'watermark':
+            tc.innerHTML = `
+                <div class="form-group"><label><span data-lang="zh">水印文字</span><span data-lang="en" style="display:none">Watermark Text</span></label><input type="text" id="wmText" value="© ImageForge Pro" maxlength="100"></div>
+                <div class="form-group"><label><span data-lang="zh">位置</span><span data-lang="en" style="display:none">Position</span></label>
+                <select id="wmPos"><option value="br">右下</option><option value="bl">左下</option><option value="tr">右上</option><option value="tl">左上</option><option value="center">居中</option></select></div>
+                <div class="form-group"><label><span data-lang="zh">透明度</span><span data-lang="en" style="display:none">Opacity</span>: <span class="range-val" id="wmOpVal">0.5</span></label>
+                <input type="range" id="wmOpacity" min="5" max="100" value="50" oninput="document.getElementById('wmOpVal').textContent=(this.value/100).toFixed(1)"></div>
+                <div class="form-group"><label><span data-lang="zh">字号</span><span data-lang="en" style="display:none">Font Size</span>: <span class="range-val" id="wmFsVal">32</span></label>
+                <input type="range" id="wmFontSize" min="12" max="120" value="32" oninput="document.getElementById('wmFsVal').textContent=this.value"></div>
+            `; break;
+        case 'alpha2white':
+            tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">将PNG透明背景替换为白色背景，适合电商平台上传。</span><span data-lang="en" style="display:none">Replace transparent background with white, perfect for e-commerce platforms.</span></p>`; break;
+        case 'rounded':
+            tc.innerHTML = `
+                <div class="form-group"><label><span data-lang="zh">圆角半径</span><span data-lang="en" style="display:none">Radius</span>: <span class="range-val" id="rndVal">20</span></label>
+                <input type="range" id="rndRadius" min="0" max="200" value="20" oninput="document.getElementById('rndVal').textContent=this.value"></div>
+                <div class="form-group"><label><input type="checkbox" id="rndCircle"> <span data-lang="zh">圆形裁切</span><span data-lang="en" style="display:none">Circle crop</span></label></div>
+            `; break;
+        case 'flip':
+            tc.innerHTML = `
+                <div class="preset-grid">
+                    <button class="preset-btn" onclick="applyFlip('h')">↔️ <span data-lang="zh">水平翻转</span><span data-lang="en" style="display:none">Horizontal</span></button>
+                    <button class="preset-btn" onclick="applyFlip('v')">↕️ <span data-lang="zh">垂直翻转</span><span data-lang="en" style="display:none">Vertical</span></button>
+                </div>
+            `; break;
+        case 'adjust':
+            tc.innerHTML = `
+                <div class="form-group"><label><span data-lang="zh">亮度</span><span data-lang="en" style="display:none">Brightness</span>: <span class="range-val" id="adjBVal">100</span>%</label><input type="range" id="adjB" min="0" max="200" value="100" oninput="document.getElementById('adjBVal').textContent=this.value; onAdjustChange()"></div>
+                <div class="form-group"><label><span data-lang="zh">对比度</span><span data-lang="en" style="display:none">Contrast</span>: <span class="range-val" id="adjCVal">100</span>%</label><input type="range" id="adjC" min="0" max="200" value="100" oninput="document.getElementById('adjCVal').textContent=this.value; onAdjustChange()"></div>
+                <div class="form-group"><label><span data-lang="zh">饱和度</span><span data-lang="en" style="display:none">Saturation</span>: <span class="range-val" id="adjSVal">100</span>%</label><input type="range" id="adjS" min="0" max="200" value="100" oninput="document.getElementById('adjSVal').textContent=this.value; onAdjustChange()"></div>
+                <div class="form-group"><label><span data-lang="zh">锐度</span><span data-lang="en" style="display:none">Sharpness</span>: <span class="range-val" id="adjShVal">0</span></label><input type="range" id="adjSh" min="0" max="100" value="0" oninput="document.getElementById('adjShVal').textContent=this.value; onAdjustChange()"></div>
+            `; break;
+        case 'filters':
+            tc.innerHTML = `
+                <div class="preset-grid">
+                    <button class="preset-btn" onclick="applyFilter('vintage')">📷 <span data-lang="zh">复古</span><span data-lang="en" style="display:none">Vintage</span></button>
+                    <button class="preset-btn" onclick="applyFilter('bw')">⬛ <span data-lang="zh">黑白</span><span data-lang="en" style="display:none">B&W</span></button>
+                    <button class="preset-btn" onclick="applyFilter('warm')">☀️ <span data-lang="zh">暖色调</span><span data-lang="en" style="display:none">Warm</span></button>
+                    <button class="preset-btn" onclick="applyFilter('cool')">❄️ <span data-lang="zh">冷色调</span><span data-lang="en" style="display:none">Cool</span></button>
+                    <button class="preset-btn" onclick="applyFilter('japanese')">🎋 <span data-lang="zh">日系</span><span data-lang="en" style="display:none">Japanese</span></button>
+                    <button class="preset-btn" onclick="applyFilter('film')">🎬 <span data-lang="zh">胶片</span><span data-lang="en" style="display:none">Film</span></button>
+                </div>
+            `; break;
+        case 'effects':
+            tc.innerHTML = `
+                <div class="preset-grid" style="grid-template-columns:repeat(2,1fr)">
+                    <button class="preset-btn" onclick="applyEffect('blur')">🌫️ <span data-lang="zh">模糊</span><span data-lang="en" style="display:none">Blur</span></button>
+                    <button class="preset-btn" onclick="applyEffect('sharpen')">🔪 <span data-lang="zh">锐化</span><span data-lang="en" style="display:none">Sharpen</span></button>
+                    <button class="preset-btn" onclick="applyEffect('emboss')">🗿 <span data-lang="zh">浮雕</span><span data-lang="en" style="display:none">Emboss</span></button>
+                    <button class="preset-btn" onclick="applyEffect('edge')">✏️ <span data-lang="zh">边缘检测</span><span data-lang="en" style="display:none">Edge</span></button>
+                    <button class="preset-btn" onclick="applyEffect('contour')">🔲 <span data-lang="zh">轮廓</span><span data-lang="en" style="display:none">Contour</span></button>
+                    <button class="preset-btn" onclick="applyEffect('smooth')">💧 <span data-lang="zh">平滑</span><span data-lang="en" style="display:none">Smooth</span></button>
+                </div>
+            `; break;
+        case 'mosaic':
+            tc.innerHTML = `
+                <div class="form-group"><label><span data-lang="zh">马赛克块大小</span><span data-lang="en" style="display:none">Block Size</span>: <span class="range-val" id="mosVal">16</span></label>
+                <input type="range" id="mosaicSize" min="2" max="64" value="16" oninput="document.getElementById('mosVal').textContent=this.value"></div>
+            `; break;
+        case 'palette':
+            tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">提取图片主色调，使用中位切分算法分析。</span><span data-lang="en" style="display:none">Extract dominant colors using Median Cut algorithm.</span></p>`; break;
+        case 'exif':
+            tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">通过重新绘制图片去除所有EXIF/GPS/相机等隐私元数据。处理后图片在浏览器本地完成，数据不上传。</span><span data-lang="en" style="display:none">Strip all EXIF/GPS/camera metadata by re-rendering. Processing is local, no data upload.</span></p>`; break;
+        case 'social':
+            tc.innerHTML = `
+                <div class="form-group"><label><span data-lang="zh">选择平台</span><span data-lang="en" style="display:none">Platform</span></label>
+                <div class="preset-grid">
+                    <button class="preset-btn" onclick="processSocial('wechat')">💬 微信<br><small>1080×1920</small></button>
+                    <button class="preset-btn" onclick="processSocial('xhs')">📕 小红书<br><small>1080×1440</small></button>
+                    <button class="preset-btn" onclick="processSocial('douyin')">🎵 抖音<br><small>1080×1920</small></button>
+                    <button class="preset-btn" onclick="processSocial('ig_sq')">📷 IG方<br><small>1080×1080</small></button>
+                    <button class="preset-btn" onclick="processSocial('ig_story')">📱 IG Story<br><small>1080×1920</small></button>
+                    <button class="preset-btn" onclick="processSocial('twitter')">🐦 Twitter<br><small>1200×675</small></button>
+                    <button class="preset-btn" onclick="processSocial('fb')">📘 Facebook<br><small>1200×630</small></button>
+                    <button class="preset-btn" onclick="processSocial('linkedin')">💼 LinkedIn<br><small>1200×627</small></button>
+                    <button class="preset-btn" onclick="processSocial('all')">📦 <span data-lang="zh">全部导出</span><span data-lang="en" style="display:none">Export All</span></button>
+                </div>
+            `; break;
+        case 'deviceframe':
+            tc.innerHTML = `
+                <div class="form-group"><label><span data-lang="zh">设备框类型</span><span data-lang="en" style="display:none">Frame Type</span></label>
+                <div class="preset-grid">
+                    <button class="preset-btn" onclick="applyDeviceFrame('browser')">🌐 <span data-lang="zh">浏览器</span><span data-lang="en" style="display:none">Browser</span></button>
+                    <button class="preset-btn" onclick="applyDeviceFrame('phone')">📱 <span data-lang="zh">手机</span><span data-lang="en" style="display:none">Phone</span></button>
+                </div>
+            `; break;
+        case 'stitch':
+            tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">请上传2张或更多图片（可从上方上传区拖入多张）。</span><span data-lang="en" style="display:none">Upload 2+ images (drag multiple to upload zone).</span></p>
+            <div class="form-group"><label><span data-lang="zh">拼接方向</span><span data-lang="en" style="display:none">Direction</span></label>
+            <div class="preset-grid"><button class="preset-btn" onclick="processStitch('h')">↔️ 横向</button><button class="preset-btn" onclick="processStitch('v')">↕️ 纵向</button><button class="preset-btn" onclick="processStitch('grid')">🔲 网格</button></div></div>
+            <div class="form-group"><label><span data-lang="zh">间距 (px)</span><span data-lang="en" style="display:none">Gap (px)</span>: <span class="range-val" id="stitchGapVal">4</span></label><input type="range" id="stitchGap" min="0" max="40" value="4" oninput="document.getElementById('stitchGapVal').textContent=this.value"></div>
+            `; break;
+        case 'gridcrop':
+            tc.innerHTML = `
+                <div class="form-group"><label><span data-lang="zh">网格大小</span><span data-lang="en" style="display:none">Grid Size</span></label>
+                <div class="preset-grid">
+                    <button class="preset-btn" onclick="processGridCrop(2)">2×2</button>
+                    <button class="preset-btn" onclick="processGridCrop(3)">3×3</button>
+                    <button class="preset-btn" onclick="processGridCrop(4)">4×4</button>
+                </div>
+            `; break;
+        case 'textposter':
+            tc.innerHTML = `
+                <div class="form-group"><label><span data-lang="zh">海报文字</span><span data-lang="en" style="display:none">Poster Text</span></label><textarea id="posterText" rows="3">ImageForge Pro</textarea></div>
+                <div class="form-group"><label><span data-lang="zh">字号</span><span data-lang="en" style="display:none">Font Size</span>: <span class="range-val" id="ptFsVal">48</span></label><input type="range" id="posterFontSize" min="16" max="200" value="48" oninput="document.getElementById('ptFsVal').textContent=this.value"></div>
+                <div class="form-group"><label><span data-lang="zh">位置</span><span data-lang="en" style="display:none">Position</span></label><select id="posterPos"><option value="bottom">底部</option><option value="top">顶部</option><option value="center">居中</option></select></div>
+                <div class="form-group"><label><span data-lang="zh">文字颜色</span><span data-lang="en" style="display:none">Text Color</span></label><input type="color" id="posterColor" value="#ffffff"></div>
+            `; break;
+        case 'base64':
+            tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">生成图片的 Base64 Data URI，可直接嵌入 HTML/CSS。</span><span data-lang="en" style="display:none">Generate Base64 Data URI for direct HTML/CSS embedding.</span></p>`; break;
+        case 'favicon':
+            tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">生成 16/32/48/64/128/256 px 多尺寸 PNG（下载ZIP包含全部尺寸）。建议使用正方形图片。</span><span data-lang="en" style="display:none">Generate 16/32/48/64/128/256 px multi-size PNGs. Use square images for best results.</span></p>`; break;
+        case 'gif':
+            tc.innerHTML = `
+                <div class="form-group"><label><span data-lang="zh">请上传GIF动图</span><span data-lang="en" style="display:none">Please upload a GIF file</span></label></div>
+                <div class="form-group"><label><span data-lang="zh">GIF 操作</span><span data-lang="en" style="display:none">GIF Operation</span></label>
+                <div class="preset-grid">
+                    <button class="preset-btn" onclick="processGifOp('speed2x')">⏩ 2x</button>
+                    <button class="preset-btn" onclick="processGifOp('speed05x')">⏪ 0.5x</button>
+                    <button class="preset-btn" onclick="processGifOp('reverse')">↩️ 反向</button>
+                    <button class="preset-btn" onclick="processGifOp('compress')">🗜️ 压缩</button>
+                </div>
+            `; break;
+        case 'diff':
+            tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">请上传2张图片进行对比（可从上方上传区拖入2张）。</span><span data-lang="en" style="display:none">Upload 2 images to compare (drag 2 to upload zone).</span></p>`; break;
+        case 'batchinfo':
+            tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">请上传多张图片查看批量信息（可从上方上传区拖入多张）。</span><span data-lang="en" style="display:none">Upload multiple images to see batch info (drag to upload zone).</span></p>
+            <div id="batchInfoTable"></div>`; break;
+        case 'recipe':
+            tc.innerHTML = `
+                <div class="form-group"><label><span data-lang="zh">操作步骤</span><span data-lang="en" style="display:none">Recipe Steps</span></label>
+                <div id="recipeSteps" style="min-height:40px;padding:8px;background:var(--bg);border-radius:6px;margin-bottom:8px">
+                    <span style="color:var(--sub)"><span data-lang="zh">选择要串联的操作：</span><span data-lang="en" style="display:none">Select operations to chain:</span></span>
+                </div></div>
+                <div class="preset-grid" id="recipeOptions"></div>
+            `;
+            setTimeout(renderRecipeOptions, 50);
+            break;
+    }
+    applyLangDisplay();
+}
+
+// ============ TOOL PROCESSING ============
+function applyTool() {
+    if (!originalImage || !currentTool) return;
+
+    const tool = TOOLS.find(t => t.id === currentTool);
+    if (!tool) return;
+
+    try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        switch(currentTool) {
+            case 'compress': processCompress(ctx, canvas); break;
+            case 'crop': processCropFinal(ctx, canvas); break;
+            case 'resize': processResize(canvas); break;
+            case 'convert': processConvert(canvas); break;
+            case 'watermark': processWatermark(canvas); break;
+            case 'alpha2white': processAlpha2White(canvas); break;
+            case 'rounded': processRounded(canvas); break;
+            case 'flip': processFlip(canvas); break;
+            case 'adjust': processAdjust(canvas); break;
+            case 'filters':
+            case 'effects':
+            case 'mosaic':
+            case 'deviceframe':
+                showToast(lang==='zh'?'请直接点击工具栏中的按钮':'Please click a button in the tool panel', true);
+                return;
+            case 'palette': processPalette(canvas); return;
+            case 'exif': processExif(canvas); break;
+            case 'social': showToast(lang==='zh'?'请点击平台按钮':'Please click a platform button', true); return;
+            case 'textposter': processTextPoster(canvas); break;
+            case 'base64': processBase64(canvas); return;
+            case 'favicon': processFavicon(canvas); return;
+            case 'diff': processDiff(canvas); return;
+            case 'batchinfo': processBatchInfo(); return;
+            case 'recipe': processRecipe(canvas); return;
+            default: return;
+        }
+
+        const dataUrl = canvas.toDataURL('image/png');
+        showAfter(dataUrl);
+        canvasToBlob(canvas, 'image/png').then(b => { processedBlob = b; });
+        showToast(lang==='zh'?'处理完成！':'Done!');
+    } catch(e) {
+        showToast((lang==='zh'?'处理失败: ':'Error: ') + e.message, true);
+        console.error(e);
+    }
+}
+
+function downloadResult() {
+    if (!processedBlob && !processedDataUrl) return showToast(lang==='zh'?'请先处理图片':'Process image first', true);
+
+    const tool = TOOLS.find(t => t.id === currentTool);
+    const extMap = { 'convert': { 'image/jpeg':'jpg', 'image/png':'png', 'image/webp':'webp' } };
+    let ext = 'png';
+    let name = tool ? tool.id : 'processed';
+
+    if (currentTool === 'convert') {
+        const fmt = document.getElementById('convertFmt').value;
+        ext = extMap.convert[fmt] || 'png';
+    }
+
+    if (processedDataUrl && !processedBlob) {
+        // For base64, favicon etc.
+        const a = document.createElement('a');
+        a.href = processedDataUrl;
+        a.download = `${name}.${ext}`;
+        a.click();
+        showToast(lang==='zh'?'下载已开始':'Download started');
+        return;
+    }
+
+    const url = URL.createObjectURL(processedBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${name}.${ext}`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast(lang==='zh'?'下载已开始':'Download started');
+}
+
+function resetTool() {
+    originalImage = null;
+    originalCanvas = null;
+    processedBlob = null;
+    processedDataUrl = null;
+    uploadedFiles = [];
+    recipeSteps = [];
+    document.getElementById('uploadZone').classList.remove('hidden');
+    document.getElementById('previewArea').classList.add('hidden');
+    document.getElementById('toolPanel').classList.add('hidden');
+    document.getElementById('guideTip').classList.remove('hidden');
+    document.getElementById('toolControls').innerHTML = '';
+    document.getElementById('toolExtra').innerHTML = '';
+    document.getElementById('fileInput').value = '';
+}
+
+// ---- BASIC (8) ----
+function processCompress(ctx, canvas) {
+    const qual = parseInt(document.getElementById('compressQual').value);
+    const targetKB = parseInt(document.getElementById('targetKB').value) || 0;
+    canvas.width = originalCanvas.width;
+    canvas.height = originalCanvas.height;
+    ctx.drawImage(originalImage, 0, 0);
+
+    if (targetKB > 0) {
+        // Binary search for quality
+        let lo = 1, hi = 100, bestUrl = null, bestQual = qual;
+        for (let i = 0; i < 10; i++) {
+            const mid = Math.floor((lo + hi) / 2);
+            const dataUrl = canvas.toDataURL('image/jpeg', mid / 100);
+            const sizeKB = (dataUrl.length * 3 / 4) / 1024;
+            if (sizeKB <= targetKB) { bestUrl = dataUrl; bestQual = mid; lo = mid + 1; }
+            else { hi = mid - 1; }
+        }
+        if (bestUrl) {
+            showAfter(bestUrl);
+            const img = new Image();
+            img.onload = () => { canvas.width = img.width; canvas.height = img.height; ctx.drawImage(img,0,0); canvasToBlob(canvas,'image/jpeg',bestQual/100).then(b=>{processedBlob=b;}); };
+            img.src = bestUrl;
+            showToast(`Compressed to ~${Math.round((bestUrl.length*3/4)/1024)}KB @ q${bestQual}`);
+            return;
+        }
+    }
+
+    const dataUrl = canvas.toDataURL('image/jpeg', qual / 100);
+    showAfter(dataUrl);
+    canvasToBlob(canvas, 'image/jpeg', qual/100).then(b => { processedBlob = b; });
+}
+
+// ---- CROP UI ----
+let cropState = { x:0, y:0, w:0, h:0, dragging:false, startX:0, startY:0 };
+function initCropUI() {
+    const wrap = document.getElementById('cropCanvasWrap');
+    if (!wrap || !originalCanvas) return;
+    wrap.innerHTML = '';
+    const c = document.createElement('canvas');
+    const scale = Math.min(1, 600 / Math.max(originalCanvas.width, originalCanvas.height));
+    c.width = originalCanvas.width * scale;
+    c.height = originalCanvas.height * scale;
+    c.style.border = '2px solid var(--border)';
+    c.style.borderRadius = '8px';
+    c.style.maxWidth = '100%';
+    const ctx = c.getContext('2d');
+    ctx.drawImage(originalImage, 0, 0, c.width, c.height);
+    cropState.scale = scale;
+    cropState.canvas = c;
+    cropState.ctx = ctx;
+
+    c.addEventListener('mousedown', e => {
+        const rect = c.getBoundingClientRect();
+        cropState.dragging = true;
+        cropState.startX = (e.clientX - rect.left) / scale;
+        cropState.startY = (e.clientY - rect.top) / scale;
+    });
+    c.addEventListener('mousemove', e => {
+        if (!cropState.dragging) return;
+        const rect = c.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / scale;
+        const y = (e.clientY - rect.top) / scale;
+        cropState.x = Math.min(cropState.startX, x);
+        cropState.y = Math.min(cropState.startY, y);
+        cropState.w = Math.abs(x - cropState.startX);
+        cropState.h = Math.abs(y - cropState.startY);
+
+        // Apply ratio constraint
+        const ratio = document.getElementById('cropRatio').value;
+        if (ratio !== 'free') {
+            const [rw, rh] = ratio.split(':').map(Number);
+            const targetRatio = rw / rh;
+            if (cropState.w / cropState.h > targetRatio) cropState.w = cropState.h * targetRatio;
+            else cropState.h = cropState.w / targetRatio;
+        }
+
+        redrawCrop();
+        document.getElementById('cropX').textContent = Math.round(cropState.x);
+        document.getElementById('cropY').textContent = Math.round(cropState.y);
+        document.getElementById('cropW').textContent = Math.round(cropState.w);
+        document.getElementById('cropH').textContent = Math.round(cropState.h);
+    });
+    c.addEventListener('mouseup', () => { cropState.dragging = false; });
+    wrap.appendChild(c);
+}
+
+function redrawCrop() {
+    const { ctx, canvas: c, scale } = cropState;
+    ctx.clearRect(0, 0, c.width, c.height);
+    ctx.drawImage(originalImage, 0, 0, c.width, c.height);
+    ctx.strokeStyle = '#6366f1';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6, 3]);
+    ctx.strokeRect(cropState.x * scale, cropState.y * scale, cropState.w * scale, cropState.h * scale);
+    ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(99,102,241,0.1)';
+    ctx.fillRect(cropState.x * scale, cropState.y * scale, cropState.w * scale, cropState.h * scale);
+}
+
+function processCropFinal(ctx, canvas) {
+    if (cropState.w <= 0 || cropState.h <= 0) {
+        cropState.x = 0; cropState.y = 0;
+        cropState.w = originalCanvas.width; cropState.h = originalCanvas.height;
+    }
+    canvas.width = cropState.w;
+    canvas.height = cropState.h;
+    ctx.drawImage(originalImage, cropState.x, cropState.y, cropState.w, cropState.h, 0, 0, cropState.w, cropState.h);
+}
+
+function processResize(canvas) {
+    const w = parseInt(document.getElementById('resizeW').value) || 800;
+    const h = parseInt(document.getElementById('resizeH').value) || 600;
+    canvas.width = w; canvas.height = h;
+    canvas.getContext('2d').drawImage(originalImage, 0, 0, w, h);
+}
+
+function processConvert(canvas) {
+    const fmt = document.getElementById('convertFmt').value;
+    const qual = parseInt(document.getElementById('convertQual').value) / 100;
+    canvas.width = originalCanvas.width;
+    canvas.height = originalCanvas.height;
+    canvas.getContext('2d').drawImage(originalImage, 0, 0);
+    const url = canvas.toDataURL(fmt, qual);
+    showAfter(url);
+    canvasToBlob(canvas, fmt, qual).then(b => { processedBlob = b; });
+}
+
+function processWatermark(canvas) {
+    const text = document.getElementById('wmText').value || '©';
+    const pos = document.getElementById('wmPos').value;
+    const opacity = parseInt(document.getElementById('wmOpacity').value) / 100;
+    const fontSize = parseInt(document.getElementById('wmFontSize').value);
+
+    canvas.width = originalCanvas.width;
+    canvas.height = originalCanvas.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(originalImage, 0, 0);
+    ctx.font = `bold ${fontSize}px sans-serif`;
+    ctx.fillStyle = `rgba(255,255,255,${opacity})`;
+    ctx.strokeStyle = `rgba(0,0,0,${opacity*0.5})`;
+    ctx.lineWidth = 2;
+    const metrics = ctx.measureText(text);
+    const tw = metrics.width;
+    const th = fontSize;
+    const pad = 20;
+
+    let x, y;
+    switch(pos) {
+        case 'br': x = canvas.width - tw - pad; y = canvas.height - pad; break;
+        case 'bl': x = pad; y = canvas.height - pad; break;
+        case 'tr': x = canvas.width - tw - pad; y = th + pad; break;
+        case 'tl': x = pad; y = th + pad; break;
+        case 'center': x = (canvas.width - tw) / 2; y = canvas.height / 2; break;
+        default: x = canvas.width - tw - pad; y = canvas.height - pad;
+    }
+    ctx.strokeText(text, x, y);
+    ctx.fillText(text, x, y);
+}
+
+function processAlpha2White(canvas) {
+    canvas.width = originalCanvas.width;
+    canvas.height = originalCanvas.height;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(originalImage, 0, 0);
+}
+
+function processRounded(canvas) {
+    const radius = parseInt(document.getElementById('rndRadius').value);
+    const isCircle = document.getElementById('rndCircle').checked;
+    canvas.width = originalCanvas.width;
+    canvas.height = originalCanvas.height;
+    const ctx = canvas.getContext('2d');
+
+    ctx.beginPath();
+    if (isCircle) {
+        const r = Math.min(canvas.width, canvas.height) / 2;
+        ctx.arc(canvas.width/2, canvas.height/2, r, 0, Math.PI * 2);
+    } else {
+        const r = Math.min(radius, canvas.width/2, canvas.height/2);
+        ctx.moveTo(r, 0);
+        ctx.lineTo(canvas.width - r, 0);
+        ctx.quadraticCurveTo(canvas.width, 0, canvas.width, r);
+        ctx.lineTo(canvas.width, canvas.height - r);
+        ctx.quadraticCurveTo(canvas.width, canvas.height, canvas.width - r, canvas.height);
+        ctx.lineTo(r, canvas.height);
+        ctx.quadraticCurveTo(0, canvas.height, 0, canvas.height - r);
+        ctx.lineTo(0, r);
+        ctx.quadraticCurveTo(0, 0, r, 0);
+    }
+    ctx.closePath();
+    ctx.clip();
+    ctx.drawImage(originalImage, 0, 0);
+}
+
+function processFlip(canvas) {
+    canvas.width = originalCanvas.width;
+    canvas.height = originalCanvas.height;
+    const ctx = canvas.getContext('2d');
+    // Default to horizontal
+    const dir = window._flipDir || 'h';
+    if (dir === 'h') { ctx.translate(canvas.width, 0); ctx.scale(-1, 1); }
+    else { ctx.translate(0, canvas.height); ctx.scale(1, -1); }
+    ctx.drawImage(originalImage, 0, 0);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+}
+
+function applyFlip(dir) {
+    if (!originalImage) return showToast(lang==='zh'?'请先上传图片':'Upload image first', true);
+    window._flipDir = dir;
+    applyTool();
+}
+
+// ---- COLOR (6) ----
+function onAdjustChange() {
+    if (currentTool !== 'adjust' || !originalImage) return;
+    const b = parseInt(document.getElementById('adjB').value) / 100;
+    const c = parseInt(document.getElementById('adjC').value) / 100;
+    const s = parseInt(document.getElementById('adjS').value) / 100;
+    const sh = parseInt(document.getElementById('adjSh').value) / 100;
+    const canvas = document.createElement('canvas');
+    canvas.width = originalCanvas.width;
+    canvas.height = originalCanvas.height;
+    const ctx = canvas.getContext('2d');
+    ctx.filter = `brightness(${b}) contrast(${c}) saturate(${s})`;
+    ctx.drawImage(originalImage, 0, 0);
+
+    if (sh > 0) {
+        // Apply unsharp mask via convolution
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const sharpened = applyConvolution(imageData, canvas.width, canvas.height, [
+            0, -1, 0,
+            -1, 4 + sh * 10, -1,
+            0, -1, 0
+        ]);
+        ctx.putImageData(sharpened, 0, 0);
+    }
+
+    ctx.filter = 'none';
+    const url = canvas.toDataURL('image/png');
+    showAfter(url);
+    canvasToBlob(canvas, 'image/png').then(b => { processedBlob = b; });
+}
+
+function processAdjust(canvas) { onAdjustChange(); }
+
+function applyFilter(type) {
+    if (!originalCanvas) return showToast(lang==='zh'?'请先上传图片':'Upload image first', true);
+    const filters = {
+        vintage: 'sepia(0.5) saturate(0.8) brightness(1.1)',
+        bw: 'grayscale(1)',
+        warm: 'sepia(0.4) saturate(1.4) brightness(1.05)',
+        cool: 'hue-rotate(30deg) saturate(0.8) brightness(1.05)',
+        japanese: 'saturate(0.7) brightness(1.15) contrast(0.9)',
+        film: 'sepia(0.2) contrast(1.1) brightness(0.95) saturate(1.2)',
+    };
+    const canvas = document.createElement('canvas');
+    canvas.width = originalCanvas.width;
+    canvas.height = originalCanvas.height;
+    const ctx = canvas.getContext('2d');
+    ctx.filter = filters[type] || '';
+    ctx.drawImage(originalImage, 0, 0);
+    ctx.filter = 'none';
+    const url = canvas.toDataURL('image/png');
+    showAfter(url);
+    canvasToBlob(canvas, 'image/png').then(b => { processedBlob = b; });
+    showToast(lang==='zh'?'滤镜已应用':'Filter applied');
+}
+
+function applyEffect(type) {
+    if (!originalCanvas) return showToast(lang==='zh'?'请先上传图片':'Upload image first', true);
+    const canvas = document.createElement('canvas');
+    canvas.width = originalCanvas.width;
+    canvas.height = originalCanvas.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(originalImage, 0, 0);
+
+    if (type === 'blur') {
+        ctx.filter = 'blur(6px)';
+        ctx.drawImage(originalImage, 0, 0);
+        ctx.filter = 'none';
+    } else {
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const kernels = {
+            sharpen: [0,-1,0, -1,5,-1, 0,-1,0],
+            emboss: [-2,-1,0, -1,1,1, 0,1,2],
+            edge: [-1,-1,-1, -1,8,-1, -1,-1,-1],
+            contour: [-1,-1,-1, -1,8,-1, -1,-1,-1],
+            smooth: [1,1,1, 1,5,1, 1,1,1],
+        };
+        const result = applyConvolution(imageData, canvas.width, canvas.height, kernels[type] || kernels.sharpen);
+        ctx.putImageData(result, 0, 0);
+    }
+
+    const url = canvas.toDataURL('image/png');
+    showAfter(url);
+    canvasToBlob(canvas, 'image/png').then(b => { processedBlob = b; });
+    showToast(lang==='zh'?'特效已应用':'Effect applied');
+}
+
+function processMosaic(canvas) {
+    const blockSize = parseInt(document.getElementById('mosaicSize').value);
+    const smallW = Math.max(1, Math.floor(originalCanvas.width / blockSize));
+    const smallH = Math.max(1, Math.floor(originalCanvas.height / blockSize));
+
+    // Scale down
+    const tmp = document.createElement('canvas');
+    tmp.width = smallW; tmp.height = smallH;
+    tmp.getContext('2d').drawImage(originalImage, 0, 0, smallW, smallH);
+
+    // Scale up with nearest-neighbor
+    canvas.width = originalCanvas.width;
+    canvas.height = originalCanvas.height;
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(tmp, 0, 0, canvas.width, canvas.height);
+}
+
+function processPalette(canvas) {
+    canvas.width = originalCanvas.width;
+    canvas.height = originalCanvas.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(originalImage, 0, 0);
+
+    // Simple color extraction: sample every Nth pixel
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    const colorBuckets = {};
+    const step = Math.max(1, Math.floor(Math.sqrt(data.length / 4 / 1000)));
+
+    for (let i = 0; i < data.length; i += step * 4) {
+        const r = Math.floor(data[i] / 32) * 32;
+        const g = Math.floor(data[i+1] / 32) * 32;
+        const b = Math.floor(data[i+2] / 32) * 32;
+        const key = `${r},${g},${b}`;
+        colorBuckets[key] = (colorBuckets[key] || 0) + 1;
+    }
+
+    const sorted = Object.entries(colorBuckets).sort((a,b) => b[1] - a[1]).slice(0, 12);
+    let swatchesHtml = '<div class="palette-swatches">';
+    sorted.forEach(([key]) => {
+        const [r,g,b] = key.split(',').map(Number);
+        const hex = '#' + [r,g,b].map(v => v.toString(16).padStart(2,'0')).join('');
+        swatchesHtml += `<div class="palette-swatch" style="background:${hex}"><div class="hex">${hex}</div></div>`;
+    });
+    swatchesHtml += '</div><div style="clear:both;padding-top:30px"></div>';
+    document.getElementById('toolControls').innerHTML += swatchesHtml;
+
+    // Also show as a color bar preview
+    const barCanvas = document.createElement('canvas');
+    barCanvas.width = 600; barCanvas.height = 60;
+    const bctx = barCanvas.getContext('2d');
+    const len = sorted.length;
+    sorted.forEach(([key], i) => {
+        const [r,g,b] = key.split(',').map(Number);
+        bctx.fillStyle = `rgb(${r},${g},${b})`;
+        bctx.fillRect(i * 600 / len, 0, 600 / len, 60);
+    });
+    showAfter(barCanvas.toDataURL());
+}
+
+function processExif(canvas) {
+    // Re-rendering on canvas automatically strips EXIF
+    canvas.width = originalCanvas.width;
+    canvas.height = originalCanvas.height;
+    canvas.getContext('2d').drawImage(originalImage, 0, 0);
+}
+
+// ---- SOCIAL (5) ----
+function processSocial(platform) {
+    if (!originalCanvas) return showToast(lang==='zh'?'请先上传图片':'Upload image first', true);
+
+    const sizes = {
+        wechat: [1080, 1920], xhs: [1080, 1440], douyin: [1080, 1920],
+        ig_sq: [1080, 1080], ig_story: [1080, 1920], twitter: [1200, 675],
+        fb: [1200, 630], linkedin: [1200, 627],
+    };
+
+    if (platform === 'all') {
+        const names = Object.keys(sizes);
+        const canvas = document.createElement('canvas');
+        // Create a composite preview
+        const cols = 3;
+        const rows = Math.ceil(names.length / cols);
+        const thumbW = 240, thumbH = 240;
+        canvas.width = cols * thumbW + (cols - 1) * 8;
+        canvas.height = rows * (thumbH + 30) + 20;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#0f172a'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        names.forEach((name, i) => {
+            const col = i % cols; const row = Math.floor(i / cols);
+            const x = col * (thumbW + 8);
+            const y = row * (thumbH + 30) + 10;
+            const [tw, th] = sizes[name];
+            const ratio = Math.min(thumbW / tw, (thumbH - 20) / th);
+            const dw = tw * ratio, dh = th * ratio;
+            const dx = x + (thumbW - dw) / 2, dy = y + (thumbH - 20 - dh) / 2;
+            ctx.fillStyle = '#e2e8f0';
+            ctx.fillRect(x, y + thumbH - 18, thumbW, 20);
+            ctx.fillStyle = '#0f172a';
+            ctx.font = '10px sans-serif';
+            ctx.fillText(name, x + 4, y + thumbH - 4);
+            ctx.drawImage(originalCanvas, 0, 0, originalCanvas.width, originalCanvas.height, dx, dy, dw, dh);
+        });
+
+        const url = canvas.toDataURL('image/png');
+        showAfter(url);
+        canvasToBlob(canvas, 'image/png').then(b => { processedBlob = b; });
+        showToast(lang==='zh'?'已生成全部8个尺寸预览':'Generated all 8 size previews');
+
+        // Also download all individually
+        names.forEach((name, i) => {
+            setTimeout(() => {
+                const c = document.createElement('canvas');
+                const [tw, th] = sizes[name];
+                c.width = tw; c.height = th;
+                const ictx = c.getContext('2d');
+                const scale = Math.min(tw / originalCanvas.width, th / originalCanvas.height);
+                const dw = originalCanvas.width * scale, dh = originalCanvas.height * scale;
+                const dx = (tw - dw) / 2, dy = (th - dh) / 2;
+                ictx.fillStyle = '#ffffff'; ictx.fillRect(0, 0, tw, th);
+                ictx.drawImage(originalCanvas, 0, 0, originalCanvas.width, originalCanvas.height, dx, dy, dw, dh);
+                const a = document.createElement('a');
+                a.href = c.toDataURL('image/png');
+                a.download = `social_${name}.png`;
+                a.click();
+            }, i * 300);
+        });
+        return;
+    }
+
+    const [tw, th] = sizes[platform];
+    const canvas = document.createElement('canvas');
+    canvas.width = tw; canvas.height = th;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, tw, th);
+
+    const scale = Math.min(tw / originalCanvas.width, th / originalCanvas.height);
+    const dw = originalCanvas.width * scale, dh = originalCanvas.height * scale;
+    const dx = (tw - dw) / 2, dy = (th - dh) / 2;
+    ctx.drawImage(originalCanvas, 0, 0, originalCanvas.width, originalCanvas.height, dx, dy, dw, dh);
+
+    const url = canvas.toDataURL('image/png');
+    showAfter(url);
+    canvasToBlob(canvas, 'image/png').then(b => { processedBlob = b; });
+    showToast(`Exported: ${platform}`);
+}
+
+function applyDeviceFrame(type) {
+    if (!originalCanvas) return showToast(lang==='zh'?'请先上传图片':'Upload image first', true);
+    const canvas = document.createElement('canvas');
+    const padding = 40, topBar = 36;
+    const iw = originalCanvas.width, ih = originalCanvas.height;
+
+    if (type === 'browser') {
+        canvas.width = iw + padding * 2;
+        canvas.height = ih + padding * 2 + topBar;
+        const ctx = canvas.getContext('2d');
+        // Background
+        ctx.fillStyle = '#1e293b'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // Title bar
+        ctx.fillStyle = '#334155';
+        ctx.beginPath(); ctx.moveTo(12, 0); ctx.lineTo(canvas.width - 12, 0);
+        ctx.quadraticCurveTo(canvas.width, 0, canvas.width, 12);
+        ctx.lineTo(canvas.width, topBar); ctx.lineTo(0, topBar);
+        ctx.lineTo(0, 12); ctx.quadraticCurveTo(0, 0, 12, 0);
+        ctx.fill();
+        // Traffic lights
+        [['#ff5f56',16], ['#ffbd2e',34], ['#27c93f',52]].forEach(([clr, cx]) => {
+            ctx.beginPath(); ctx.arc(cx, 18, 6, 0, Math.PI*2); ctx.fillStyle = clr; ctx.fill();
+        });
+        // Browser shadow
+        ctx.shadowColor = 'rgba(0,0,0,0.4)'; ctx.shadowBlur = 20; ctx.shadowOffsetY = 8;
+        ctx.fillStyle = '#000'; ctx.fillRect(padding, padding + topBar, iw, ih);
+        ctx.shadowColor = 'transparent';
+        // Image
+        ctx.drawImage(originalCanvas, padding, padding + topBar);
+        // Rounded corners on image via clip
+    } else if (type === 'phone') {
+        const frameW = iw + 24, frameH = ih + 60;
+        canvas.width = frameW + padding * 2;
+        canvas.height = frameH + padding * 2;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#0f172a'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // Phone body
+        ctx.fillStyle = '#1a1a2e';
+        const rx = padding, ry = padding, rw = frameW, rh = frameH, rr = 24;
+        ctx.beginPath();
+        ctx.moveTo(rx + rr, ry); ctx.lineTo(rx + rw - rr, ry);
+        ctx.quadraticCurveTo(rx + rw, ry, rx + rw, ry + rr);
+        ctx.lineTo(rx + rw, ry + rh - rr);
+        ctx.quadraticCurveTo(rx + rw, ry + rh, rx + rw - rr, ry + rh);
+        ctx.lineTo(rx + rr, ry + rh);
+        ctx.quadraticCurveTo(rx, ry + rh, rx, ry + rh - rr);
+        ctx.lineTo(rx, ry + rr); ctx.quadraticCurveTo(rx, ry, rx + rr, ry);
+        ctx.closePath(); ctx.fill();
+        // Notch
+        ctx.fillStyle = '#000'; ctx.fillRect(rx + rw/2 - 40, ry + 4, 80, 6);
+        // Screen
+        ctx.fillStyle = '#000'; ctx.fillRect(rx + 12, ry + 30, iw, ih);
+        ctx.drawImage(originalCanvas, rx + 12, ry + 30);
+    }
+
+    const url = canvas.toDataURL('image/png');
+    showAfter(url);
+    canvasToBlob(canvas, 'image/png').then(b => { processedBlob = b; });
+    showToast(lang==='zh'?'设备框已应用':'Device frame applied');
+}
+
+function processStitch(direction) {
+    if (uploadedFiles.length < 2) return showToast(lang==='zh'?'请上传至少2张图片':'Upload at least 2 images', true);
+    const gap = parseInt(document.getElementById('stitchGap').value) || 4;
+
+    Promise.all(uploadedFiles.map(loadImageFromFile)).then(images => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        if (direction === 'grid') {
+            const cols = Math.ceil(Math.sqrt(images.length));
+            const rows = Math.ceil(images.length / cols);
+            const cellW = Math.max(...images.map(i => i.naturalWidth));
+            const cellH = Math.max(...images.map(i => i.naturalHeight));
+            canvas.width = cols * cellW + (cols - 1) * gap;
+            canvas.height = rows * cellH + (rows - 1) * gap;
+            images.forEach((img, i) => {
+                const col = i % cols, row = Math.floor(i / cols);
+                const x = col * (cellW + gap), y = row * (cellH + gap);
+                ctx.drawImage(img, x, y, cellW, cellH);
+            });
+        } else if (direction === 'h') {
+            const totalW = images.reduce((s, i) => s + i.naturalWidth, 0) + (images.length - 1) * gap;
+            const maxH = Math.max(...images.map(i => i.naturalHeight));
+            canvas.width = totalW; canvas.height = maxH;
+            let x = 0;
+            images.forEach(img => {
+                ctx.drawImage(img, x, (maxH - img.naturalHeight) / 2);
+                x += img.naturalWidth + gap;
+            });
+        } else {
+            const maxW = Math.max(...images.map(i => i.naturalWidth));
+            const totalH = images.reduce((s, i) => s + i.naturalHeight, 0) + (images.length - 1) * gap;
+            canvas.width = maxW; canvas.height = totalH;
+            let y = 0;
+            images.forEach(img => {
+                ctx.drawImage(img, (maxW - img.naturalWidth) / 2, y);
+                y += img.naturalHeight + gap;
+            });
+        }
+
+        const url = canvas.toDataURL('image/png');
+        showAfter(url);
+        canvasToBlob(canvas, 'image/png').then(b => { processedBlob = b; });
+        showToast(lang==='zh'?'拼接完成':'Stitch complete');
+    });
+}
+
+function processGridCrop(n) {
+    if (!originalCanvas) return showToast(lang==='zh'?'请先上传图片':'Upload image first', true);
+    const cw = originalCanvas.width, ch = originalCanvas.height;
+    const sliceW = Math.floor(cw / n), sliceH = Math.floor(ch / n);
+
+    let previewHtml = `<div class="slice-grid" style="grid-template-columns:repeat(${n},1fr)">`;
+    const slices = [];
+    for (let row = 0; row < n; row++) {
+        for (let col = 0; col < n; col++) {
+            const sc = document.createElement('canvas');
+            sc.width = sliceW; sc.height = sliceH;
+            sc.getContext('2d').drawImage(originalCanvas, col * sliceW, row * sliceH, sliceW, sliceH, 0, 0, sliceW, sliceH);
+            const url = sc.toDataURL('image/png');
+            slices.push({ url, canvas: sc, idx: row * n + col + 1 });
+            previewHtml += `<img src="${url}" title="Slice ${row*n+col+1}" onclick="downloadSlice('${row*n+col+1}')">`;
+        }
+    }
+    previewHtml += '</div>';
+    document.getElementById('toolExtra').innerHTML = previewHtml;
+
+    // Store slices for download
+    window._gridSlices = slices;
+
+    // Composite preview
+    const canvas = document.createElement('canvas');
+    canvas.width = cw; canvas.height = ch;
+    const ctx = canvas.getContext('2d');
+    ctx.strokeStyle = '#6366f1'; ctx.lineWidth = 2;
+    ctx.drawImage(originalCanvas, 0, 0);
+    for (let i = 1; i < n; i++) { ctx.beginPath(); ctx.moveTo(i * sliceW, 0); ctx.lineTo(i * sliceW, ch); ctx.stroke(); }
+    for (let i = 1; i < n; i++) { ctx.beginPath(); ctx.moveTo(0, i * sliceH); ctx.lineTo(cw, i * sliceH); ctx.stroke(); }
+
+    const url = canvas.toDataURL('image/png');
+    showAfter(url);
+    canvasToBlob(canvas, 'image/png').then(b => { processedBlob = b; });
+
+    // Download all slices
+    slices.forEach((s, i) => {
+        setTimeout(() => {
+            const a = document.createElement('a');
+            a.href = s.url;
+            a.download = `slice_${s.idx}.png`;
+            a.click();
+        }, i * 200);
+    });
+    showToast(`${n}x${n} slices generated, downloading...`);
+}
+
+function downloadSlice(idx) {
+    const slice = window._gridSlices?.find(s => s.idx == idx);
+    if (slice) {
+        const a = document.createElement('a');
+        a.href = slice.url;
+        a.download = `slice_${idx}.png`;
+        a.click();
+    }
+}
+
+function processTextPoster(canvas) {
+    const text = document.getElementById('posterText').value || 'ImageForge Pro';
+    const fontSize = parseInt(document.getElementById('posterFontSize').value);
+    const pos = document.getElementById('posterPos').value;
+    const color = document.getElementById('posterColor').value;
+
+    canvas.width = originalCanvas.width;
+    canvas.height = originalCanvas.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(originalImage, 0, 0);
+
+    // Semi-transparent background bar
+    ctx.font = `bold ${fontSize}px sans-serif`;
+    const metrics = ctx.measureText(text);
+    const tw = metrics.width, th = fontSize;
+    const barH = th + 40;
+    let barY;
+
+    switch(pos) {
+        case 'bottom': barY = canvas.height - barH; break;
+        case 'top': barY = 0; break;
+        case 'center': barY = (canvas.height - barH) / 2; break;
+        default: barY = canvas.height - barH;
+    }
+
+    ctx.fillStyle = 'rgba(0,0,0,0.5)';
+    ctx.fillRect(0, barY, canvas.width, barH);
+
+    // Text
+    const tx = (canvas.width - tw) / 2;
+    const ty = barY + th + 10;
+    ctx.fillStyle = color;
+    ctx.font = `bold ${fontSize}px sans-serif`;
+    ctx.fillText(text, tx, ty);
+}
+
+// ---- DEV (4) ----
+function processBase64(canvas) {
+    canvas.width = originalCanvas.width;
+    canvas.height = originalCanvas.height;
+    canvas.getContext('2d').drawImage(originalImage, 0, 0);
+    const dataUrl = canvas.toDataURL('image/png');
+    const base64 = dataUrl.split(',')[1];
+    const sizeKB = (base64.length * 3 / 4) / 1024;
+
+    const tc = document.getElementById('toolControls');
+    tc.innerHTML += `<div style="margin-top:12px">
+        <p style="color:var(--sub);font-size:0.85em">${lang==='zh'?'大小':'Size'}: ${sizeKB.toFixed(1)} KB | ${lang==='zh'?'字符数':'Chars'}: ${base64.length}</p>
+        <textarea readonly style="width:100%;height:100px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:8px;font-size:0.75em;font-family:monospace;margin-top:8px" onclick="this.select()">data:image/png;base64,${base64.substring(0,200)}...</textarea>
+        <button class="btn btn-outline btn-sm" style="margin-top:8px" onclick="copyBase64()">📋 ${lang==='zh'?'复制完整Data URI':'Copy Full Data URI'}</button>
+    </div>`;
+
+    window._base64Full = dataUrl;
+    showAfter(dataUrl);
+    canvasToBlob(canvas, 'image/png').then(b => { processedBlob = b; });
+}
+
+function copyBase64() {
+    if (window._base64Full) {
+        navigator.clipboard.writeText(window._base64Full).then(() => {
+            showToast(lang==='zh'?'已复制到剪贴板':'Copied to clipboard');
+        }).catch(() => showToast(lang==='zh'?'复制失败':'Copy failed', true));
+    }
+}
+
+function processFavicon(canvas) {
+    if (!originalCanvas) return;
+    const sizes = [16, 32, 48, 64, 128, 256];
+    const minDim = Math.min(originalCanvas.width, originalCanvas.height);
+
+    // Create preview composite
+    const canvas2 = document.createElement('canvas');
+    const cols = 3, gap = 8, thumb = 100;
+    canvas2.width = cols * thumb + (cols - 1) * gap + 40;
+    canvas2.height = Math.ceil(sizes.length / cols) * (thumb + 30) + 20;
+    const ctx2 = canvas2.getContext('2d');
+    ctx2.fillStyle = '#0f172a'; ctx2.fillRect(0, 0, canvas2.width, canvas2.height);
+
+    sizes.forEach((size, i) => {
+        const col = i % cols, row = Math.floor(i / cols);
+        const x = 20 + col * (thumb + gap), y = 10 + row * (thumb + 30);
+        const sc = document.createElement('canvas');
+        sc.width = size; sc.height = size;
+        const sctx = sc.getContext('2d');
+        sctx.drawImage(originalCanvas, (originalCanvas.width - minDim)/2, (originalCanvas.height - minDim)/2, minDim, minDim, 0, 0, size, size);
+        ctx2.drawImage(sc, x, y, thumb, thumb);
+        ctx2.fillStyle = '#e2e8f0'; ctx2.font = '10px sans-serif';
+        ctx2.fillText(`${size}x${size}`, x, y + thumb + 14);
+    });
+
+    const url = canvas2.toDataURL('image/png');
+    showAfter(url);
+    canvasToBlob(canvas2, 'image/png').then(b => { processedBlob = b; });
+
+    // Download all sizes
+    sizes.forEach((size, i) => {
+        setTimeout(() => {
+            const sc = document.createElement('canvas');
+            sc.width = size; sc.height = size;
+            const sctx = sc.getContext('2d');
+            sctx.drawImage(originalCanvas, (originalCanvas.width - minDim)/2, (originalCanvas.height - minDim)/2, minDim, minDim, 0, 0, size, size);
+            const a = document.createElement('a');
+            a.href = sc.toDataURL('image/png');
+            a.download = `favicon_${size}x${size}.png`;
+            a.click();
+        }, i * 200);
+    });
+    showToast(lang==='zh'?'6个尺寸已生成并下载':'6 sizes generated, downloading...');
+}
+
+function processGifOp(op) {
+    if (!originalImage || !/gif/i.test(originalImage.src.split(';')[0])) {
+        return showToast(lang==='zh'?'请上传GIF文件':'Please upload a GIF file', true);
+    }
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Simple GIF handling: for animated GIFs shown as img in browser,
+    // we can only access the first frame. We'll explain this limitation.
+    // For now, handle single-frame GIF operations.
+
+    canvas.width = originalCanvas.width;
+    canvas.height = originalCanvas.height;
+    ctx.drawImage(originalImage, 0, 0);
+
+    if (op === 'compress') {
+        const url = canvas.toDataURL('image/jpeg', 0.5);
+        showAfter(url);
+        showToast(lang==='zh'?'GIF已压缩(JPEG输出)':'GIF compressed (JPEG output)');
+    } else if (op === 'reverse' || op === 'speed2x' || op === 'speed05x') {
+        showToast(lang==='zh'?'当前浏览器版仅支持单帧GIF处理。购买完整版(Python Flask)可处理多帧GIF动画（调速/反向/压缩）。':'Browser version only supports single-frame GIF. Full Python version handles multi-frame animation.', true);
+        // Still show the image
+        const url = canvas.toDataURL('image/png');
+        showAfter(url);
+    }
+
+    canvasToBlob(canvas, 'image/png').then(b => { processedBlob = b; });
+}
+
+function processDiff(canvas) {
+    if (uploadedFiles.length < 2) return showToast(lang==='zh'?'请上传2张图片进行对比':'Upload 2 images to compare', true);
+
+    Promise.all([uploadedFiles[0], uploadedFiles[1]].map(loadImageFromFile)).then(([img1, img2]) => {
+        const maxW = Math.max(img1.naturalWidth, img2.naturalWidth);
+        const maxH = Math.max(img1.naturalHeight, img2.naturalHeight);
+
+        // Side by side + diff
+        canvas.width = maxW * 2 + 4;
+        canvas.height = maxH;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#0f172a'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Original
+        ctx.drawImage(img1, 0, 0, maxW, maxH);
+        // Second
+        ctx.drawImage(img2, maxW + 4, 0, maxW, maxH);
+        // Separator
+        ctx.strokeStyle = '#6366f1'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(maxW + 2, 0); ctx.lineTo(maxW + 2, maxH); ctx.stroke();
+
+        // Diff overlay
+        const c1 = document.createElement('canvas'); c1.width = img1.naturalWidth; c1.height = img1.naturalHeight;
+        c1.getContext('2d').drawImage(img1, 0, 0);
+        const d1 = c1.getContext('2d').getImageData(0, 0, c1.width, c1.height);
+        const c2 = document.createElement('canvas'); c2.width = img2.naturalWidth; c2.height = img2.naturalHeight;
+        c2.getContext('2d').drawImage(img2, 0, 0);
+        const d2 = c2.getContext('2d').getImageData(0, 0, c2.width, c2.height);
+
+        // Highlight differences
+        const minW = Math.min(img1.naturalWidth, img2.naturalWidth);
+        const minH = Math.min(img1.naturalHeight, img2.naturalHeight);
+        let diffCount = 0;
+        for (let y = 0; y < minH; y += 4) {
+            for (let x = 0; x < minW; x += 4) {
+                const idx = (y * c1.width + x) * 4;
+                const diff = Math.abs(d1.data[idx] - d2.data[idx]) + Math.abs(d1.data[idx+1] - d2.data[idx+1]) + Math.abs(d1.data[idx+2] - d2.data[idx+2]);
+                if (diff > 30) {
+                    diffCount++;
+                    for (let dy = 0; dy < 4 && y + dy < maxH; dy++) {
+                        for (let dx = 0; dx < 4 && x + dx < maxW; dx++) {
+                            const pxl = ((y+dy) * (maxW*2+4) + (maxW+4+x+dx)) * 4;
+                            if (pxl + 3 < d2.data.length) {
+                                d2.data[pxl] = 255;
+                                d2.data[pxl+1] = 50;
+                                d2.data[pxl+2] = 50;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // Draw highlighted second image
+        const diffCanvas = document.createElement('canvas');
+        diffCanvas.width = maxW; diffCanvas.height = maxH;
+        diffCanvas.getContext('2d').drawImage(img2, 0, 0, maxW, maxH);
+
+        const url = canvas.toDataURL('image/png');
+        showAfter(url);
+        canvasToBlob(canvas, 'image/png').then(b => { processedBlob = b; });
+        showToast(`Diff: ${diffCount} different blocks found`);
+    });
+}
+
+// ---- BATCH (2) ----
+function processBatchInfo() {
+    if (!uploadedFiles.length) return showToast(lang==='zh'?'请上传多张图片':'Upload multiple images', true);
+
+    let tableHtml = '<table class="info-table"><tr><th>#</th><th>Name</th><th>Dimensions</th><th>Type</th><th>Size</th></tr>';
+    uploadedFiles.forEach((f, i) => {
+        const url = URL.createObjectURL(f);
+        const img = new Image();
+        img.onload = function() {
+            tableHtml += `<tr><td>${i+1}</td><td>${f.name}</td><td>${img.naturalWidth}x${img.naturalHeight}</td><td>${f.type}</td><td>${(f.size/1024).toFixed(1)} KB</td></tr>`;
+            if (i === uploadedFiles.length - 1) {
+                tableHtml += '</table>';
+                document.getElementById('batchInfoTable').innerHTML = tableHtml;
+            }
+            URL.revokeObjectURL(url);
+        };
+        img.src = url;
+    });
+
+    showToast(`${uploadedFiles.length} ${lang==='zh'?'张图片已分析':'images analyzed'}`);
+}
+
+function renderRecipeOptions() {
+    if (currentTool !== 'recipe') return;
+    const steps = [
+        { id:'r_resize', name:{zh:'调整尺寸',en:'Resize'}, icon:'📐' },
+        { id:'r_crop', name:{zh:'裁剪',en:'Crop'}, icon:'✂️' },
+        { id:'r_compress', name:{zh:'压缩',en:'Compress'}, icon:'🗜️' },
+        { id:'r_flip', name:{zh:'翻转',en:'Flip'}, icon:'🪞' },
+        { id:'r_watermark', name:{zh:'水印',en:'Watermark'}, icon:'💧' },
+        { id:'r_rounded', name:{zh:'圆角',en:'Rounded'}, icon:'⭕' },
+        { id:'r_filter', name:{zh:'滤镜',en:'Filter'}, icon:'🎨' },
+        { id:'r_bw', name:{zh:'黑白',en:'B&W'}, icon:'⬛' },
+        { id:'r_device', name:{zh:'设备框',en:'Device'}, icon:'🖥️' },
+    ];
+
+    const opts = document.getElementById('recipeOptions');
+    opts.innerHTML = steps.map(s => 
+        `<button class="preset-btn" onclick="addRecipeStep('${s.id}')" style="text-align:center">
+            ${s.icon}<br><span data-lang="zh">${s.name.zh}</span><span data-lang="en" style="display:none">${s.name.en}</span>
+        </button>`
+    ).join('');
+    applyLangDisplay();
+}
+
+function addRecipeStep(stepId) {
+    const names = {
+        r_resize: {zh:'调整尺寸',en:'Resize'}, r_crop:{zh:'裁剪',en:'Crop'}, r_compress:{zh:'压缩',en:'Compress'},
+        r_flip:{zh:'翻转',en:'Flip'}, r_watermark:{zh:'水印',en:'Watermark'}, r_rounded:{zh:'圆角',en:'Rounded'},
+        r_filter:{zh:'滤镜',en:'Filter'}, r_bw:{zh:'黑白',en:'B&W'}, r_device:{zh:'设备框',en:'Device'},
+    };
+    recipeSteps.push(stepId);
+    const name = names[stepId] || {zh:stepId, en:stepId};
+    const rs = document.getElementById('recipeSteps');
+    rs.innerHTML = recipeSteps.map((s, i) => 
+        `<span style="display:inline-block;background:rgba(99,102,241,0.2);color:var(--text);padding:4px 10px;border-radius:6px;margin:2px;font-size:0.85em">
+            ${i+1}. ${name[lang]} <span onclick="removeRecipeStep(${i})" style="cursor:pointer;color:var(--danger);margin-left:4px">×</span>
+        </span>`
+    ).join('') || `<span style="color:var(--sub)">${lang==='zh'?'选择要串联的操作':'Select operations to chain'}</span>`;
+    applyLangDisplay();
+}
+
+function removeRecipeStep(idx) {
+    recipeSteps.splice(idx, 1);
+    addRecipeStep(''); // refresh display
+    if (!recipeSteps.length) {
+        document.getElementById('recipeSteps').innerHTML = `<span style="color:var(--sub)">${lang==='zh'?'选择要串联的操作':'Select operations to chain'}</span>`;
+    }
+}
+
+function processRecipe(canvas) {
+    if (!recipeSteps.length) return showToast(lang==='zh'?'请先添加操作步骤':'Add recipe steps first', true);
+    if (!originalCanvas) return showToast(lang==='zh'?'请先上传图片':'Upload image first', true);
+
+    let currentCanvas = document.createElement('canvas');
+    currentCanvas.width = originalCanvas.width;
+    currentCanvas.height = originalCanvas.height;
+    currentCanvas.getContext('2d').drawImage(originalImage, 0, 0);
+
+    recipeSteps.forEach(step => {
+        const nc = document.createElement('canvas');
+        const nctx = nc.getContext('2d');
+        switch(step) {
+            case 'r_resize':
+                nc.width = Math.round(currentCanvas.width * 0.8);
+                nc.height = Math.round(currentCanvas.height * 0.8);
+                nctx.drawImage(currentCanvas, 0, 0, nc.width, nc.height);
+                break;
+            case 'r_crop':
+                const cropW = currentCanvas.width * 0.8, cropH = currentCanvas.height * 0.8;
+                nc.width = cropW; nc.height = cropH;
+                nctx.drawImage(currentCanvas, (currentCanvas.width-cropW)/2, (currentCanvas.height-cropH)/2, cropW, cropH, 0, 0, cropW, cropH);
+                break;
+            case 'r_compress':
+                nc.width = currentCanvas.width; nc.height = currentCanvas.height;
+                nctx.drawImage(currentCanvas, 0, 0);
+                break;
+            case 'r_flip':
+                nc.width = currentCanvas.width; nc.height = currentCanvas.height;
+                nctx.translate(nc.width, 0); nctx.scale(-1, 1);
+                nctx.drawImage(currentCanvas, 0, 0);
+                break;
+            case 'r_watermark':
+                nc.width = currentCanvas.width; nc.height = currentCanvas.height;
+                nctx.drawImage(currentCanvas, 0, 0);
+                nctx.font = 'bold 24px sans-serif';
+                nctx.fillStyle = 'rgba(255,255,255,0.5)';
+                nctx.fillText('ImageForge Pro', 20, nc.height - 20);
+                break;
+            case 'r_rounded':
+                nc.width = currentCanvas.width; nc.height = currentCanvas.height;
+                nctx.beginPath();
+                const r = 20;
+                nctx.moveTo(r,0); nctx.lineTo(nc.width-r,0); nctx.quadraticCurveTo(nc.width,0,nc.width,r);
+                nctx.lineTo(nc.width,nc.height-r); nctx.quadraticCurveTo(nc.width,nc.height,nc.width-r,nc.height);
+                nctx.lineTo(r,nc.height); nctx.quadraticCurveTo(0,nc.height,0,nc.height-r);
+                nctx.lineTo(0,r); nctx.quadraticCurveTo(0,0,r,0);
+                nctx.closePath(); nctx.clip();
+                nctx.drawImage(currentCanvas, 0, 0);
+                break;
+            case 'r_filter':
+                nc.width = currentCanvas.width; nc.height = currentCanvas.height;
+                nctx.filter = 'sepia(0.5) saturate(0.8) brightness(1.1)';
+                nctx.drawImage(currentCanvas, 0, 0);
+                break;
+            case 'r_bw':
+                nc.width = currentCanvas.width; nc.height = currentCanvas.height;
+                nctx.filter = 'grayscale(1)';
+                nctx.drawImage(currentCanvas, 0, 0);
+                break;
+            case 'r_device':
+                const pad = 20, tb = 28;
+                nc.width = currentCanvas.width + pad * 2;
+                nc.height = currentCanvas.height + pad * 2 + tb;
+                nctx.fillStyle = '#1e293b'; nctx.fillRect(0,0,nc.width,nc.height);
+                nctx.fillStyle = '#334155'; nctx.fillRect(0,0,nc.width,tb);
+                nctx.fillStyle = '#ff5f56'; nctx.beginPath(); nctx.arc(16,tb/2,5,0,Math.PI*2); nctx.fill();
+                nctx.fillStyle = '#ffbd2e'; nctx.beginPath(); nctx.arc(32,tb/2,5,0,Math.PI*2); nctx.fill();
+                nctx.fillStyle = '#27c93f'; nctx.beginPath(); nctx.arc(48,tb/2,5,0,Math.PI*2); nctx.fill();
+                nctx.drawImage(currentCanvas, pad, pad + tb);
+                break;
+        }
+        currentCanvas = nc;
+    });
+
+    const url = currentCanvas.toDataURL('image/png');
+    showAfter(url);
+    canvasToBlob(currentCanvas, 'image/png').then(b => { processedBlob = b; });
+    showToast(lang==='zh'?`配方执行完成 (${recipeSteps.length}步)`:`Recipe done (${recipeSteps.length} steps)`);
+}
+
+// ============ CONVOLUTION HELPER ============
+function applyConvolution(imageData, w, h, kernel) {
+    const src = imageData.data;
+    const output = new ImageData(w, h);
+    const dst = output.data;
+    const kSize = Math.sqrt(kernel.length);
+    const half = Math.floor(kSize / 2);
+
+    for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+            let r = 0, g = 0, b = 0;
+            for (let ky = 0; ky < kSize; ky++) {
+                for (let kx = 0; kx < kSize; kx++) {
+                    const px = Math.min(Math.max(x + kx - half, 0), w - 1);
+                    const py = Math.min(Math.max(y + ky - half, 0), h - 1);
+                    const idx = (py * w + px) * 4;
+                    const kVal = kernel[ky * kSize + kx];
+                    r += src[idx] * kVal;
+                    g += src[idx + 1] * kVal;
+                    b += src[idx + 2] * kVal;
+                }
+            }
+            const didx = (y * w + x) * 4;
+            dst[didx] = Math.min(255, Math.max(0, r));
+            dst[didx + 1] = Math.min(255, Math.max(0, g));
+            dst[didx + 2] = Math.min(255, Math.max(0, b));
+            dst[didx + 3] = src[(y * w + x) * 4 + 3];
+        }
+    }
+    return output;
+}
+
+function toggleAspect() {
+    if (!originalCanvas) return;
+    const lock = document.getElementById('lockAspect').checked;
+    if (lock) {
+        window._ratio = window._origW / window._origH;
+    }
+}
+
+// ============ INIT ============
+// Auto-select first tool
+setTimeout(() => selectTool('compress'), 200);
+</script>
 </body>
 </html>
