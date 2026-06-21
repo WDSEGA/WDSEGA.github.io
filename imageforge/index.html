@@ -91,6 +91,17 @@ body {
     font-size: 3em; color: var(--border); margin-bottom: 8px;
 }
 .preview-pane .placeholder-text { font-size: 0.9em; color: var(--sub); }
+.size-info {
+    margin-top: 8px; padding: 6px 12px; background: rgba(99,102,241,0.1);
+    border-radius: 6px; font-size: 0.82em; color: var(--accent);
+    display: none;
+}
+.size-info .size-saved { color: var(--success); font-weight: 600; }
+.mosaic-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: crosshair; z-index: 20; }
+.mosaic-overlay .sel-rect { position: absolute; border: 2px dashed #f59e0b; background: rgba(245,158,11,0.1); pointer-events: none; display: none; }
+.text-drag-hint { font-size: 0.78em; color: var(--warning); margin-top: 4px; }
+.add-images-btn { background: rgba(99,102,241,0.15); border: 1px dashed var(--accent); color: var(--accent); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 0.85em; margin-top: 8px; }
+.add-images-btn:hover { background: rgba(99,102,241,0.25); }
 
 /* Tool Controls */
 .tool-panel {
@@ -265,6 +276,7 @@ body {
                 <span data-lang="en" style="display:none">📁 Choose File</span>
             </button>
             <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)" multiple>
+            <input type="file" id="fileInputAdd" accept="image/*" onchange="handleAddImages(event)" multiple style="display:none">
         </div>
 
         <!-- Preview Area -->
@@ -287,6 +299,7 @@ body {
                     <span data-lang="en" style="display:none">Processed</span>
                 </div>
                 <img id="afterImg" alt="Processed" style="display:none">
+                <div id="sizeInfo" class="size-info"></div>
                 <div class="placeholder" id="afterPlaceholder">✨</div>
                 <div class="placeholder-text" id="afterPlaceholderText">
                     <span data-lang="zh">处理后预览</span>
@@ -357,6 +370,7 @@ let originalCanvas = null;     // Canvas with loaded image
 let processedBlob = null;
 let processedDataUrl = null;
 let uploadedFiles = [];        // For multi-image tools
+let originalFileSize = 0;
 let recipeSteps = [];
 
 // ============ TOOL DEFINITIONS ============
@@ -472,6 +486,7 @@ function canvasToBlob(canvas, type, quality) {
 async function loadImage(file) {
     originalImage = await loadImageFromFile(file);
     originalCanvas = imageToCanvas(originalImage);
+    originalFileSize = file.size;
     processedBlob = null;
     processedDataUrl = null;
     showPreview();
@@ -512,6 +527,12 @@ function showPreview() {
         if (tool && tool.id === 'cleanwm') {
             setTimeout(function(){initCleanwmOverlay();},150);
         }
+        if (tool && tool.id === 'mosaic') {
+            setTimeout(function(){initMosaicOverlay();},150);
+        }
+        if (tool && tool.id === 'textposter') {
+            initPosterClick();
+        }
     }
 }
 
@@ -522,6 +543,19 @@ function showAfter(dataUrl) {
     document.getElementById('afterPlaceholder').style.display = 'none';
     document.getElementById('afterPlaceholderText').style.display = 'none';
     document.getElementById('downloadBtn').style.display = '';
+    // Show size comparison for compress tool
+    var si = document.getElementById('sizeInfo');
+    if (currentTool === 'compress' && originalFileSize > 0) {
+        var newSize = Math.round(dataUrl.length * 3 / 4);
+        var origKB = Math.round(originalFileSize / 1024 * 10) / 10;
+        var newKB = Math.round(newSize / 1024 * 10) / 10;
+        var saved = origKB > 0 ? Math.round((1 - newKB / origKB) * 100) : 0;
+        si.style.display = 'block';
+        si.innerHTML = '<span data-lang="zh">原大小:</span><span data-lang="en" style="display:none">Original:</span> ' + origKB + ' KB → <span class="size-saved">' + newKB + ' KB</span> (' + (saved > 0 ? '-' : '+') + Math.abs(saved) + '%)';
+        applyLangDisplay();
+    } else {
+        si.style.display = 'none';
+    }
 }
 
 // ============ FILE HANDLING ============
@@ -550,7 +584,37 @@ function handleFileSelect(e) {
     e.target.value = '';
 }
 
-// Drag & drop
+// Add more images for multi-image tools
+function addMoreImages() {
+    document.getElementById('fileInputAdd').click();
+}
+function handleAddImages(e) {
+    var files = Array.from(e.target.files);
+    if (!files.length) return;
+    // Append to existing uploadedFiles
+    for (var i = 0; i < files.length; i++) {
+        if (files[i].type.startsWith('image/')) {
+            uploadedFiles.push(files[i]);
+        }
+    }
+    refreshStitchFileList();
+    e.target.value = '';
+    showToast(lang==='zh'?'已添加 ' + files.length + ' 张图片，共 ' + uploadedFiles.length + ' 张':'Added ' + files.length + ' images, total ' + uploadedFiles.length);
+    // Load first as preview if none loaded yet
+    if (!originalImage && uploadedFiles.length > 0) {
+        loadImage(uploadedFiles[0]);
+    }
+}
+function refreshStitchFileList() {
+    var el = document.getElementById('stitchFileList');
+    if (!el) return;
+    if (!uploadedFiles.length) {
+        el.innerHTML = '<span data-lang="zh">尚未添加图片</span><span data-lang="en" style="display:none">No images added yet</span>';
+    } else {
+        el.innerHTML = (lang==='zh'?'已添加 ' + uploadedFiles.length + ' 张: ':'Added ' + uploadedFiles.length + ': ') + uploadedFiles.map(function(f){return f.name;}).join(', ');
+    }
+    applyLangDisplay();
+}
 document.addEventListener('DOMContentLoaded', () => {
     renderSidebar();
     const uz = document.getElementById('uploadZone');
@@ -569,7 +633,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ============ TOOL SELECTION ============
 function selectTool(toolId) {
+    // Clean up overlays
     if (cwmOvDiv) { var old=document.getElementById('cwmOverlay'); if(old)old.remove(); cwmOvDiv = null; }
+    if (mosOvDiv) { var old=document.getElementById('mosOverlay'); if(old)old.remove(); mosOvDiv = null; }
+    // Reset cursor
+    var bi = document.getElementById('beforeImg');
+    if (bi) bi.style.cursor = '';
     currentTool = toolId;
     document.querySelectorAll('.side-tool').forEach(s => s.classList.remove('active'));
     const side = document.getElementById('side-' + toolId);
@@ -722,9 +791,15 @@ function renderControls(tool) {
             `; break;
         case 'flip':
             tc.innerHTML = `
+                <p style="color:var(--sub);font-size:0.85em;margin-bottom:10px"><span data-lang="zh">镜像翻转</span><span data-lang="en" style="display:none">Mirror Flip</span></p>
                 <div class="preset-grid">
                     <button class="preset-btn" onclick="applyFlip('h')">↔️ <span data-lang="zh">水平翻转</span><span data-lang="en" style="display:none">Horizontal</span></button>
                     <button class="preset-btn" onclick="applyFlip('v')">↕️ <span data-lang="zh">垂直翻转</span><span data-lang="en" style="display:none">Vertical</span></button>
+                </div>
+                <p style="color:var(--sub);font-size:0.85em;margin:14px 0 8px"><span data-lang="zh">旋转</span><span data-lang="en" style="display:none">Rotate</span></p>
+                <div class="preset-grid">
+                    <button class="preset-btn" onclick="applyRotate('cw')">↻ <span data-lang="zh">顺时针90°</span><span data-lang="en" style="display:none">90° CW</span></button>
+                    <button class="preset-btn" onclick="applyRotate('ccw')">↺ <span data-lang="zh">逆时针90°</span><span data-lang="en" style="display:none">90° CCW</span></button>
                 </div>
             `; break;
         case 'adjust':
@@ -758,11 +833,24 @@ function renderControls(tool) {
             `; break;
         case 'mosaic':
             tc.innerHTML = `
+                <p style="color:var(--sub);font-size:0.85em;margin-bottom:10px"><span data-lang="zh">在左侧原图上拖动鼠标框选要打马赛克的区域，未框选则全图马赛克。</span><span data-lang="en" style="display:none">Drag on the original image to select mosaic area. Full image if no selection.</span></p>
                 <div class="form-group"><label><span data-lang="zh">马赛克块大小</span><span data-lang="en" style="display:none">Block Size</span>: <span class="range-val" id="mosVal">16</span></label>
-                <input type="range" id="mosaicSize" min="2" max="64" value="16" oninput="document.getElementById('mosVal').textContent=this.value"></div>
-            `; break;
+                <input type="range" id="mosaicSize" min="4" max="64" value="16" oninput="document.getElementById('mosVal').textContent=this.value"></div>
+                <div class="form-row">
+                    <div class="form-group"><label>X</label><input type="number" id="mosX" value="0" style="width:100%"></div>
+                    <div class="form-group"><label>Y</label><input type="number" id="mosY" value="0" style="width:100%"></div>
+                    <div class="form-group"><label>W</label><input type="number" id="mosW" value="0" style="width:100%"></div>
+                    <div class="form-group"><label>H</label><input type="number" id="mosH" value="0" style="width:100%"></div>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="applyMosaic()" style="margin-top:4px"><span data-lang="zh">🔲 打马赛克</span><span data-lang="en" style="display:none">🔲 Apply Mosaic</span></button>
+                <button class="btn btn-outline btn-sm" onclick="clearMosaicSel()" style="margin-top:4px"><span data-lang="zh">清除选区(全图)</span><span data-lang="en" style="display:none">Clear (Full Image)</span></button>
+                <div id="mosSelInfo" style="margin-top:6px;font-size:0.8em;color:var(--accent)"></div>
+            `;
+            initMosaicOverlay();
+            break;
         case 'palette':
-            tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">提取图片主色调，使用中位切分算法分析。</span><span data-lang="en" style="display:none">Extract dominant colors using Median Cut algorithm.</span></p>`; break;
+            tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em;margin-bottom:8px"><span data-lang="zh">提取图片的主色调配色方案。点击"应用处理"后自动分析并展示前12种主要颜色及对应HEX色码。</span><span data-lang="en" style="display:none">Extract dominant color palette. Click Apply to analyze and display top 12 colors with HEX codes.</span></p>
+                <p style="color:var(--warning);font-size:0.8em;margin-bottom:10px"><span data-lang="zh">💡 用途：设计师配色参考 / 品牌色提取 / UI主题色灵感</span><span data-lang="en" style="display:none">💡 Use: Designer color schemes / Brand color extraction / UI theme inspiration</span></p>`; break;
         case 'exif':
             tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">通过重新绘制图片去除所有EXIF/GPS/相机等隐私元数据。处理后图片在浏览器本地完成，数据不上传。</span><span data-lang="en" style="display:none">Strip all EXIF/GPS/camera metadata by re-rendering. Processing is local, no data upload.</span></p>`; break;
         case 'social':
@@ -782,34 +870,51 @@ function renderControls(tool) {
             `; break;
         case 'deviceframe':
             tc.innerHTML = `
+                <p style="color:var(--sub);font-size:0.85em;margin-bottom:8px"><span data-lang="zh">将截图包裹在仿真设备框中，适合用于应用商店截图、产品演示、PPT展示。</span><span data-lang="en" style="display:none">Wrap screenshots in realistic device frames. Perfect for app store screenshots, product demos, presentations.</span></p>
                 <div class="form-group"><label><span data-lang="zh">设备框类型</span><span data-lang="en" style="display:none">Frame Type</span></label>
                 <div class="preset-grid">
-                    <button class="preset-btn" onclick="applyDeviceFrame('browser')">🌐 <span data-lang="zh">浏览器</span><span data-lang="en" style="display:none">Browser</span></button>
-                    <button class="preset-btn" onclick="applyDeviceFrame('phone')">📱 <span data-lang="zh">手机</span><span data-lang="en" style="display:none">Phone</span></button>
+                    <button class="preset-btn" onclick="applyDeviceFrame('browser')">🌐 <span data-lang="zh">浏览器窗口</span><span data-lang="en" style="display:none">Browser</span></button>
+                    <button class="preset-btn" onclick="applyDeviceFrame('phone')">📱 <span data-lang="zh">手机屏幕</span><span data-lang="en" style="display:none">Phone</span></button>
                 </div>
             `; break;
         case 'stitch':
-            tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">请上传2张或更多图片（可从上方上传区拖入多张）。</span><span data-lang="en" style="display:none">Upload 2+ images (drag multiple to upload zone).</span></p>
-            <div class="form-group"><label><span data-lang="zh">拼接方向</span><span data-lang="en" style="display:none">Direction</span></label>
-            <div class="preset-grid"><button class="preset-btn" onclick="processStitch('h')">↔️ 横向</button><button class="preset-btn" onclick="processStitch('v')">↕️ 纵向</button><button class="preset-btn" onclick="processStitch('grid')">🔲 网格</button></div></div>
+            tc.innerHTML = `<p style="color:var(--sub);font-size:0.85em;margin-bottom:6px"><span data-lang="zh">从上方拖入2张或更多图片（或点下面按钮分次添加）。</span><span data-lang="en" style="display:none">Drag 2+ images to the upload zone above, or use the button below to add one at a time.</span></p>
+            <button class="add-images-btn" onclick="addMoreImages()" id="stitchAddBtn">📁 <span data-lang="zh">添加更多图片</span><span data-lang="en" style="display:none">Add More Images</span></button>
+            <div id="stitchFileList" style="margin-top:8px;font-size:0.82em;color:var(--sub)"></div>
+            <div class="form-group" style="margin-top:12px"><label><span data-lang="zh">拼接方向</span><span data-lang="en" style="display:none">Direction</span></label>
+            <div class="preset-grid"><button class="preset-btn" onclick="processStitch('h')">↔️ <span data-lang="zh">横向</span><span data-lang="en" style="display:none">Horizontal</span></button><button class="preset-btn" onclick="processStitch('v')">↕️ <span data-lang="zh">纵向</span><span data-lang="en" style="display:none">Vertical</span></button><button class="preset-btn" onclick="processStitch('grid')">🔲 <span data-lang="zh">网格</span><span data-lang="en" style="display:none">Grid</span></button></div></div>
             <div class="form-group"><label><span data-lang="zh">间距 (px)</span><span data-lang="en" style="display:none">Gap (px)</span>: <span class="range-val" id="stitchGapVal">4</span></label><input type="range" id="stitchGap" min="0" max="40" value="4" oninput="document.getElementById('stitchGapVal').textContent=this.value"></div>
-            `; break;
+            `;
+            refreshStitchFileList();
+            break;
         case 'gridcrop':
             tc.innerHTML = `
+                <p style="color:var(--sub);font-size:0.85em;margin-bottom:8px"><span data-lang="zh">将图片等分为 N×N 网格切片，自动下载全部切片。适合制作朋友圈九宫格、拼图素材。</span><span data-lang="en" style="display:none">Split image into N×N equal slices, auto-download all. Perfect for social media grids and puzzles.</span></p>
                 <div class="form-group"><label><span data-lang="zh">网格大小</span><span data-lang="en" style="display:none">Grid Size</span></label>
                 <div class="preset-grid">
                     <button class="preset-btn" onclick="processGridCrop(2)">2×2</button>
-                    <button class="preset-btn" onclick="processGridCrop(3)">3×3</button>
+                    <button class="preset-btn" onclick="processGridCrop(3)">3×3 <span data-lang="zh">(九宫格)</span><span data-lang="en" style="display:none">(Classic)</span></button>
                     <button class="preset-btn" onclick="processGridCrop(4)">4×4</button>
                 </div>
             `; break;
         case 'textposter':
             tc.innerHTML = `
-                <div class="form-group"><label><span data-lang="zh">海报文字</span><span data-lang="en" style="display:none">Poster Text</span></label><textarea id="posterText" rows="3">ImageForge Pro</textarea></div>
+                <div class="form-group"><label><span data-lang="zh">海报文字</span><span data-lang="en" style="display:none">Poster Text</span></label><textarea id="posterText" rows="2">ImageForge Pro</textarea></div>
                 <div class="form-group"><label><span data-lang="zh">字号</span><span data-lang="en" style="display:none">Font Size</span>: <span class="range-val" id="ptFsVal">48</span></label><input type="range" id="posterFontSize" min="16" max="200" value="48" oninput="document.getElementById('ptFsVal').textContent=this.value"></div>
-                <div class="form-group"><label><span data-lang="zh">位置</span><span data-lang="en" style="display:none">Position</span></label><select id="posterPos"><option value="bottom">底部</option><option value="top">顶部</option><option value="center">居中</option></select></div>
                 <div class="form-group"><label><span data-lang="zh">文字颜色</span><span data-lang="en" style="display:none">Text Color</span></label><input type="color" id="posterColor" value="#ffffff"></div>
-            `; break;
+                <div class="form-row">
+                    <div class="form-group"><label>X <span data-lang="zh">(横向位置像素)</span><span data-lang="en" style="display:none">(horiz px)</span></label><input type="number" id="posterX" value="0" style="width:100%"></div>
+                    <div class="form-group"><label>Y <span data-lang="zh">(纵向位置像素)</span><span data-lang="en" style="display:none">(vert px)</span></label><input type="number" id="posterY" value="0" style="width:100%"></div>
+                </div>
+                <div class="text-drag-hint"><span data-lang="zh">💡 提示：在左侧原图上点击即可定位文字位置</span><span data-lang="en" style="display:none">💡 Tip: Click on the original image to set text position</span></div>
+                <div class="preset-grid" style="margin-top:8px">
+                    <button class="preset-btn" onclick="posterPreset('bottom-center')"><span data-lang="zh">底部居中</span><span data-lang="en" style="display:none">Bottom Center</span></button>
+                    <button class="preset-btn" onclick="posterPreset('top-center')"><span data-lang="zh">顶部居中</span><span data-lang="en" style="display:none">Top Center</span></button>
+                    <button class="preset-btn" onclick="posterPreset('center')"><span data-lang="zh">正中央</span><span data-lang="en" style="display:none">Center</span></button>
+                </div>
+            `;
+            initPosterClick();
+            break;
         case 'base64':
             tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">生成图片的 Base64 Data URI，可直接嵌入 HTML/CSS。</span><span data-lang="en" style="display:none">Generate Base64 Data URI for direct HTML/CSS embedding.</span></p>`; break;
         case 'favicon':
@@ -826,7 +931,12 @@ function renderControls(tool) {
                 </div>
             `; break;
         case 'diff':
-            tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">请上传2张图片进行对比（可从上方上传区拖入2张）。</span><span data-lang="en" style="display:none">Upload 2 images to compare (drag 2 to upload zone).</span></p>`; break;
+            tc.innerHTML = `<p style="color:var(--sub);font-size:0.85em;margin-bottom:6px"><span data-lang="zh">对比两图差异。从上方拖入2张图片，或分次添加。</span><span data-lang="en" style="display:none">Compare two images. Upload 2 images or add one at a time.</span></p>
+            <button class="add-images-btn" onclick="addMoreImages()">📁 <span data-lang="zh">添加更多图片</span><span data-lang="en" style="display:none">Add More Images</span></button>
+            <div id="stitchFileList" style="margin-top:8px;font-size:0.82em;color:var(--sub)"></div>
+            `;
+            refreshStitchFileList();
+            break;
         case 'batchinfo':
             tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">请上传多张图片查看批量信息（可从上方上传区拖入多张）。</span><span data-lang="en" style="display:none">Upload multiple images to see batch info (drag to upload zone).</span></p>
             <div id="batchInfoTable"></div>`; break;
@@ -1329,6 +1439,24 @@ function applyFlip(dir) {
     applyTool();
 }
 
+function applyRotate(dir) {
+    if (!originalImage) return showToast(lang==='zh'?'请先上传图片':'Upload image first', true);
+    var canvas = document.createElement('canvas');
+    var iw = originalCanvas.width, ih = originalCanvas.height;
+    // Swap dimensions for 90° rotation
+    canvas.width = ih; canvas.height = iw;
+    var ctx = canvas.getContext('2d');
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    if (dir === 'cw') { ctx.rotate(Math.PI / 2); }
+    else { ctx.rotate(-Math.PI / 2); }
+    ctx.drawImage(originalImage, -iw / 2, -ih / 2);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    var url = canvas.toDataURL('image/png');
+    showAfter(url);
+    canvasToBlob(canvas, 'image/png').then(function(b) { processedBlob = b; });
+    showToast(lang==='zh'?'旋转完成':'Rotated');
+}
+
 // ---- COLOR (6) ----
 function onAdjustChange() {
     if (currentTool !== 'adjust' || !originalImage) return;
@@ -1416,22 +1544,136 @@ function applyEffect(type) {
     showToast(lang==='zh'?'特效已应用':'Effect applied');
 }
 
+// ---- MOSAIC with area selection ----
+var mosOvDiv = null, mosSel = false, mosSX = 0, mosSY = 0;
+function initMosaicOverlay() {
+    var pane = document.getElementById('beforePane');
+    if (!pane) return;
+    var old = document.getElementById('mosOverlay');
+    if (old) old.remove();
+    mosOvDiv = document.createElement('div');
+    mosOvDiv.id = 'mosOverlay';
+    mosOvDiv.className = 'mosaic-overlay';
+    pane.style.position = 'relative';
+    pane.appendChild(mosOvDiv);
+    var selRect = document.createElement('div');
+    selRect.id = 'mosSelRect';
+    selRect.className = 'sel-rect';
+    mosOvDiv.appendChild(selRect);
+
+    function getRelPos(e) {
+        var r = mosOvDiv.getBoundingClientRect();
+        return { x: e.clientX - r.left, y: e.clientY - r.top };
+    }
+    mosOvDiv.onmousedown = function(e) {
+        e.preventDefault();
+        var p = getRelPos(e); mosSX = p.x; mosSY = p.y; mosSel = true;
+    };
+    mosOvDiv.onmousemove = function(e) {
+        if (!mosSel) return; e.preventDefault();
+        var p = getRelPos(e);
+        var rx = Math.min(mosSX, p.x), ry = Math.min(mosSY, p.y);
+        var rw = Math.abs(p.x - mosSX), rh = Math.abs(p.y - mosSY);
+        var bi = document.getElementById('beforeImg');
+        var sX = mosOvDiv.offsetWidth / (bi.naturalWidth || originalCanvas.width);
+        var sY = mosOvDiv.offsetHeight / (bi.naturalHeight || originalCanvas.height);
+        document.getElementById('mosX').value = Math.round(rx / sX);
+        document.getElementById('mosY').value = Math.round(ry / sY);
+        document.getElementById('mosW').value = Math.max(1, Math.round(rw / sX));
+        document.getElementById('mosH').value = Math.max(1, Math.round(rh / sY));
+        var sr = document.getElementById('mosSelRect');
+        sr.style.display = 'block'; sr.style.left = rx + 'px'; sr.style.top = ry + 'px';
+        sr.style.width = rw + 'px'; sr.style.height = rh + 'px';
+    };
+    mosOvDiv.onmouseup = function(e) {
+        if (!mosSel) return; mosSel = false;
+        var p = getRelPos(e);
+        var bi = document.getElementById('beforeImg');
+        var sX = mosOvDiv.offsetWidth / (bi.naturalWidth || originalCanvas.width);
+        var sY = mosOvDiv.offsetHeight / (bi.naturalHeight || originalCanvas.height);
+        var fx = Math.round(Math.min(mosSX, p.x) / sX), fy = Math.round(Math.min(mosSY, p.y) / sY);
+        var fw = Math.max(1, Math.round(Math.abs(p.x - mosSX) / sX));
+        var fh = Math.max(1, Math.round(Math.abs(p.y - mosSY) / sY));
+        document.getElementById('mosX').value = fx; document.getElementById('mosY').value = fy;
+        document.getElementById('mosW').value = fw; document.getElementById('mosH').value = fh;
+        var info = document.getElementById('mosSelInfo');
+        if (info) info.textContent = (lang==='zh'?'已选区: ':'Selected: ') + '(' + fx + ',' + fy + ') ' + fw + 'x' + fh;
+    };
+}
+
+function clearMosaicSel() {
+    document.getElementById('mosX').value = 0;
+    document.getElementById('mosY').value = 0;
+    document.getElementById('mosW').value = 0;
+    document.getElementById('mosH').value = 0;
+    var sr = document.getElementById('mosSelRect');
+    if (sr) sr.style.display = 'none';
+    var info = document.getElementById('mosSelInfo');
+    if (info) info.textContent = lang==='zh'?'将处理全图':'Will process full image';
+    applyMosaic();
+}
+
+function applyMosaic() {
+    if (!originalCanvas) return showToast(lang==='zh'?'请先上传图片':'Upload image first', true);
+    var blockSize = parseInt(document.getElementById('mosaicSize').value) || 16;
+    var mx = parseInt(document.getElementById('mosX').value) || 0;
+    var my = parseInt(document.getElementById('mosY').value) || 0;
+    var mw = parseInt(document.getElementById('mosW').value) || 0;
+    var mh = parseInt(document.getElementById('mosH').value) || 0;
+
+    var canvas = document.createElement('canvas');
+    canvas.width = originalCanvas.width; canvas.height = originalCanvas.height;
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(originalImage, 0, 0);
+
+    if (mw > 1 && mh > 1 && mx >= 0 && my >= 0 && mx + mw <= originalCanvas.width && my + mh <= originalCanvas.height) {
+        // Apply mosaic only to selected area
+        var regionData = ctx.getImageData(mx, my, mw, mh);
+        var bs = Math.max(2, blockSize);
+        for (var ry = 0; ry < mh; ry += bs) {
+            for (var rx = 0; rx < mw; rx += bs) {
+                var r = 0, g = 0, b = 0, a = 0, count = 0;
+                for (var dy = 0; dy < bs && ry + dy < mh; dy++) {
+                    for (var dx = 0; dx < bs && rx + dx < mw; dx++) {
+                        var idx = ((ry + dy) * mw + (rx + dx)) * 4;
+                        r += regionData.data[idx]; g += regionData.data[idx + 1];
+                        b += regionData.data[idx + 2]; a += regionData.data[idx + 3];
+                        count++;
+                    }
+                }
+                if (count === 0) continue;
+                r = Math.round(r / count); g = Math.round(g / count);
+                b = Math.round(b / count); a = Math.round(a / count);
+                for (var dy = 0; dy < bs && ry + dy < mh; dy++) {
+                    for (var dx = 0; dx < bs && rx + dx < mw; dx++) {
+                        var idx = ((ry + dy) * mw + (rx + dx)) * 4;
+                        regionData.data[idx] = r; regionData.data[idx + 1] = g;
+                        regionData.data[idx + 2] = b; regionData.data[idx + 3] = a;
+                    }
+                }
+            }
+        }
+        ctx.putImageData(regionData, mx, my);
+    } else {
+        // Full image mosaic
+        var smallW = Math.max(1, Math.floor(originalCanvas.width / blockSize));
+        var smallH = Math.max(1, Math.floor(originalCanvas.height / blockSize));
+        var tmp = document.createElement('canvas');
+        tmp.width = smallW; tmp.height = smallH;
+        tmp.getContext('2d').drawImage(originalImage, 0, 0, smallW, smallH);
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(tmp, 0, 0, canvas.width, canvas.height);
+    }
+
+    var url = canvas.toDataURL('image/png');
+    showAfter(url);
+    canvasToBlob(canvas, 'image/png').then(function(b) { processedBlob = b; });
+    showToast(lang==='zh'?'马赛克已应用':'Mosaic applied');
+}
+
 function processMosaic(canvas) {
-    const blockSize = parseInt(document.getElementById('mosaicSize').value);
-    const smallW = Math.max(1, Math.floor(originalCanvas.width / blockSize));
-    const smallH = Math.max(1, Math.floor(originalCanvas.height / blockSize));
-
-    // Scale down
-    const tmp = document.createElement('canvas');
-    tmp.width = smallW; tmp.height = smallH;
-    tmp.getContext('2d').drawImage(originalImage, 0, 0, smallW, smallH);
-
-    // Scale up with nearest-neighbor
-    canvas.width = originalCanvas.width;
-    canvas.height = originalCanvas.height;
-    const ctx = canvas.getContext('2d');
-    ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(tmp, 0, 0, canvas.width, canvas.height);
+    // This is the old full-image version, redirected to applyMosaic
+    applyMosaic();
 }
 
 function processPalette(canvas) {
@@ -1459,10 +1701,11 @@ function processPalette(canvas) {
     sorted.forEach(([key]) => {
         const [r,g,b] = key.split(',').map(Number);
         const hex = '#' + [r,g,b].map(v => v.toString(16).padStart(2,'0')).join('');
-        swatchesHtml += `<div class="palette-swatch" style="background:${hex}"><div class="hex">${hex}</div></div>`;
+        swatchesHtml += `<div class="palette-swatch" style="background:${hex};cursor:pointer" onclick="copyHex('${hex}')" title="${lang==='zh'?'点击复制':'Click to copy'} ${hex}"><div class="hex">${hex}</div></div>`;
     });
     swatchesHtml += '</div><div style="clear:both;padding-top:30px"></div>';
-    document.getElementById('toolControls').innerHTML += swatchesHtml;
+    swatchesHtml += '<p style="color:var(--sub);font-size:0.75em;margin-top:8px"><span data-lang="zh">点击色块复制 HEX 色码</span><span data-lang="en" style="display:none">Click swatch to copy HEX</span></p>';
+    document.getElementById('toolExtra').innerHTML = swatchesHtml;
 
     // Also show as a color bar preview
     const barCanvas = document.createElement('canvas');
@@ -1732,39 +1975,69 @@ function downloadSlice(idx) {
 }
 
 function processTextPoster(canvas) {
-    const text = document.getElementById('posterText').value || 'ImageForge Pro';
-    const fontSize = parseInt(document.getElementById('posterFontSize').value);
-    const pos = document.getElementById('posterPos').value;
-    const color = document.getElementById('posterColor').value;
+    var text = document.getElementById('posterText').value || 'ImageForge Pro';
+    var fontSize = parseInt(document.getElementById('posterFontSize').value) || 48;
+    var color = document.getElementById('posterColor').value || '#ffffff';
+    var px = parseInt(document.getElementById('posterX').value) || null;
+    var py = parseInt(document.getElementById('posterY').value) || null;
 
     canvas.width = originalCanvas.width;
     canvas.height = originalCanvas.height;
-    const ctx = canvas.getContext('2d');
+    var ctx = canvas.getContext('2d');
     ctx.drawImage(originalImage, 0, 0);
 
+    ctx.font = 'bold ' + fontSize + 'px sans-serif';
+    var tw = ctx.measureText(text).width;
+    var th = fontSize;
+
+    // Default to center if no position set
+    if (px === null || isNaN(px)) px = Math.round((canvas.width - tw) / 2);
+    if (py === null || isNaN(py)) py = Math.round(canvas.height / 2);
+
+    // Clamp to image bounds
+    px = Math.max(0, Math.min(px, canvas.width - tw));
+    py = Math.max(th, Math.min(py, canvas.height));
+
     // Semi-transparent background bar
-    ctx.font = `bold ${fontSize}px sans-serif`;
-    const metrics = ctx.measureText(text);
-    const tw = metrics.width, th = fontSize;
-    const barH = th + 40;
-    let barY;
-
-    switch(pos) {
-        case 'bottom': barY = canvas.height - barH; break;
-        case 'top': barY = 0; break;
-        case 'center': barY = (canvas.height - barH) / 2; break;
-        default: barY = canvas.height - barH;
-    }
-
+    var barPad = 20;
     ctx.fillStyle = 'rgba(0,0,0,0.5)';
-    ctx.fillRect(0, barY, canvas.width, barH);
+    ctx.fillRect(px - barPad, py - th - barPad/2, tw + barPad * 2, th + barPad);
 
     // Text
-    const tx = (canvas.width - tw) / 2;
-    const ty = barY + th + 10;
     ctx.fillStyle = color;
-    ctx.font = `bold ${fontSize}px sans-serif`;
-    ctx.fillText(text, tx, ty);
+    ctx.font = 'bold ' + fontSize + 'px sans-serif';
+    ctx.fillText(text, px, py);
+}
+
+function posterPreset(pos) {
+    if (!originalCanvas) return;
+    var cw = originalCanvas.width, ch = originalCanvas.height;
+    var fs = parseInt(document.getElementById('posterFontSize').value) || 48;
+    var ptx = document.getElementById('posterText').value || 'ImageForge Pro';
+    // Estimate text width
+    var tmpCanvas = document.createElement('canvas');
+    var tmpCtx = tmpCanvas.getContext('2d');
+    tmpCtx.font = 'bold ' + fs + 'px sans-serif';
+    var tw = tmpCtx.measureText(ptx).width;
+    if (pos === 'bottom-center') { document.getElementById('posterX').value = Math.round((cw - tw) / 2); document.getElementById('posterY').value = ch - 30; }
+    else if (pos === 'top-center') { document.getElementById('posterX').value = Math.round((cw - tw) / 2); document.getElementById('posterY').value = fs + 30; }
+    else { document.getElementById('posterX').value = Math.round((cw - tw) / 2); document.getElementById('posterY').value = Math.round(ch / 2); }
+}
+
+function initPosterClick() {
+    var bi = document.getElementById('beforeImg');
+    if (!bi) return;
+    bi.style.cursor = 'crosshair';
+    bi.onclick = function(e) {
+        var rect = bi.getBoundingClientRect();
+        var scaleX = (bi.naturalWidth || originalCanvas.width) / rect.width;
+        var scaleY = (bi.naturalHeight || originalCanvas.height) / rect.height;
+        var x = Math.round((e.clientX - rect.left) * scaleX);
+        var y = Math.round((e.clientY - rect.top) * scaleY);
+        document.getElementById('posterX').value = x;
+        document.getElementById('posterY').value = y;
+        showToast(lang==='zh'?'文字位置: (' + x + ', ' + y + ')':'Text at: (' + x + ', ' + y + ')');
+    };
 }
 
 // ---- DEV (4) ----
@@ -1794,6 +2067,14 @@ function copyBase64() {
             showToast(lang==='zh'?'已复制到剪贴板':'Copied to clipboard');
         }).catch(() => showToast(lang==='zh'?'复制失败':'Copy failed', true));
     }
+}
+
+function copyHex(hex) {
+    navigator.clipboard.writeText(hex).then(function() {
+        showToast(hex + ' ' + (lang==='zh'?'已复制':'copied'));
+    }).catch(function() {
+        showToast(lang==='zh'?'复制失败':'Copy failed', true);
+    });
 }
 
 function processFavicon(canvas) {
