@@ -2494,3 +2494,49 @@ setTimeout(() => selectTool('compress'), 200);
 </script>
 </body>
 </html>
+
+// ---- Text Poster Drag Improvements (appended) ----
+function initPosterDrag() {
+    var pane = document.getElementById('beforePane');
+    if (!pane || !originalImage) return;
+    var old = document.getElementById('posterPreviewBox');
+    if (old) old.remove();
+    var box = document.createElement('div');
+    box.id = 'posterPreviewBox';
+    box.style.cssText = 'position:absolute;cursor:move;padding:8px 14px;border-radius:6px;font-weight:bold;pointer-events:auto;z-index:30;max-width:80%;word-break:break-word;user-select:none;';
+    box.style.left = '50%';
+    box.style.top = '50%';
+    box.style.transform = 'translate(-50%,-50%)';
+    box.style.color = '#ffffff';
+    box.style.background = 'rgba(0,0,0,0.5)';
+    pane.style.position = 'relative';
+    pane.appendChild(box);
+    var dragging = false, sx, sy, ol, ot;
+    box.addEventListener('mousedown', function(e) {
+        dragging = true; sx = e.clientX; sy = e.clientY;
+        var r = box.getBoundingClientRect(), pr = pane.getBoundingClientRect();
+        ol = r.left - pr.left; ot = r.top - pr.top;
+        e.preventDefault(); e.stopPropagation();
+    });
+    document.addEventListener('mousemove', function(e) {
+        if (!dragging) return;
+        box.style.left = (ol + e.clientX - sx) + 'px';
+        box.style.top = (ot + e.clientY - sy) + 'px';
+        box.style.transform = '';
+    });
+    document.addEventListener('mouseup', function() { dragging = false; });
+    updatePosterPreview();
+}
+function updatePosterPreview() {
+    var box = document.getElementById('posterPreviewBox');
+    if (!box) return;
+    var text = document.getElementById('posterText').value || 'ImageForge Pro';
+    var fontSize = parseInt(document.getElementById('posterFontSize').value) || 48;
+    var color = document.getElementById('posterColor').value || '#ffffff';
+    var bgOpacity = (parseInt(document.getElementById('posterBgOpacity').value) || 5) / 10;
+    box.textContent = text;
+    box.style.fontSize = Math.round(fontSize * 0.4) + 'px';
+    box.style.color = color;
+    box.style.background = 'rgba(0,0,0,' + bgOpacity + ')';
+    box.style.display = text ? '' : 'none';
+}
