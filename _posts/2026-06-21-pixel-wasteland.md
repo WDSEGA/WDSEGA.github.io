@@ -3,7 +3,7 @@ layout: post
 title: "像素荒原 | The Pixel Wasteland"
 date: 2026-06-21 16:00:00 +0800
 categories: [科幻小说, 短篇]
-tags: [科幻, 数字世界, 短篇小说]
+tags: [科幻小说, 数字世界, 短篇小说]
 ---
 
 老段在一片废弃的服务器机房里找到了一双鞋。
