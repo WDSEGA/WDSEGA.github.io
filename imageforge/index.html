@@ -2787,12 +2787,12 @@ function extractStamp() {
     showToast(lang==='zh'?'图章提取完成！可下载或继续盖章':'Stamp extracted! Download or apply');
     var btn=document.getElementById('stampApplyFromExtractBtn');
     if (btn) btn.disabled=false;
-}
     // Show preview and download buttons
     var wrap = document.getElementById('stampExtractPreviewWrap');
     if (wrap) wrap.style.display = '';
     var dlBtns = document.getElementById('stampDownloadBtns');
     if (dlBtns) dlBtns.style.display = '';
+}
 
 function downloadStamp(format) {
     if (!stampImg) return showToast(lang==='zh'?'请先提取图章':'Extract stamp first', true);
@@ -2898,7 +2898,12 @@ function renderStampApplyPreview() {
 
 function processStamp(canvas) {
     if (!stampApplyImg) return showToast(lang==='zh'?'请先导入图章图片':'Import stamp image first', true);
+    // Initialize canvas with original image
+    canvas.width = originalCanvas.width;
+    canvas.height = originalCanvas.height;
     var ctx=canvas.getContext('2d');
+    ctx.drawImage(originalImage, 0, 0);
+    // Apply stamp overlay
     var op=parseFloat(document.getElementById('stampOpacity')?document.getElementById('stampOpacity').value/100:0.85);
     ctx.globalAlpha=op;
     var pa=document.getElementById('previewArea');
@@ -2908,7 +2913,8 @@ function processStamp(canvas) {
     var sh=stampApplyH/pa.offsetHeight*canvas.height;
     ctx.drawImage(stampApplyImg,sx,sy,sw,sh);
     ctx.globalAlpha=1.0;
-    showAfter(canvas.toDataURL('image/png'));
+    processedDataUrl = canvas.toDataURL('image/png');
+    showAfter(processedDataUrl);
     showToast(lang==='zh'?'图章已加盖！可下载':'Stamp applied! Download ready');
 }
 
