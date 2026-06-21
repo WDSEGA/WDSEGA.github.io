@@ -3,7 +3,7 @@ layout: post
 title: "深渊来信 | Letter from the Abyss"
 date: 2026-06-21 14:00:00 +0800
 categories: [科幻小说, 短篇]
-tags: [科幻, 深海, 短篇小说]
+tags: [科幻小说, 深海, 短篇小说]
 ---
 
 马里亚纳海沟，10994米深处。
