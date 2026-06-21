@@ -712,6 +712,7 @@ function renderControls(tool) {
             });
             initCleanwmOverlay();
             break;
+        case 'alpha2white':
             tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">将PNG透明背景替换为白色背景，适合电商平台上传。</span><span data-lang="en" style="display:none">Replace transparent background with white, perfect for e-commerce platforms.</span></p>`; break;
         case 'rounded':
             tc.innerHTML = `
@@ -850,6 +851,8 @@ function applyTool() {
     const tool = TOOLS.find(t => t.id === currentTool);
     if (!tool) return;
 
+    processedDataUrl = null; // Reset so we can detect if tool handled output internally
+
     try {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
@@ -883,9 +886,12 @@ function applyTool() {
             default: return;
         }
 
-        const dataUrl = canvas.toDataURL('image/png');
-        showAfter(dataUrl);
-        canvasToBlob(canvas, 'image/png').then(b => { processedBlob = b; });
+        // Only auto-generate PNG output if the tool didn't already set processedDataUrl
+        if (!processedDataUrl) {
+            const dataUrl = canvas.toDataURL('image/png');
+            showAfter(dataUrl);
+            canvasToBlob(canvas, 'image/png').then(b => { processedBlob = b; });
+        }
         showToast(lang==='zh'?'处理完成！':'Done!');
     } catch(e) {
         showToast((lang==='zh'?'处理失败: ':'Error: ') + e.message, true);
@@ -1886,41 +1892,40 @@ function processDiff(canvas) {
         ctx.strokeStyle = '#6366f1'; ctx.lineWidth = 2;
         ctx.beginPath(); ctx.moveTo(maxW + 2, 0); ctx.lineTo(maxW + 2, maxH); ctx.stroke();
 
-        // Diff overlay
+        // Diff overlay: compare pixels and highlight differences
         const c1 = document.createElement('canvas'); c1.width = img1.naturalWidth; c1.height = img1.naturalHeight;
         c1.getContext('2d').drawImage(img1, 0, 0);
         const d1 = c1.getContext('2d').getImageData(0, 0, c1.width, c1.height);
         const c2 = document.createElement('canvas'); c2.width = img2.naturalWidth; c2.height = img2.naturalHeight;
-        c2.getContext('2d').drawImage(img2, 0, 0);
-        const d2 = c2.getContext('2d').getImageData(0, 0, c2.width, c2.height);
+        const c2ctx = c2.getContext('2d');
+        c2ctx.drawImage(img2, 0, 0);
+        const d2 = c2ctx.getImageData(0, 0, c2.width, c2.height);
 
-        // Highlight differences
+        // Highlight differences in d2 data
         const minW = Math.min(img1.naturalWidth, img2.naturalWidth);
         const minH = Math.min(img1.naturalHeight, img2.naturalHeight);
         let diffCount = 0;
         for (let y = 0; y < minH; y += 4) {
             for (let x = 0; x < minW; x += 4) {
-                const idx = (y * c1.width + x) * 4;
+                const idx = (y * c2.width + x) * 4;
                 const diff = Math.abs(d1.data[idx] - d2.data[idx]) + Math.abs(d1.data[idx+1] - d2.data[idx+1]) + Math.abs(d1.data[idx+2] - d2.data[idx+2]);
                 if (diff > 30) {
                     diffCount++;
-                    for (let dy = 0; dy < 4 && y + dy < maxH; dy++) {
-                        for (let dx = 0; dx < 4 && x + dx < maxW; dx++) {
-                            const pxl = ((y+dy) * (maxW*2+4) + (maxW+4+x+dx)) * 4;
-                            if (pxl + 3 < d2.data.length) {
-                                d2.data[pxl] = 255;
-                                d2.data[pxl+1] = 50;
-                                d2.data[pxl+2] = 50;
-                            }
+                    for (let dy = 0; dy < 4 && y + dy < minH; dy++) {
+                        for (let dx = 0; dx < 4 && x + dx < minW; dx++) {
+                            const pxl = ((y+dy) * c2.width + (x+dx)) * 4;
+                            d2.data[pxl] = 255;
+                            d2.data[pxl+1] = 50;
+                            d2.data[pxl+2] = 50;
                         }
                     }
                 }
             }
         }
-        // Draw highlighted second image
-        const diffCanvas = document.createElement('canvas');
-        diffCanvas.width = maxW; diffCanvas.height = maxH;
-        diffCanvas.getContext('2d').drawImage(img2, 0, 0, maxW, maxH);
+        // Apply highlighted diff back to c2 canvas
+        c2ctx.putImageData(d2, 0, 0);
+        // Draw highlighted img2 on right side
+        ctx.drawImage(c2, maxW + 4, 0, maxW, maxH);
 
         const url = canvas.toDataURL('image/png');
         showAfter(url);
@@ -1934,14 +1939,27 @@ function processBatchInfo() {
     if (!uploadedFiles.length) return showToast(lang==='zh'?'请上传多张图片':'Upload multiple images', true);
 
     let tableHtml = '<table class="info-table"><tr><th>#</th><th>Name</th><th>Dimensions</th><th>Type</th><th>Size</th></tr>';
+    let loaded = 0;
     uploadedFiles.forEach((f, i) => {
         const url = URL.createObjectURL(f);
         const img = new Image();
         img.onload = function() {
+            loaded++;
             tableHtml += `<tr><td>${i+1}</td><td>${f.name}</td><td>${img.naturalWidth}x${img.naturalHeight}</td><td>${f.type}</td><td>${(f.size/1024).toFixed(1)} KB</td></tr>`;
-            if (i === uploadedFiles.length - 1) {
+            if (loaded === uploadedFiles.length) {
                 tableHtml += '</table>';
-                document.getElementById('batchInfoTable').innerHTML = tableHtml;
+                var el = document.getElementById('batchInfoTable');
+                if (el) el.innerHTML = tableHtml;
+            }
+            URL.revokeObjectURL(url);
+        };
+        img.onerror = function() {
+            loaded++;
+            tableHtml += `<tr><td>${i+1}</td><td>${f.name}</td><td>N/A</td><td>${f.type}</td><td>${(f.size/1024).toFixed(1)} KB</td></tr>`;
+            if (loaded === uploadedFiles.length) {
+                tableHtml += '</table>';
+                var el = document.getElementById('batchInfoTable');
+                if (el) el.innerHTML = tableHtml;
             }
             URL.revokeObjectURL(url);
         };
