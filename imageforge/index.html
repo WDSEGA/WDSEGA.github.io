@@ -3014,9 +3014,14 @@ function loadStampApplyImg(src) {
     var img = new Image();
     img.onload = function () {
         stampApplyImg = img;
-        var pa = document.getElementById('previewArea');
-        stampApplyX = (pa.offsetWidth - img.width) / 2;
-        stampApplyY = (pa.offsetHeight - img.height) / 2;
+        var bp = document.getElementById('beforePane');
+        // Calculate content area inside beforePane (excluding padding)
+        var cs = getComputedStyle(bp);
+        var pl = parseFloat(cs.paddingLeft) || 0, pt = parseFloat(cs.paddingTop) || 0;
+        var contentW = bp.offsetWidth - pl - parseFloat(cs.paddingRight) || 0;
+        var contentH = bp.offsetHeight - pt - parseFloat(cs.paddingBottom) || 0;
+        stampApplyX = pl + Math.max(0, (contentW - img.width) / 2);
+        stampApplyY = pt + Math.max(0, (contentH - img.height) / 2);
         stampApplyW = img.width; stampApplyH = img.height;
         renderStampApplyPreview();
         enableStampApplyDrag();
@@ -3025,11 +3030,11 @@ function loadStampApplyImg(src) {
 }
 
 function enableStampApplyDrag() {
-    var pa = document.getElementById('previewArea');
-    pa.style.position = 'relative';
-    pa.onmousedown = function (e) {
+    var bp = document.getElementById('beforePane');
+    if (!bp.style.position) bp.style.position = 'relative';
+    bp.onmousedown = function (e) {
         if (stampMode !== 'apply' || !stampApplyImg) return;
-        var rect = pa.getBoundingClientRect();
+        var rect = bp.getBoundingClientRect();
         var mx = e.clientX - rect.left, my = e.clientY - rect.top;
         var ch = 12;
         var corners = [[stampApplyX, stampApplyY], [stampApplyX + stampApplyW, stampApplyY], [stampApplyX, stampApplyY + stampApplyH], [stampApplyX + stampApplyW, stampApplyY + stampApplyH]];
@@ -3046,9 +3051,9 @@ function enableStampApplyDrag() {
             e.preventDefault(); e.stopPropagation();
         }
     };
-    pa.onmousemove = function (e) {
-        if (!stampApplyImg) return;
-        var rect = pa.getBoundingClientRect();
+    bp.onmousemove = function (e) {
+        if (!stampApplyImg || (!stampApplyDrag && !stampApplyResize)) return;
+        var rect = bp.getBoundingClientRect();
         var mx = e.clientX - rect.left, my = e.clientY - rect.top;
         if (stampApplyResize) {
             if (stampApplyResizeCorner === 0) { stampApplyW += stampApplyX - mx; stampApplyH += stampApplyY - my; stampApplyX = mx; stampApplyY = my; }
@@ -3065,20 +3070,21 @@ function enableStampApplyDrag() {
             e.preventDefault(); e.stopPropagation();
         }
     };
-    pa.onmouseup = function (e) { stampApplyDrag = false; stampApplyResize = false; };
+    bp.onmouseup = function (e) { stampApplyDrag = false; stampApplyResize = false; };
 }
 
 function renderStampApplyPreview() {
     if (!stampApplyImg) return;
-    var pa = document.getElementById('previewArea');
+    var bp = document.getElementById('beforePane');
+    if (!bp.style.position) bp.style.position = 'relative';
     var cv = document.getElementById('stampApplyCanvas');
     if (!cv) {
         cv = document.createElement('canvas');
         cv.id = 'stampApplyCanvas';
         cv.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:26;';
-        pa.appendChild(cv);
+        bp.appendChild(cv);
     }
-    cv.width = pa.offsetWidth; cv.height = pa.offsetHeight;
+    cv.width = bp.offsetWidth; cv.height = bp.offsetHeight;
     var ctx = cv.getContext('2d');
     ctx.clearRect(0, 0, cv.width, cv.height);
     var op = parseFloat(document.getElementById('stampOpacity') ? document.getElementById('stampOpacity').value / 100 : 0.85);
@@ -3094,21 +3100,30 @@ function renderStampApplyPreview() {
 // ---- Apply stamp to final image ----
 function processStamp(canvas) {
     if (!stampApplyImg) return showToast(lang === 'zh' ? '请先导入图章图片' : 'Import stamp image first', true);
-    // Remove stamp overlay canvas from preview area before final render
+    // Remove stamp overlay canvas before final render
     var ac = document.getElementById('stampApplyCanvas'); if (ac) ac.remove();
     // Initialize canvas with original image
     canvas.width = originalCanvas.width;
     canvas.height = originalCanvas.height;
     var ctx = canvas.getContext('2d');
     ctx.drawImage(originalImage, 0, 0);
-    // Apply stamp overlay — map from beforePane (where user dragged) to canvas
+    // Map stamp position using actual image display area within beforePane
     var op = parseFloat(document.getElementById('stampOpacity') ? document.getElementById('stampOpacity').value / 100 : 0.85);
     ctx.globalAlpha = op;
+    var bi = document.getElementById('beforeImg');
     var bp = document.getElementById('beforePane');
-    var sx = (stampApplyX - bp.offsetLeft) / bp.offsetWidth * canvas.width;
-    var sy = (stampApplyY - bp.offsetTop) / bp.offsetHeight * canvas.height;
-    var sw = stampApplyW / bp.offsetWidth * canvas.width;
-    var sh = stampApplyH / bp.offsetHeight * canvas.height;
+    var bpRect = bp.getBoundingClientRect();
+    var imgRect = bi.getBoundingClientRect();
+    // Image display area within beforePane (both in same viewport coords via getBoundingClientRect)
+    var imgLeft = imgRect.left - bpRect.left;
+    var imgTop = imgRect.top - bpRect.top;
+    var imgW = imgRect.width;
+    var imgH = imgRect.height;
+    // Map from beforePane display coords → original image canvas coords
+    var sx = (stampApplyX - imgLeft) / imgW * canvas.width;
+    var sy = (stampApplyY - imgTop) / imgH * canvas.height;
+    var sw = stampApplyW / imgW * canvas.width;
+    var sh = stampApplyH / imgH * canvas.height;
     ctx.drawImage(stampApplyImg, sx, sy, sw, sh);
     ctx.globalAlpha = 1.0;
     processedDataUrl = canvas.toDataURL('image/png');
