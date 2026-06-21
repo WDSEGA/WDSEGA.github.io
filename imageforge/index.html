@@ -213,7 +213,7 @@ body {
     .preview-area { flex-direction: column; }
 }
 
-/* Marketing section (below tool) */
+/* Marketing section (above tool panel) */
 .marketing { border-top: 3px solid var(--accent); padding: 40px 24px; }
 .marketing h2 { font-size: 1.6em; color: #fff; text-align: center; margin-bottom: 8px; }
 .marketing .subtitle { text-align: center; color: var(--sub); margin-bottom: 32px; }
@@ -318,7 +318,7 @@ body {
         <!-- Marketing Section (shown before tool panel) -->
         <div class="marketing" id="marketingSection">
             <h2><span data-lang="zh">ImageForge Pro — 功能亮点</span><span data-lang="en" style="display:none">ImageForge Pro — Key Features</span></h2>
-            <p class="subtitle"><span data-lang="zh">26 项专业工具，全部免费在线使用。完整离线版 $9.99 买断。</span><span data-lang="en" style="display:none">26 professional tools, all free online. Full offline version $9.99 one-time.</span></p>
+            <p class="subtitle"><span data-lang="zh">26 项专业工具，全部免费在线使用。完整离线版 ￥9.99 买断。</span><span data-lang="en" style="display:none">26 professional tools, all free online. Full offline version $9.99 one-time.</span></p>
             <div class="feature-grid">
                 <div class="feature-card"><strong>🛠️ 26 项工具</strong><p data-lang="zh">智能压缩、批量处理、印章提取、AI 抠图、水印清理、格式转换、滤镜调色、拼图制 GIF 等，一站式搞定。</p><p data-lang="en" style="display:none">Compress, batch, stamp extract, AI BG remove, watermark clean, convert, filters, collage, GIF — all in one.</p></div>
                 <div class="feature-card"><strong>🔒 100% 离线</strong><p data-lang="zh">图片永不离开你的设备，零云端上传，零隐私风险。纯浏览器端处理，敏感图片也安心。</p><p data-lang="en" style="display:none">Images never leave your device. Zero cloud upload, zero privacy risk. Pure browser-side processing.</p></div>
@@ -362,7 +362,7 @@ body {
 <div class="purchase-bar">
     <h3><span data-lang="zh">💻 获取完整离线版本</span><span data-lang="en" style="display:none">💻 Get Full Offline Version</span></h3>
     <p><span data-lang="zh">在线版完全免费可用。购买完整版获得 ZIP 包（含源码、README、产品图、免责声明），Python 3.8+ 一键运行。</span><span data-lang="en" style="display:none">Online version is fully free. Purchase full version for ZIP package (source, README, images, disclaimer). Python 3.8+, one command to run.</span></p>
-    <a href="https://payhip.com/b/h0EFC" class="buy-btn">🛒 <span data-lang="zh">购买完整版 — $9.99</span><span data-lang="en" style="display:none">Buy Full Version — $9.99</span></a>
+    <a href="https://payhip.com/b/h0EFC" class="buy-btn">🛒 <span data-lang="zh">购买完整版 — ￥9.99</span><span data-lang="en" style="display:none">Buy Full Version — $9.99</span></a>
     <p style="color:#64748b;font-size:0.8em;margin-top:16px"><span data-lang="zh">一次性买断 · 终身免费更新 · v1.0.1 含 26 项功能</span><span data-lang="en" style="display:none">One-time purchase · Lifetime free updates · v1.0.1 with 26 features</span></p>
 </div>
 
@@ -515,6 +515,7 @@ function showPreview() {
     pa.classList.remove('hidden');
     tp.classList.remove('hidden');
     gt.classList.add('hidden');
+    document.getElementById('marketingSection').classList.add('hidden');
 
     if (originalImage) {
         document.getElementById('beforeImg').src = originalImage.src;
@@ -1166,6 +1167,7 @@ function resetTool() {
     document.getElementById('previewArea').classList.add('hidden');
     document.getElementById('toolPanel').classList.add('hidden');
     document.getElementById('guideTip').classList.remove('hidden');
+    document.getElementById('marketingSection').classList.remove('hidden');
     document.getElementById('toolControls').innerHTML = '';
     document.getElementById('toolExtra').innerHTML = '';
     document.getElementById('fileInput').value = '';
