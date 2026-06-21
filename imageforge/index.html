@@ -568,6 +568,8 @@ function handleFileSelect(e) {
 
     if (multi) {
         uploadedFiles = files;
+        // Show toast for multi-image upload
+        showToast(lang==='zh' ? '已上传 ' + files.length + ' 张图片，可继续添加' : 'Uploaded ' + files.length + ' images, you can add more');
         // Load first as preview
         loadImage(files[0]).then(() => {
             if (tool.needsCropUI && files.length >= 2) {
@@ -633,9 +635,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ============ TOOL SELECTION ============
 function selectTool(toolId) {
-    // Clean up overlays
+    // Clean up overlays and listeners
     if (cwmOvDiv) { var old=document.getElementById('cwmOverlay'); if(old)old.remove(); cwmOvDiv = null; }
     if (mosOvDiv) { var old=document.getElementById('mosOverlay'); if(old)old.remove(); mosOvDiv = null; }
+    // Clean up color picker listener
+    if (window._cpCleanup) { window._cpCleanup(); window._cpCleanup = null; }
+    // Hide color picker info when switching away from palette
+    var cpi = document.getElementById('colorPickerInfo');
+    if (cpi) cpi.style.display = 'none';
     // Reset cursor
     var bi = document.getElementById('beforeImg');
     if (bi) bi.style.cursor = '';
@@ -653,12 +660,14 @@ function selectTool(toolId) {
 
     renderControls(tool);
 
-    // Show upload zone if no image loaded
+    // Restore preview if image is loaded, otherwise show upload zone
     if (!originalImage) {
         document.getElementById('uploadZone').classList.remove('hidden');
         document.getElementById('previewArea').classList.add('hidden');
         document.getElementById('toolPanel').classList.add('hidden');
         document.getElementById('guideTip').classList.add('hidden');
+    } else {
+        showPreview();
     }
 
     // Update file input accept for GIF tool
@@ -849,8 +858,28 @@ function renderControls(tool) {
             initMosaicOverlay();
             break;
         case 'palette':
-            tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em;margin-bottom:8px"><span data-lang="zh">提取图片的主色调配色方案。点击"应用处理"后自动分析并展示前12种主要颜色及对应HEX色码。</span><span data-lang="en" style="display:none">Extract dominant color palette. Click Apply to analyze and display top 12 colors with HEX codes.</span></p>
-                <p style="color:var(--warning);font-size:0.8em;margin-bottom:10px"><span data-lang="zh">💡 用途：设计师配色参考 / 品牌色提取 / UI主题色灵感</span><span data-lang="en" style="display:none">💡 Use: Designer color schemes / Brand color extraction / UI theme inspiration</span></p>`; break;
+            tc.innerHTML = `
+                <p style="color:var(--sub);font-size:0.85em;margin-bottom:8px">
+                    <span data-lang="zh">提取图片的主色调配色方案，或鼠标在左侧原图上移动实时取色。</span>
+                    <span data-lang="en" style="display:none">Extract dominant color palette, or hover on the image to pick any color in real-time.</span>
+                </p>
+                <div id="colorPickerHint" style="margin-bottom:10px;padding:8px;background:rgba(99,102,241,0.1);border-radius:6px;font-size:0.82em;color:var(--accent)">
+                    <span data-lang="zh">💡 鼠标在左侧原图上移动可实时取色，点击复制</span>
+                    <span data-lang="en" style="display:none">💡 Hover on the original image to pick color, click to copy</span>
+                </div>
+                <div id="colorPickerInfo" style="display:none;margin-bottom:10px;padding:10px;background:var(--bg);border-radius:8px;border:1px solid var(--border);">
+                    <div style="display:flex;align-items:center;gap:10px">
+                        <div id="colorPickerSwatch" style="width:40px;height:40px;border-radius:6px;border:2px solid var(--border)"></div>
+                        <div>
+                            <div style="font-size:0.9em;font-weight:600" id="colorPickerHex"></div>
+                            <div style="font-size:0.78em;color:var(--sub)" id="colorPickerRgb"></div>
+                        </div>
+                    </div>
+                </div>
+                <p style="color:var(--warning);font-size:0.8em;margin-bottom:10px"><span data-lang="zh">💡 用途：设计师配色参考 / 品牌色提取 / UI主题色灵感</span><span data-lang="en" style="display:none">💡 Use: Designer color schemes / Brand color extraction / UI theme inspiration</span></p>
+            `;
+            setTimeout(initColorPicker, 100);
+            break;
         case 'exif':
             tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">通过重新绘制图片去除所有EXIF/GPS/相机等隐私元数据。处理后图片在浏览器本地完成，数据不上传。</span><span data-lang="en" style="display:none">Strip all EXIF/GPS/camera metadata by re-rendering. Processing is local, no data upload.</span></p>`; break;
         case 'social':
@@ -899,21 +928,13 @@ function renderControls(tool) {
             `; break;
         case 'textposter':
             tc.innerHTML = `
-                <div class="form-group"><label><span data-lang="zh">海报文字</span><span data-lang="en" style="display:none">Poster Text</span></label><textarea id="posterText" rows="2">ImageForge Pro</textarea></div>
-                <div class="form-group"><label><span data-lang="zh">字号</span><span data-lang="en" style="display:none">Font Size</span>: <span class="range-val" id="ptFsVal">48</span></label><input type="range" id="posterFontSize" min="16" max="200" value="48" oninput="document.getElementById('ptFsVal').textContent=this.value"></div>
-                <div class="form-group"><label><span data-lang="zh">文字颜色</span><span data-lang="en" style="display:none">Text Color</span></label><input type="color" id="posterColor" value="#ffffff"></div>
-                <div class="form-row">
-                    <div class="form-group"><label>X <span data-lang="zh">(横向位置像素)</span><span data-lang="en" style="display:none">(horiz px)</span></label><input type="number" id="posterX" value="0" style="width:100%"></div>
-                    <div class="form-group"><label>Y <span data-lang="zh">(纵向位置像素)</span><span data-lang="en" style="display:none">(vert px)</span></label><input type="number" id="posterY" value="0" style="width:100%"></div>
-                </div>
-                <div class="text-drag-hint"><span data-lang="zh">💡 提示：在左侧原图上点击即可定位文字位置</span><span data-lang="en" style="display:none">💡 Tip: Click on the original image to set text position</span></div>
-                <div class="preset-grid" style="margin-top:8px">
-                    <button class="preset-btn" onclick="posterPreset('bottom-center')"><span data-lang="zh">底部居中</span><span data-lang="en" style="display:none">Bottom Center</span></button>
-                    <button class="preset-btn" onclick="posterPreset('top-center')"><span data-lang="zh">顶部居中</span><span data-lang="en" style="display:none">Top Center</span></button>
-                    <button class="preset-btn" onclick="posterPreset('center')"><span data-lang="zh">正中央</span><span data-lang="en" style="display:none">Center</span></button>
-                </div>
+                <div class="form-group"><label><span data-lang="zh">海报文字</span><span data-lang="en" style="display:none">Poster Text</span></label><textarea id="posterText" rows="2" oninput="updatePosterPreview()">ImageForge Pro</textarea></div>
+                <div class="form-group"><label><span data-lang="zh">字号</span><span data-lang="en" style="display:none">Font Size</span>: <span class="range-val" id="ptFsVal">48</span></label><input type="range" id="posterFontSize" min="16" max="200" value="48" oninput="document.getElementById('ptFsVal').textContent=this.value;updatePosterPreview()"></div>
+                <div class="form-group"><label><span data-lang="zh">文字颜色</span><span data-lang="en" style="display:none">Text Color</span></label><input type="color" id="posterColor" value="#ffffff" onchange="updatePosterPreview()"></div>
+                <div class="form-group"><label><span data-lang="zh">背景不透明度</span><span data-lang="en" style="display:none">BG Opacity</span>: <span class="range-val" id="ptBgVal">0.5</span></label><input type="range" id="posterBgOpacity" min="0" max="10" value="5" oninput="document.getElementById('ptBgVal').textContent=(this.value/10).toFixed(1);updatePosterPreview()"></div>
+                <div id="posterPosInfo" style="margin:8px 0;font-size:0.82em;color:var(--accent)"><span data-lang="zh">在左侧原图上拖拽文字框来调整位置</span><span data-lang="en" style="display:none">Drag the text box on the image to adjust position</span></div>
             `;
-            initPosterClick();
+            initPosterDrag();
             break;
         case 'base64':
             tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">生成图片的 Base64 Data URI，可直接嵌入 HTML/CSS。</span><span data-lang="en" style="display:none">Generate Base64 Data URI for direct HTML/CSS embedding.</span></p>`; break;
@@ -1669,6 +1690,54 @@ function applyMosaic() {
     showAfter(url);
     canvasToBlob(canvas, 'image/png').then(function(b) { processedBlob = b; });
     showToast(lang==='zh'?'马赛克已应用':'Mosaic applied');
+}
+
+function initColorPicker() {
+    var bi = document.getElementById('beforeImg');
+    if (!bi || !originalCanvas) return;
+
+    // Remove old listeners if any
+    if (window._cpCleanup) window._cpCleanup();
+
+    function getColor(e) {
+        var rect = bi.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        var scaleX = (bi.naturalWidth || originalCanvas.width) / rect.width;
+        var scaleY = (bi.naturalHeight || originalCanvas.height) / rect.height;
+        var x = Math.round((e.clientX - rect.left) * scaleX);
+        var y = Math.round((e.clientY - rect.top) * scaleY);
+        x = Math.max(0, Math.min(x, originalCanvas.width - 1));
+        y = Math.max(0, Math.min(y, originalCanvas.height - 1));
+
+        var ctx = originalCanvas.getContext('2d');
+        var pixel = ctx.getImageData(x, y, 1, 1).data;
+        var r = pixel[0], g = pixel[1], b = pixel[2];
+        var hex = '#' + [r,g,b].map(v => v.toString(16).padStart(2,'0')).join('');
+
+        var info = document.getElementById('colorPickerInfo');
+        var swatch = document.getElementById('colorPickerSwatch');
+        var hexEl = document.getElementById('colorPickerHex');
+        var rgbEl = document.getElementById('colorPickerRgb');
+        if (info) info.style.display = 'block';
+        if (swatch) swatch.style.background = hex;
+        if (hexEl) hexEl.textContent = hex;
+        if (rgbEl) rgbEl.textContent = 'RGB(' + r + ', ' + g + ', ' + b + ')';
+        window._pickedColor = hex;
+    }
+
+    bi.addEventListener('mousemove', getColor);
+    bi.addEventListener('click', function(e) {
+        getColor(e);
+        if (window._pickedColor) {
+            navigator.clipboard.writeText(window._pickedColor).then(function() {
+                showToast(lang==='zh' ? '已复制: ' + window._pickedColor : 'Copied: ' + window._pickedColor);
+            }).catch(function(){});
+        }
+    });
+
+    window._cpCleanup = function() {
+        bi.removeEventListener('mousemove', getColor);
+    };
 }
 
 function processMosaic(canvas) {
