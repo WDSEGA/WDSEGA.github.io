@@ -3,7 +3,7 @@ layout: post
 title: "90%企业AI转型亏本？问题不在AI，在你用错了方式 | 90% of Enterprise AI Projects Fail? The Problem Isn't AI, It's How You Use It"
 date: 2026-06-21 09:00:00 +0800
 categories: [时事新闻, 企业AI]
-tags: [AI, 企业转型, AI落地]
+tags: [时事新闻, AI, 企业转型, AI落地]
 ---
 
 一份最新报告揭示了一个尴尬的现实：近九成采用AI的企业没有获得显著回报。这个数字让人震惊，但更值得关注的是背后的原因——不是AI不行，而是大多数企业用错了方式。
