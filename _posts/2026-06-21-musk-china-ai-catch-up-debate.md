@@ -3,7 +3,7 @@ layout: post
 title: "马斯克说中国模型2027年追平Claude，智谱唐杰：不用那么久 | Musk Says Chinese Models Will Catch Up to Claude by 2027. Zhipu's Tang Jie: Sooner Than That."
 date: 2026-06-21 10:00:00 +0800
 categories: [时事新闻, 中美AI]
-tags: [AI, 中美竞争, 大模型]
+tags: [时事新闻, AI, 中美竞争, 大模型]
 ---
 
 马斯克又开金口了。这次他预测中国AI模型将在2027年初追平Claude。话音未落，智谱创始人唐杰隔空回应："不用那么久。"一场关于中美AI差距的隔空辩论，把行业最敏感的话题摆上了台面。
