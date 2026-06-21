@@ -928,9 +928,6 @@ function renderControls(tool) {
                 sfl.innerHTML = (lang==='zh'?'已添加 ':'Added ') + uploadedFiles.length + ': ' + uploadedFiles.map(function(f){return f.name;}).join(', ');
             }
             break;
-            `;
-            refreshStitchFileList();
-            break;
         case 'gridcrop':
             tc.innerHTML = `
                 <p style="color:var(--sub);font-size:0.85em;margin-bottom:8px"><span data-lang="zh">将图片等分为 N×N 网格切片，自动下载全部切片。适合制作朋友圈九宫格、拼图素材。</span><span data-lang="en" style="display:none">Split image into N×N equal slices, auto-download all. Perfect for social media grids and puzzles.</span></p>
