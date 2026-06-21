@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ImageForge Pro — AI Image Processing Workshop | 图片二次加工坊</title>
+<meta name="description" content="ImageForge Pro: 25 pure-Pillow image tools. Compress, crop, filter, watermark, social export, favicon, GIF workshop. One-time purchase ¥9.99.">
+<style>
+:root {
+    --bg: #0f172a; --panel: #1e293b; --border: #334155;
+    --text: #e2e8f0; --sub: #94a3b8; --accent: #6366f1;
+    --accent2: #8b5cf6; --success: #22c55e;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+    background: var(--bg); color: var(--text); overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* Lang toggle */
+.lang-toggle {
+    position: absolute; top: 20px; right: 24px;
+    background: rgba(99,102,241,0.15); border: 1px solid var(--accent);
+    color: var(--sub); padding: 6px 16px; border-radius: 6px;
+    cursor: pointer; font-size: 0.85em; font-weight: 600;
+    transition: all 0.2s; font-family: inherit; z-index: 10;
+}
+.lang-toggle:hover { background: rgba(99,102,241,0.3); color: #fff; }
+
+/* Hero */
+.hero {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border-bottom: 2px solid var(--accent); padding: 60px 20px; text-align: center;
+    position: relative;
+}
+.hero h1 { font-size: 2.8em; font-weight: bold; color: #fff; margin: 0; }
+.hero h1 span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero .tagline { font-size: 1.3em; color: var(--sub); margin-top: 8px; }
+.hero .stats {
+    display: flex; gap: 40px; justify-content: center; margin-top: 24px;
+    flex-wrap: wrap;
+}
+.hero .stat { text-align: center; }
+.hero .stat .num { font-size: 2em; font-weight: 700; color: var(--accent); }
+.hero .stat .label { font-size: 0.85em; color: var(--sub); }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+
+/* Section titles */
+.section-title { text-align: center; margin-bottom: 30px; }
+.section-title h2 { font-size: 1.8em; color: #fff; margin-bottom: 8px; }
+.section-title p { color: var(--sub); font-size: 1em; }
+
+/* Feature grid */
+.feature-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px; margin-bottom: 40px;
+}
+.feat-card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px; transition: 0.2s;
+}
+.feat-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.feat-card .feat-icon { font-size: 1.8em; margin-bottom: 8px; }
+.feat-card .feat-name { font-weight: 600; color: #fff; font-size: 1em; margin-bottom: 4px; }
+.feat-card .feat-desc { font-size: 0.82em; color: var(--sub); }
+
+/* Category section */
+.cat-section { margin-bottom: 50px; }
+.cat-header {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
+.cat-header .cat-icon { font-size: 1.5em; }
+.cat-header h3 { font-size: 1.3em; color: var(--accent); }
+
+/* Screenshots */
+.screenshots { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 10px; }
+.screenshot-card {
+    flex: 0 0 auto; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden; width: 380px;
+}
+.screenshot-card img { width: 100%; height: auto; display: block; }
+.screenshot-card .cap { padding: 10px 14px; font-size: 0.82em; color: var(--sub); }
+
+/* Purchase */
+.purchase-bar {
+    background: #111827; border-top: 3px solid var(--accent);
+    padding: 50px 20px; text-align: center;
+}
+.purchase-bar h3 { color: #fff; font-size: 1.5em; margin-bottom: 12px; }
+.purchase-bar p { color: var(--sub); max-width: 600px; margin: 0 auto 24px; font-size: 0.95em; }
+.buy-btn {
+    display: inline-block; padding: 14px 40px; border-radius: 12px;
+    font-weight: 700; text-decoration: none; font-size: 1.1em;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff; transition: 0.2s;
+}
+.buy-btn:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 4px 20px rgba(99,102,241,0.4); }
+.purchase-note { color: #64748b; font-size: 0.8em; margin-top: 16px; }
+
+/* Compare table */
+.compare-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+.compare-table th, .compare-table td {
+    padding: 12px 16px; text-align: center; border-bottom: 1px solid var(--border);
+}
+.compare-table th { color: var(--sub); font-weight: 600; font-size: 0.85em; }
+.compare-table td { font-size: 0.9em; }
+.compare-table .yes { color: var(--success); font-weight: 700; }
+.compare-table .no { color: #ef4444; }
+.compare-table .highlight { background: rgba(99,102,241,0.08); }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero h1 { font-size: 1.8em; }
+    .hero .stats { gap: 20px; }
+    .feature-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Bilingual utility */
+[data-lang] { transition: display 0.2s; }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+    <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+    <h1>🔧 <span data-lang="zh">ImageForge Pro</span><span data-lang="en" style="display:none">ImageForge Pro</span></h1>
+    <p class="tagline">
+        <span data-lang="zh">AI 驱动的图片二次加工坊 — 25 项纯 Pillow 工具，零额外依赖</span>
+        <span data-lang="en" style="display:none">AI-Powered Image Processing Workshop — 25 pure-Pillow tools, zero extra deps</span>
+    </p>
+    <div class="stats">
+        <div class="stat"><div class="num">25+</div><div class="label"><span data-lang="zh">功能工具</span><span data-lang="en" style="display:none">Tools</span></div></div>
+        <div class="stat"><div class="num">100%</div><div class="label"><span data-lang="zh">本地处理</span><span data-lang="en" style="display:none">Local</span></div></div>
+        <div class="stat"><div class="num">0</div><div class="label"><span data-lang="zh">外部依赖</span><span data-lang="en" style="display:none">Ext Deps</span></div></div>
+        <div class="stat"><div class="num">¥9.99</div><div class="label"><span data-lang="zh">一次性买断</span><span data-lang="en" style="display:none">One-time</span></div></div>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- Overview -->
+    <div class="section-title">
+        <h2><span data-lang="zh">为什么选择 ImageForge Pro？</span><span data-lang="en" style="display:none">Why ImageForge Pro?</span></h2>
+        <p><span data-lang="zh">一个文件，25 个功能，处理你的所有图片需求。纯 Python + Pillow + Flask，无 AI API 调用，100% 离线可用。</span><span data-lang="en" style="display:none">One file, 25 tools, all your image needs. Pure Python + Pillow + Flask, no AI API calls, 100% offline capable.</span></p>
+    </div>
+
+    <!-- Compare table -->
+    <table class="compare-table">
+        <tr>
+            <th><span data-lang="zh">特性</span><span data-lang="en" style="display:none">Feature</span></th>
+            <th style="color:var(--accent)">ImageForge Pro</th>
+            <th>TinyPNG</th>
+            <th>iLoveIMG</th>
+            <th>Squoosh</th>
+        </tr>
+        <tr class="highlight">
+            <td><span data-lang="zh">批量压缩</span><span data-lang="en" style="display:none">Batch Compress</span></td>
+            <td class="yes">✔</td><td class="yes">✔</td><td class="yes">✔</td><td class="yes">✔</td>
+        </tr>
+        <tr>
+            <td><span data-lang="zh">滤镜预设 6种</span><span data-lang="en" style="display:none">6 Filter Presets</span></td>
+            <td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td>
+        </tr>
+        <tr class="highlight">
+            <td><span data-lang="zh">社交多尺寸导出</span><span data-lang="en" style="display:none">Social Export</span></td>
+            <td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td>
+        </tr>
+        <tr>
+            <td><span data-lang="zh">截图美化(设备框)</span><span data-lang="en" style="display:none">Device Frame</span></td>
+            <td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td>
+        </tr>
+        <tr class="highlight">
+            <td><span data-lang="zh">GIF 工坊</span><span data-lang="en" style="display:none">GIF Workshop</span></td>
+            <td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td>
+        </tr>
+        <tr>
+            <td><span data-lang="zh">Favicon 生成</span><span data-lang="en" style="display:none">Favicon Gen</span></td>
+            <td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td>
+        </tr>
+        <tr class="highlight">
+            <td><span data-lang="zh">EXIF 隐私清洗</span><span data-lang="en" style="display:none">EXIF Cleanup</span></td>
+            <td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td>
+        </tr>
+        <tr>
+            <td><span data-lang="zh">100% 离线</span><span data-lang="en" style="display:none">100% Offline</span></td>
+            <td class="yes">✔</td><td class="no">✘</td><td class="no">✘</td><td class="no">✘</td>
+        </tr>
+        <tr class="highlight">
+            <td><span data-lang="zh">价格</span><span data-lang="en" style="display:none">Price</span></td>
+            <td><strong style="color:var(--success)">¥9.99 永久</strong></td>
+            <td>免费/Pro $25/mo</td><td>免费/Pro $4/mo</td><td>免费</td>
+        </tr>
+    </table>
+
+    <!-- Features by category -->
+    <div class="cat-section">
+        <div class="cat-header">
+            <span class="cat-icon">🔧</span>
+            <h3><span data-lang="zh">基础加工 (8项)</span><span data-lang="en" style="display:none">Basic Processing (8 tools)</span></h3>
+        </div>
+        <div class="feature-grid">
+            <div class="feat-card"><div class="feat-icon">🗜️</div><div class="feat-name"><span data-lang="zh">智能压缩</span><span data-lang="en" style="display:none">Smart Compress</span></div><div class="feat-desc"><span data-lang="zh">质量滑块 + 目标KB二分法自动调节</span><span data-lang="en" style="display:none">Quality slider + target KB binary search</span></div></div>
+            <div class="feat-card"><div class="feat-icon">✂️</div><div class="feat-name"><span data-lang="zh">自由裁剪</span><span data-lang="en" style="display:none">Free Crop</span></div><div class="feat-desc"><span data-lang="zh">自由区域或固定比例 (1:1/4:3/16:9)</span><span data-lang="en" style="display:none">Free or fixed ratio cropping</span></div></div>
+            <div class="feat-card"><div class="feat-icon">📐</div><div class="feat-name"><span data-lang="zh">调整尺寸</span><span data-lang="en" style="display:none">Resize</span></div><div class="feat-desc"><span data-lang="zh">像素/百分比模式，自动宽高比</span><span data-lang="en" style="display:none">Pixel/percent mode, auto aspect ratio</span></div></div>
+            <div class="feat-card"><div class="feat-icon">🔄</div><div class="feat-name"><span data-lang="zh">格式转换</span><span data-lang="en" style="display:none">Format Convert</span></div><div class="feat-desc"><span data-lang="zh">JPEG/PNG/WebP/BMP/TIFF 一键互转</span><span data-lang="en" style="display:none">One-click JPEG/PNG/WebP/BMP/TIFF</span></div></div>
+            <div class="feat-card"><div class="feat-icon">💧</div><div class="feat-name"><span data-lang="zh">文字水印</span><span data-lang="en" style="display:none">Watermark</span></div><div class="feat-desc"><span data-lang="zh">自定义文字、位置、透明度</span><span data-lang="en" style="display:none">Custom text, position, opacity</span></div></div>
+            <div class="feat-card"><div class="feat-icon">⬜</div><div class="feat-name"><span data-lang="zh">透明底转白底</span><span data-lang="en" style="display:none">Alpha to White</span></div><div class="feat-desc"><span data-lang="zh">电商平台白底要求一键搞定</span><span data-lang="en" style="display:none">Amazon/eBay white background ready</span></div></div>
+            <div class="feat-card"><div class="feat-icon">⭕</div><div class="feat-name"><span data-lang="zh">圆角裁切</span><span data-lang="en" style="display:none">Rounded Corners</span></div><div class="feat-desc"><span data-lang="zh">半径可调 + 圆形裁切</span><span data-lang="en" style="display:none">Adjustable radius + circle crop</span></div></div>
+            <div class="feat-card"><div class="feat-icon">🪞</div><div class="feat-name"><span data-lang="zh">镜像翻转</span><span data-lang="en" style="display:none">Mirror Flip</span></div><div class="feat-desc"><span data-lang="zh">水平/垂直翻转</span><span data-lang="en" style="display:none">Horizontal/vertical flip</span></div></div>
+        </div>
+    </div>
+
+    <div class="cat-section">
+        <div class="cat-header">
+            <span class="cat-icon">🎨</span>
+            <h3><span data-lang="zh">调色美化 (6项)</span><span data-lang="en" style="display:none">Color & Beauty (6 tools)</span></h3>
+        </div>
+        <div class="feature-grid">
+            <div class="feat-card"><div class="feat-icon">🎚️</div><div class="feat-name"><span data-lang="zh">亮度/对比度/饱和度</span><span data-lang="en" style="display:none">Bright/Contrast/Sat</span></div><div class="feat-desc"><span data-lang="zh">四参数同时调节，实时预览</span><span data-lang="en" style="display:none">4-parameter real-time adjustment</span></div></div>
+            <div class="feat-card"><div class="feat-icon">🎨</div><div class="feat-name"><span data-lang="zh">滤镜预设</span><span data-lang="en" style="display:none">Filter Presets</span></div><div class="feat-desc"><span data-lang="zh">复古/黑白/暖/冷/日系/胶片 6款</span><span data-lang="en" style="display:none">Vintage/B&W/Warm/Cool/Japanese/Film</span></div></div>
+            <div class="feat-card"><div class="feat-icon">🔍</div><div class="feat-name"><span data-lang="zh">模糊/锐化/浮雕</span><span data-lang="en" style="display:none">Blur/Sharpen/Emboss</span></div><div class="feat-desc"><span data-lang="zh">6种专业图像滤镜效果</span><span data-lang="en" style="display:none">6 professional filter effects</span></div></div>
+            <div class="feat-card"><div class="feat-icon">🔲</div><div class="feat-name"><span data-lang="zh">马赛克</span><span data-lang="en" style="display:none">Mosaic</span></div><div class="feat-desc"><span data-lang="zh">像素化效果，块大小可调</span><span data-lang="en" style="display:none">Pixelation with adjustable block size</span></div></div>
+            <div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-name"><span data-lang="zh">调色板提取</span><span data-lang="en" style="display:none">Palette Extract</span></div><div class="feat-desc"><span data-lang="zh">中位切分算法，输出HEX色码</span><span data-lang="en" style="display:none">Median Cut algorithm, HEX output</span></div></div>
+            <div class="feat-card"><div class="feat-icon">🧹</div><div class="feat-name"><span data-lang="zh">EXIF隐私清洗</span><span data-lang="en" style="display:none">EXIF Cleanup</span></div><div class="feat-desc"><span data-lang="zh">清除GPS/相机/时间等元数据</span><span data-lang="en" style="display:none">Strip GPS/camera/time metadata</span></div></div>
+        </div>
+    </div>
+
+    <div class="cat-section">
+        <div class="cat-header">
+            <span class="cat-icon">📱</span>
+            <h3><span data-lang="zh">社交输出 (5项)</span><span data-lang="en" style="display:none">Social Export (5 tools)</span></h3>
+        </div>
+        <div class="feature-grid">
+            <div class="feat-card"><div class="feat-icon">📱</div><div class="feat-name"><span data-lang="zh">社交多尺寸导出</span><span data-lang="en" style="display:none">Social Sizes</span></div><div class="feat-desc"><span data-lang="zh">微信/小红书/抖音/Ins/Twitter等7平台</span><span data-lang="en" style="display:none">WeChat/XHS/Douyin/IG/Twitter + more</span></div></div>
+            <div class="feat-card"><div class="feat-icon">🖥️</div><div class="feat-name"><span data-lang="zh">截图美化</span><span data-lang="en" style="display:none">Device Frame</span></div><div class="feat-desc"><span data-lang="zh">浏览器/手机框 + 阴影 + 圆角</span><span data-lang="en" style="display:none">Browser/phone frame + shadow</span></div></div>
+            <div class="feat-card"><div class="feat-icon">🧩</div><div class="feat-name"><span data-lang="zh">图片拼接</span><span data-lang="en" style="display:none">Image Stitch</span></div><div class="feat-desc"><span data-lang="zh">横向/纵向/网格布局</span><span data-lang="en" style="display:none">Horizontal/vertical/grid layout</span></div></div>
+            <div class="feat-card"><div class="feat-icon">🔢</div><div class="feat-name"><span data-lang="zh">九宫格切图</span><span data-lang="en" style="display:none">Grid Crop</span></div><div class="feat-desc"><span data-lang="zh">2x2/3x3/4x4 等分切片</span><span data-lang="en" style="display:none">2x2/3x3/4x4 equal slices</span></div></div>
+            <div class="feat-card"><div class="feat-icon">📝</div><div class="feat-name"><span data-lang="zh">文字海报</span><span data-lang="en" style="display:none">Text Poster</span></div><div class="feat-desc"><span data-lang="zh">叠加文字 + 半透明背景</span><span data-lang="en" style="display:none">Text overlay + semi-transparent BG</span></div></div>
+        </div>
+    </div>
+
+    <div class="cat-section">
+        <div class="cat-header">
+            <span class="cat-icon">🧰</span>
+            <h3><span data-lang="zh">开发效率 (4项)</span><span data-lang="en" style="display:none">Dev Tools (4 tools)</span></h3>
+        </div>
+        <div class="feature-grid">
+            <div class="feat-card"><div class="feat-icon">📋</div><div class="feat-name"><span data-lang="zh">Base64编码</span><span data-lang="en" style="display:none">Base64 Encode</span></div><div class="feat-desc"><span data-lang="zh">Data URI，直接嵌入HTML/CSS</span><span data-lang="en" style="display:none">Data URI for HTML/CSS embedding</span></div></div>
+            <div class="feat-card"><div class="feat-icon">🧿</div><div class="feat-name"><span data-lang="zh">Favicon生成</span><span data-lang="en" style="display:none">Favicon Gen</span></div><div class="feat-desc"><span data-lang="zh">16-256px全尺寸 + .ico文件</span><span data-lang="en" style="display:none">All sizes 16-256px + .ico file</span></div></div>
+            <div class="feat-card"><div class="feat-icon">🎞️</div><div class="feat-name"><span data-lang="zh">GIF工坊</span><span data-lang="en" style="display:none">GIF Workshop</span></div><div class="feat-desc"><span data-lang="zh">调速/反向/压缩三大操作</span><span data-lang="en" style="display:none">Speed/reverse/compress operations</span></div></div>
+            <div class="feat-card"><div class="feat-icon">🔬</div><div class="feat-name"><span data-lang="zh">差异对比</span><span data-lang="en" style="display:none">Diff Compare</span></div><div class="feat-desc"><span data-lang="zh">并排对比 + 像素差异高亮</span><span data-lang="en" style="display:none">Side-by-side + pixel diff highlight</span></div></div>
+        </div>
+    </div>
+
+    <div class="cat-section">
+        <div class="cat-header">
+            <span class="cat-icon">⚙️</span>
+            <h3><span data-lang="zh">批量处理 (2项)</span><span data-lang="en" style="display:none">Batch (2 tools)</span></h3>
+        </div>
+        <div class="feature-grid">
+            <div class="feat-card"><div class="feat-icon">📦</div><div class="feat-name"><span data-lang="zh">批量信息</span><span data-lang="en" style="display:none">Batch Info</span></div><div class="feat-desc"><span data-lang="zh">多图尺寸/格式/大小一览</span><span data-lang="en" style="display:none">Multi-image dimension/format/size</span></div></div>
+            <div class="feat-card"><div class="feat-icon">⚙️</div><div class="feat-name"><span data-lang="zh">预设配方</span><span data-lang="en" style="display:none">Recipe</span></div><div class="feat-desc"><span data-lang="zh">串联多操作一键执行</span><span data-lang="en" style="display:none">Chain operations for one-click run</span></div></div>
+        </div>
+    </div>
+
+    <!-- Screenshots -->
+    <div class="section-title">
+        <h2><span data-lang="zh">界面预览</span><span data-lang="en" style="display:none">Screenshots</span></h2>
+    </div>
+    <div class="screenshots">
+        <div class="screenshot-card">
+            <img src="/assets/images/imageforge/screenshot_01.png" alt="Upload & Workspace" loading="lazy">
+            <div class="cap"><span data-lang="zh">上传与工作区界面</span><span data-lang="en" style="display:none">Upload & Workspace Overview</span></div>
+        </div>
+        <div class="screenshot-card">
+            <img src="/assets/images/imageforge/screenshot_02.png" alt="Filter Presets" loading="lazy">
+            <div class="cap"><span data-lang="zh">滤镜预设与色彩调节</span><span data-lang="en" style="display:none">Filter Presets & Color Adjustments</span></div>
+        </div>
+        <div class="screenshot-card">
+            <img src="/assets/images/imageforge/screenshot_03.png" alt="Social Export" loading="lazy">
+            <div class="cap"><span data-lang="zh">社交多尺寸导出结果</span><span data-lang="en" style="display:none">Social Multi-Size Export Results</span></div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Purchase Bar -->
+<div class="purchase-bar">
+    <h3>
+        <span data-lang="zh">💻 获取完整版离线工具</span>
+        <span data-lang="en" style="display:none">💻 Get Full Offline Version</span>
+    </h3>
+    <p>
+        <span data-lang="zh">在线演示版可直接使用。可购买完整版获得 ZIP 包（含源码、README、产品图、免责声明）。</span>
+        <span data-lang="en" style="display:none">Online demo is free to use. Purchase the full version for ZIP package (source, README, product images, disclaimer).</span>
+    </p>
+    <a href="https://payhip.com/b/Cm6oK" class="buy-btn">
+        🛒 <span data-lang="zh">购买完整版 — ¥9.99</span><span data-lang="en" style="display:none">Buy Full Version — ¥9.99</span>
+    </a>
+    <p class="purchase-note">
+        <span data-lang="zh">一次性买断 · 终身免费更新 · v1.0 含 25+ 项功能 · Python 3.8+ 即可运行</span>
+        <span data-lang="en" style="display:none">One-time purchase · Lifetime free updates · v1.0 with 25+ features · Python 3.8+ ready</span>
+    </p>
+</div>
+
+<script>
+let lang = 'zh';
+function toggleLang() {
+    lang = lang === 'zh' ? 'en' : 'zh';
+    document.getElementById('langToggle').textContent = lang === 'zh' ? 'EN' : '中';
+    document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+    });
+}
+</script>
+
+</body>
+</html>
