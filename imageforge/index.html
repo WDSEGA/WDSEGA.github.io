@@ -525,10 +525,10 @@ function showPreview() {
             processBatchInfo();
         }
         if (tool && tool.id === 'cleanwm') {
-            setTimeout(function(){initCleanwmOverlay();},150);
+            initCleanwmOverlay();
         }
         if (tool && tool.id === 'mosaic') {
-            setTimeout(function(){initMosaicOverlay();},150);
+            initMosaicOverlay();
         }
         if (tool && tool.id === 'textposter') {
             initPosterClick();
@@ -1334,17 +1334,25 @@ function initCleanwmOverlay(){
     var pane=document.getElementById('beforePane');
     var bi=document.getElementById('beforeImg');
     if(!pane||!bi)return;
+    // 等待图片加载完成后再计算坐标
+    if(!bi.complete || bi.naturalWidth === 0){
+        bi.addEventListener('load', function(){ initCleanwmOverlay(); }, {once:true});
+        return;
+    }
     // Remove old overlay
     var old=document.getElementById('cwmOverlay');
     if(old)old.remove();
     // Create overlay that precisely covers the image area only
     var imgRect=bi.getBoundingClientRect();
     var paneRect=pane.getBoundingClientRect();
+    var paneStyle=getComputedStyle(pane);
+    var padLeft=parseInt(paneStyle.paddingLeft)||0;
+    var padTop=parseInt(paneStyle.paddingTop)||0;
     cwmOvDiv=document.createElement('div');
     cwmOvDiv.id='cwmOverlay';
-    var imgLeft=imgRect.left-paneRect.left;
-    var imgTop=imgRect.top-paneRect.top;
-    cwmOvDiv.style.cssText='position:absolute;left:'+imgLeft+'px;top:'+imgTop+'px;width:'+imgRect.width+'px;height:'+imgRect.height+'px;cursor:crosshair;z-index:20;overflow:hidden;';
+    var imgLeft=imgRect.left-paneRect.left-padLeft;
+    var imgTop=imgRect.top-paneRect.top-padTop;
+    cwmOvDiv.style.cssText='position:absolute;left:'+Math.round(imgLeft)+'px;top:'+Math.round(imgTop)+'px;width:'+Math.round(imgRect.width)+'px;height:'+Math.round(imgRect.height)+'px;cursor:crosshair;z-index:20;overflow:hidden;';
     pane.style.position='relative';
     pane.appendChild(cwmOvDiv);
 
@@ -1575,24 +1583,34 @@ function initMosaicOverlay() {
     var pane = document.getElementById('beforePane');
     var bi = document.getElementById('beforeImg');
     if (!pane || !bi) return;
+    // 等待图片加载完成后再计算坐标
+    if (!bi.complete || bi.naturalWidth === 0) {
+        bi.addEventListener('load', function() { initMosaicOverlay(); }, {once: true});
+        return;
+    }
     // Remove old
     var old = document.getElementById('mosOverlay');
     if (old) old.remove();
     // Get image's EXACT position and size within the pane
     var imgRect = bi.getBoundingClientRect();
     var paneRect = pane.getBoundingClientRect();
+    var paneStyle = getComputedStyle(pane);
+    var padLeft = parseInt(paneStyle.paddingLeft) || 0;
+    var padTop = parseInt(paneStyle.paddingTop) || 0;
     // Create overlay that precisely covers the image area only
+    // Account for pane padding (imgLeft relative to border, but absolute positions relative to content edge)
     mosOvDiv = document.createElement('div');
     mosOvDiv.id = 'mosOverlay';
-    var imgLeft = imgRect.left - paneRect.left;
-    var imgTop = imgRect.top - paneRect.top;
-    mosOvDiv.style.cssText = 'position:absolute;left:'+imgLeft+'px;top:'+imgTop+'px;width:'+imgRect.width+'px;height:'+imgRect.height+'px;cursor:crosshair;z-index:20;';
+    mosOvDiv.className = 'mosaic-overlay';
+    var imgLeft = imgRect.left - paneRect.left - padLeft;
+    var imgTop = imgRect.top - paneRect.top - padTop;
+    mosOvDiv.style.cssText = 'position:absolute;left:'+Math.round(imgLeft)+'px;top:'+Math.round(imgTop)+'px;width:'+Math.round(imgRect.width)+'px;height:'+Math.round(imgRect.height)+'px;cursor:crosshair;z-index:20;';
     pane.style.position = 'relative';
     pane.appendChild(mosOvDiv);
     // Selection rect inside overlay (now coords are 1:1 with image)
     var selRect = document.createElement('div');
     selRect.id = 'mosSelRect';
-    selRect.className = 'sel-rect';
+    selRect.style.cssText='position:absolute;display:none;border:2px dashed #f59e0b;background:rgba(245,158,11,0.15);pointer-events:none;';
     mosOvDiv.appendChild(selRect);
     // Scale factor: CSS pixels → canvas pixels
     var natW = bi.naturalWidth || originalCanvas.width;
@@ -1600,12 +1618,12 @@ function initMosaicOverlay() {
     var scaleX = natW / imgRect.width;
     var scaleY = natH / imgRect.height;
 
-    mosOvDiv.onmousedown = function(e) {
+    mosOvDiv.addEventListener('mousedown',function(e){
         e.preventDefault(); e.stopPropagation();
         var rect = mosOvDiv.getBoundingClientRect();
         mosSX = e.clientX - rect.left; mosSY = e.clientY - rect.top; mosSel = true;
-    };
-    mosOvDiv.onmousemove = function(e) {
+    });
+    mosOvDiv.addEventListener('mousemove',function(e){
         if (!mosSel) return; e.preventDefault();
         var rect = mosOvDiv.getBoundingClientRect();
         var cx = e.clientX - rect.left, cy = e.clientY - rect.top;
@@ -1619,8 +1637,8 @@ function initMosaicOverlay() {
         var sr = document.getElementById('mosSelRect');
         sr.style.display = 'block'; sr.style.left = rx + 'px'; sr.style.top = ry + 'px';
         sr.style.width = rw + 'px'; sr.style.height = rh + 'px';
-    };
-    mosOvDiv.onmouseup = function(e) {
+    });
+    mosOvDiv.addEventListener('mouseup',function(e){
         if (!mosSel) return; mosSel = false;
         var rect = mosOvDiv.getBoundingClientRect();
         var cx = e.clientX - rect.left, cy = e.clientY - rect.top;
@@ -1636,7 +1654,7 @@ function initMosaicOverlay() {
         document.getElementById('mosH').value = canvasH;
         var info = document.getElementById('mosSelInfo');
         if (info) info.textContent = (lang==='zh'?'已选区: ':'Selected: ') + '(' + canvasX + ',' + canvasY + ') ' + canvasW + 'x' + canvasH;
-    };
+    });
 }
 
 function clearMosaicSel() {
@@ -2508,6 +2526,16 @@ function toggleAspect() {
 // ============ INIT ============
 // Auto-select first tool
 setTimeout(() => selectTool('compress'), 200);
+
+// 窗口resize时重新计算overlay坐标
+var resizeTimer;
+window.addEventListener('resize', function(){
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function(){
+        if(currentTool === 'mosaic') initMosaicOverlay();
+        if(currentTool === 'cleanwm') initCleanwmOverlay();
+    }, 200);
+});
 </script>
 </body>
 </html>
