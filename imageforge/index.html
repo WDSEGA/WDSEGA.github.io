@@ -552,6 +552,9 @@ function showPreview() {
         if (tool && tool.id === 'textposter') {
             initPosterDrag();
         }
+        if (tool && tool.id === 'stamp' && stampMode === 'extract') {
+            setTimeout(initStampOverlay, 100);
+        }
     }
 }
 
@@ -2662,10 +2665,16 @@ function rgbToHsv(r, g, b) {
 }
 
 // ---- Overlay init ----
+var _stampOverlayRetries = 0;
 function initStampOverlay() {
     var pane = document.getElementById('beforePane');
     var bi = document.getElementById('beforeImg');
-    if (!pane || !bi || !bi.complete) return;
+    if (!pane || !bi) { _stampOverlayRetries = 0; return; }
+    if (!bi.complete || !bi.naturalWidth) {
+        if (_stampOverlayRetries < 20) { _stampOverlayRetries++; setTimeout(initStampOverlay, 100); }
+        return;
+    }
+    _stampOverlayRetries = 0;
     if (stampOvDiv) stampOvDiv.remove();
     var imgRect = bi.getBoundingClientRect();
     var paneRect = pane.getBoundingClientRect();
