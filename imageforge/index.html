@@ -613,16 +613,6 @@ function handleAddImages(e) {
     _processFiles(files);
     e.target.value = '';
 }
-function refreshStitchFileList() {
-    var el = document.getElementById('stitchFileList');
-    if (!el) return;
-    if (!uploadedFiles.length) {
-        el.innerHTML = '<span data-lang="zh">尚未添加图片</span><span data-lang="en" style="display:none">No images added yet</span>';
-    } else {
-        el.innerHTML = (lang==='zh'?'已添加 ' + uploadedFiles.length + ' 张: ':'Added ' + uploadedFiles.length + ': ') + uploadedFiles.map(function(f){return f.name;}).join(', ');
-    }
-    applyLangDisplay();
-}
 document.addEventListener('DOMContentLoaded', () => {
     renderSidebar();
     // Upload zone drag/drop
@@ -940,11 +930,7 @@ function renderControls(tool) {
             <div class="preset-grid"><button class="preset-btn" onclick="processStitch('h')">↔️ <span data-lang="zh">横向</span><span data-lang="en" style="display:none">Horizontal</span></button><button class="preset-btn" onclick="processStitch('v')">↕️ <span data-lang="zh">纵向</span><span data-lang="en" style="display:none">Vertical</span></button><button class="preset-btn" onclick="processStitch('grid')">🔲 <span data-lang="zh">网格</span><span data-lang="en" style="display:none">Grid</span></button></div></div>
             <div class="form-group"><label><span data-lang="zh">间距 (px)</span><span data-lang="en" style="display:none">Gap (px)</span>: <span class="range-val" id="stitchGapVal">4</span></label><input type="range" id="stitchGap" min="0" max="40" value="4" oninput="document.getElementById('stitchGapVal').textContent=this.value"></div>
             `;
-            // 显示已有图片列表
-            var sfl = document.getElementById('stitchFileList');
-            if (sfl && uploadedFiles.length > 0) {
-                sfl.innerHTML = (lang==='zh'?'已添加 ':'Added ') + uploadedFiles.length + ': ' + uploadedFiles.map(function(f){return f.name;}).join(', ');
-            }
+            refreshMultiFileList();
             break;
         case 'gridcrop':
             tc.innerHTML = `
@@ -986,9 +972,9 @@ function renderControls(tool) {
         case 'diff':
             tc.innerHTML = `<p style="color:var(--sub);font-size:0.85em;margin-bottom:6px"><span data-lang="zh">对比两图差异。从上方拖入2张图片，或分次添加。</span><span data-lang="en" style="display:none">Compare two images. Upload 2 images or add one at a time.</span></p>
             <button class="add-images-btn" onclick="addMoreImages()">📁 <span data-lang="zh">添加更多图片</span><span data-lang="en" style="display:none">Add More Images</span></button>
-            <div id="stitchFileList" style="margin-top:8px;font-size:0.82em;color:var(--sub)"></div>
+            <div id="diffFileList" style="margin-top:8px;font-size:0.82em;color:var(--sub)"></div>
             `;
-            refreshStitchFileList();
+            refreshMultiFileList();
             break;
         case 'batchinfo':
             tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">请上传多张图片查看批量信息（可从上方上传区拖入多张）。</span><span data-lang="en" style="display:none">Upload multiple images to see batch info (drag to upload zone).</span></p>
