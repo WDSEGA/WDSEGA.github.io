@@ -47,7 +47,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 
 <div class="hd">
   <div><h1>&#128295; <b>Web Component Dictionary</b></h1><p id="hd-desc">83 Ready-to-Use Components | Select &rarr; Preview &rarr; Copy</p></div>
-  <button class="lang-btn" onclick="toggleLang()">&#127760;</button>
 </div>
 
 <div class="sb">
@@ -1542,6 +1541,11 @@ function doCopy(){
 
 // Initialize
 renderList(COMPS);
+
+// 接收父页面语言切换消息
+window.addEventListener('message', function(e) {
+  if (e.data && e.data.type === 'toggleLang') { toggleLang(); }
+});
 </script>
 </body>
 </html>

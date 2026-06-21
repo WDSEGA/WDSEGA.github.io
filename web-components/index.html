@@ -59,7 +59,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans S
 <div class="purchase-bar">
   <h3 data-lang-zh="💻 获取完整版源代码" data-lang-en="💻 Get Full Source Code">💻 获取完整版源代码</h3>
   <p data-lang-zh="在线演示版可直接使用。可购买完整版获得 ZIP 包（含所有源码、README、产品图、免责声明）。" data-lang-en="The online demo is free to use. Purchase the full version to get a ZIP package (source code, README, product images, disclaimer).">在线演示版可直接使用。可购买完整版获得 ZIP 包（含所有源码、README、产品图、免责声明）。</p>
-  <a href="https://payhip.com/b/S9pj2" class="buy-btn" data-lang-zh="🛒 购买完整版 — ¥9.99" data-lang-en="🛒 Buy Full Version — ¥9.99">🛒 购买完整版 — ¥9.99</a>
+  <a href="https://payhip.com/b/S9pj2" class="buy-btn" data-lang-zh="🛒 购买完整版 — $9.99" data-lang-en="🛒 Buy Full Version — $9.99">🛒 购买完整版 — $9.99</a>
   <p class="purchase-note" data-lang-zh="一次性买断 · 终身免费更新 · v2.0 含 83 个组件、8 大分类" data-lang-en="One-time purchase · Lifetime free updates · v2.0 with 83 components, 8 categories">一次性买断 · 终身免费更新 · v2.0 含 83 个组件、8 大分类</p>
 </div>
 
@@ -73,6 +73,11 @@ function toggleLang(){
   const btn = document.getElementById('langBtn');
   btn.textContent = currentLang === 'zh' ? 'EN' : '中';
   btn.classList.toggle('active', currentLang === 'en');
+  // 同步切换 iframe 内的语言
+  const iframe = document.querySelector('.widget-fullscreen');
+  if (iframe && iframe.contentWindow) {
+    try { iframe.contentWindow.postMessage({ type: 'toggleLang' }, '*'); } catch(e) {}
+  }
 }
 </script>
 </body>
