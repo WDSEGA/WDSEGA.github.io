@@ -531,7 +531,7 @@ function showPreview() {
             initMosaicOverlay();
         }
         if (tool && tool.id === 'textposter') {
-            initPosterClick();
+            initPosterDrag();
         }
     }
 }
@@ -567,20 +567,28 @@ function handleFileSelect(e) {
     const multi = tool && tool.multi;
 
     if (multi) {
-        uploadedFiles = files;
-        // Show toast for multi-image upload
-        showToast(lang==='zh' ? '已上传 ' + files.length + ' 张图片，可继续添加' : 'Uploaded ' + files.length + ' images, you can add more');
-        // Load first as preview
-        loadImage(files[0]).then(() => {
-            if (tool.needsCropUI && files.length >= 2) {
-                // For diff: load second image
-                loadImageFromFile(files[1]).then(img => {
-                    uploadedFiles._img2 = img;
-                }).catch(()=>{});
+        // 如果已有原图但uploadedFiles为空，把原图文件也加进来
+        if (!uploadedFiles.length && originalImage) {
+            showToast(lang==='zh' ? '当前已加载1张图片，新上传的图片将追加到列表' : '1 image already loaded, new images will be appended');
+        }
+        // 追加（不覆盖已有的）
+        for (const f of files) {
+            if (f.type.startsWith('image/') && !uploadedFiles.find(ef => ef.name === f.name && ef.size === f.size)) {
+                uploadedFiles.push(f);
             }
-        });
+        }
+        showToast(lang==='zh' ? '共 ' + uploadedFiles.length + ' 张图片，可继续添加' : 'Total: ' + uploadedFiles.images + ', add more');
+        // Load first as preview
+        if (!originalImage) {
+            loadImage(uploadedFiles[0]);
+        }
+        var el = document.getElementById('stitchFileList');
+        if (el) {
+            el.innerHTML = (lang==='zh'?'已添加 ':'Added ') + uploadedFiles.length + ': ' + uploadedFiles.map(function(f){return f.name;}).join(', ');
+        }
     } else {
-        uploadedFiles = [];
+        // 单图模式：也存入uploadedFiles[0]，方便后续切到多图工具时使用
+        uploadedFiles = [files[0]];
         loadImage(files[0]);
     }
     e.target.value = '';
@@ -914,6 +922,13 @@ function renderControls(tool) {
             <div class="preset-grid"><button class="preset-btn" onclick="processStitch('h')">↔️ <span data-lang="zh">横向</span><span data-lang="en" style="display:none">Horizontal</span></button><button class="preset-btn" onclick="processStitch('v')">↕️ <span data-lang="zh">纵向</span><span data-lang="en" style="display:none">Vertical</span></button><button class="preset-btn" onclick="processStitch('grid')">🔲 <span data-lang="zh">网格</span><span data-lang="en" style="display:none">Grid</span></button></div></div>
             <div class="form-group"><label><span data-lang="zh">间距 (px)</span><span data-lang="en" style="display:none">Gap (px)</span>: <span class="range-val" id="stitchGapVal">4</span></label><input type="range" id="stitchGap" min="0" max="40" value="4" oninput="document.getElementById('stitchGapVal').textContent=this.value"></div>
             `;
+            // 显示已有图片列表
+            var sfl = document.getElementById('stitchFileList');
+            if (sfl && uploadedFiles.length > 0) {
+                sfl.innerHTML = (lang==='zh'?'已添加 ':'Added ') + uploadedFiles.length + ': ' + uploadedFiles.map(function(f){return f.name;}).join(', ');
+            }
+            break;
+            `;
             refreshStitchFileList();
             break;
         case 'gridcrop':
@@ -932,6 +947,8 @@ function renderControls(tool) {
                 <div class="form-group"><label><span data-lang="zh">字号</span><span data-lang="en" style="display:none">Font Size</span>: <span class="range-val" id="ptFsVal">48</span></label><input type="range" id="posterFontSize" min="16" max="200" value="48" oninput="document.getElementById('ptFsVal').textContent=this.value;updatePosterPreview()"></div>
                 <div class="form-group"><label><span data-lang="zh">文字颜色</span><span data-lang="en" style="display:none">Text Color</span></label><input type="color" id="posterColor" value="#ffffff" onchange="updatePosterPreview()"></div>
                 <div class="form-group"><label><span data-lang="zh">背景不透明度</span><span data-lang="en" style="display:none">BG Opacity</span>: <span class="range-val" id="ptBgVal">0.5</span></label><input type="range" id="posterBgOpacity" min="0" max="10" value="5" oninput="document.getElementById('ptBgVal').textContent=(this.value/10).toFixed(1);updatePosterPreview()"></div>
+                <input type="hidden" id="posterX" value="">
+                <input type="hidden" id="posterY" value="">
                 <div id="posterPosInfo" style="margin:8px 0;font-size:0.82em;color:var(--accent)"><span data-lang="zh">在左侧原图上拖拽文字框来调整位置</span><span data-lang="en" style="display:none">Drag the text box on the image to adjust position</span></div>
             `;
             initPosterDrag();
@@ -1623,20 +1640,28 @@ function initMosaicOverlay() {
         var rect = mosOvDiv.getBoundingClientRect();
         mosSX = e.clientX - rect.left; mosSY = e.clientY - rect.top; mosSel = true;
     });
+    // 用 rAF 节流，避免卡顿
+    var mosRafId = null, mosPending = null;
     mosOvDiv.addEventListener('mousemove',function(e){
         if (!mosSel) return; e.preventDefault();
-        var rect = mosOvDiv.getBoundingClientRect();
-        var cx = e.clientX - rect.left, cy = e.clientY - rect.top;
-        var rx = Math.min(mosSX, cx), ry = Math.min(mosSY, cy);
-        var rw = Math.abs(cx - mosSX), rh = Math.abs(cy - mosSY);
-        // Convert to canvas pixel coords for inputs
-        document.getElementById('mosX').value = Math.max(0, Math.round(rx * scaleX));
-        document.getElementById('mosY').value = Math.max(0, Math.round(ry * scaleY));
-        document.getElementById('mosW').value = Math.max(1, Math.round(rw * scaleX));
-        document.getElementById('mosH').value = Math.max(1, Math.round(rh * scaleY));
-        var sr = document.getElementById('mosSelRect');
-        sr.style.display = 'block'; sr.style.left = rx + 'px'; sr.style.top = ry + 'px';
-        sr.style.width = rw + 'px'; sr.style.height = rh + 'px';
+        mosPending = e;
+        if (mosRafId) return;
+        mosRafId = requestAnimationFrame(function(){
+            mosRafId = null;
+            if (!mosPending || !mosSel) return;
+            var ev = mosPending; mosPending = null;
+            var rect = mosOvDiv.getBoundingClientRect();
+            var cx = ev.clientX - rect.left, cy = ev.clientY - rect.top;
+            var rx = Math.min(mosSX, cx), ry = Math.min(mosSY, cy);
+            var rw = Math.abs(cx - mosSX), rh = Math.abs(cy - mosSY);
+            document.getElementById('mosX').value = Math.max(0, Math.round(rx * scaleX));
+            document.getElementById('mosY').value = Math.max(0, Math.round(ry * scaleY));
+            document.getElementById('mosW').value = Math.max(1, Math.round(rw * scaleX));
+            document.getElementById('mosH').value = Math.max(1, Math.round(rh * scaleY));
+            var sr = document.getElementById('mosSelRect');
+            sr.style.display = 'block'; sr.style.left = rx + 'px'; sr.style.top = ry + 'px';
+            sr.style.width = rw + 'px'; sr.style.height = rh + 'px';
+        });
     });
     mosOvDiv.addEventListener('mouseup',function(e){
         if (!mosSel) return; mosSel = false;
@@ -2543,6 +2568,7 @@ window.addEventListener('resize', function(){
 // ---- Text Poster Drag Improvements (appended) ----
 function initPosterDrag() {
     var pane = document.getElementById('beforePane');
+    var bi = document.getElementById('beforeImg');
     if (!pane || !originalImage) return;
     var old = document.getElementById('posterPreviewBox');
     if (old) old.remove();
@@ -2569,7 +2595,31 @@ function initPosterDrag() {
         box.style.top = (ot + e.clientY - sy) + 'px';
         box.style.transform = '';
     });
-    document.addEventListener('mouseup', function() { dragging = false; });
+    document.addEventListener('mouseup', function() {
+        if (!dragging) return;
+        dragging = false;
+        // 保存最终位置到隐藏input（转为canvas坐标）
+        if (bi && bi.complete && bi.naturalWidth) {
+            var imgRect = bi.getBoundingClientRect();
+            var paneRect = pane.getBoundingClientRect();
+            var ps = getComputedStyle(pane);
+            var padL = parseInt(ps.paddingLeft) || 0;
+            var padT = parseInt(ps.paddingTop) || 0;
+            var boxRect = box.getBoundingClientRect();
+            // 盒子在pane中的位置 → 减去padding和图片偏移 → 转为图片上的CSS像素
+            var boxCssX = boxRect.left - imgRect.left;
+            var boxCssY = boxRect.top - imgRect.top;
+            // CSS像素 → canvas像素
+            var scaleX = bi.naturalWidth / imgRect.width;
+            var scaleY = bi.naturalHeight / imgRect.height;
+            var canvasX = Math.round(boxCssX * scaleX);
+            var canvasY = Math.round(boxCssY * scaleY);
+            var pxInput = document.getElementById('posterX');
+            var pyInput = document.getElementById('posterY');
+            if (pxInput) pxInput.value = Math.max(0, canvasX);
+            if (pyInput) pyInput.value = Math.max(0, canvasY);
+        }
+    });
     updatePosterPreview();
 }
 function updatePosterPreview() {
