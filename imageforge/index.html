@@ -239,6 +239,16 @@ body {
 .buy-btn:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 4px 20px rgba(99,102,241,0.4); }
 [data-lang] { transition: display 0.2s; }
 .hidden { display: none !important; }
+.multi-drop-zone {
+    padding: 10px 16px !important;
+    margin-bottom: 10px !important;
+    border-radius: 8px !important;
+    font-size: 0.85em !important;
+}
+.multi-drop-zone .upload-icon { font-size: 1.2em !important; margin-bottom: 0 !important; display: inline !important; }
+.multi-drop-zone .upload-text { font-size: 0.95em !important; display: inline !important; margin: 0 6px !important; }
+.multi-drop-zone .upload-hint { display: none !important; }
+.multi-drop-zone .upload-btn { padding: 4px 10px !important; font-size: 0.85em !important; display: inline-block !important; margin-left: 8px !important; }
 </style>
 </head>
 <body>
@@ -497,7 +507,15 @@ function showPreview() {
     const pa = document.getElementById('previewArea');
     const tp = document.getElementById('toolPanel');
     const gt = document.getElementById('guideTip');
-    up.classList.add('hidden');
+    const tool = TOOLS.find(t => t.id === currentTool);
+    const isMulti = tool && tool.multi;
+    // 多图工具（拼接/对比/批量）不隐藏上传区，方便继续拖拽加图
+    if (!isMulti) {
+        up.classList.add('hidden');
+    } else {
+        up.classList.remove('hidden');
+        up.classList.add('multi-drop-zone');
+    }
     pa.classList.remove('hidden');
     tp.classList.remove('hidden');
     gt.classList.add('hidden');
@@ -654,6 +672,9 @@ function selectTool(toolId) {
     // Clean up overlays and listeners
     if (cwmOvDiv) { var old=document.getElementById('cwmOverlay'); if(old)old.remove(); cwmOvDiv = null; }
     if (mosOvDiv) { var old=document.getElementById('mosOverlay'); if(old)old.remove(); mosOvDiv = null; }
+    // 清理多图工具上传区样式
+    var up = document.getElementById('uploadZone');
+    if (up) up.classList.remove('multi-drop-zone');
     // Clean up color picker listener
     if (window._cpCleanup) { window._cpCleanup(); window._cpCleanup = null; }
     // Hide color picker info when switching away from palette
