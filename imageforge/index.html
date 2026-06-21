@@ -408,6 +408,7 @@ const TOOLS = [
     { id:'stitch', cat:'social', icon:'🧩', name:{zh:'图片拼接',en:'Image Stitch'}, desc:{zh:'横向/纵向/网格布局',en:'Horiz/vert/grid layout'}, multi:true, controls:'stitchControls', process:'processStitch' },
     { id:'gridcrop', cat:'social', icon:'🔢', name:{zh:'九宫格切图',en:'Grid Crop'}, desc:{zh:'2x2/3x3/4x4等分切片',en:'2x2/3x3/4x4 equal slices'}, multi:false, controls:'gridcropControls', process:'processGridCrop' },
     { id:'textposter', cat:'social', icon:'📝', name:{zh:'文字海报',en:'Text Poster'}, desc:{zh:'叠加文字+半透明背景',en:'Text overlay+semi-transp BG'}, multi:false, controls:'textposterControls', process:'processTextPoster' },
+    { id:'stamp', cat:'social', icon:'🔖', name:{zh:'抠盖印章',en:'Stamp Extract & Apply'}, desc:{zh:'抠图章+盖章，支持变形/透明叠加',en:'Extract & apply stamp, warp/transparent'}, multi:false, controls:'stampControls', process:'processStamp' },
     // Dev (4)
     { id:'base64', cat:'dev', icon:'📋', name:{zh:'Base64编码',en:'Base64 Encode'}, desc:{zh:'Data URI，嵌入HTML/CSS',en:'Data URI for HTML/CSS'}, multi:false, controls:'base64Controls', process:'processBase64' },
     { id:'favicon', cat:'dev', icon:'🧿', name:{zh:'Favicon生成',en:'Favicon Gen'}, desc:{zh:'16-256px全尺寸PNG',en:'All sizes 16-256px PNG'}, multi:false, controls:'faviconControls', process:'processFavicon' },
@@ -672,6 +673,7 @@ function selectTool(toolId) {
     // Clean up overlays and listeners
     if (cwmOvDiv) { var old=document.getElementById('cwmOverlay'); if(old)old.remove(); cwmOvDiv = null; }
     if (mosOvDiv) { var old=document.getElementById('mosOverlay'); if(old)old.remove(); mosOvDiv = null; }
+    if (stampOvDiv) { stampOvDiv.remove(); stampOvDiv = null; }
     // 清理多图工具上传区样式
     var up = document.getElementById('uploadZone');
     if (up) up.classList.remove('multi-drop-zone');
@@ -975,6 +977,52 @@ function renderControls(tool) {
             `;
             initPosterDrag();
             break;
+        case 'stamp':
+            tc.innerHTML = `
+                <div class="form-group" style="margin-bottom:10px">
+                    <label style="font-weight:600;margin-bottom:6px;display:block"><span data-lang="zh">模式选择</span><span data-lang="en" style="display:none">Mode</span></label>
+                    <div class="preset-grid">
+                        <button class="preset-btn" id="stampExtractBtn" onclick="switchStampMode('extract')" style="background:var(--accent);color:#fff"><span data-lang="zh">🔖 抠图章</span><span data-lang="en" style="display:none">🔖 Extract</span></button>
+                        <button class="preset-btn" id="stampApplyBtn" onclick="switchStampMode('apply')"><span data-lang="zh">🔏 盖图章</span><span data-lang="en" style="display:none">🔏 Apply</span></button>
+                    </div>
+                </div>
+                <div id="stampExtractPanel">
+                    <div class="form-group"><label><span data-lang="zh">选框形状</span><span data-lang="en" style="display:none">Selection Shape</span></label>
+                        <div class="preset-grid">
+                            <button class="preset-btn" onclick="stampSelType='rect';showToast(lang==='zh'?'矩形选框':'Rect selection')">▭ 矩形</button>
+                            <button class="preset-btn" onclick="stampSelType='circle';showToast(lang==='zh'?'圆形选框':'Circle')">○ 圆形</button>
+                            <button class="preset-btn" onclick="stampSelType='ellipse';showToast(lang==='zh'?'椭圆选框':'Ellipse')">⬭ 椭圆</button>
+                            <button class="preset-btn" onclick="stampSelType='polygon';stampSelPts=[];showToast(lang==='zh'?'点击图片添加顶点，双击完成':'Click to add points, double-click to finish')">⬠ 多边形</button>
+                        </div>
+                    </div>
+                    <div class="form-group"><label><span data-lang="zh">颜色容差</span><span data-lang="en" style="display:none">Color Tolerance</span>: <span class="range-val" id="stampTolVal">80</span></label><input type="range" id="stampTolerance" min="10" max="200" value="80" oninput="document.getElementById('stampTolVal').textContent=this.value"></div>
+                    <div class="form-group"><label><span data-lang="zh">使用说明</span><span data-lang="en" style="display:none">How to use</span></label><div style="font-size:0.8em;color:var(--sub);line-height:1.6;padding:6px 8px;background:var(--bg);border-radius:6px">
+                        <span data-lang="zh">1.在左侧图上拖拽框选图章区域<br>2.选框越贴近图章效果越好<br>3.调整容差：值越大提取范围越广<br>4.点击"提取图章"完成抠图<br>5.可下载PNG(透明)或JPG(白底)</span><span data-lang="en" style="display:none">1.Drag on left image to select stamp area<br>2.Closer selection = better result<br>3.Adjust tolerance: higher = wider range<br>4.Click "Extract Stamp" to finish<br>5.Download PNG(transparent) or JPG(white BG)</span>
+                    </div></div>
+                    <button class="action-btn" onclick="extractStamp()" style="width:100%;margin:8px 0"><span data-lang="zh">🔖 提取图章</span><span data-lang="en" style="display:none">🔖 Extract Stamp</span></button>
+                    <div id="stampExtractPreviewWrap" style="margin:8px 0;display:none"><img id="stampExtractPreview" style="max-width:100%;border:1px solid var(--border);border-radius:6px;background:repeating-conic-gradient(#ccc 0% 25%,#fff 0% 50%) 50% / 12px 12px"></div>
+                    <div class="preset-grid" id="stampDownloadBtns" style="display:none">
+                        <button class="preset-btn" onclick="downloadStamp('png')">⬇️ PNG透明底</button>
+                        <button class="preset-btn" onclick="downloadStamp('jpg')">⬇️ JPG白底</button>
+                    </div>
+                    <button class="action-btn" id="stampApplyFromExtractBtn" disabled onclick="switchStampMode('apply');loadStampApplyImg(document.getElementById('stampExtractPreview').src)" style="width:100%;margin:8px 0;background:var(--success)"><span data-lang="zh">🔏 直接盖章到当前图</span><span data-lang="en" style="display:none">🔏 Apply to current image</span></button>
+                </div>
+                <div id="stampApplyPanel" style="display:none">
+                    <button class="add-images-btn" onclick="document.getElementById('stampFileInput').click()" style="width:100%"><span data-lang="zh">📁 导入图章图片</span><span data-lang="en" style="display:none">📁 Import Stamp Image</span></button>
+                    <input type="file" id="stampFileInput" accept="image/*" style="display:none" onchange="if(this.files[0]){var r=new FileReader();r.onload=function(e){loadStampApplyImg(e.target.result);};r.readAsDataURL(this.files[0]);}">
+                    <div class="form-group" style="margin-top:10px"><label><span data-lang="zh">盖章透明度</span><span data-lang="en" style="display:none">Stamp Opacity</span>: <span class="range-val" id="stampOpVal">85</span>%</label><input type="range" id="stampOpacity" min="10" max="100" value="85" oninput="document.getElementById('stampOpVal').textContent=this.value;renderStampApplyPreview()"></div>
+                    <div class="form-group"><label><span data-lang="zh">使用说明</span><span data-lang="en" style="display:none">How to use</span></label><div style="font-size:0.8em;color:var(--sub);line-height:1.6;padding:6px 8px;background:var(--bg);border-radius:6px">
+                        <span data-lang="zh">1.导入图章图片（PNG透明底效果最佳）<br>2.在右侧预览图上拖拽移动图章位置<br>3.拖拽四角调整大小<br>4.调整透明度模拟真实盖章<br>5.点击"确认加盖"完成</span><span data-lang="en" style="display:none">1.Import stamp image (PNG transparent best)<br>2.Drag on right preview to move stamp<br>3.Drag corners to resize<br>4.Adjust opacity for real stamp effect<br>5.Click "Apply Stamp" to finish</span>
+                    </div></div>
+                    <div class="preset-grid">
+                        <button class="preset-btn" onclick="convertStampBg(true)"><span data-lang="zh">透明底→白底</span><span data-lang="en" style="display:none">Transparent→White</span></button>
+                        <button class="preset-btn" onclick="convertStampBg(false)"><span data-lang="zh">白底→透明底</span><span data-lang="en" style="display:none">White→Transparent</span></button>
+                    </div>
+                    <button class="action-btn" onclick="applyTool()" style="width:100%;margin:8px 0;background:var(--accent)"><span data-lang="zh">🔏 确认加盖</span><span data-lang="en" style="display:none">🔏 Apply Stamp</span></button>
+                </div>
+            `;
+            if (stampMode === 'extract') { setTimeout(initStampOverlay, 50); }
+            break;
         case 'base64':
             tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">生成图片的 Base64 Data URI，可直接嵌入 HTML/CSS。</span><span data-lang="en" style="display:none">Generate Base64 Data URI for direct HTML/CSS embedding.</span></p>`; break;
         case 'favicon':
@@ -1048,6 +1096,7 @@ function applyTool() {
             case 'exif': processExif(canvas); break;
             case 'social': showToast(lang==='zh'?'请点击平台按钮':'Please click a platform button', true); return;
             case 'textposter': processTextPoster(canvas); break;
+            case 'stamp': processStamp(canvas); break;
             case 'base64': processBase64(canvas); return;
             case 'favicon': processFavicon(canvas); return;
             case 'diff': processDiff(canvas); return;
@@ -2569,6 +2618,357 @@ function toggleAspect() {
         window._ratio = window._origW / window._origH;
     }
 }
+
+// ============ STAMP TOOL (抠盖印章) ============
+// State
+var stampMode = 'extract'; // 'extract' | 'apply'
+var stampSelPts = [];
+var stampSelType = 'rect';
+var stampSelDown = false;
+var stampSelStartX = 0, stampSelStartY = 0;
+var stampOvDiv = null;
+var stampImg = null; // extracted stamp canvas
+var stampApplyImg = null;
+var stampApplyX = 0, stampApplyY = 0, stampApplyW = 0, stampApplyH = 0;
+var stampApplyDrag = false, stampApplyResize = false, stampApplyResizeCorner = '';
+var stampApplyDragStartX = 0, stampApplyDragStartY = 0;
+
+function initStampOverlay() {
+    var pane = document.getElementById('beforePane');
+    var bi = document.getElementById('beforeImg');
+    if (!pane || !bi || !bi.complete) return;
+    if (stampOvDiv) stampOvDiv.remove();
+    var imgRect = bi.getBoundingClientRect();
+    var paneRect = pane.getBoundingClientRect();
+    var pl = parseFloat(getComputedStyle(pane).paddingLeft) || 0;
+    var pt = parseFloat(getComputedStyle(pane).paddingTop) || 0;
+    var imgLeft = imgRect.left - paneRect.left - pl;
+    var imgTop = imgRect.top - paneRect.top - pt;
+    var div = document.createElement('div');
+    div.id = 'stampOverlay';
+    div.style.cssText = 'position:absolute;left:'+imgLeft+'px;top:'+imgTop+'px;width:'+imgRect.width+'px;height:'+imgRect.height+'px;z-index:25;cursor:crosshair;pointer-events:auto;';
+    div.addEventListener('mousedown', stampOnMouseDown);
+    div.addEventListener('mousemove', stampOnMouseMove);
+    div.addEventListener('mouseup', stampOnMouseUp);
+    div.addEventListener('dblclick', stampOnDoubleClick);
+    pane.appendChild(div);
+    stampOvDiv = div;
+    // Create selection canvas
+    var cv = document.createElement('canvas');
+    cv.id = 'stampSelCanvas';
+    cv.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;';
+    div.appendChild(cv);
+}
+
+function stampOnMouseDown(e) {
+    if (stampMode !== 'extract') return;
+    e.preventDefault(); e.stopPropagation();
+    var rect = stampOvDiv.getBoundingClientRect();
+    var sx = e.clientX - rect.left, sy = e.clientY - rect.top;
+    if (stampSelType === 'polygon') {
+        stampSelPts.push([sx, sy]);
+        stampDrawSel();
+        return;
+    }
+    stampSelDown = true;
+    stampSelStartX = sx; stampSelStartY = sy;
+    stampSelPts = [[sx, sy]];
+}
+
+function stampOnMouseMove(e) {
+    if (stampMode !== 'extract' || !stampSelDown) return;
+    var rect = stampOvDiv.getBoundingClientRect();
+    var ex = e.clientX - rect.left, ey = e.clientY - rect.top;
+    stampSelPts = [[stampSelStartX, stampSelStartY], [ex, ey]];
+    stampDrawSel();
+}
+
+function stampOnMouseUp(e) {
+    stampSelDown = false;
+}
+
+function stampDrawSel() {
+    if (!stampOvDiv) return;
+    var cv = document.getElementById('stampSelCanvas');
+    if (!cv) return;
+    cv.width = stampOvDiv.offsetWidth;
+    cv.height = stampOvDiv.offsetHeight;
+    var ctx = cv.getContext('2d');
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    if (!stampSelPts.length) return;
+    ctx.strokeStyle = '#ff4444';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6, 3]);
+    ctx.beginPath();
+    if (stampSelType === 'rect') {
+        var x = stampSelPts[0][0], y = stampSelPts[0][1];
+        var w = (stampSelPts[1]?stampSelPts[1][0]:x) - x;
+        var h = (stampSelPts[1]?stampSelPts[1][1]:y) - y;
+        ctx.rect(x, y, w, h);
+    } else if (stampSelType === 'ellipse' || stampSelType === 'circle') {
+        var x = stampSelPts[0][0], y = stampSelPts[0][1];
+        var ex = stampSelPts[1]?stampSelPts[1][0]:x;
+        var ey = stampSelPts[1]?stampSelPts[1][1]:y;
+        var rx = Math.abs(ex - x), ry = stampSelType==='circle'?rx:Math.abs(ey - y);
+        ctx.ellipse(x + (ex-x)/2, y + (ey-y)/2, rx/2, ry/2, 0, 0, Math.PI*2);
+    } else if (stampSelType === 'polygon') {
+        ctx.moveTo(stampSelPts[0][0], stampSelPts[0][1]);
+        for (var i=1;i<stampSelPts.length;i++) ctx.lineTo(stampSelPts[i][0], stampSelPts[i][1]);
+        ctx.closePath();
+    }
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(255,68,68,0.08)';
+    ctx.fill();
+    ctx.setLineDash([]);
+}
+
+function getStampSelRect() {
+    if (!stampSelPts.length) return null;
+    if (stampSelType === 'polygon') {
+        var minX=stampSelPts[0][0],minY=stampSelPts[0][1],maxX=minX,maxY=minY;
+        for (var i=1;i<stampSelPts.length;i++) {
+            if(stampSelPts[i][0]<minX)minX=stampSelPts[i][0];
+            if(stampSelPts[i][1]<minY)minY=stampSelPts[i][1];
+            if(stampSelPts[i][0]>maxX)maxX=stampSelPts[i][0];
+            if(stampSelPts[i][1]>maxY)maxY=stampSelPts[i][1];
+        }
+        return {x:minX,y:minY,w:maxX-minX,h:maxY-minY};
+    }
+    var x=stampSelPts[0][0],y=stampSelPts[0][1];
+    var ex=stampSelPts[1]?stampSelPts[1][0]:x,ey=stampSelPts[1]?stampSelPts[1][1]:y;
+    return {x:Math.min(x,ex),y:Math.min(y,ey),w:Math.abs(ex-x),h:Math.abs(ey-y)};
+}
+
+function extractStamp() {
+    var sel = getStampSelRect();
+    if (!sel || sel.w<5 || sel.h<5) return showToast(lang==='zh'?'请先框选图章区域':'Select stamp area first', true);
+    var bi = document.getElementById('beforeImg');
+    if (!bi.naturalWidth) return;
+    var imgRect = bi.getBoundingClientRect();
+    var scaleX = bi.naturalWidth / imgRect.width;
+    var scaleY = bi.naturalHeight / imgRect.height;
+    var sx=Math.round(sel.x*scaleX), sy=Math.round(sel.y*scaleY);
+    var sw=Math.round(sel.w*scaleX), sh=Math.round(sel.h*scaleY);
+    sx=Math.max(0,sx); sy=Math.max(0,sy);
+    sw=Math.min(bi.naturalWidth-sx,sw); sh=Math.min(bi.naturalHeight-sy,sh);
+    // Get image data
+    var tmpCv=document.createElement('canvas');
+    tmpCv.width=bi.naturalWidth; tmpCv.height=bi.naturalHeight;
+    var tmpCtx=tmpCv.getContext('2d');
+    tmpCtx.drawImage(bi,0,0);
+    var imgData=tmpCtx.getImageData(0,0,bi.naturalWidth,bi.naturalHeight);
+    var data=imgData.data;
+    // Sample center color
+    var cx=Math.round(sx+sw/2), cy=Math.round(sy+sh/2);
+    var idx=(cy*bi.naturalWidth+cx)*4;
+    var tr=data[idx],tg=data[idx+1],tb=data[idx+2];
+    // Output canvas
+    var outCv=document.createElement('canvas');
+    outCv.width=sw; outCv.height=sh;
+    var outCtx=outCv.getContext('2d');
+    var outData=outCtx.createImageData(sw,sh);
+    var od=outData.data;
+    var tol=parseInt(document.getElementById('stampTolerance')?document.getElementById('stampTolerance').value:80);
+    for (var y=0;y<sh;y++) {
+        for (var x=0;x<sw;x++) {
+            var si=((sy+y)*bi.naturalWidth+(sx+x))*4;
+            var di=(y*sw+x)*4;
+            var r=data[si],g=data[si+1],b=data[si+2];
+            var dr=Math.abs(r-tr)+Math.abs(g-tg)+Math.abs(b-tb);
+            if (dr<=tol*3) { od[di]=r; od[di+1]=g; od[di+2]=b; od[di+3]=255; }
+            else { od[di+3]=0; }
+        }
+    }
+    outCtx.putImageData(outData,0,0);
+    stampImg = outCv;
+    // Show preview
+    var preview=document.getElementById('stampExtractPreview');
+    if (preview) { preview.src=outCv.toDataURL('image/png'); preview.style.display=''; }
+    showToast(lang==='zh'?'图章提取完成！可下载或继续盖章':'Stamp extracted! Download or apply');
+    var btn=document.getElementById('stampApplyFromExtractBtn');
+    if (btn) btn.disabled=false;
+}
+    // Show preview and download buttons
+    var wrap = document.getElementById('stampExtractPreviewWrap');
+    if (wrap) wrap.style.display = '';
+    var dlBtns = document.getElementById('stampDownloadBtns');
+    if (dlBtns) dlBtns.style.display = '';
+
+function downloadStamp(format) {
+    if (!stampImg) return showToast(lang==='zh'?'请先提取图章':'Extract stamp first', true);
+    var cv=stampImg, url;
+    if (format==='jpg') {
+        var tmp=document.createElement('canvas');
+        tmp.width=cv.width; tmp.height=cv.height;
+        var c=tmp.getContext('2d');
+        c.fillStyle='#ffffff'; c.fillRect(0,0,tmp.width,tmp.height);
+        c.drawImage(cv,0,0);
+        url=tmp.toDataURL('image/jpeg',0.95);
+    } else { url=cv.toDataURL('image/png'); }
+    var a=document.createElement('a');
+    a.download='stamp.'+(format==='jpg'?'jpg':'png');
+    a.href=url; a.click();
+}
+
+function loadStampApplyImg(src) {
+    var img=new Image();
+    img.onload=function() {
+        stampApplyImg=img;
+        var pa=document.getElementById('previewArea');
+        stampApplyX=(pa.offsetWidth-img.width)/2;
+        stampApplyY=(pa.offsetHeight-img.height)/2;
+        stampApplyW=img.width; stampApplyH=img.height;
+        renderStampApplyPreview();
+        enableStampApplyDrag();
+    };
+    img.src=src;
+}
+
+function enableStampApplyDrag() {
+    var pa=document.getElementById('previewArea');
+    pa.style.position='relative';
+    pa.onmousedown = function(e) {
+        if (stampMode!=='apply' || !stampApplyImg) return;
+        var rect=pa.getBoundingClientRect();
+        var mx=e.clientX-rect.left, my=e.clientY-rect.top;
+        // Check if clicking on corner handle
+        var ch=12;
+        var corners=[[stampApplyX,stampApplyY],[stampApplyX+stampApplyW,stampApplyY],[stampApplyX,stampApplyY+stampApplyH],[stampApplyX+stampApplyW,stampApplyY+stampApplyH]];
+        for (var i=0;i<corners.length;i++) {
+            if (Math.abs(mx-corners[i][0])<ch && Math.abs(my-corners[i][1])<ch) {
+                stampApplyResize=true; stampApplyResizeCorner=i;
+                e.preventDefault(); e.stopPropagation(); return;
+            }
+        }
+        // Check if clicking on stamp image
+        if (mx>=stampApplyX && mx<=stampApplyX+stampApplyW && my>=stampApplyY && my<=stampApplyY+stampApplyH) {
+            stampApplyDrag=true;
+            stampApplyDragStartX=e.clientX-stampApplyX;
+            stampApplyDragStartY=e.clientY-stampApplyY;
+            e.preventDefault(); e.stopPropagation();
+        }
+    };
+    pa.onmousemove=function(e) {
+        if (!stampApplyImg) return;
+        var rect=pa.getBoundingClientRect();
+        var mx=e.clientX-rect.left, my=e.clientY-rect.top;
+        if (stampApplyResize) {
+            if (stampApplyResizeCorner===0) { stampApplyW+=stampApplyX-mx; stampApplyH+=stampApplyY-my; stampApplyX=mx; stampApplyY=my; }
+            else if (stampApplyResizeCorner===1) { stampApplyW=mx-stampApplyX; stampApplyH+=stampApplyY-my; stampApplyY=my; }
+            else if (stampApplyResizeCorner===2) { stampApplyW+=stampApplyX-mx; stampApplyH=my-stampApplyY; stampApplyX=mx; }
+            else if (stampApplyResizeCorner===3) { stampApplyW=mx-stampApplyX; stampApplyH=my-stampApplyY; }
+            if (stampApplyW<10) stampApplyW=10; if (stampApplyH<10) stampApplyH=10;
+            renderStampApplyPreview();
+            e.preventDefault(); e.stopPropagation();
+        } else if (stampApplyDrag) {
+            stampApplyX=e.clientX-stampApplyDragStartX;
+            stampApplyY=e.clientY-stampApplyDragStartY;
+            renderStampApplyPreview();
+            e.preventDefault(); e.stopPropagation();
+        }
+    };
+    pa.onmouseup=function(e) {
+        stampApplyDrag=false; stampApplyResize=false;
+    };
+}
+
+function renderStampApplyPreview() {
+    if (!stampApplyImg) return;
+    var pa=document.getElementById('previewArea');
+    var cv=document.getElementById('stampApplyCanvas');
+    if (!cv) {
+        cv=document.createElement('canvas');
+        cv.id='stampApplyCanvas';
+        cv.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:26;';
+        pa.appendChild(cv);
+    }
+    cv.width=pa.offsetWidth; cv.height=pa.offsetHeight;
+    var ctx=cv.getContext('2d');
+    ctx.clearRect(0,0,cv.width,cv.height);
+    var op=parseFloat(document.getElementById('stampOpacity')?document.getElementById('stampOpacity').value/100:0.85);
+    ctx.globalAlpha=op;
+    ctx.drawImage(stampApplyImg,stampApplyX,stampApplyY,stampApplyW,stampApplyH);
+    ctx.globalAlpha=1.0;
+    // Draw handles
+    var ch=12;
+    ctx.fillStyle='#ff4444'; ctx.strokeStyle='#ffffff'; ctx.lineWidth=2;
+    var corners=[[stampApplyX,stampApplyY],[stampApplyX+stampApplyW,stampApplyY],[stampApplyX,stampApplyY+stampApplyH],[stampApplyX+stampApplyW,stampApplyY+stampApplyH]];
+    corners.forEach(function(c){ctx.fillRect(c[0]-ch/2,c[1]-ch/2,ch,ch);ctx.strokeRect(c[0]-ch/2,c[1]-ch/2,ch,ch);});
+}
+
+function processStamp(canvas) {
+    if (!stampApplyImg) return showToast(lang==='zh'?'请先导入图章图片':'Import stamp image first', true);
+    var ctx=canvas.getContext('2d');
+    var op=parseFloat(document.getElementById('stampOpacity')?document.getElementById('stampOpacity').value/100:0.85);
+    ctx.globalAlpha=op;
+    var pa=document.getElementById('previewArea');
+    var sx=stampApplyX/pa.offsetWidth*canvas.width;
+    var sy=stampApplyY/pa.offsetHeight*canvas.height;
+    var sw=stampApplyW/pa.offsetWidth*canvas.width;
+    var sh=stampApplyH/pa.offsetHeight*canvas.height;
+    ctx.drawImage(stampApplyImg,sx,sy,sw,sh);
+    ctx.globalAlpha=1.0;
+    showAfter(canvas.toDataURL('image/png'));
+    showToast(lang==='zh'?'图章已加盖！可下载':'Stamp applied! Download ready');
+}
+
+function convertStampBg(toWhite) {
+    var src=stampImg||stampApplyImg;
+    if (!src) return showToast(lang==='zh'?'请先提取或导入图章':'Load stamp first', true);
+    var w=src.width||src.naturalWidth, h=src.height||src.naturalHeight;
+    var cv=document.createElement('canvas');
+    cv.width=w; cv.height=h;
+    var ctx=cv.getContext('2d');
+    if (toWhite) {
+        ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,w,h);
+        ctx.drawImage(src,0,0);
+    } else {
+        ctx.drawImage(src,0,0);
+        var d=ctx.getImageData(0,0,w,h);
+        for (var i=0;i<d.data.length;i+=4) {
+            if (d.data[i]>245&&d.data[i+1]>245&&d.data[i+2]>245) d.data[i+3]=0;
+        }
+        ctx.putImageData(d,0,0);
+    }
+    // Update stampImg
+    var newCv=document.createElement('canvas');
+    newCv.width=w; newCv.height=h;
+    newCv.getContext('2d').drawImage(cv,0,0);
+    if (stampImg) stampImg=newCv;
+    if (stampApplyImg) stampApplyImg=newCv;
+    // Update preview
+    var preview=document.getElementById('stampExtractPreview');
+    if (preview) preview.src=cv.toDataURL('image/png');
+    renderStampApplyPreview();
+    showToast(lang==='zh'?(toWhite?'已转白底':'已转透明底'):'Converted');
+}
+
+function switchStampMode(mode) {
+    stampMode = mode;
+    document.getElementById('stampExtractBtn').style.background = mode==='extract' ? 'var(--accent)' : '';
+    document.getElementById('stampExtractBtn').style.color = mode==='extract' ? '#fff' : '';
+    document.getElementById('stampApplyBtn').style.background = mode==='apply' ? 'var(--accent)' : '';
+    document.getElementById('stampApplyBtn').style.color = mode==='apply' ? '#fff' : '';
+    document.getElementById('stampExtractPanel').style.display = mode==='extract' ? '' : 'none';
+    document.getElementById('stampApplyPanel').style.display = mode==='apply' ? '' : 'none';
+    if (mode === 'extract') {
+        if (stampOvDiv) stampOvDiv.style.display = '';
+        initStampOverlay();
+    } else {
+        if (stampOvDiv) stampOvDiv.style.display = 'none';
+        enableStampApplyDrag();
+    }
+}
+
+
+function stampOnDoubleClick(e) {
+    if (stampMode !== 'extract' || stampSelType !== 'polygon' || stampSelPts.length < 3) return;
+    e.preventDefault(); e.stopPropagation();
+    stampDrawSel();
+    // Finish polygon selection
+}
+
+// ============ END STAMP TOOL ============
 
 // ============ INIT ============
 // Auto-select first tool
