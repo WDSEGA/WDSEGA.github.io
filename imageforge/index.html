@@ -562,36 +562,45 @@ function showAfter(dataUrl) {
 function handleFileSelect(e) {
     const files = Array.from(e.target.files);
     if (!files.length) return;
+    _processFiles(files);
+    e.target.value = '';
+}
 
+function _processFiles(files) {
     const tool = TOOLS.find(t => t.id === currentTool);
     const multi = tool && tool.multi;
 
     if (multi) {
-        // 如果已有原图但uploadedFiles为空，把原图文件也加进来
-        if (!uploadedFiles.length && originalImage) {
-            showToast(lang==='zh' ? '当前已加载1张图片，新上传的图片将追加到列表' : '1 image already loaded, new images will be appended');
-        }
         // 追加（不覆盖已有的）
         for (const f of files) {
             if (f.type.startsWith('image/') && !uploadedFiles.find(ef => ef.name === f.name && ef.size === f.size)) {
                 uploadedFiles.push(f);
             }
         }
-        showToast(lang==='zh' ? '共 ' + uploadedFiles.length + ' 张图片，可继续添加' : 'Total: ' + uploadedFiles.images + ', add more');
-        // Load first as preview
-        if (!originalImage) {
+        var msg = lang==='zh' ? '共 ' + uploadedFiles.length + ' 张图片' : 'Total: ' + uploadedFiles.length + ' images';
+        showToast(msg);
+        // Load first as preview if none yet
+        if (!originalImage && uploadedFiles.length > 0) {
             loadImage(uploadedFiles[0]);
         }
-        var el = document.getElementById('stitchFileList');
-        if (el) {
-            el.innerHTML = (lang==='zh'?'已添加 ':'Added ') + uploadedFiles.length + ': ' + uploadedFiles.map(function(f){return f.name;}).join(', ');
-        }
+        refreshMultiFileList();
     } else {
         // 单图模式：也存入uploadedFiles[0]，方便后续切到多图工具时使用
         uploadedFiles = [files[0]];
         loadImage(files[0]);
     }
-    e.target.value = '';
+}
+
+function refreshMultiFileList() {
+    var elId = null;
+    if (currentTool === 'stitch') elId = 'stitchFileList';
+    else if (currentTool === 'diff') elId = 'diffFileList';
+    else if (currentTool === 'batchinfo') elId = 'batchFileList';
+    if (!elId) return;
+    var el = document.getElementById(elId);
+    if (!el) return;
+    if (!uploadedFiles.length) { el.innerHTML = ''; return; }
+    el.innerHTML = (lang==='zh'?'已添加 ':'Added ') + uploadedFiles.length + ': ' + uploadedFiles.map(function(f){return f.name;}).join(', ');
 }
 
 // Add more images for multi-image tools
@@ -601,19 +610,8 @@ function addMoreImages() {
 function handleAddImages(e) {
     var files = Array.from(e.target.files);
     if (!files.length) return;
-    // Append to existing uploadedFiles
-    for (var i = 0; i < files.length; i++) {
-        if (files[i].type.startsWith('image/')) {
-            uploadedFiles.push(files[i]);
-        }
-    }
-    refreshStitchFileList();
+    _processFiles(files);
     e.target.value = '';
-    showToast(lang==='zh'?'已添加 ' + files.length + ' 张图片，共 ' + uploadedFiles.length + ' 张':'Added ' + files.length + ' images, total ' + uploadedFiles.length);
-    // Load first as preview if none loaded yet
-    if (!originalImage && uploadedFiles.length > 0) {
-        loadImage(uploadedFiles[0]);
-    }
 }
 function refreshStitchFileList() {
     var el = document.getElementById('stitchFileList');
@@ -627,19 +625,39 @@ function refreshStitchFileList() {
 }
 document.addEventListener('DOMContentLoaded', () => {
     renderSidebar();
+    // Upload zone drag/drop
     const uz = document.getElementById('uploadZone');
     uz.addEventListener('dragover', e => { e.preventDefault(); uz.classList.add('dragover'); });
     uz.addEventListener('dragleave', () => uz.classList.remove('dragover'));
-    uz.addEventListener('drop', e => {
+    uz.addEventListener('drop', function(e) {
         e.preventDefault(); uz.classList.remove('dragover');
-        const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-        if (!files.length) return showToast(lang==='zh'?'请拖放图片文件':'Please drop image files', true);
-        const dt = new DataTransfer();
-        files.forEach(f => dt.items.add(f));
-        document.getElementById('fileInput').files = dt.files;
-        handleFileSelect({ target: { files: dt.files } });
+        handleDroppedFiles(e.dataTransfer.files);
+    });
+    // Preview area also accepts drops (for multi-image tools like stitch/diff)
+    const pa = document.getElementById('previewArea');
+    pa.addEventListener('dragover', function(e) {
+        const tool = TOOLS.find(t => t.id === currentTool);
+        if (tool && tool.multi) { e.preventDefault(); pa.classList.add('dragover'); }
+    });
+    pa.addEventListener('dragleave', () => pa.classList.remove('dragover'));
+    pa.addEventListener('drop', function(e) {
+        pa.classList.remove('dragover');
+        const tool = TOOLS.find(t => t.id === currentTool);
+        if (tool && tool.multi) {
+            e.preventDefault();
+            handleDroppedFiles(e.dataTransfer.files);
+        }
     });
 });
+
+function handleDroppedFiles(fileList) {
+    const files = Array.from(fileList).filter(f => f.type.startsWith('image/'));
+    if (!files.length) return showToast(lang==='zh'?'请拖放图片文件':'Please drop image files', true);
+    const dt = new DataTransfer();
+    files.forEach(f => dt.items.add(f));
+    document.getElementById('fileInput').files = dt.files;
+    handleFileSelect({ target: { files: dt.files } });
+}
 
 // ============ TOOL SELECTION ============
 function selectTool(toolId) {
