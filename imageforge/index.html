@@ -2788,6 +2788,70 @@ function stampOnMouseUp(e) {
     stampSelDragMode = '';
 }
 
+// ---- Draw selection outline ----
+function stampDrawSel() {
+    if (!stampOvDiv) return;
+    var cv = document.getElementById('stampSelCanvas');
+    if (!cv) return;
+    cv.width = stampOvDiv.offsetWidth;
+    cv.height = stampOvDiv.offsetHeight;
+    var ctx = cv.getContext('2d');
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    if (!stampSelPts.length) return;
+    ctx.strokeStyle = '#ff4444';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6, 3]);
+    ctx.beginPath();
+    if (stampSelType === 'ellipse' || stampSelType === 'circle') {
+        var ex1 = stampSelPts[0][0], ey1 = stampSelPts[0][1];
+        var ex2 = stampSelPts[1] ? stampSelPts[1][0] : ex1;
+        var ey2 = stampSelPts[1] ? stampSelPts[1][1] : ey1;
+        var rx = Math.abs(ex2 - ex1), ry = stampSelType === 'circle' ? rx : Math.abs(ey2 - ey1);
+        ctx.ellipse(ex1 + (ex2 - ex1) / 2, ey1 + (ey2 - ey1) / 2, rx / 2, ry / 2, 0, 0, Math.PI * 2);
+    } else if (stampSelType === 'polygon') {
+        ctx.moveTo(stampSelPts[0][0], stampSelPts[0][1]);
+        for (var pi = 1; pi < stampSelPts.length; pi++) ctx.lineTo(stampSelPts[pi][0], stampSelPts[pi][1]);
+        ctx.closePath();
+    } else {
+        var rx1 = stampSelPts[0][0], ry1 = stampSelPts[0][1];
+        var rw = (stampSelPts[1] ? stampSelPts[1][0] : rx1) - rx1;
+        var rh = (stampSelPts[1] ? stampSelPts[1][1] : ry1) - ry1;
+        ctx.rect(rx1, ry1, rw, rh);
+    }
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(255,68,68,0.08)';
+    ctx.fill();
+    ctx.setLineDash([]);
+    // Draw corner handles when selection is complete
+    if (stampSelDone && stampSelPts.length >= 2 && stampSelType !== 'polygon') {
+        var sel = getStampSelRect();
+        if (sel) {
+            var ch = 8;
+            ctx.fillStyle = '#ff4444'; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2;
+            var corners = [[sel.x - ch/2, sel.y - ch/2], [sel.x + sel.w - ch/2, sel.y - ch/2],
+                           [sel.x - ch/2, sel.y + sel.h - ch/2], [sel.x + sel.w - ch/2, sel.y + sel.h - ch/2]];
+            corners.forEach(function(c) { ctx.fillRect(c[0], c[1], ch, ch); ctx.strokeRect(c[0], c[1], ch, ch); });
+        }
+    }
+}
+
+function getStampSelRect() {
+    if (!stampSelPts.length) return null;
+    if (stampSelType === 'polygon') {
+        var minX = stampSelPts[0][0], minY = stampSelPts[0][1], maxX = minX, maxY = minY;
+        for (var i = 1; i < stampSelPts.length; i++) {
+            if (stampSelPts[i][0] < minX) minX = stampSelPts[i][0];
+            if (stampSelPts[i][1] < minY) minY = stampSelPts[i][1];
+            if (stampSelPts[i][0] > maxX) maxX = stampSelPts[i][0];
+            if (stampSelPts[i][1] > maxY) maxY = stampSelPts[i][1];
+        }
+        return { x: minX, y: minY, w: maxX - minX, h: maxY - minY };
+    }
+    var x = stampSelPts[0][0], y = stampSelPts[0][1];
+    var ex = stampSelPts[1] ? stampSelPts[1][0] : x, ey = stampSelPts[1] ? stampSelPts[1][1] : y;
+    return { x: Math.min(x, ex), y: Math.min(y, ey), w: Math.abs(ex - x), h: Math.abs(ey - y) };
+}
+
 // ---- Color picker ----
 function stampStartPickColor() {
     if (stampMode !== 'extract' || !stampOvDiv) return;
