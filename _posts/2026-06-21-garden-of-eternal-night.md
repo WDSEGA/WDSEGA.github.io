@@ -3,7 +3,7 @@ layout: post
 title: "永夜花园 | The Garden of Eternal Night"
 date: 2026-06-21 15:00:00 +0800
 categories: [科幻小说, 短篇]
-tags: [科幻, 生态, 短篇小说]
+tags: [科幻小说, 生态, 短篇小说]
 ---
 
 林晚在给一株死去的兰花浇水。
