@@ -3101,14 +3101,14 @@ function processStamp(canvas) {
     canvas.height = originalCanvas.height;
     var ctx = canvas.getContext('2d');
     ctx.drawImage(originalImage, 0, 0);
-    // Apply stamp overlay
+    // Apply stamp overlay — map from beforePane (where user dragged) to canvas
     var op = parseFloat(document.getElementById('stampOpacity') ? document.getElementById('stampOpacity').value / 100 : 0.85);
     ctx.globalAlpha = op;
-    var pa = document.getElementById('previewArea');
-    var sx = stampApplyX / pa.offsetWidth * canvas.width;
-    var sy = stampApplyY / pa.offsetHeight * canvas.height;
-    var sw = stampApplyW / pa.offsetWidth * canvas.width;
-    var sh = stampApplyH / pa.offsetHeight * canvas.height;
+    var bp = document.getElementById('beforePane');
+    var sx = (stampApplyX - bp.offsetLeft) / bp.offsetWidth * canvas.width;
+    var sy = (stampApplyY - bp.offsetTop) / bp.offsetHeight * canvas.height;
+    var sw = stampApplyW / bp.offsetWidth * canvas.width;
+    var sh = stampApplyH / bp.offsetHeight * canvas.height;
     ctx.drawImage(stampApplyImg, sx, sy, sw, sh);
     ctx.globalAlpha = 1.0;
     processedDataUrl = canvas.toDataURL('image/png');
