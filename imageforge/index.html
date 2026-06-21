@@ -367,7 +367,7 @@ const TOOLS = [
     { id:'resize', cat:'basic', icon:'📐', name:{zh:'调整尺寸',en:'Resize'}, desc:{zh:'像素/百分比模式，自动宽高比',en:'Pixel/percent, auto aspect ratio'}, multi:false, controls:'resizeControls', process:'processResize' },
     { id:'convert', cat:'basic', icon:'🔄', name:{zh:'格式转换',en:'Format Convert'}, desc:{zh:'JPEG/PNG/WebP/BMP 一键互转',en:'One-click format switch'}, multi:false, controls:'convertControls', process:'processConvert' },
     { id:'watermark', cat:'basic', icon:'💧', name:{zh:'文字水印',en:'Watermark'}, desc:{zh:'自定义文字、位置、透明度',en:'Custom text, position, opacity'}, multi:false, controls:'watermarkControls', process:'processWatermark' },
-    { id:'cleanwm', cat:'basic', icon:'🧹', name:{zh:'清理水印',en:'Clean Watermark'}, desc:{zh:'框选水印区域，智能修复',en:'Select watermark area, smart inpaint'}, multi:false, controls:'cleanwmControls', process:'processCleanwm' },
+    { id:'cleanwm', cat:'basic', icon:'🧹', name:{zh:'清理水印',en:'Clean Watermark'}, desc:{zh:'框选区域智能修复去除水印',en:'Select area, smart inpaint removal'}, multi:false, controls:'cleanwmControls', process:'processCleanwm' },
     { id:'alpha2white', cat:'basic', icon:'⬜', name:{zh:'透明底转白底',en:'Alpha to White'}, desc:{zh:'电商平台白底要求一键搞定',en:'Amazon/eBay white BG ready'}, multi:false, controls:'alpha2whiteControls', process:'processAlpha2White' },
     { id:'rounded', cat:'basic', icon:'⭕', name:{zh:'圆角裁切',en:'Rounded Corners'}, desc:{zh:'半径可调 + 圆形裁切',en:'Adjustable radius + circle'}, multi:false, controls:'roundedControls', process:'processRounded' },
     { id:'flip', cat:'basic', icon:'🪞', name:{zh:'镜像翻转',en:'Mirror Flip'}, desc:{zh:'水平/垂直翻转',en:'Horizontal/vertical'}, multi:false, controls:'flipControls', process:'processFlip' },
@@ -509,9 +509,8 @@ function showPreview() {
         if (tool && tool.id === 'batchinfo' && uploadedFiles.length) {
             processBatchInfo();
         }
-        // Init cleanwm selection overlay
         if (tool && tool.id === 'cleanwm') {
-            setTimeout(() => initCleanwmSelection(), 100);
+            setTimeout(function(){initCleanwmSelection();},150);
         }
     }
 }
@@ -570,9 +569,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ============ TOOL SELECTION ============
 function selectTool(toolId) {
-    // Clean up previous tool overlays
-    if (cleanwmOverlayCanvas) { cleanwmOverlayCanvas.remove(); cleanwmOverlayCanvas = null; }
-
+    if (cwmOv) { cwmOv.remove(); cwmOv = null; }
     currentTool = toolId;
     document.querySelectorAll('.side-tool').forEach(s => s.classList.remove('active'));
     const side = document.getElementById('side-' + toolId);
@@ -679,32 +676,32 @@ function renderControls(tool) {
             `; break;
         case 'cleanwm':
             tc.innerHTML = `
-                <p style="color:var(--sub);font-size:0.85em;margin-bottom:12px">
-                    <span data-lang="zh">框选水印区域坐标，工具自动从周围取样修复。也可在图片上拖拽框选。</span>
-                    <span data-lang="en" style="display:none">Select watermark area coordinates. Tool auto-samples from surroundings to inpaint. You can also drag on image.</span>
-                </p>
-                <div class="form-group"><label><span data-lang="zh">水印 X</span><span data-lang="en" style="display:none">WM X</span></label><input type="number" id="cwmX" value="0" min="0" style="width:100%"></div>
-                <div class="form-group"><label><span data-lang="zh">水印 Y</span><span data-lang="en" style="display:none">WM Y</span></label><input type="number" id="cwmY" value="0" min="0" style="width:100%"></div>
-                <div class="form-group"><label><span data-lang="zh">宽度</span><span data-lang="en" style="display:none">Width</span></label><input type="number" id="cwmW" value="100" min="1" style="width:100%"></div>
-                <div class="form-group"><label><span data-lang="zh">高度</span><span data-lang="en" style="display:none">Height</span></label><input type="number" id="cwmH" value="40" min="1" style="width:100%"></div>
-                <div class="form-group"><label><span data-lang="zh">取样方向</span><span data-lang="en" style="display:none">Sample From</span></label>
+                <p style="color:var(--sub);font-size:0.85em;margin-bottom:10px"><span data-lang="zh">在左侧图片上拖拽框选水印区域，或用快捷预设。工具自动从周围取样修复。</span><span data-lang="en" style="display:none">Drag on left image to select area, or use presets. Auto-samples surroundings.</span></p>
+                <div class="preset-grid" style="margin-bottom:8px">
+                    <button class="preset-btn" onclick="cleanwmPreset('br')" style="font-size:0.82em">↘️ <span data-lang="zh">右下角</span><span data-lang="en" style="display:none">BR</span></button>
+                    <button class="preset-btn" onclick="cleanwmPreset('bl')" style="font-size:0.82em">↙️ <span data-lang="zh">左下角</span><span data-lang="en" style="display:none">BL</span></button>
+                    <button class="preset-btn" onclick="cleanwmPreset('tr')" style="font-size:0.82em">↗️ <span data-lang="zh">右上角</span><span data-lang="en" style="display:none">TR</span></button>
+                    <button class="preset-btn" onclick="cleanwmPreset('center')" style="font-size:0.82em">⊕ <span data-lang="zh">中央</span><span data-lang="en" style="display:none">Center</span></button>
+                </div>
+                <div class="form-group"><label>X</label><input type="number" id="cwmX" value="0" min="0" style="width:100%"></div>
+                <div class="form-group"><label>Y</label><input type="number" id="cwmY" value="0" min="0" style="width:100%"></div>
+                <div class="form-group"><label><span data-lang="zh">宽度</span><span data-lang="en" style="display:none">W</span></label><input type="number" id="cwmW" value="120" min="1" style="width:100%"></div>
+                <div class="form-group"><label><span data-lang="zh">高度</span><span data-lang="en" style="display:none">H</span></label><input type="number" id="cwmH" value="40" min="1" style="width:100%"></div>
+                <div class="form-group"><label><span data-lang="zh">取样方向</span><span data-lang="en" style="display:none">Sample</span></label>
                     <select id="cwmDir">
-                        <option value="auto"><span data-lang="zh">自动</span><span data-lang="en" style="display:none">Auto</span></option>
+                        <option value="auto">Auto</option>
                         <option value="up"><span data-lang="zh">上方</span><span data-lang="en" style="display:none">Above</span></option>
                         <option value="left"><span data-lang="zh">左侧</span><span data-lang="en" style="display:none">Left</span></option>
                         <option value="right"><span data-lang="zh">右侧</span><span data-lang="en" style="display:none">Right</span></option>
                         <option value="down"><span data-lang="zh">下方</span><span data-lang="en" style="display:none">Below</span></option>
                     </select></div>
-                <div class="form-group"><label><span data-lang="zh">融合强度</span><span data-lang="en" style="display:none">Blend</span>: <span class="range-val" id="cwmBlendVal">3</span></label>
-                <input type="range" id="cwmBlend" min="0" max="8" value="3" oninput="document.getElementById('cwmBlendVal').textContent=this.value"></div>
+                <div class="form-group"><label>Blend: <span class="range-val" id="cwmBlendVal">5</span>px</label>
+                <input type="range" id="cwmBlend" min="0" max="20" value="5" oninput="document.getElementById('cwmBlendVal').textContent=this.value"></div>
                 <button class="apply-btn" onclick="applyCleanwm()"><span data-lang="zh">🧹 清理水印</span><span data-lang="en" style="display:none">🧹 Clean Watermark</span></button>
-                <button class="preset-btn" onclick="clearCleanwmSelection()" style="margin-top:8px"><span data-lang="zh">清除选区</span><span data-lang="en" style="display:none">Clear Selection</span></button>
-                <div id="cleanwmSelectionInfo" style="margin-top:8px;font-size:0.8em;color:var(--accent)"></div>
+                <div id="cleanwmSelectionInfo" style="margin-top:8px;font-size:0.82em;color:var(--accent)"></div>
             `;
-            // Init interactive selection on image
             initCleanwmSelection();
             break;
-        case 'alpha2white':
             tc.innerHTML = `<p style="color:var(--sub);font-size:0.9em"><span data-lang="zh">将PNG透明背景替换为白色背景，适合电商平台上传。</span><span data-lang="en" style="display:none">Replace transparent background with white, perfect for e-commerce platforms.</span></p>`; break;
         case 'rounded':
             tc.innerHTML = `
@@ -1094,160 +1091,86 @@ function processWatermark(canvas) {
     ctx.fillText(text, x, y);
 }
 
+// ============ CLEAN WATERMARK ============
 function processCleanwm(canvas) {
-    const x = parseInt(document.getElementById('cwmX').value) || 0;
-    const y = parseInt(document.getElementById('cwmY').value) || 0;
-    const w = parseInt(document.getElementById('cwmW').value) || 100;
-    const h = parseInt(document.getElementById('cwmH').value) || 40;
-    const dir = document.getElementById('cwmDir').value;
-    const blend = parseInt(document.getElementById('cwmBlend').value) || 3;
-
-    canvas.width = originalCanvas.width;
-    canvas.height = originalCanvas.height;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(originalCanvas, 0, 0);
-
-    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const data = imgData.data;
-
-    // Determine sample source position
-    let sx, sy;
-    const tryOrder = dir === 'auto' ? ['up','left','right','down'] : [dir];
-    let sampled = false;
-
-    for (const d of tryOrder) {
-        if (d === 'up' && y - h >= 0) { sx = x; sy = y - h; sampled = true; break; }
-        if (d === 'left' && x - w >= 0) { sx = x - w; sy = y; sampled = true; break; }
-        if (d === 'right' && x + w + w <= canvas.width) { sx = x + w; sy = y; sampled = true; break; }
-        if (d === 'down' && y + h + h <= canvas.height) { sx = x; sy = y + h; sampled = true; break; }
+    var x=parseInt(document.getElementById('cwmX').value)||0;
+    var y=parseInt(document.getElementById('cwmY').value)||0;
+    var w=parseInt(document.getElementById('cwmW').value)||120;
+    var h=parseInt(document.getElementById('cwmH').value)||40;
+    var dir=document.getElementById('cwmDir').value;
+    var blend=Math.max(0,parseInt(document.getElementById('cwmBlend').value)||5);
+    var iw=originalCanvas.width,ih=originalCanvas.height;
+    if(x<0||y<0||x+w>iw||y+h>ih){showToast(lang==='zh'?'超出范围':'Out of bounds',true);return;}
+    canvas.width=iw;canvas.height=ih;
+    var ctx=canvas.getContext('2d');ctx.drawImage(originalImage,0,0);
+    var imgData=ctx.getImageData(0,0,iw,ih),data=imgData.data;
+    var order=dir==='auto'?['up','left','right','down']:[dir];
+    var sx=-1,sy=-1;
+    for(var i=0;i<order.length;i++){var d=order[i];
+        if(d==='up'&&y-h>=0){sx=x;sy=y-h;break;}
+        if(d==='left'&&x-w>=0){sx=x-w;sy=y;break;}
+        if(d==='right'&&x+w+w<=iw){sx=x+w;sy=y;break;}
+        if(d==='down'&&y+h+h<=ih){sx=x;sy=y+h;break;}
     }
-
-    if (!sampled) {
-        showToast(lang==='zh' ? '无法找到合适的取样区域，请调整坐标' : 'No valid sample area found, adjust coordinates', true);
-        return;
-    }
-
-    // Copy sample region to watermark region
-    const sampleData = ctx.getImageData(sx, sy, w, h);
-    ctx.putImageData(sampleData, x, y);
-
-    // Blend edges
-    if (blend > 0) {
-        const b = blend;
-        for (let py = Math.max(0, y-b); py < Math.min(canvas.height, y+h+b); py++) {
-            for (let px = Math.max(0, x-b); px < Math.min(canvas.width, x+w+b); px++) {
-                const isEdge = px < x+b || px >= x+w-b || py < y+b || py >= y+h-b;
-                if (isEdge) {
-                    let r=0,g=0,bv=0,count=0;
-                    for (let dy = -b; dy <= b; dy++) {
-                        for (let dx = -b; dx <= b; dx++) {
-                            const nx = px+dx, ny = py+dy;
-                            if (nx >= 0 && nx < canvas.width && ny >= 0 && ny < canvas.height) {
-                                const ni = (ny*canvas.width+nx)*4;
-                                r += data[ni]; g += data[ni+1]; bv += data[ni+2]; count++;
-                            }
-                        }
-                    }
-                    if (count > 0) {
-                        const i = (py*canvas.width+px)*4;
-                        data[i] = Math.round(r/count);
-                        data[i+1] = Math.round(g/count);
-                        data[i+2] = Math.round(bv/count);
-                    }
-                }
+    if(sx<0){showToast(lang==='zh'?'无法取样':'Cannot sample',true);return;}
+    ctx.putImageData(ctx.getImageData(sx,sy,w,h),x,y);
+    if(blend>0){
+        var rd=ctx.getImageData(0,0,iw,ih).data;
+        for(var py=y;py<y+h;py++){for(var px=x;px<x+w;px++){
+            var d1=Math.min(px-x,x+w-px),d2=Math.min(py-y,y+h-py),dist=Math.min(d1,d2);
+            if(dist<blend&&dist>=0){var a=dist/blend,idx=(py*iw+px)*4;
+                data[idx]=Math.round(a*data[idx]+(1-a)*rd[idx]);
+                data[idx+1]=Math.round(a*data[idx+1]+(1-a)*rd[idx+1]);
+                data[idx+2]=Math.round(a*data[idx+2]+(1-a)*rd[idx+2]);
             }
-        }
-        ctx.putImageData(imgData, 0, 0);
+        }}
+        ctx.putImageData(imgData,0,0);
     }
-
-    showToast(lang==='zh' ? `水印已清理（取样自${dir}方）` : `Watermark cleaned (sampled from ${dir})`);
+    showAfter(canvas.toDataURL('image/png'));
+    showToast(lang==='zh'?'水印已清理!':'Watermark cleaned!');
 }
-
-// ============ CLEAN WM INTERACTIVE SELECTION ============
-let cleanwmSelecting = false;
-let cleanwmStartX, cleanwmStartY;
-let cleanwmOverlayCanvas = null;
-
-function initCleanwmSelection() {
-    const beforeImg = document.getElementById('beforeImg');
-    if (!beforeImg || beforeImg.style.display === 'none') return;
-
-    // Remove existing overlay
-    if (cleanwmOverlayCanvas) cleanwmOverlayCanvas.remove();
-
-    // Create overlay canvas on top of beforeImg
-    const pane = document.getElementById('beforePane');
-    cleanwmOverlayCanvas = document.createElement('canvas');
-    cleanwmOverlayCanvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;z-index:10';
-    cleanwmOverlayCanvas.width = beforeImg.naturalWidth || originalCanvas.width;
-    cleanwmOverlayCanvas.height = beforeImg.naturalHeight || originalCanvas.height;
-    pane.style.position = 'relative';
-    pane.appendChild(cleanwmOverlayCanvas);
-
-    cleanwmOverlayCanvas.addEventListener('mousedown', e => {
-        const rect = cleanwmOverlayCanvas.getBoundingClientRect();
-        cleanwmStartX = (e.clientX - rect.left) / rect.width * cleanwmOverlayCanvas.width;
-        cleanwmStartY = (e.clientY - rect.top) / rect.height * cleanwmOverlayCanvas.height;
-        cleanwmSelecting = true;
-    });
-
-    cleanwmOverlayCanvas.addEventListener('mousemove', e => {
-        if (!cleanwmSelecting) return;
-        const rect = cleanwmOverlayCanvas.getBoundingClientRect();
-        const curX = (e.clientX - rect.left) / rect.width * cleanwmOverlayCanvas.width;
-        const curY = (e.clientY - rect.top) / rect.height * cleanwmOverlayCanvas.height;
-        const ox = Math.min(cleanwmStartX, curX), oy = Math.min(cleanwmStartY, curY);
-        const ow = Math.abs(curX - cleanwmStartX), oh = Math.abs(curY - cleanwmStartY);
-        const octx = cleanwmOverlayCanvas.getContext('2d');
-        octx.clearRect(0, 0, cleanwmOverlayCanvas.width, cleanwmOverlayCanvas.height);
-        octx.strokeStyle = '#6366f1';
-        octx.lineWidth = 2;
-        octx.setLineDash([6, 4]);
-        octx.strokeRect(ox, oy, ow, oh);
-        octx.fillStyle = 'rgba(99,102,241,0.12)';
-        octx.fillRect(ox, oy, ow, oh);
-    });
-
-    cleanwmOverlayCanvas.addEventListener('mouseup', e => {
-        if (!cleanwmSelecting) return;
-        cleanwmSelecting = false;
-        const rect = cleanwmOverlayCanvas.getBoundingClientRect();
-        const curX = (e.clientX - rect.left) / rect.width * cleanwmOverlayCanvas.width;
-        const curY = (e.clientY - rect.top) / rect.height * cleanwmOverlayCanvas.height;
-        const fx = Math.round(Math.min(cleanwmStartX, curX));
-        const fy = Math.round(Math.min(cleanwmStartY, curY));
-        const fw = Math.round(Math.abs(curX - cleanwmStartX));
-        const fh = Math.round(Math.abs(curY - cleanwmStartY));
-
-        document.getElementById('cwmX').value = fx;
-        document.getElementById('cwmY').value = fy;
-        document.getElementById('cwmW').value = fw;
-        document.getElementById('cwmH').value = fh;
-
-        const info = document.getElementById('cleanwmSelectionInfo');
-        if (info) info.textContent = lang==='zh'
-            ? `已框选: (${fx}, ${fy}) ${fw}×${fh}`
-            : `Selected: (${fx}, ${fy}) ${fw}×${fh}`;
+var cleanwmSel=false,cwmSX,cwmSY,cwmOv=null;
+function cleanwmPreset(pos){if(!originalCanvas)return;
+    var W=originalCanvas.width,H=originalCanvas.height,fw=Math.max(60,Math.round(W*0.18)),fh=Math.max(20,Math.round(H*0.055)),fx,fy;
+    if(pos==='br'){fx=W-fw-Math.round(W*0.02);fy=h-fh-Math.round(H*0.02);}
+    else if(pos==='bl'){fx=Math.round(W*0.02);fy=H-fh-Math.round(H*0.02);}
+    else if(pos==='tr'){fx=W-fw-Math.round(W*0.02);fy=Math.round(H*0.02);}
+    else{fx=Math.round((W-fw)/2);fy=Math.round((H-fh)/2);}
+    document.getElementById('cwmX').value=fx;document.getElementById('cwmY').value=fy;
+    document.getElementById('cwmW').value=fw;document.getElementById('cwmH').value=fh;
+    drawCWMRect(fx,fy,fw,fh);
+}
+function initCleanwmSelection(){
+    var bi=document.getElementById('beforeImg');
+    if(!bi||bi.style.display==='none'||!originalCanvas)return;
+    var pane=document.getElementById('beforePane');
+    if(cwmOv)cwmOv.remove();
+    cwmOv=document.createElement('canvas');
+    cwmOv.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;z-index:10;';
+    cwmOv.width=bi.naturalWidth||originalCanvas.width;cwmOv.height=bi.naturalHeight||originalCanvas.height;
+    pane.style.position='relative';pane.appendChild(cwmOv);
+    setTimeout(function(){cleanwmPreset('br');},300);
+    function gp(e){var r=cwmOv.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*cwmOv.width,y:(e.clientY-r.top)/r.height*cwmOv.height};}
+    cwmOv.addEventListener('mousedown',function(e){e.preventDefault();var p=gp(e);cwmSX=p.x;cwmSY=p.y;cleanwmSel=true;});
+    cwmOv.addEventListener('mousemove',function(e){if(!cleanwmSel)return;e.preventDefault();var p=gp(e);drawCWMRect(Math.min(cwmSX,p.x),Math.min(cwmSY,p.y),Math.abs(p.x-cwmSX),Math.abs(p.y-cwmSY));});
+    cwmOv.addEventListener('mouseup',function(e){if(!cleanwmSel)return;cleanwmSel=false;var p=gp(e);
+        var fx=Math.round(Math.min(cwmSX,p.x)),fy=Math.round(Math.min(cwmSY,p.y));
+        var fw=Math.max(10,Math.round(Math.abs(p.x-cwmSX))),fh=Math.max(10,Math.round(Math.abs(p.y-cwmSY)));
+        document.getElementById('cwmX').value=fx;document.getElementById('cwmY').value=fy;
+        document.getElementById('cwmW').value=fw;document.getElementById('cwmH').value=fh;
+        var info=document.getElementById('cleanwmSelectionInfo');
+        if(info)info.textContent='Selected: '+fx+','+fy+'  '+fw+'x'+fh;
     });
 }
-
-function clearCleanwmSelection() {
-    if (cleanwmOverlayCanvas) {
-        const octx = cleanwmOverlayCanvas.getContext('2d');
-        octx.clearRect(0, 0, cleanwmOverlayCanvas.width, cleanwmOverlayCanvas.height);
-    }
-    document.getElementById('cwmX').value = 0;
-    document.getElementById('cwmY').value = 0;
-    document.getElementById('cwmW').value = 100;
-    document.getElementById('cwmH').value = 40;
-    const info = document.getElementById('cleanwmSelectionInfo');
-    if (info) info.textContent = '';
+function drawCWMRect(x,y,w,h){if(!cwmOv)return;var octx=cwmOv.getContext('2d');
+    octx.clearRect(0,0,cwmOv.width,cwmOv.height);
+    octx.fillStyle='rgba(99,102,241,0.15)';octx.fillRect(x,y,w,h);
+    octx.strokeStyle='#6366f1';octx.lineWidth=2.5;octx.setLineDash([8,5]);octx.strokeRect(x,y,w,h);
+    octx.setLineDash([]);octx.fillStyle='#6366f1';var s=8;
+    octx.fillRect(x-s/2,y-s/2,s,s);octx.fillRect(x+w-s/2,y-s/2,s,s);
+    octx.fillRect(x-s/2,y+h-s/2,s,s);octx.fillRect(x+w-s/2,y+h-s/2,s,s);
 }
-
-function applyCleanwm() {
-    if (!originalCanvas) { showToast(lang==='zh'?'请先上传图片':'Please upload an image first', true); return; }
-    document.getElementById('applyBtn').click();
-}
+function applyCleanwm(){if(!originalCanvas){showToast(lang==='zh'?'先上传图片':'Upload image',true);return;}document.getElementById('applyBtn').click();}
 
 function processAlpha2White(canvas) {
     canvas.width = originalCanvas.width;
