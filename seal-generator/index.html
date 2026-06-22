@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>电子印章生成器 | Electronic Seal Generator</title>
+<title>电子印章生成器 v1.2 | Electronic Seal Generator</title>
 <meta name="description" content="免费在线电子印章生成器，支持8种国家标准印章模板，实时预览，导出透明PNG和白底JPG，做旧毛边效果。">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -248,8 +248,9 @@ function drawArcText(ctx, text, cx, cy, radius, fontSize, color, isBottom) {
   var n = text.length;
   if (n === 0) return;
 
-  // 每字占28°弧段，覆盖上/下半圆约60%-90%
-  var charSpanDeg = 28;
+  // 动态计算每字符角度：填满约140°弧段，最少16°/字，最多40°/字
+  // n=2→80° | n=5→28° | n=7→23° | n=9→18° | n=10→16°
+  var charSpanDeg = Math.min(40, Math.max(16, 140 / (n - 1)));
   var totalAngle  = (n - 1) * charSpanDeg * Math.PI / 180;
 
   // 处理单字情况（居中）
