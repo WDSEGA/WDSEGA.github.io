@@ -228,15 +228,10 @@ const COLORS = {
 function srnd(seed){var s=seed|0;return function(){s=(s*16807+0)%2147483647;return((s|0)-1)/2147483646}}
 
 // ============================================================
-// 弧排文字 — 关键：下弧必须从左到右读
+// 弧排文字
 //
-// 上弧: center=-PI/2(12点), 从左边(-PI/2-total/2)到右边(-PI/2+total/2)
-//   → 角度递增 ✓ 左到右
-//
-// 下弧: center=+PI/2(6点), 从左边(+PI/2+total/2)到右边(+PI/2-total/2)
-//   → 角度递减！这样才能左到右读！
-//
-// 统一旋转 rot = a + PI/2 (字顶朝径向外部)
+// 上弧: center=-PI/2(12点), 从左到右, rot=a+PI/2 (字顶朝外)
+// 下弧: center=+PI/2(6点),  从左到右, rot=a-PI/2 (字顶朝上可读)
 // ============================================================
 function drawArcText(ctx,text,cx,cy,radius,fontSize,color,isBottom,charDeg,fontFamily){
   if(!text||!text.length)return;
@@ -265,10 +260,10 @@ function drawArcText(ctx,text,cx,cy,radius,fontSize,color,isBottom,charDeg,fontF
     var x=cx+radius*Math.cos(a);
     var y=cy+radius*Math.sin(a);
 
-    // 字顶朝径向外部（远离圆心方向）
-    // Canvas默认字顶朝上(-y)=角度-PI/2
-    // 要转到径向角度a的方向: rot=a-(-PI/2)=a+PI/2
-    var rot=a+Math.PI/2;
+    // 字顶朝向：
+    //   上弧：径向外部 = a + PI/2（12点钟位置 rot=0，正向）
+    //   下弧：径向内部朝上可读 = a - PI/2（6点钟位置 rot=0，正向）
+    var rot=isBottom?(a-Math.PI/2):(a+Math.PI/2);
 
     ctx.save();
     ctx.translate(x,y);
