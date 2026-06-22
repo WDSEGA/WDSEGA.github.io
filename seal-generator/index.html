@@ -111,6 +111,11 @@ body {
       <input type="text" id="sealType" value="公章" placeholder="如：合同专用章">
     </div>
 
+    <div class="field" id="taxIdGroup" style="display:none">
+      <label>税号（发票专用章）</label>
+      <input type="text" id="taxId" value="" placeholder="如：91110108MA01XXXXX">
+    </div>
+
     <div class="field">
       <label>印章颜色</label>
       <select id="sealColor">
@@ -228,27 +233,46 @@ function roughPath(ctx, cx, cy, rx, ry, seed, amplitude) {
 
 // ============================================================
 // 弧排文字（核心）
-// centerAngle: 弧的中点角度（弧度），上弧=-π/2 下弧=π/2
+// isBottom=false: 上弧，字顶朝外（上），从左读到右
+// isBottom=true:  下弧，字顶朝外（下），从左读到右
+// 旋转规则：上弧 rot = a + π/2（字顶朝远离圆心方向=上方）
+//          下弧 rot = a - π/2（字顶朝远离圆心方向=下方）
 // ============================================================
-function drawArcText(ctx, text, cx, cy, radius, fontSize, color, centerAngle) {
+function drawArcText(ctx, text, cx, cy, radius, fontSize, color, isBottom) {
   if (!text) return;
   ctx.fillStyle = color;
-  ctx.font      = `bold ${fontSize}px "Noto Serif SC","STSong","SimSun",serif`;
+  ctx.font      = 'bold ' + fontSize + 'px "Noto Serif SC","STSong","SimSun","Songti SC",serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  var n        = text.length;
-  // 每个字占约 20° 的弧段，让文字舒展分布
-  var charSpanDeg = 20;
+  var n = text.length;
+  if (n === 0) return;
+
+  // 每字占28°弧段，覆盖上/下半圆约60%-90%
+  var charSpanDeg = 28;
   var totalAngle  = (n - 1) * charSpanDeg * Math.PI / 180;
+
+  // 处理单字情况（居中）
+  if (n === 1) { totalAngle = 0; }
+
+  // 上弧中心=顶部(-π/2)，下弧中心=底部(π/2)
+  var centerAngle = isBottom ? Math.PI / 2 : -Math.PI / 2;
   var startAngle  = centerAngle - totalAngle / 2;
 
   for (var i = 0; i < n; i++) {
-    var a   = startAngle + (i / Math.max(n - 1, 1)) * totalAngle;
-    var x   = cx + radius * Math.cos(a);
-    var y   = cy + radius * Math.sin(a);
-    // a + π/2: 文字沿切线方向排列，字顶朝外（离开圆心）
-    var rot = a + Math.PI / 2;
+    var a;
+    if (n === 1) {
+      a = centerAngle;
+    } else {
+      a = startAngle + (i / (n - 1)) * totalAngle;
+    }
+    var x = cx + radius * Math.cos(a);
+    var y = cy + radius * Math.sin(a);
+
+    // 旋转：字顶朝外（远离圆心）
+    // 上弧：远离圆心=朝上 → rot = a + π/2
+    // 下弧：远离圆心=朝下 → rot = a - π/2
+    var rot = isBottom ? (a - Math.PI / 2) : (a + Math.PI / 2);
 
     ctx.save();
     ctx.translate(x, y);
@@ -362,28 +386,47 @@ function render() {
 
   // --- 弧排文字 ---
   var fontSize = (cfg.fw || 7) * mm_to_px;
-  // 上弧文字半径 = 外圈内沿 - 间距
+  // 上弧文字半径 = 外圈内沿 - 边宽*2 - 小间距
   var topArcR;
   if (cfg.shape === 'circle') {
-    topArcR = cfg.dia/2 * mm_to_px - borderW*2 - 6;
+    topArcR = cfg.dia/2 * mm_to_px - borderW*2 - 8;
   } else if (cfg.shape === 'ellipse') {
-    topArcR = cfg.w/2 * mm_to_px - borderW*2 - 6;
+    topArcR = cfg.w/2 * mm_to_px - borderW*2 - 8;
   } else {
     topArcR = cfg.side*mm_to_px/2 - borderW*2 - 4;
   }
-  // 上弧中心 = 顶部 (12点) = -π/2
-  drawArcText(ctx, companyName, cx, cy, topArcR, fontSize, colorStr, -Math.PI/2);
+  // 上弧 = 顶部，字顶朝外（上）
+  drawArcText(ctx, companyName, cx, cy, topArcR, fontSize, colorStr, false);
 
-  // 下弧文字 — 在底部 (6点) = π/2
+  // 下弧文字 — 底部，字顶朝外（下）
   if (sealType) {
-    var bottomArcR = topArcR - fontSize * 1.1;
-    drawArcText(ctx, sealType, cx, cy, bottomArcR, fontSize * 0.85, colorStr, Math.PI/2);
+    var bottomArcR = topArcR - fontSize * 1.6;
+    drawArcText(ctx, sealType, cx, cy, bottomArcR, fontSize * 0.85, colorStr, true);
   }
 
-  // --- 五角星（方章不画星） ---
-  if (cfg.shape !== 'square' && cfg.star) {
-    var starR = cfg.star / 2 * mm_to_px;
+  // --- 五角星（方章和发票章不画星） ---
+  var starR = 0;
+  if (cfg.shape !== 'square' && cfg.star && tplKey !== 'inv') {
+    starR = cfg.star / 2 * mm_to_px;
     drawStar(ctx, cx, cy, starR, colorStr);
+  } else if (cfg.star) {
+    // 发票章不画星但保留starR用于税号定位
+    starR = cfg.star / 2 * mm_to_px;
+  }
+
+  // --- 税号（仅发票专用章） ---
+  if (tplKey === 'inv') {
+    var taxIdText = document.getElementById('taxId').value.trim();
+    if (taxIdText) {
+      var taxFontSize = fontSize * 0.85;
+      ctx.font = taxFontSize + 'px "Noto Serif SC","STSong","SimSun","Songti SC",serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = colorStr;
+      // 发票章：税号放在中心位置
+      var taxY = cy + starR * 0.5;
+      ctx.fillText(taxIdText, cx, taxY);
+    }
   }
 
   // --- 做旧：印泥颗粒 ---
@@ -425,14 +468,28 @@ function render() {
 // 绑定事件
 // ============================================================
 function bindEvents() {
-  const ids = ['tpl','companyName','sealType','sealColor','roughness','noise','blur'];
-  ids.forEach(id => {
-    const el = document.getElementById(id);
+  var ids = ['tpl','companyName','sealType','sealColor','roughness','noise','blur','taxId'];
+  ids.forEach(function(id) {
+    var el = document.getElementById(id);
     if (el) {
       el.addEventListener('input', render);
       el.addEventListener('change', render);
     }
   });
+
+  // 模板切换时，显示/隐藏税号输入框
+  var tplEl = document.getElementById('tpl');
+  var taxGroup = document.getElementById('taxIdGroup');
+  function toggleTaxId() {
+    if (tplEl.value === 'inv') {
+      taxGroup.style.display = 'flex';
+    } else {
+      taxGroup.style.display = 'none';
+      document.getElementById('taxId').value = '';
+    }
+  }
+  tplEl.addEventListener('change', function() { toggleTaxId(); render(); });
+  toggleTaxId(); // 初始状态
 
   // 滑块实时显示数值
   ['roughness','noise','blur'].forEach(id => {
