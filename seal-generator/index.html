@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>电子印章生成器 v2.1 | Electronic Seal Generator</title>
+<title>电子印章生成器 v2.2 | Electronic Seal Generator</title>
 <meta name="description" content="免费在线电子印章生成器，仿真实印章比例，支持弧形/水平文字，专业做旧毛边防伪纹路效果，导出透明PNG。">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -41,7 +41,7 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
 </head>
 <body>
 <div class="header">
-  <h1>📛 电子印章生成器</h1>
+  <h1>📛 电子印章生成器 v2.2</h1>
   <a href="/">← 返回博客首页</a>
 </div>
 
@@ -100,13 +100,13 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
         <label>上弧字号</label>
         <input type="range" id="topFontSize" min="18" max="72" value="46">
         <div class="val" id="topFontSizeVal">46px</div>
-        <div class="ref" id="topFSRef">推荐: 46px</div>
+        <div class="ref" id="topFSRef">推荐: —</div>
       </div>
       <div class="field">
         <label>下弧字号</label>
         <input type="range" id="bottomFontSize" min="14" max="48" value="26">
         <div class="val" id="bottomFontSizeVal">26px</div>
-        <div class="ref" id="botFSRef">推荐: 26px</div>
+        <div class="ref" id="botFSRef">推荐: —</div>
       </div>
     </div>
 
@@ -115,13 +115,13 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
         <label>上弧字间距</label>
         <input type="range" id="topSpacing" min="10" max="50" value="18">
         <div class="val" id="topSpacingVal">18°/字</div>
-        <div class="ref" id="topSpRef">推荐: 18°/字</div>
+        <div class="ref" id="topSpRef">推荐: —</div>
       </div>
       <div class="field">
         <label>下弧字间距</label>
         <input type="range" id="bottomSpacing" min="10" max="50" value="22">
         <div class="val" id="bottomSpacingVal">22°/字</div>
-        <div class="ref" id="botSpRef">推荐: 22°/字</div>
+        <div class="ref" id="botSpRef">推荐: —</div>
       </div>
     </div>
 
@@ -129,7 +129,7 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
       <label>中间字号（水平文字）</label>
       <input type="range" id="midFontSize" min="18" max="65" value="34">
       <div class="val" id="midFontSizeVal">34px</div>
-      <div class="ref" id="midFSRef">推荐: 34px</div>
+      <div class="ref" id="midFSRef">推荐: —</div>
     </div>
 
     <div class="field">
@@ -154,7 +154,7 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
     </div>
 
     <div class="field switch aging-group">
-      <label style="flex:1">🕰️ 做旧效果（参考DrawStamp风格）</label>
+      <label style="flex:1">🕰️ 做旧效果（全区域：圆环+文字均有做旧）</label>
       <input type="checkbox" id="agingEnabled">
     </div>
 
@@ -165,24 +165,24 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
         <div class="val" id="roughnessVal">55%</div>
       </div>
       <div class="field">
-        <label>💥 印泥颗粒（整体噪点纹理）</label>
-        <input type="range" id="noise" min="0" max="100" value="40">
-        <div class="val" id="noiseVal">40%</div>
+        <label>💥 印泥颗粒（整体噪点纹理，含文字区域）</label>
+        <input type="range" id="noise" min="0" max="100" value="60">
+        <div class="val" id="noiseVal">60%</div>
       </div>
       <div class="field">
         <label>✨ 墨迹飞溅（周围散落墨点）</label>
-        <input type="range" id="splatter" min="0" max="100" value="35">
-        <div class="val" id="splatterVal">35%</div>
+        <input type="range" id="splatter" min="0" max="100" value="40">
+        <div class="val" id="splatterVal">40%</div>
       </div>
       <div class="field">
-        <label>🎲 按压不均（深浅随机斑驳）</label>
-        <input type="range" id="pressure" min="0" max="100" value="30">
-        <div class="val" id="pressureVal">30%</div>
+        <label>🎲 按压不均（深浅随机斑驳，含文字区域）</label>
+        <input type="range" id="pressure" min="0" max="100" value="45">
+        <div class="val" id="pressureVal">45%</div>
       </div>
       <div class="field">
         <label>🌫️ 边缘磨损淡出</label>
-        <input type="range" id="blur" min="0" max="100" value="15">
-        <div class="val" id="blurVal">15%</div>
+        <input type="range" id="blur" min="0" max="100" value="20">
+        <div class="val" id="blurVal">20%</div>
       </div>
       <div class="field switch">
         <label style="flex:1">🔒 防伪纹路</label>
@@ -195,7 +195,7 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
       <button class="btn btn-primary" onclick="downloadPNG()">⬇ 透明PNG (2x)</button>
       <button class="btn btn-secondary" onclick="downloadJPG()">⬇ 白底JPG (2x)</button>
     </div>
-    <div class="note">高清2倍导出，透明PNG可直接贴到文档中。</div>
+    <div class="note">高清2倍导出，透明PNG可直接贴到文档中。做旧效果会完整保留在导出文件中。</div>
   </div>
 
   <!-- 右：预览区 -->
@@ -214,20 +214,21 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
 <script>
 // ============================================================
 // 模板配置 — 国家标准印章规格
+// 推荐值将根据输入文字长度动态计算
 // ============================================================
 const T = {
   llc:{name:'有限责任公司公章',dia:40,borderW:1.0,starDia:14,
-       topFS:46,midFS:34,botFS:26,topSp:18,botSp:22,rwPx:7},
+       baseTopFS:46,baseMidFS:34,baseBotFS:26,baseTopSp:18,baseBotSp:22,rwPx:7},
   jsc:{name:'股份有限公司公章',dia:42,borderW:1.2,starDia:18,
-       topFS:50,midFS:36,botFS:28,topSp:17,botSp:21,rwPx:8},
+       baseTopFS:50,baseMidFS:36,baseBotFS:28,baseTopSp:17,baseBotSp:21,rwPx:8},
   cc: {name:'合同专用章',     dia:58,borderW:1.5,starDia:22,
-       topFS:62,midFS:42,botFS:32,topSp:19,botSp:23,rwPx:10},
+       baseTopFS:62,baseMidFS:42,baseBotFS:32,baseTopSp:19,baseBotSp:23,rwPx:10},
   inv:{name:'发票专用章',       dia:40,borderW:1.0,starDia:0,
-       topFS:44,midFS:30,botFS:24,topSp:17,botSp:21,rwPx:7},
+       baseTopFS:44,baseMidFS:30,baseBotFS:24,baseTopSp:17,baseBotSp:21,rwPx:7},
   fin:{name:'财务专用章',       dia:40,borderW:1.0,starDia:15,
-       topFS:46,midFS:34,botFS:26,topSp:18,botSp:22,rwPx:7},
+       baseTopFS:46,baseMidFS:34,baseBotFS:26,baseTopSp:18,baseBotSp:22,rwPx:7},
   hr: {name:'人事专用章',       dia:40,borderW:1.0,starDia:14,
-       topFS:46,midFS:34,botFS:26,topSp:18,botSp:22,rwPx:7}
+       baseTopFS:46,baseMidFS:34,baseBotFS:26,baseTopSp:18,baseBotSp:22,rwPx:7}
 };
 
 const COLORS = {
@@ -240,15 +241,44 @@ const COLORS = {
 function srnd(seed){var s=seed|0;return function(){s=(s*16807+0)%2147483647;return((s|0)-1)/2147483646}}
 
 // ============================================================
+// 动态推荐值计算 — 根据输入文字长度
+// ============================================================
+function calcRecommended(tplKey, companyLen, codeLen){
+  var cfg = T[tplKey];
+  var rec = {};
+
+  // 上弧字号：基准值 × 调整系数
+  // 字数越多，字号越小。以8字为基准(1.0)，每多1字系数-0.04，每少1字+0.04
+  var topAdj = 1.0 - (companyLen - 8) * 0.04;
+  topAdj = Math.max(0.7, Math.min(1.3, topAdj));
+  rec.topFS = Math.round(cfg.baseTopFS * topAdj);
+
+  // 上弧间距：字数多→间距大（覆盖更大弧段）
+  // 基准：8字用 baseTopSp，每多1字+1.5°，每少1字-1.0°
+  rec.topSp = Math.round(cfg.baseTopSp + (companyLen - 8) * 1.5);
+  rec.topSp = Math.max(12, Math.min(40, rec.topSp));
+
+  // 下弧字号
+  var botAdj = codeLen > 0 ? (1.0 - (codeLen - 6) * 0.05) : 1.0;
+  botAdj = Math.max(0.7, Math.min(1.3, botAdj));
+  rec.botFS = Math.round(cfg.baseBotFS * botAdj);
+
+  // 下弧间距
+  rec.botSp = codeLen > 0 ? Math.round(cfg.baseBotSp + (codeLen - 6) * 1.5) : cfg.baseBotSp;
+  rec.botSp = Math.max(12, Math.min(45, rec.botSp));
+
+  // 中间字号（固定，不受字数影响）
+  rec.midFS = cfg.baseMidFS;
+  rec.rwPx = cfg.rwPx;
+
+  return rec;
+}
+
+// ============================================================
 // 弧排文字
 //
 // 上弧(12点中心): 字顶朝外(远离圆心) → rot = a + PI/2
-// 下弧(6点中心):  字顶朝内(朝向圆心=正向可读) → rot = -(a - PI/2)
-//                 即: 下弧字顶指向圆心方向，在6点钟位置=正立
-//
-// 关键验证点:
-//   上弧a=-PI/2(12点): rot=-PI/2+PI/2=0 ✓ 正向
-//   下弧a=+PI/2(6点):  rot=-(PI/2-PI/2)=0 ✓ 正向
+// 下弧(6点中心):  字顶朝内(朝向圆心=正向可读) → rot = a - PI/2
 // ============================================================
 function drawArcText(ctx,text,cx,cy,radius,fontSize,color,isBottom,charDeg,fontFamily){
   if(!text||!text.length)return;
@@ -261,7 +291,6 @@ function drawArcText(ctx,text,cx,cy,radius,fontSize,color,isBottom,charDeg,fontF
   var totalRad=(n-1)*charDeg*Math.PI/180;
   if(n===1)totalRad=0;
 
-  // 上弧从左到右(角度递增), 下弧从左到右(角度递减)
   var centerAngle=isBottom?(Math.PI/2):(-Math.PI/2);
   var startAngle=isBottom?(centerAngle+totalRad/2):(centerAngle-totalRad/2);
   var step=isBottom?(-totalRad/(n-1)):(totalRad/(n-1));
@@ -271,13 +300,6 @@ function drawArcText(ctx,text,cx,cy,radius,fontSize,color,isBottom,charDeg,fontF
     var a=startAngle+i*step;
     var x=cx+radius*Math.cos(a);
     var y=cy+radius*Math.sin(a);
-
-    // 统一思路: 文字的"向上"方向 = 从圆心到该点的径向方向
-    // 径向方向的角度就是a本身
-    // Canvas默认"向上"=-PI/2, 所以需要旋转量 = a-(-PI/2) = a+PI/2
-    // 但下弧文字要正立可读, 需要额外翻转180度 = +PI
-    // 所以下弧: rot = a + PI/2 + PI = a + 3*PI/2 ≡ a - PI/2 (模2PI)
-    // 简化: 上弧 rot=a+PI/2, 下弧 rot=a-PI/2
     var rot=isBottom?(a-Math.PI/2):(a+Math.PI/2);
 
     ctx.save();
@@ -305,20 +327,17 @@ function drawStar(ctx,cx,cy,outerR,color){
 }
 
 // ============================================================
-// v2.0 专业做旧系统（参考 DrawStamp）
+// v2.2 做旧系统 — 全区域覆盖（圆环+文字都有做旧效果）
 // ============================================================
 
 /**
- * 多频率毛边圆环路径 — 模拟墨水渗入纸张纤维
- * 使用多个频率叠加产生自然的锯齿状边缘
+ * 多频率毛边圆环路径
  */
 function roughRingPath(ctx,cx,cy,rOut,rIn,amp,steps){
   var rnd=srnd(42);
-  // 外圈：多频率噪声叠加
   ctx.beginPath();
   for(var i=0;i<=steps;i++){
     var ang=(i/steps)*Math.PI*2;
-    // 低频大波动 + 中频 + 高频小抖动
     var n1=Math.sin(ang*5+rnd()*6.28)*0.55;
     var n2=Math.sin(ang*11+rnd()*6.28)*0.28;
     var n3=Math.sin(ang*23+rnd()*6.28)*0.12;
@@ -328,7 +347,6 @@ function roughRingPath(ctx,cx,cy,rOut,rIn,amp,steps){
     if(i===0)ctx.moveTo(cx+rr*Math.cos(ang),cy+rr*Math.sin(ang));
     else ctx.lineTo(cx+rr*Math.cos(ang),cy+rr*Math.sin(ang));
   }
-  // 内圈反向绘制形成环
   var rnd2=srnd(137);
   for(var i=steps;i>=0;i--){
     var ang=(i/steps)*Math.PI*2;
@@ -342,10 +360,8 @@ function roughRingPath(ctx,cx,cy,rOut,rIn,amp,steps){
   ctx.closePath();
 }
 
-/** 绘制带毛边的实心圆环 */
 function drawAgedRing(ctx,cx,cy,rOut,rIn,color,roughAmp){
   if(roughAmp<=0.005){
-    // 无毛边：标准双弧填充
     ctx.beginPath();
     ctx.arc(cx,cy,rOut,0,Math.PI*2,false);
     ctx.arc(cx,cy,rIn,0,Math.PI*2,true);
@@ -358,19 +374,21 @@ function drawAgedRing(ctx,cx,cy,rOut,rIn,color,roughAmp){
 }
 
 /**
- * 印泥颗粒/纹理 — 整个印章区域的高强度噪声
- * 模拟印泥不均匀、纸张纤维吸收差异
- * 包含暖色调变化（红色通道偏移更多）
+ * v2.2 增强印泥颗粒 — 文字区域也有明显纹理
+ * 对整个印章区域（不只是圆环）应用高强度噪声
  */
 function applyInkTexture(imgData,intensity,col){
   var d=imgData.data;
   var rnd=srnd(777);
+  // 增强：提高噪声幅度，让文字边缘也有明显变化
+  var rRange = intensity * 90;  // 原来是70，增强到90
+  var gRange = intensity * 60;  // 原来是45
+  var bRange = intensity * 45;  // 原来是35
   for(var i=0;i<d.length;i+=4){
     if(d[i+3]>15){
-      // RGB三通道独立噪声 + 红色偏移（模拟印泥色偏）
-      var nr=(rnd()-0.5)*intensity*70;  // R通道更大变化
-      var ng=(rnd()-0.5)*intensity*45;
-      var nb=(rnd()-0.5)*intensity*35;
+      var nr=(rnd()-0.5)*rRange;
+      var ng=(rnd()-0.5)*gRange;
+      var nb=(rnd()-0.5)*bRange;
       d[i]=Math.min(255,Math.max(0,d[i]+nr));
       d[i+1]=Math.min(255,Math.max(0,d[i+1]+ng));
       d[i+2]=Math.min(255,Math.max(0,d[i+2]+nb));
@@ -379,25 +397,21 @@ function applyInkTexture(imgData,intensity,col){
 }
 
 /**
- * 墨迹飞溅 — 在印章周围和内部散落随机墨点
- * 模拟盖章时多余的印泥飞溅到纸上
+ * v2.2 墨迹飞溅 — 增加密度和覆盖范围
  */
 function applyInkSplatter(ctx,W,H,R,cx,cy,intensity,col){
   var rnd=srnd(3333);
   var cStr='rgb('+col.r+','+col.g+','+col.b+')';
   ctx.fillStyle=cStr;
-  // 飞溅数量与强度成正比
-  var count=Math.floor(intensity*180);
+  // 增加飞溅数量
+  var count=Math.floor(intensity*250);  // 原来180，增加到250
   for(var i=0;i<count;i++){
-    // 大部分在印章内部或紧邻边缘
-    var dist=rnd()<0.65 ? rnd()*R*1.08 : rnd()*R*1.35;
+    var dist=rnd()<0.6 ? rnd()*R*1.1 : rnd()*R*1.5;  // 更多在印章内
     var angle=rnd()*Math.PI*2;
     var sx=cx+dist*Math.cos(angle);
     var sy=cy+dist*Math.sin(angle);
-    // 墨点大小随机：大部分很小，偶尔有稍大的
-    var sz=rnd()<0.92 ? (0.5+rnd()*1.8) : (2+rnd()*4);
-    // 随机透明度（大部分半透明，少数较实）
-    var alpha=rnd()<0.75 ? (0.15+rnd()*0.4) : (0.5+rnd()*0.5);
+    var sz=rnd()<0.9 ? (0.4+rnd()*2.0) : (2+rnd()*5);  // 稍微调小
+    var alpha=rnd()<0.7 ? (0.12+rnd()*0.35) : (0.5+rnd()*0.5);
     ctx.globalAlpha=alpha;
     ctx.fillRect(sx,sy,sz,sz);
   }
@@ -405,28 +419,23 @@ function applyInkSplatter(ctx,W,H,R,cx,cy,intensity,col){
 }
 
 /**
- * 按压不均 — 随机椭圆区域的亮度/饱和度变化
- * 模拟盖章时压力不均匀导致的深浅斑驳效果
+ * v2.2 按压不均 — 扩大覆盖范围，包括文字区域
  */
 function applyPressureVariation(imgData,W,H,R,cx,cy,intensity){
   var d=imgData.data;
   var rnd=srnd(8888);
-  // 生成若干个随机"压力斑"
-  var patchCount=Math.floor(intensity*12)+3;
+  // 增加斑驳数量
+  var patchCount=Math.floor(intensity*18)+5;  // 原来12+3=15，现在18+5=23
   for(var p=0;p<patchCount;p++){
-    // 随机椭圆中心和尺寸
-    var pcx=cx+(rnd()-0.5)*R*1.3;
-    var pcy=cy+(rnd()-0.5)*R*1.3;
-    var pw=R*(0.15+rnd()*0.4);   // 半宽
-    var ph=R*(0.1+rnd()*0.3);    // 半高
-    var rot=rnd()*Math.PI;         // 椭圆旋转
-    // 正值变亮（缺印），负值变暗（浓印）
-    var brightness=(rnd()>0.45 ? 1 : -1) * intensity * (20+rnd()*50);
+    var pcx=cx+(rnd()-0.5)*R*1.5;  // 覆盖范围扩大到1.5R（原来1.3）
+    var pcy=cy+(rnd()-0.5)*R*1.5;
+    var pw=R*(0.12+rnd()*0.45);   // 斑驳稍大（原来0.15+0.4）
+    var ph=R*(0.08+rnd()*0.35);
+    var rot=rnd()*Math.PI;
+    var brightness=(rnd()>0.45 ? 1 : -1) * intensity * (25+rnd()*55);  // 强度稍增
 
-    // 遍历像素，在椭圆内的应用亮度调整
     for(var y=0;y<H;y+=2){
       for(var x=0;x<W;x+=2){
-        // 变换到椭圆坐标系
         var dx=x-pcx;
         var dy=y-pcy;
         var cosT=Math.cos(-rot);
@@ -435,9 +444,8 @@ function applyPressureVariation(imgData,W,H,R,cx,cy,intensity){
         var ey=dx*sinT+dy*cosT;
         var norm=(ex*ex)/(pw*pw)+(ey*ey)/(ph*ph);
         if(norm<=1){
-          // 椭圆内：边缘渐变
           var falloff=1-norm;
-          falloff=falloff*falloff;  // 平方使边缘柔和
+          falloff=falloff*falloff;
           var idx=(y*W+x)*4;
           if(d[idx+3]>15){
             d[idx]=Math.min(255,Math.max(0,d[idx]+brightness*falloff));
@@ -471,6 +479,10 @@ function render(){
   var col=COLORS[cKey];
   var cStr='rgb('+col.r+','+col.g+','+col.b+')';
 
+  // 动态获取推荐值，用于决定默认滑块位置
+  var rec = calcRecommended(tplKey, company.length, code.length);
+
+  // 使用滑块值（用户手动调节后不再用推荐值）
   var tFS=parseInt(document.getElementById('topFontSize').value);
   var bFS=parseInt(document.getElementById('bottomFontSize').value);
   var mFS=parseInt(document.getElementById('midFontSize').value);
@@ -491,7 +503,6 @@ function render(){
   var pxPerMm=W*0.82/cfg.dia;
   var diaPx=cfg.dia*pxPerMm;
   var R=diaPx/2;
-
   var rw=Math.max(rwPx,2.5);
 
   ctx.clearRect(0,0,W,H);
@@ -503,7 +514,7 @@ function render(){
   // --- 圆环（可选毛边）---
   var rOuter=R;
   var rInner=R-rw;
-  var roughAmp=rLv*0.04;  // 0~0.04 的振幅范围
+  var roughAmp=rLv*0.04;
 
   drawAgedRing(mc,cx,cy,rOuter,rInner,cStr,roughAmp);
 
@@ -574,10 +585,10 @@ function render(){
     try{
       var imgData=ctx.getImageData(0,0,W,H);
 
-      // 1) 印泥颗粒/纹理
+      // 1) 印泥颗粒/纹理（全区域，含文字）
       if(nLv>0) applyInkTexture(imgData,nLv,col);
 
-      // 2) 按压不均（深浅斑驳）
+      // 2) 按压不均（深浅斑驳，全区域含文字）
       if(pLv>0) applyPressureVariation(imgData,W,H,R,cx,cy,pLv);
 
       ctx.putImageData(imgData,0,0);
@@ -586,7 +597,6 @@ function render(){
       if(sLv>0) applyInkSplatter(ctx,W,H,R,cx,cy,sLv,col);
     }catch(e){
       console.warn('Aging effect error:',e);
-      // 即使做旧失败也保留基础印章图像
     }
   }
 
@@ -595,7 +605,6 @@ function render(){
     try{
       var tCvs=document.createElement('canvas');tCvs.width=W;tCvs.height=H;
       var tc=tCvs.getContext('2d');
-      // 径向渐变蒙版 — 外圈逐渐淡出
       var fGrd=tc.createRadialGradient(cx,cy,R*0.55,cx,cy,R*1.08);
       fGrd.addColorStop(0,'rgba(0,0,0,0)');
       fGrd.addColorStop(0.7,'rgba(0,0,0,'+(bLv*0.15)+')');
@@ -614,27 +623,33 @@ function render(){
 }
 
 // ============================================================
-// UI
+// UI — 动态推荐值
 // ============================================================
 function updateRefInfo(){
   var tplKey=document.getElementById('tpl').value;
   var cfg=T[tplKey];
+  var company=document.getElementById('companyName').value.trim()||'测试科技有限公司';
+  var code=document.getElementById('sealCode').value.trim();
+
+  // 动态计算推荐值
+  var rec = calcRecommended(tplKey, company.length, code.length);
 
   document.getElementById('tplRef').innerHTML=
     '<b>'+cfg.name+'</b><br>'+
     '直径: &Oslash;'+cfg.dia+'mm | 边框宽: '+cfg.borderW+
     'mm | 五角星: '+(cfg.starDia>0?cfg.starDia:'无')+'mm<br>'+
-    '比例: 圆环占印章 '+((cfg.borderW/cfg.dia)*100).toFixed(1)+'%';
+    '（输入 '+company.length+' 字公司名，推荐值已自动调整）';
 
   document.getElementById('ringWidthRef').textContent='推荐: '+cfg.rwPx+'px';
   document.getElementById('ringWidthVal').textContent=
     document.getElementById('ringWidth').value+'px';
 
-  document.getElementById('topFSRef').textContent='推荐: '+cfg.topFS+'px';
-  document.getElementById('botFSRef').textContent='推荐: '+cfg.botFS+'px';
-  document.getElementById('midFSRef').textContent='推荐: '+cfg.midFS+'px';
-  document.getElementById('topSpRef').textContent='推荐: '+cfg.topSp+'°/字';
-  document.getElementById('botSpRef').textContent='推荐: '+cfg.botSp+'°/字';
+  // 动态推荐值：显示当前字数的推荐值
+  document.getElementById('topFSRef').textContent='推荐('+company.length+'字): '+rec.topFS+'px';
+  document.getElementById('botFSRef').textContent='推荐('+(code.length||'-')+'字): '+rec.botFS+'px';
+  document.getElementById('midFSRef').textContent='推荐: '+rec.midFS+'px';
+  document.getElementById('topSpRef').textContent='推荐('+company.length+'字): '+rec.topSp+'°/字';
+  document.getElementById('botSpRef').textContent='推荐('+(code.length||'-')+'字): '+rec.botSp+'°/字';
 
   document.getElementById('topFontSizeVal').textContent=
     document.getElementById('topFontSize').value+'px';
@@ -648,11 +663,11 @@ function updateRefInfo(){
     document.getElementById('bottomSpacing').value+'°/字';
 
   document.getElementById('fontRef').innerHTML=
-    '<b>当前模板推荐值</b><br>'+
-    '上弧: '+cfg.topFS+'px / '+cfg.topSp+'&deg;&middot;每字 &nbsp;|&nbsp;'+
-    '中间: '+cfg.midFS+'px &nbsp;|&nbsp;'+
-    '下弧: '+cfg.botFS+'px / '+cfg.botSp+'&deg;&middot;每字 &nbsp;|&nbsp;'+
-    '圆环: '+cfg.rwPx+'px';
+    '<b>动态推荐值（根据输入字数自动计算）</b><br>'+
+    '当前: '+company.length+'字公司名 + '+(code.length||0)+'字编码<br>'+
+    '上弧: <b>'+rec.topFS+'px</b> / <b>'+rec.topSp+'&deg;</b> &nbsp;|&nbsp;'+
+    '中间: <b>'+rec.midFS+'px</b> &nbsp;|&nbsp;'+
+    '下弧: <b>'+rec.botFS+'px</b> / <b>'+rec.botSp+'&deg;</b>';
 }
 
 function updateUI(){
@@ -673,7 +688,7 @@ function bindEvents(){
   ids.forEach(function(id){
     var el=document.getElementById(id);
     if(el){
-      el.addEventListener('input',render);
+      el.addEventListener('input',function(){render();updateRefInfo()});
       el.addEventListener('change',function(){render();updateUI()});
     }
   });
@@ -711,7 +726,7 @@ function downloadJPG(){
   tctx.fillStyle='#ffffff';tctx.fillRect(0,0,800,800);
   tctx.drawImage(pv,0,0,800,800);
   var a=document.createElement('a');
-  a.download='seal_'+Date.now+'.jpg';a.href=tc.toDataURL('image/jpeg',0.92);a.click();
+  a.download='seal_'+Date.now()+'.jpg';a.href=tc.toDataURL('image/jpeg',0.92);a.click();
 }
 
 // 启动
