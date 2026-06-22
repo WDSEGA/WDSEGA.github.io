@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>电子印章生成器 | Electronic Seal Generator</title>
+<meta name="description" content="免费在线电子印章生成器，支持8种国家标准印章模板，实时预览，导出透明PNG和白底JPG，做旧毛边效果。">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: "Noto Serif SC", "STSong", "SimSun", "Songti SC", serif;
+  background: #1a1a2e; color: #e0e0e0; min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center;
+}
+.header {
+  width: 100%; background: #16213e; padding: 12px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 2px solid #0f3460;
+}
+.header h1 { font-size: 20px; color: #e94560; }
+.header a { color: #e94560; text-decoration: none; font-size: 14px; }
+.main {
+  display: flex; width: 100%; max-width: 1200px; flex: 1;
+  padding: 16px; gap: 16px;
+}
+/* 左面板 */
+.panel {
+  width: 320px; background: #16213e; border-radius: 8px;
+  padding: 16px; display: flex; flex-direction: column; gap: 12px;
+  height: fit-content;
+}
+.panel h2 { font-size: 15px; color: #e94560; border-bottom: 1px solid #0f3460; padding-bottom: 6px; }
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field label { font-size: 13px; color: #aaa; }
+.field select, .field input[type="text"] {
+  background: #0f3460; color: #e0e0e0; border: 1px solid #e94560;
+  border-radius: 4px; padding: 6px 8px; font-size: 14px;
+  font-family: inherit;
+}
+.field input[type="range"] { width: 100%; }
+.field .val { font-size: 12px; color: #e94560; text-align: right; }
+.btn-row { display: flex; gap: 8px; margin-top: 8px; }
+.btn {
+  flex: 1; padding: 8px; border: none; border-radius: 4px;
+  font-size: 14px; cursor: pointer; font-family: inherit;
+}
+.btn-primary { background: #e94560; color: #fff; }
+.btn-secondary { background: #0f3460; color: #e0e0e0; border: 1px solid #e94560; }
+.btn:hover { opacity: 0.85; }
+.note { font-size: 11px; color: #888; line-height: 1.4; }
+/* 右预览区 */
+.preview-area {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 12px;
+}
+.canvas-wrap {
+  background: #ccc;
+  background-image:
+    linear-gradient(45deg, #aaa 25%, transparent 25%),
+    linear-gradient(-45deg, #aaa 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #aaa 75%),
+    linear-gradient(-45deg, transparent 75%, #aaa 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+  border-radius: 8px; padding: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.canvas-wrap canvas { background: #fff; border-radius: 4px; }
+.export-row { display: flex; gap: 8px; }
+/* 做旧参数说明 */
+.aging-demo {
+  width: 100%; height: 4px; border-radius: 2px; margin-top: 2px;
+  background: linear-gradient(to right, #0f3460, #e94560, #ffcc00);
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📛 电子印章生成器</h1>
+  <a href="/">← 返回博客首页</a>
+</div>
+
+<div class="main">
+  <!-- 左：设置面板 -->
+  <div class="panel">
+    <h2>⚙️ 印章设置</h2>
+
+    <div class="field">
+      <label>印章模板</label>
+      <select id="tpl">
+        <option value="llc">有限责任公司公章 (Ø40mm)</option>
+        <option value="jsc">股份有限公司公章 (Ø42mm)</option>
+        <option value="cc">合同专用章·圆 (Ø58mm)</option>
+        <option value="ce">合同专用章·椭圆 (45×30mm)</option>
+        <option value="inv">发票专用章 (Ø40mm)</option>
+        <option value="fin">财务专用章 (Ø40mm)</option>
+        <option value="hr">人事专用章 (Ø40mm)</option>
+        <option value="sq">个人名章·方章 (20×20mm)</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>单位名称（上弧文字）</label>
+      <input type="text" id="companyName" value="示例科技有限公司" placeholder="输入公司/单位名称">
+    </div>
+
+    <div class="field">
+      <label>印章类型（下弧文字，可留空）</label>
+      <input type="text" id="sealType" value="公章" placeholder="如：合同专用章">
+    </div>
+
+    <div class="field">
+      <label>印章颜色</label>
+      <select id="sealColor">
+        <option value="red">红色（标准公章）</option>
+        <option value="blue">蓝色（复印/备案）</option>
+      </select>
+    </div>
+
+    <h2>🎨 做旧效果</h2>
+
+    <div class="field">
+      <label>毛边强度</label>
+      <input type="range" id="roughness" min="0" max="100" value="30">
+      <div class="val" id="roughnessVal">30%</div>
+      <div class="aging-demo"></div>
+    </div>
+
+    <div class="field">
+      <label>印泥颗粒</label>
+      <input type="range" id="noise" min="0" max="100" value="25">
+      <div class="val" id="noiseVal">25%</div>
+    </div>
+
+    <div class="field">
+      <label>边缘虚化</label>
+      <input type="range" id="blur" min="0" max="100" value="20">
+      <div class="val" id="blurVal">20%</div>
+    </div>
+
+    <div class="note">
+      💡 做旧效果模拟真实印章的毛边、印泥颗粒和不均匀按压效果，让电子印章更逼真。
+    </div>
+
+    <h2>📦 导出</h2>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="exportPNG()">导出透明PNG</button>
+      <button class="btn btn-secondary" onclick="exportJPG()">导出白底JPG</button>
+    </div>
+    <div class="note">
+      高清导出（2×），透明底PNG可直接贴到文档中。
+    </div>
+  </div>
+
+  <!-- 右：预览区 -->
+  <div class="preview-area">
+    <div class="canvas-wrap">
+      <canvas id="previewCanvas" width="400" height="400"></canvas>
+    </div>
+    <div class="export-row">
+      <button class="btn btn-secondary" onclick="downloadPNG()">⬇ 透明PNG</button>
+      <button class="btn btn-secondary" onclick="downloadJPG()">⬇ 白底JPG</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// 模板配置（尺寸单位：mm，渲染时转为px）
+// ============================================================
+const DPI      = 96;
+const MM_TO_PX = DPI / 25.4;
+
+const T = {
+  llc: { name:'有限责任公司公章', shape:'circle', dia:40, border:1.0, star:14, fw:7 },
+  jsc: { name:'股份有限公司公章', shape:'circle', dia:42, border:1.2, star:18, fw:7 },
+  cc:  { name:'合同专用章·圆',   shape:'circle', dia:58, border:1.5, star:20, fw:8 },
+  ce:  { name:'合同专用章·椭圆', shape:'ellipse',w:45, h:30, border:1.2, star:14, fw:6 },
+  inv: { name:'发票专用章',     shape:'circle', dia:40, border:1.0, star:14, fw:6 },
+  fin: { name:'财务专用章',     shape:'circle', dia:40, border:1.0, star:14, fw:6 },
+  hr:  { name:'人事专用章',     shape:'circle', dia:40, border:1.0, star:14, fw:6 },
+  sq:  { name:'个人名章·方章',  shape:'square', side:20, border:1.0, fw:6 },
+};
+
+// 颜色表
+const COLORS = {
+  red:  { r:176, g:34,  b:34  },   // #B02222 公章红
+  blue: { r:0,   g:51,  b:153 }    // #003399 蓝
+};
+
+// ============================================================
+// 工具：伪随机（可复现）
+// ============================================================
+function seededRandom(seed) {
+  let s = seed;
+  return function() {
+    s = (s * 16807 + 0) % 2147483647;
+    return (s - 1) / 2147483646;
+  };
+}
+
+// ============================================================
+// 绘制毛边路径（圆形/椭圆）
+// ============================================================
+function roughPath(ctx, cx, cy, rx, ry, seed, amplitude) {
+  const STEPS = 360;
+  const rand  = seededRandom(seed);
+  const points = [];
+  for (let i = 0; i <= STEPS; i++) {
+    const angle = (i / STEPS) * Math.PI * 2;
+    const rOff  = (rand() - 0.5) * 2 * amplitude;
+    const r     = 1 + rOff;
+    points.push({
+      x: cx + rx * r * Math.cos(angle),
+      y: cy + ry * r * Math.sin(angle)
+    });
+  }
+  // 绘制
+  ctx.beginPath();
+  ctx.moveTo(points[0].x, points[0].y);
+  for (let i = 1; i <= STEPS; i++) {
+    ctx.lineTo(points[i].x, points[i].y);
+  }
+  ctx.closePath();
+}
+
+// ============================================================
+// 弧排文字（核心）
+// ============================================================
+function drawArcText(ctx, text, cx, cy, radius, fontSize, color, isBottom) {
+  if (!text) return;
+  ctx.fillStyle = color;
+  ctx.font      = `bold ${fontSize}px "Noto Serif SC","STSong","SimSun",serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  const n          = text.length;
+  const charSpan   = 3.0;                      // 每字符占用角度（度）
+  const totalAngle = (n - 1) * charSpan * Math.PI / 180;
+  const startAngle = -totalAngle / 2;
+
+  for (let i = 0; i < n; i++) {
+    const angle = startAngle + (i / Math.max(n - 1, 1)) * totalAngle;
+    const x     = cx + radius * Math.cos(angle);
+    const y     = cy + radius * Math.sin(angle);
+
+    // 旋转方向：字符"站立"在弧上，字顶朝外
+    // top arc (isBottom=false): 字顶朝上（外）= 旋转 angle - π/2
+    // bottom arc (isBottom=true): 字顶朝下（外）= 旋转 angle + π/2
+    const rot = isBottom ? angle + Math.PI / 2 : angle - Math.PI / 2;
+
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rot);
+    ctx.fillText(text[i], 0, 0);
+    ctx.restore();
+  }
+}
+
+// ============================================================
+// 绘制五角星
+// ============================================================
+function drawStar(ctx, cx, cy, outerR, color) {
+  const innerR = outerR * 0.382;               // 黄金比例
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  for (let i = 0; i < 5; i++) {
+    const oAngle = -Math.PI / 2 + i * 2 * Math.PI / 5;
+    const iAngle = oAngle + Math.PI / 5;
+    if (i === 0) {
+      ctx.moveTo(cx + outerR * Math.cos(oAngle), cy + outerR * Math.sin(oAngle));
+    } else {
+      ctx.lineTo(cx + outerR * Math.cos(oAngle), cy + outerR * Math.sin(oAngle));
+    }
+    ctx.lineTo(cx + innerR * Math.cos(iAngle), cy + innerR * Math.sin(iAngle));
+  }
+  ctx.closePath();
+  ctx.fill();
+}
+
+// ============================================================
+// 主渲染
+// ============================================================
+function render() {
+  const canvas = document.getElementById('previewCanvas');
+  const ctx    = canvas.getContext('2d');
+  const tplKey = document.getElementById('tpl').value;
+  const cfg    = T[tplKey];
+  const companyName = document.getElementById('companyName').value.trim() || '示例科技有限公司';
+  const sealType    = document.getElementById('sealType').value.trim();
+  const colorKey    = document.getElementById('sealColor').value;
+  const col         = COLORS[colorKey];
+  const colorStr    = `rgb(${col.r},${col.g},${col.b})`;
+
+  // 做旧参数（归一化到 0~1）
+  const rough   = document.getElementById('roughness').value / 100;
+  const noiseLv = document.getElementById('noise').value / 100;
+  const blurLv  = document.getElementById('blur').value / 100;
+
+  // --- 画布尺寸 ---
+  let canvasSize;
+  if (cfg.shape === 'ellipse') {
+    canvasSize = Math.max(cfg.w, cfg.h) * MM_TO_PX + 40;
+  } else if (cfg.shape === 'square') {
+    canvasSize = cfg.side * MM_TO_PX + 40;
+  } else {
+    canvasSize = cfg.dia * MM_TO_PX + 40;
+  }
+  canvasSize = Math.ceil(canvasSize);
+  const W = canvasSize;
+  const H = canvasSize;
+  canvas.width  = W;
+  canvas.height = H;
+
+  const cx = W / 2;
+  const cy = H / 2;
+  const seed = 12345;   // 固定种子，使做旧效果可复现
+
+  // 背景透明（清除）
+  ctx.clearRect(0, 0, W, H);
+
+  // --- 外圈 ---
+  const borderW = Math.max(cfg.border * MM_TO_PX, 1.5);
+  ctx.strokeStyle = colorStr;
+  ctx.fillStyle   = colorStr;
+  ctx.lineWidth   = borderW;
+
+  if (cfg.shape === 'circle') {
+    const r  = cfg.dia / 2 * MM_TO_PX;
+    if (rough > 0) {
+      roughPath(ctx, cx, cy, r, r, seed, rough * 0.015);
+      ctx.stroke();
+      // 内圈
+      roughPath(ctx, cx, cy, r - borderW, r - borderW, seed + 1, rough * 0.010);
+      ctx.stroke();
+    } else {
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(cx, cy, r - borderW, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  } else if (cfg.shape === 'ellipse') {
+    const rx = cfg.w / 2 * MM_TO_PX;
+    const ry = cfg.h / 2 * MM_TO_PX;
+    if (rough > 0) {
+      roughPath(ctx, cx, cy, rx, ry, seed, rough * 0.015);
+      ctx.stroke();
+      roughPath(ctx, cx, cy, rx - borderW, ry - borderW, seed + 1, rough * 0.010);
+      ctx.stroke();
+    } else {
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, rx - borderW, ry - borderW, 0, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  } else if (cfg.shape === 'square') {
+    const side = cfg.side * MM_TO_PX;
+    const half = side / 2;
+    ctx.lineWidth = borderW;
+    if (rough > 0) {
+      // 正方形毛边：在每个顶点附近加扰动
+      ctx.beginPath();
+      const corners = [
+        [cx - half, cy - half],
+        [cx + half, cy - half],
+        [cx + half, cy + half],
+        [cx - half, cy + half]
+      ];
+      const rand = seededRandom(seed);
+      for (let i = 0; i < 4; i++) {
+        const [x, y] = corners[i];
+        const nx = x + (rand() - 0.5) * rough * 4;
+        const ny = y + (rand() - 0.5) * rough * 4;
+        if (i === 0) ctx.moveTo(nx, ny);
+        else ctx.lineTo(nx, ny);
+      }
+      ctx.closePath();
+      ctx.stroke();
+    } else {
+      ctx.strokeRect(cx - half, cy - half, side, side);
+    }
+  }
+
+  // --- 弧排文字 ---
+  const fontSize = (cfg.fw || 7) * MM_TO_PX;
+  // 上弧文字：半径 = 外圈内沿 - 一点间距
+  let topArcR;
+  if (cfg.shape === 'circle') {
+    topArcR = cfg.dia / 2 * MM_TO_PX - borderW * 2 - 4;
+  } else if (cfg.shape === 'ellipse') {
+    topArcR = cfg.w / 2 * MM_TO_PX - borderW * 2 - 4;
+  } else {
+    topArcR = cfg.side * MM_TO_PX / 2 - borderW * 2 - 2;
+  }
+  drawArcText(ctx, companyName, cx, cy, topArcR, fontSize, colorStr, false);
+
+  // 下弧文字
+  if (sealType) {
+    const bottomArcR = topArcR - fontSize * 1.1;
+    drawArcText(ctx, sealType, cx, cy, bottomArcR, fontSize * 0.9, colorStr, true);
+  }
+
+  // --- 五角星（方章不画星） ---
+  if (cfg.shape !== 'square' && cfg.star) {
+    const starR = cfg.star / 2 * MM_TO_PX;
+    drawStar(ctx, cx, cy, starR, colorStr);
+  }
+
+  // --- 做旧：印泥颗粒（通过像素操作） ---
+  if (noiseLv > 0) {
+    const imgData = ctx.getImageData(0, 0, W, H);
+    const pixels  = imgData.data;
+    const rand    = seededRandom(seed + 999);
+    for (let i = 0; i < pixels.length; i += 4) {
+      if (pixels[i + 3] > 0) {               // 仅在有颜色的地方加噪声
+        const n = (rand() - 0.5) * 2 * noiseLv * 40;
+        pixels[i]     = Math.min(255, Math.max(0, pixels[i] + n));
+        pixels[i + 1] = Math.min(255, Math.max(0, pixels[i + 1] + n));
+        pixels[i + 2] = Math.min(255, Math.max(0, pixels[i + 2] + n));
+      }
+    }
+    ctx.putImageData(imgData, 0, 0);
+  }
+
+  // --- 做旧：边缘虚化（ radial gradient mask ） ---
+  if (blurLv > 0) {
+    // 创建一个额外的 canvas 做模糊蒙版
+    const tmpCvs = document.createElement('canvas');
+    tmpCvs.width  = W;
+    tmpCvs.height = H;
+    const tCtx    = tmpCvs.getContext('2d');
+    const grad    = tCtx.createRadialGradient(cx, cy, W * 0.25, cx, cy, W * 0.55);
+    grad.addColorStop(0, 'rgba(0,0,0,0)');
+    grad.addColorStop(1, `rgba(0,0,0,${blurLv * 0.35})`);
+    tCtx.fillStyle = grad;
+    tCtx.fillRect(0, 0, W, H);
+    // 把模糊层以 destination-out 合成到原图？不，用 multiply
+    ctx.globalCompositeOperation = 'multiply';
+    ctx.drawImage(tmpCvs, 0, 0);
+    ctx.globalCompositeOperation = 'source-over';
+  }
+}
+
+// ============================================================
+// 绑定事件
+// ============================================================
+function bindEvents() {
+  const ids = ['tpl','companyName','sealType','sealColor','roughness','noise','blur'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', render);
+      el.addEventListener('change', render);
+    }
+  });
+
+  // 滑块实时显示数值
+  ['roughness','noise','blur'].forEach(id => {
+    const el = document.getElementById(id);
+    const vl = document.getElementById(id + 'Val');
+    if (el && vl) {
+      el.addEventListener('input', () => { vl.textContent = el.value + '%'; });
+    }
+  });
+}
+
+// ============================================================
+// 导出
+// ============================================================
+function getHighCanvas(scale) {
+  const tplKey = document.getElementById('tpl').value;
+  const cfg    = T[tplKey];
+  scale = scale || 2;
+
+  let baseSize;
+  if (cfg.shape === 'ellipse') {
+    baseSize = Math.max(cfg.w, cfg.h) * MM_TO_PX + 40;
+  } else if (cfg.shape === 'square') {
+    baseSize = cfg.side * MM_TO_PX + 40;
+  } else {
+    baseSize = cfg.dia * MM_TO_PX + 40;
+  }
+  baseSize = Math.ceil(baseSize);
+
+  const offCvs = document.createElement('canvas');
+  offCvs.width  = baseSize * scale;
+  offCvs.height = baseSize * scale;
+  const ctx = offCvs.getContext('2d');
+
+  // 用 css 缩放方式重绘（简化：直接把预览canvas放大绘制）
+  const preview = document.getElementById('previewCanvas');
+  // 背景透明
+  ctx.clearRect(0, 0, offCvs.width, offCvs.height);
+  ctx.drawImage(preview, 0, 0, offCvs.width, offCvs.height);
+
+  return offCvs;
+}
+
+function downloadPNG() {
+  const cvs  = getHighCanvas(2);
+  const link = document.createElement('a');
+  link.download = 'seal_' + Date.now() + '.png';
+  link.href = cvs.toDataURL('image/png');
+  link.click();
+}
+
+function downloadJPG() {
+  const cvs   = getHighCanvas(2);
+  const tmpCvs = document.createElement('canvas');
+  tmpCvs.width  = cvs.width;
+  tmpCvs.height = cvs.height;
+  const ctx = tmpCvs.getContext('2d');
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, tmpCvs.width, tmpCvs.height);
+  ctx.drawImage(cvs, 0, 0);
+  const link = document.createElement('a');
+  link.download = 'seal_' + Date.now() + '.jpg';
+  link.href = tmpCvs.toDataURL('image/jpeg', 0.92);
+  link.click();
+}
+
+// 兼容 HTML onclick 属性
+window.exportPNG = downloadPNG;
+window.exportJPG = downloadJPG;
+
+// ============================================================
+// 启动
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  bindEvents();
+  render();
+});
+</script>
+</body>
+</html>
