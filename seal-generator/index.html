@@ -3,80 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>电子印章生成器 v1.2 | Electronic Seal Generator</title>
-<meta name="description" content="免费在线电子印章生成器，支持8种国家标准印章模板，实时预览，导出透明PNG和白底JPG，做旧毛边效果。">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+<title>电子印章生成器 v1.3 | Electronic Seal Generator</title>
+<meta name="description" content="免费在线电子印章生成器，仿真实印章比例，支持弧形/水平文字，做旧毛边防伪纹路效果，导出透明PNG。">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: "Noto Serif SC", "STSong", "SimSun", "Songti SC", serif;
-  background: #1a1a2e; color: #e0e0e0; min-height: 100vh;
-  display: flex; flex-direction: column; align-items: center;
-}
-.header {
-  width: 100%; background: #16213e; padding: 12px 24px;
-  display: flex; align-items: center; justify-content: space-between;
-  border-bottom: 2px solid #0f3460;
-}
-.header h1 { font-size: 20px; color: #e94560; }
-.header a { color: #e94560; text-decoration: none; font-size: 14px; }
-.main {
-  display: flex; width: 100%; max-width: 1200px; flex: 1;
-  padding: 16px; gap: 16px;
-}
-/* 左面板 */
-.panel {
-  width: 320px; background: #16213e; border-radius: 8px;
-  padding: 16px; display: flex; flex-direction: column; gap: 12px;
-  height: fit-content;
-}
-.panel h2 { font-size: 15px; color: #e94560; border-bottom: 1px solid #0f3460; padding-bottom: 6px; }
-.field { display: flex; flex-direction: column; gap: 4px; }
-.field label { font-size: 13px; color: #aaa; }
-.field select, .field input[type="text"] {
-  background: #0f3460; color: #e0e0e0; border: 1px solid #e94560;
-  border-radius: 4px; padding: 6px 8px; font-size: 14px;
-  font-family: inherit;
-}
-.field input[type="range"] { width: 100%; }
-.field .val { font-size: 12px; color: #e94560; text-align: right; }
-.btn-row { display: flex; gap: 8px; margin-top: 8px; }
-.btn {
-  flex: 1; padding: 8px; border: none; border-radius: 4px;
-  font-size: 14px; cursor: pointer; font-family: inherit;
-}
-.btn-primary { background: #e94560; color: #fff; }
-.btn-secondary { background: #0f3460; color: #e0e0e0; border: 1px solid #e94560; }
-.btn:hover { opacity: 0.85; }
-.note { font-size: 11px; color: #888; line-height: 1.4; }
-/* 右预览区 */
-.preview-area {
-  flex: 1; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 12px;
-}
-.canvas-wrap {
-  background: #ccc;
-  background-image:
-    linear-gradient(45deg, #aaa 25%, transparent 25%),
-    linear-gradient(-45deg, #aaa 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #aaa 75%),
-    linear-gradient(-45deg, transparent 75%, #aaa 75%);
-  background-size: 16px 16px;
-  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
-  border-radius: 8px; padding: 16px;
-  display: flex; align-items: center; justify-content: center;
-}
-.canvas-wrap canvas { background: #fff; border-radius: 4px; }
-.export-row { display: flex; gap: 8px; }
-/* 做旧参数说明 */
-.aging-demo {
-  width: 100%; height: 4px; border-radius: 2px; margin-top: 2px;
-  background: linear-gradient(to right, #0f3460, #e94560, #ffcc00);
-}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:#1a1a2e;color:#e0e0e0;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+.header{width:100%;background:#16213e;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #0f3460}
+.header h1{font-size:20px;color:#e94560}
+.header a{color:#e94560;text-decoration:none;font-size:14px}
+.main{display:flex;width:100%;max-width:1200px;flex:1;padding:16px;gap:16px;flex-wrap:wrap}
+.panel{width:340px;min-width:300px;background:#16213e;border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:10px;height:fit-content}
+.panel h2{font-size:15px;color:#e94560;border-bottom:1px solid #0f3460;padding-bottom:6px;margin-bottom:2px}
+.panel h3{font-size:13px;color:#aaa;margin-top:4px;margin-bottom:-4px}
+.field{display:flex;flex-direction:column;gap:3px}
+.field label{font-size:12px;color:#aaa}
+.field select,.field input[type="text"]{background:#0f3460;color:#e0e0e0;border:1px solid #e94560;border-radius:4px;padding:6px 8px;font-size:13px;font-family:inherit}
+.field input[type="range"]{width:100%}
+.row{display:flex;gap:8px;align-items:flex-end}
+.row .field{flex:1}
+.val{font-size:11px;color:#e94560;text-align:right}
+.btn-row{display:flex;gap:8px;margin-top:8px}
+.btn{flex:1;padding:8px;border:none;border-radius:4px;font-size:14px;cursor:pointer;font-family:inherit}
+.btn-primary{background:#e94560;color:#fff}
+.btn-secondary{background:#0f3460;color:#e0e0e0;border:1px solid #e94560}
+.btn:hover{opacity:0.85}
+.note{font-size:11px;color:#888;line-height:1.4}
+.preview-area{flex:1;min-width:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.canvas-wrap{background:#ccc;background-image:linear-gradient(45deg,#aaa 25%,transparent 25%),linear-gradient(-45deg,#aaa 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#aaa 75%),linear-gradient(-45deg,transparent 75%,#aaa 75%);background-size:16px 16px;background-position:0 0,0 8px,8px -8px,-8px 0px;border-radius:8px;padding:20px;display:flex;align-items:center;justify-content:center}
+.canvas-wrap canvas{background:#fff;border-radius:4px}
+.export-row{display:flex;gap:8px}
+.aging-demo{width:100%;height:4px;border-radius:2px;background:linear-gradient(to right,#0f3460,#e94560,#ffcc00);margin-top:2px}
+.switch{display:flex;align-items:center;gap:8px}
+.switch input{width:auto;accent-color:#e94560}
+.flag{font-size:10px;color:#e94560;background:#0f3460;padding:2px 6px;border-radius:3px;margin-left:4px}
 </style>
 </head>
 <body>
-
 <div class="header">
   <h1>📛 电子印章生成器</h1>
   <a href="/">← 返回博客首页</a>
@@ -92,71 +54,132 @@ body {
       <select id="tpl">
         <option value="llc">有限责任公司公章 (Ø40mm)</option>
         <option value="jsc">股份有限公司公章 (Ø42mm)</option>
-        <option value="cc">合同专用章·圆 (Ø58mm)</option>
-        <option value="ce">合同专用章·椭圆 (45×30mm)</option>
+        <option value="cc">合同专用章 (Ø58mm)</option>
         <option value="inv">发票专用章 (Ø40mm)</option>
         <option value="fin">财务专用章 (Ø40mm)</option>
         <option value="hr">人事专用章 (Ø40mm)</option>
-        <option value="sq">个人名章·方章 (20×20mm)</option>
       </select>
     </div>
 
     <div class="field">
-      <label>单位名称（上弧文字）</label>
+      <label>公司名称（上弧文字）</label>
       <input type="text" id="companyName" value="示例科技有限公司" placeholder="输入公司/单位名称">
     </div>
 
     <div class="field">
-      <label>印章类型（下弧文字，可留空）</label>
-      <input type="text" id="sealType" value="公章" placeholder="如：合同专用章">
+      <label>印章类型（中间水平文字）<span class="flag">水平排列</span></label>
+      <input type="text" id="sealType" value="公章" placeholder="如：财务专用章">
     </div>
 
-    <div class="field" id="taxIdGroup" style="display:none">
-      <label>税号（发票专用章）</label>
+    <div class="field">
+      <label>编码/英文（下弧文字，可留空）</label>
+      <input type="text" id="sealCode" value="" placeholder="如：91110108MA01XXXXX">
+    </div>
+
+    <div class="field" id="taxIdGroup">
+      <label>税号（发票专用章中间）</label>
       <input type="text" id="taxId" value="" placeholder="如：91110108MA01XXXXX">
     </div>
+
+    <h2>🎛️ 字体与间距</h2>
+
+    <div class="row">
+      <div class="field">
+        <label>上部字号</label>
+        <input type="range" id="topFontSize" min="30" max="80" value="52">
+        <div class="val" id="topFontSizeVal">52px</div>
+      </div>
+      <div class="field">
+        <label>下部字号</label>
+        <input type="range" id="bottomFontSize" min="24" max="60" value="36">
+        <div class="val" id="bottomFontSizeVal">36px</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>上部字间距</label>
+        <input type="range" id="topSpacing" min="8" max="45" value="18">
+        <div class="val" id="topSpacingVal">18°/字</div>
+      </div>
+      <div class="field">
+        <label>下部字间距</label>
+        <input type="range" id="bottomSpacing" min="8" max="45" value="22">
+        <div class="val" id="bottomSpacingVal">22°/字</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>中间字号</label>
+      <input type="range" id="midFontSize" min="24" max="70" value="42">
+      <div class="val" id="midFontSizeVal">42px</div>
+    </div>
+
+    <div class="field">
+      <label>字体</label>
+      <select id="sealFont">
+        <option value="Noto Serif SC">宋体 (Noto Serif SC)</option>
+        <option value="KaiTi,STKaiti">楷体</option>
+        <option value="FangSong,STFangsong">仿宋</option>
+        <option value="Microsoft YaHei">微软雅黑</option>
+      </select>
+    </div>
+
+    <h2>🎨 颜色与做旧</h2>
 
     <div class="field">
       <label>印章颜色</label>
       <select id="sealColor">
-        <option value="red">红色（标准公章）</option>
-        <option value="blue">蓝色（复印/备案）</option>
+        <option value="red">公章红 (B02222)</option>
+        <option value="darkred">深红 (8B0000)</option>
+        <option value="blue">蓝印 (003399)</option>
       </select>
     </div>
 
-    <h2>🎨 做旧效果</h2>
-
     <div class="field">
-      <label>毛边强度</label>
-      <input type="range" id="roughness" min="0" max="100" value="30">
-      <div class="val" id="roughnessVal">30%</div>
-      <div class="aging-demo"></div>
+      <label>印章缩放</label>
+      <input type="range" id="sealScale" min="60" max="100" value="85">
+      <div class="val" id="sealScaleVal">85%</div>
     </div>
 
-    <div class="field">
-      <label>印泥颗粒</label>
-      <input type="range" id="noise" min="0" max="100" value="25">
-      <div class="val" id="noiseVal">25%</div>
+    <div class="field switch">
+      <label style="flex:1">🕰️ 做旧效果</label>
+      <input type="checkbox" id="agingEnabled" checked>
     </div>
 
-    <div class="field">
-      <label>边缘虚化</label>
-      <input type="range" id="blur" min="0" max="100" value="20">
-      <div class="val" id="blurVal">20%</div>
-    </div>
-
-    <div class="note">
-      💡 做旧效果模拟真实印章的毛边、印泥颗粒和不均匀按压效果，让电子印章更逼真。
+    <div id="agingOptions">
+      <div class="field">
+        <label>毛边强度</label>
+        <input type="range" id="roughness" min="0" max="100" value="25">
+        <div class="val" id="roughnessVal">25%</div>
+      </div>
+      <div class="field">
+        <label>印泥颗粒</label>
+        <input type="range" id="noise" min="0" max="100" value="20">
+        <div class="val" id="noiseVal">20%</div>
+      </div>
+      <div class="field">
+        <label>边缘虚化</label>
+        <input type="range" id="blur" min="0" max="100" value="15">
+        <div class="val" id="blurVal">15%</div>
+      </div>
+      <div class="field">
+        <label>按压不均</label>
+        <input type="range" id="pressure" min="0" max="100" value="15">
+        <div class="val" id="pressureVal">15%</div>
+      </div>
+      <div class="field switch">
+        <label style="flex:1">🔒 防伪纹路</label>
+        <input type="checkbox" id="antiFake" checked>
+      </div>
     </div>
 
     <h2>📦 导出</h2>
     <div class="btn-row">
-      <button class="btn btn-primary" onclick="exportPNG()">导出透明PNG</button>
-      <button class="btn btn-secondary" onclick="exportJPG()">导出白底JPG</button>
+      <button class="btn btn-primary" onclick="downloadPNG()">⬇ 透明PNG (2x)</button>
+      <button class="btn btn-secondary" onclick="downloadJPG()">⬇ 白底JPG (2x)</button>
     </div>
-    <div class="note">
-      高清导出（2×），透明底PNG可直接贴到文档中。
-    </div>
+    <div class="note">高清2倍导出，透明PNG可直接贴到文档中。</div>
   </div>
 
   <!-- 右：预览区 -->
@@ -168,387 +191,364 @@ body {
       <button class="btn btn-secondary" onclick="downloadPNG()">⬇ 透明PNG</button>
       <button class="btn btn-secondary" onclick="downloadJPG()">⬇ 白底JPG</button>
     </div>
+    <div class="note" style="text-align:center">实时预览 · 所有参数即时生效</div>
   </div>
 </div>
 
 <script>
 // ============================================================
-// 模板配置（尺寸单位：mm，渲染时转为px）
+// 模板配置
 // ============================================================
-const DPI      = 96;
-const BASE_MM_TO_PX = DPI / 25.4;   // 基础 mm→px，实际渲染时会乘以 scale
-
 const T = {
-  llc: { name:'有限责任公司公章', shape:'circle', dia:40, border:1.0, star:14, fw:7 },
-  jsc: { name:'股份有限公司公章', shape:'circle', dia:42, border:1.2, star:18, fw:7 },
-  cc:  { name:'合同专用章·圆',   shape:'circle', dia:58, border:1.5, star:20, fw:8 },
-  ce:  { name:'合同专用章·椭圆', shape:'ellipse',w:45, h:30, border:1.2, star:14, fw:6 },
-  inv: { name:'发票专用章',     shape:'circle', dia:40, border:1.0, star:14, fw:6 },
-  fin: { name:'财务专用章',     shape:'circle', dia:40, border:1.0, star:14, fw:6 },
-  hr:  { name:'人事专用章',     shape:'circle', dia:40, border:1.0, star:14, fw:6 },
-  sq:  { name:'个人名章·方章',  shape:'square', side:20, border:1.0, fw:6 },
+  llc:{name:'有限责任公司公章',dia:40,border:1.0,starDia:14},
+  jsc:{name:'股份有限公司公章',dia:42,border:1.2,starDia:18},
+  cc:{name:'合同专用章',dia:58,border:1.5,starDia:22},
+  inv:{name:'发票专用章',dia:40,border:1.0,starDia:0},
+  fin:{name:'财务专用章',dia:40,border:1.0,starDia:15},
+  hr:{name:'人事专用章',dia:40,border:1.0,starDia:14}
 };
 
-// 颜色表
 const COLORS = {
-  red:  { r:176, g:34,  b:34  },   // #B02222 公章红
-  blue: { r:0,   g:51,  b:153 }    // #003399 蓝
+  red:     {r:176,g:34,b:34},
+  darkred: {r:139,g:0,b:0},
+  blue:    {r:0,g:51,b:153}
 };
 
-// ============================================================
-// 工具：伪随机（可复现）
-// ============================================================
-function seededRandom(seed) {
-  let s = seed;
-  return function() {
-    s = (s * 16807 + 0) % 2147483647;
-    return (s - 1) / 2147483646;
-  };
-}
+// 伪随机
+function srnd(seed){var s=seed;return function(){s=(s*16807+0)%2147483647;return(s-1)/2147483646}}
 
-// ============================================================
-// 绘制毛边路径（圆形/椭圆）
-// ============================================================
-function roughPath(ctx, cx, cy, rx, ry, seed, amplitude) {
-  const STEPS = 360;
-  const rand  = seededRandom(seed);
-  const points = [];
-  for (let i = 0; i <= STEPS; i++) {
-    const angle = (i / STEPS) * Math.PI * 2;
-    const rOff  = (rand() - 0.5) * 2 * amplitude;
-    const r     = 1 + rOff;
-    points.push({
-      x: cx + rx * r * Math.cos(angle),
-      y: cy + ry * r * Math.sin(angle)
-    });
-  }
-  // 绘制
-  ctx.beginPath();
-  ctx.moveTo(points[0].x, points[0].y);
-  for (let i = 1; i <= STEPS; i++) {
-    ctx.lineTo(points[i].x, points[i].y);
-  }
-  ctx.closePath();
-}
+// 画弧排文字
+function drawArcText(ctx,text,cx,cy,radius,fontSize,color,isBottom,charDeg,fontFamily){
+  if(!text||text.length===0)return;
+  var n=text.length;
+  ctx.fillStyle=color;
+  ctx.font='bold '+fontSize+'px '+fontFamily;
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
 
-// ============================================================
-// 弧排文字（核心）
-// isBottom=false: 上弧，字顶朝外（上），从左读到右
-// isBottom=true:  下弧，字顶朝外（下），从左读到右
-// 旋转规则：上弧 rot = a + π/2（字顶朝远离圆心方向=上方）
-//          下弧 rot = a - π/2（字顶朝远离圆心方向=下方）
-// ============================================================
-function drawArcText(ctx, text, cx, cy, radius, fontSize, color, isBottom) {
-  if (!text) return;
-  ctx.fillStyle = color;
-  ctx.font      = 'bold ' + fontSize + 'px "Noto Serif SC","STSong","SimSun","Songti SC",serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
+  var totalAngle=(n-1)*charDeg*Math.PI/180;
+  if(n===1)totalAngle=0;
+  var centerAngle=isBottom?Math.PI/2:-Math.PI/2;
+  var startAngle=centerAngle-totalAngle/2;
 
-  var n = text.length;
-  if (n === 0) return;
-
-  // 动态计算每字符角度：填满约140°弧段，最少16°/字，最多40°/字
-  // n=2→80° | n=5→28° | n=7→23° | n=9→18° | n=10→16°
-  var charSpanDeg = Math.min(40, Math.max(16, 140 / (n - 1)));
-  var totalAngle  = (n - 1) * charSpanDeg * Math.PI / 180;
-
-  // 处理单字情况（居中）
-  if (n === 1) { totalAngle = 0; }
-
-  // 上弧中心=顶部(-π/2)，下弧中心=底部(π/2)
-  var centerAngle = isBottom ? Math.PI / 2 : -Math.PI / 2;
-  var startAngle  = centerAngle - totalAngle / 2;
-
-  for (var i = 0; i < n; i++) {
-    var a;
-    if (n === 1) {
-      a = centerAngle;
-    } else {
-      a = startAngle + (i / (n - 1)) * totalAngle;
-    }
-    var x = cx + radius * Math.cos(a);
-    var y = cy + radius * Math.sin(a);
-
-    // 旋转：字顶朝外（远离圆心）
-    // 上弧：远离圆心=朝上 → rot = a + π/2
-    // 下弧：远离圆心=朝下 → rot = a - π/2
-    var rot = isBottom ? (a - Math.PI / 2) : (a + Math.PI / 2);
-
+  for(var i=0;i<n;i++){
+    var a=n===1?centerAngle:startAngle+(i/(n-1))*totalAngle;
+    var x=cx+radius*Math.cos(a);
+    var y=cy+radius*Math.sin(a);
+    var rot=isBottom?(a-Math.PI/2):(a+Math.PI/2);
     ctx.save();
-    ctx.translate(x, y);
+    ctx.translate(x,y);
     ctx.rotate(rot);
-    ctx.fillText(text[i], 0, 0);
+    ctx.fillText(text[i],0,0);
     ctx.restore();
   }
 }
 
-// ============================================================
-// 绘制五角星
-// ============================================================
-function drawStar(ctx, cx, cy, outerR, color) {
-  const innerR = outerR * 0.382;               // 黄金比例
-  ctx.fillStyle = color;
+// 五角星
+function drawStar(ctx,cx,cy,outerR,color){
+  var innerR=outerR*0.382;
+  ctx.fillStyle=color;
   ctx.beginPath();
-  for (let i = 0; i < 5; i++) {
-    const oAngle = -Math.PI / 2 + i * 2 * Math.PI / 5;
-    const iAngle = oAngle + Math.PI / 5;
-    if (i === 0) {
-      ctx.moveTo(cx + outerR * Math.cos(oAngle), cy + outerR * Math.sin(oAngle));
-    } else {
-      ctx.lineTo(cx + outerR * Math.cos(oAngle), cy + outerR * Math.sin(oAngle));
-    }
-    ctx.lineTo(cx + innerR * Math.cos(iAngle), cy + innerR * Math.sin(iAngle));
+  for(var i=0;i<5;i++){
+    var oAngle=-Math.PI/2+i*2*Math.PI/5;
+    var iAngle=oAngle+Math.PI/5;
+    if(i===0)ctx.moveTo(cx+outerR*Math.cos(oAngle),cy+outerR*Math.sin(oAngle));
+    else ctx.lineTo(cx+outerR*Math.cos(oAngle),cy+outerR*Math.sin(oAngle));
+    ctx.lineTo(cx+innerR*Math.cos(iAngle),cy+innerR*Math.sin(iAngle));
   }
   ctx.closePath();
   ctx.fill();
 }
 
+// 毛边路径
+function roughCircle(ctx,cx,cy,r,seed,amplitude){
+  var steps=360;var rnd=srnd(seed);
+  var pts=[];
+  for(var i=0;i<=steps;i++){
+    var angle=(i/steps)*Math.PI*2;
+    var off=(rnd()-0.5)*2*amplitude;
+    var rr=1+off;
+    pts.push({x:cx+r*rr*Math.cos(angle),y:cy+r*rr*Math.sin(angle)});
+  }
+  ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);
+  for(var i=1;i<=steps;i++)ctx.lineTo(pts[i].x,pts[i].y);
+  ctx.closePath();
+}
+
 // ============================================================
 // 主渲染
 // ============================================================
-function render() {
-  var canvas = document.getElementById('previewCanvas');
-  var ctx    = canvas.getContext('2d');
-  var tplKey = document.getElementById('tpl').value;
-  var cfg    = T[tplKey];
-  var companyName = document.getElementById('companyName').value.trim() || '示例科技有限公司';
-  var sealType    = document.getElementById('sealType').value.trim();
-  var colorKey    = document.getElementById('sealColor').value;
-  var col         = COLORS[colorKey];
-  var colorStr    = 'rgb(' + col.r + ',' + col.g + ',' + col.b + ')';
+function render(){
+  var canvas=document.getElementById('previewCanvas');
+  var ctx=canvas.getContext('2d');
+  var W=400,H=400;
+  canvas.width=W;canvas.height=H;
+  var cx=W/2,cy=H/2;
 
-  // 做旧参数（归一化到 0~1）
-  var rough   = document.getElementById('roughness').value / 100;
-  var noiseLv = document.getElementById('noise').value / 100;
-  var blurLv  = document.getElementById('blur').value / 100;
+  // 读参数
+  var tplKey=document.getElementById('tpl').value;
+  var cfg=T[tplKey];
+  var companyName=document.getElementById('companyName').value.trim()||'示例科技有限公司';
+  var sealType=document.getElementById('sealType').value.trim()||'公章';
+  var sealCode=document.getElementById('sealCode').value.trim();
+  var taxId=document.getElementById('taxId').value.trim();
+  var colorKey=document.getElementById('sealColor').value;
+  var col=COLORS[colorKey];
+  var colorStr='rgb('+col.r+','+col.g+','+col.b+')';
 
-  // --- 画布尺寸 - 使用固定400x400 ---
-  var W = 400, H = 400;
-  canvas.width  = W;
-  canvas.height = H;
-  var cx = W / 2, cy = H / 2;
+  var topFS=parseInt(document.getElementById('topFontSize').value);
+  var botFS=parseInt(document.getElementById('bottomFontSize').value);
+  var midFS=parseInt(document.getElementById('midFontSize').value);
+  var topSp=parseInt(document.getElementById('topSpacing').value);
+  var botSp=parseInt(document.getElementById('bottomSpacing').value);
+  var scale=parseInt(document.getElementById('sealScale').value)/100;
+  var fontFamily=document.getElementById('sealFont').value+',"Noto Serif SC","STSong","SimSun"';
 
-  // --- 计算渲染缩放比：让印章占画布约 85% ---
-  var sealMM = cfg.shape==='ellipse' ? Math.max(cfg.w,cfg.h) : (cfg.dia||cfg.side);
-  var mm_to_px = (W * 0.85) / sealMM;  // 动态缩放，让印章填满画布
+  var agingOn=document.getElementById('agingEnabled').checked;
+  var rough=agingOn?document.getElementById('roughness').value/100:0;
+  var noiseLv=agingOn?document.getElementById('noise').value/100:0;
+  var blurLv=agingOn?document.getElementById('blur').value/100:0;
+  var pressLv=agingOn?document.getElementById('pressure').value/100:0;
+  var antiFk=agingOn&&document.getElementById('antiFake').checked;
 
-  // 背景透明（清除）
-  ctx.clearRect(0, 0, W, H);
+  // 计算尺寸
+  var sealDia=cfg.dia*scale*(W*0.85)/cfg.dia;
+  var sealR=sealDia/2;
+  var bw=Math.max(cfg.border*scale*(W*0.85)/cfg.dia,2.5);
+  var gap=bw*3.5;
 
-  // --- 外圈 ---
-  var borderW = Math.max(cfg.border * mm_to_px, 2);
-  ctx.strokeStyle = colorStr;
-  ctx.fillStyle   = colorStr;
-  ctx.lineWidth   = borderW;
-  var seed = 12345;
+  ctx.clearRect(0,0,W,H);
 
-  if (cfg.shape === 'circle') {
-    var r  = cfg.dia / 2 * mm_to_px;
-    if (rough > 0) {
-      roughPath(ctx, cx, cy, r, r, seed, rough * 0.015);
-      ctx.stroke();
-      roughPath(ctx, cx, cy, r - borderW, r - borderW, seed + 1, rough * 0.010);
-      ctx.stroke();
-    } else {
-      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
-      ctx.beginPath(); ctx.arc(cx, cy, r - borderW, 0, Math.PI * 2); ctx.stroke();
+  // === 先画做旧层（用作背景纹理，后面用source-atop限制） ===
+  // 注意：主体绘制后做边缘虚化和颗粒处理
+
+  // === 主体绘制到临时canvas ===
+  var mainCanvas=document.createElement('canvas');
+  mainCanvas.width=W;mainCanvas.height=H;
+  var mc=mainCanvas.getContext('2d');
+
+  // --- 双圈边框 ---
+  mc.strokeStyle=colorStr;mc.fillStyle=colorStr;
+  mc.lineWidth=bw;
+  var outerR=sealR,innerR=sealR-gap;
+
+  if(rough>0){
+    roughCircle(mc,cx,cy,outerR,100,rough*0.015);mc.stroke();
+    roughCircle(mc,cx,cy,innerR,200,rough*0.012);mc.stroke();
+  }else{
+    mc.beginPath();mc.arc(cx,cy,outerR,0,Math.PI*2);mc.stroke();
+    mc.beginPath();mc.arc(cx,cy,innerR,0,Math.PI*2);mc.stroke();
+  }
+
+  // --- 上弧文字：公司名称 ---
+  var topTextR=innerR-bw*2;
+  drawArcText(mc,companyName,cx,cy,topTextR,topFS,colorStr,false,topSp,fontFamily);
+
+  // --- 中间区域：五角星 + 水平文字 ---
+  var isEmptyInv=(tplKey==='inv'&&taxId);
+
+  if(cfg.starDia>0&&!isEmptyInv){
+    // 画五角星
+    var starR=cfg.starDia/2*sealDia/cfg.dia;
+    drawStar(mc,cx,cy,starR,colorStr);
+
+    // 中间水平文字：印章类型，在五角星下方
+    var midY=cy+starR+midFS*0.6;
+    mc.font='bold '+midFS+'px '+fontFamily;
+    mc.textAlign='center';
+    mc.textBaseline='middle';
+    mc.fillStyle=colorStr;
+    mc.fillText(sealType,cx,midY);
+  }else if(isEmptyInv){
+    // 发票章：税号居中（不画星）
+    mc.font='bold '+midFS+'px '+fontFamily;
+    mc.textAlign='center';
+    mc.textBaseline='middle';
+    mc.fillStyle=colorStr;
+    mc.fillText(taxId,cx,cy);
+  }else{
+    // 其他（如发票章无税号）仅在中间画水平文字
+    mc.font='bold '+midFS+'px '+fontFamily;
+    mc.textAlign='center';
+    mc.textBaseline='middle';
+    mc.fillStyle=colorStr;
+    mc.fillText(sealType,cx,cy);
+  }
+
+  // --- 下弧文字：编码/英文 ---
+  if(sealCode){
+    var botTextR=innerR-bw*2-botFS*0.3;
+    drawArcText(mc,sealCode,cx,cy,botTextR,botFS,colorStr,true,botSp,fontFamily);
+  }
+
+  // --- 做旧：按压不均（径向灰度遮罩） ---
+  if(pressLv>0){
+    var gradCanvas=document.createElement('canvas');
+    gradCanvas.width=W;gradCanvas.height=H;
+    var gc=gradCanvas.getContext('2d');
+    var rnd2=srnd(500);
+    // 随机偏移的径向渐变模拟不均匀按压
+    var offX=cx+(rnd2()-0.5)*sealR*0.1;
+    var offY=cy+(rnd2()-0.5)*sealR*0.1;
+    var grad=gc.createRadialGradient(offX,offY,sealR*0.15,offX,offY,sealR*1.1);
+    grad.addColorStop(0,'rgba(0,0,0,0)');
+    grad.addColorStop(0.5,'rgba(0,0,0,'+(pressLv*0.05)+')');
+    grad.addColorStop(0.85,'rgba(0,0,0,'+(pressLv*0.15)+')');
+    grad.addColorStop(1,'rgba(255,255,255,'+(pressLv*0.2)+')');
+    gc.fillStyle=grad;gc.fillRect(0,0,W,H);
+    mc.globalCompositeOperation='multiply';
+    mc.drawImage(gradCanvas,0,0);
+    mc.globalCompositeOperation='source-over';
+  }
+
+  // --- 防伪纹路 ---
+  if(antiFk){
+    mc.save();
+    mc.globalCompositeOperation='source-atop';
+    mc.strokeStyle='rgba('+col.r+','+col.g+','+col.b+',0.08)';
+    mc.lineWidth=0.5;
+    var rnd3=srnd(999);
+    // 随机微弧线
+    for(var i=0;i<40;i++){
+      var a1=(rnd3())*Math.PI*2;
+      var a2=a1+0.05+rnd3()*0.15;
+      var rr1=sealR*0.3+rnd3()*sealR*0.6;
+      var rr2=rr1+rnd3()*sealR*0.05;
+      mc.beginPath();
+      mc.moveTo(cx+rr1*Math.cos(a1),cy+rr1*Math.sin(a1));
+      mc.lineTo(cx+rr2*Math.cos(a2),cy+rr2*Math.sin(a2));
+      mc.stroke();
     }
-  } else if (cfg.shape === 'ellipse') {
-    var rx = cfg.w / 2 * mm_to_px;
-    var ry = cfg.h / 2 * mm_to_px;
-    if (rough > 0) {
-      roughPath(ctx, cx, cy, rx, ry, seed, rough * 0.015);
-      ctx.stroke();
-      roughPath(ctx, cx, cy, rx - borderW, ry - borderW, seed + 1, rough * 0.010);
-      ctx.stroke();
-    } else {
-      ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2); ctx.stroke();
-      ctx.beginPath(); ctx.ellipse(cx, cy, rx - borderW, ry - borderW, 0, 0, Math.PI * 2); ctx.stroke();
-    }
-  } else if (cfg.shape === 'square') {
-    var side = cfg.side * mm_to_px;
-    var half = side / 2;
-    ctx.lineWidth = borderW;
-    if (rough > 0) {
-      ctx.beginPath();
-      var corners = [[cx-half,cy-half],[cx+half,cy-half],[cx+half,cy+half],[cx-half,cy+half]];
-      var rr = seededRandom(seed);
-      for (var ii=0; ii<4; ii++) {
-        var nx = corners[ii][0] + (rr()-0.5)*(rough*4);
-        var ny = corners[ii][1] + (rr()-0.5)*(rough*4);
-        if (ii===0) ctx.moveTo(nx,ny); else ctx.lineTo(nx,ny);
+    // 微点
+    for(var i=0;i<200;i++){
+      var ax=cx+(rnd3()-0.5)*sealR*1.5;
+      var ay=cy+(rnd3()-0.5)*sealR*1.5;
+      var dx=ax-cx,dy=ay-cy;
+      if(Math.sqrt(dx*dx+dy*dy)<sealR*1.05){
+        mc.fillRect(ax,ay,1+rnd3()*1.5,1+rnd3()*1.5);
       }
-      ctx.closePath(); ctx.stroke();
-    } else {
-      ctx.strokeRect(cx-half, cy-half, side, side);
     }
+    mc.restore();
   }
 
-  // --- 弧排文字 ---
-  var fontSize = (cfg.fw || 7) * mm_to_px;
-  // 上弧文字半径 = 外圈内沿 - 边宽*2 - 小间距
-  var topArcR;
-  if (cfg.shape === 'circle') {
-    topArcR = cfg.dia/2 * mm_to_px - borderW*2 - 8;
-  } else if (cfg.shape === 'ellipse') {
-    topArcR = cfg.w/2 * mm_to_px - borderW*2 - 8;
-  } else {
-    topArcR = cfg.side*mm_to_px/2 - borderW*2 - 4;
-  }
-  // 上弧 = 顶部，字顶朝外（上）
-  drawArcText(ctx, companyName, cx, cy, topArcR, fontSize, colorStr, false);
+  // 把主体画到显示canvas
+  ctx.drawImage(mainCanvas,0,0);
 
-  // 下弧文字 — 底部，字顶朝外（下）
-  if (sealType) {
-    var bottomArcR = topArcR - fontSize * 1.6;
-    drawArcText(ctx, sealType, cx, cy, bottomArcR, fontSize * 0.85, colorStr, true);
-  }
+  // --- 做旧：边缘虚化 ---
+  if(blurLv>0){
+    var tmpCvs=document.createElement('canvas');
+    tmpCvs.width=W;tmpCvs.height=H;
+    var tCtx=tmpCvs.getContext('2d');
+    var grad=tCtx.createRadialGradient(cx,cy,sealR*0.6,cx,cy,sealR*1.1);
+    grad.addColorStop(0,'rgba(0,0,0,0)');
+    grad.addColorStop(1,'rgba(0,0,0,'+(blurLv*0.4)+')');
+    tCtx.fillStyle=grad;tCtx.fillRect(0,0,W,H);
 
-  // --- 五角星（方章和发票章不画星） ---
-  var starR = 0;
-  if (cfg.shape !== 'square' && cfg.star && tplKey !== 'inv') {
-    starR = cfg.star / 2 * mm_to_px;
-    drawStar(ctx, cx, cy, starR, colorStr);
-  } else if (cfg.star) {
-    // 发票章不画星但保留starR用于税号定位
-    starR = cfg.star / 2 * mm_to_px;
-  }
-
-  // --- 税号（仅发票专用章） ---
-  if (tplKey === 'inv') {
-    var taxIdText = document.getElementById('taxId').value.trim();
-    if (taxIdText) {
-      var taxFontSize = fontSize * 0.85;
-      ctx.font = taxFontSize + 'px "Noto Serif SC","STSong","SimSun","Songti SC",serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillStyle = colorStr;
-      // 发票章：税号放在中心位置
-      var taxY = cy + starR * 0.5;
-      ctx.fillText(taxIdText, cx, taxY);
-    }
+    // 用destination-out做边缘淡出
+    var fadeCanvas=document.createElement('canvas');
+    fadeCanvas.width=W;fadeCanvas.height=H;
+    var fc=fadeCanvas.getContext('2d');
+    fc.drawImage(ctx.canvas,0,0);
+    fc.globalCompositeOperation='destination-out';
+    fc.drawImage(tmpCvs,0,0);
+    ctx.clearRect(0,0,W,H);
+    ctx.drawImage(fadeCanvas,0,0);
   }
 
   // --- 做旧：印泥颗粒 ---
-  if (noiseLv > 0) {
-    var imgData = ctx.getImageData(0, 0, W, H);
-    var pixels  = imgData.data;
-    var rand2   = seededRandom(seed + 999);
-    for (var i2 = 0; i2 < pixels.length; i2 += 4) {
-      if (pixels[i2 + 3] > 0) {
-        var n = (rand2() - 0.5) * 2 * noiseLv * 40;
-        pixels[i2]     = Math.min(255, Math.max(0, pixels[i2] + n));
-        pixels[i2 + 1] = Math.min(255, Math.max(0, pixels[i2+1] + n));
-        pixels[i2 + 2] = Math.min(255, Math.max(0, pixels[i2+2] + n));
+  if(noiseLv>0){
+    var imgData=ctx.getImageData(0,0,W,H);
+    var pixels=imgData.data;
+    var rnd4=srnd(777);
+    for(var i=0;i<pixels.length;i+=4){
+      if(pixels[i+3]>0){
+        var n=(rnd4()-0.5)*2*noiseLv*45;
+        pixels[i]=Math.min(255,Math.max(0,pixels[i]+n));
+        pixels[i+1]=Math.min(255,Math.max(0,pixels[i+1]+n));
+        pixels[i+2]=Math.min(255,Math.max(0,pixels[i+2]+n));
       }
     }
-    ctx.putImageData(imgData, 0, 0);
+    ctx.putImageData(imgData,0,0);
   }
-
-  // --- 做旧：边缘虚化 ---
-  if (blurLv > 0) {
-    var tmpCvs = document.createElement('canvas');
-    tmpCvs.width  = W; tmpCvs.height = H;
-    var tCtx = tmpCvs.getContext('2d');
-    var grad = tCtx.createRadialGradient(cx, cy, W*0.25, cx, cy, W*0.55);
-    grad.addColorStop(0, 'rgba(0,0,0,0)');
-    grad.addColorStop(1, 'rgba(0,0,0,' + (blurLv*0.35) + ')');
-    tCtx.fillStyle = grad;
-    tCtx.fillRect(0, 0, W, H);
-    ctx.globalCompositeOperation = 'multiply';
-    ctx.drawImage(tmpCvs, 0, 0);
-    ctx.globalCompositeOperation = 'source-over';
-  }
-
-  // 保存 mm_to_px 供导出使用
-  window._mm_to_px = mm_to_px;
 }
 
 // ============================================================
-// 绑定事件
+// 事件绑定
 // ============================================================
-function bindEvents() {
-  var ids = ['tpl','companyName','sealType','sealColor','roughness','noise','blur','taxId'];
-  ids.forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) {
-      el.addEventListener('input', render);
-      el.addEventListener('change', render);
+function bindEvents(){
+  var ids=['tpl','companyName','sealType','sealCode','taxId','sealColor','sealFont',
+           'topFontSize','bottomFontSize','midFontSize','topSpacing','bottomSpacing',
+           'sealScale','roughness','noise','blur','pressure','agingEnabled','antiFake'];
+  ids.forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){
+      el.addEventListener('input',render);
+      el.addEventListener('change',function(){render();updateUI()});
     }
   });
 
-  // 模板切换时，显示/隐藏税号输入框
-  var tplEl = document.getElementById('tpl');
-  var taxGroup = document.getElementById('taxIdGroup');
-  function toggleTaxId() {
-    if (tplEl.value === 'inv') {
-      taxGroup.style.display = 'flex';
-    } else {
-      taxGroup.style.display = 'none';
-      document.getElementById('taxId').value = '';
-    }
-  }
-  tplEl.addEventListener('change', function() { toggleTaxId(); render(); });
-  toggleTaxId(); // 初始状态
-
-  // 滑块实时显示数值
-  ['roughness','noise','blur'].forEach(id => {
-    const el = document.getElementById(id);
-    const vl = document.getElementById(id + 'Val');
-    if (el && vl) {
-      el.addEventListener('input', () => { vl.textContent = el.value + '%'; });
+  // 滑块值显示
+  ['topFontSize','bottomFontSize','midFontSize','topSpacing','bottomSpacing',
+   'sealScale','roughness','noise','blur','pressure'].forEach(function(id){
+    var el=document.getElementById(id);
+    var vl=document.getElementById(id+'Val');
+    if(el&&vl){
+      el.addEventListener('input',function(){
+        var u=id==='topSpacing'||id==='bottomSpacing'?'°/字':
+              id==='sealScale'?'%':'px';
+        vl.textContent=el.value+u;
+      });
     }
   });
 }
 
-// ============================================================
-// 导出（2x 高清导出）
-// ============================================================
-function getHighCanvas(scale) {
-  scale = scale || 2;
-  var preview = document.getElementById('previewCanvas');
-  var offCvs  = document.createElement('canvas');
-  offCvs.width  = preview.width * scale;
-  offCvs.height = preview.height * scale;
-  var ctx = offCvs.getContext('2d');
-  ctx.drawImage(preview, 0, 0, offCvs.width, offCvs.height);
-  return offCvs;
+function updateUI(){
+  var tplKey=document.getElementById('tpl').value;
+  var taxGroup=document.getElementById('taxIdGroup');
+  if(tplKey==='inv'){
+    taxGroup.style.display='flex';
+  }else{
+    taxGroup.style.display='none';
+    document.getElementById('taxId').value='';
+  }
+
+  var agingOn=document.getElementById('agingEnabled').checked;
+  var agingOpts=document.getElementById('agingOptions');
+  agingOpts.style.display=agingOn?'block':'none';
 }
 
-function downloadPNG() {
-  const cvs  = getHighCanvas(2);
-  const link = document.createElement('a');
-  link.download = 'seal_' + Date.now() + '.png';
-  link.href = cvs.toDataURL('image/png');
+// ============================================================
+// 导出
+// ============================================================
+function downloadPNG(){
+  var preview=document.getElementById('previewCanvas');
+  var offCvs=document.createElement('canvas');
+  offCvs.width=800;offCvs.height=800;
+  var ctx=offCvs.getContext('2d');
+  ctx.drawImage(preview,0,0,800,800);
+  var link=document.createElement('a');
+  link.download='seal_'+Date.now()+'.png';
+  link.href=offCvs.toDataURL('image/png');
   link.click();
 }
 
-function downloadJPG() {
-  const cvs   = getHighCanvas(2);
-  const tmpCvs = document.createElement('canvas');
-  tmpCvs.width  = cvs.width;
-  tmpCvs.height = cvs.height;
-  const ctx = tmpCvs.getContext('2d');
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, tmpCvs.width, tmpCvs.height);
-  ctx.drawImage(cvs, 0, 0);
-  const link = document.createElement('a');
-  link.download = 'seal_' + Date.now() + '.jpg';
-  link.href = tmpCvs.toDataURL('image/jpeg', 0.92);
+function downloadJPG(){
+  var preview=document.getElementById('previewCanvas');
+  var tmpCvs=document.createElement('canvas');
+  tmpCvs.width=800;tmpCvs.height=800;
+  var ctx=tmpCvs.getContext('2d');
+  ctx.fillStyle='#ffffff';
+  ctx.fillRect(0,0,800,800);
+  ctx.drawImage(preview,0,0,800,800);
+  var link=document.createElement('a');
+  link.download='seal_'+Date.now()+'.jpg';
+  link.href=tmpCvs.toDataURL('image/jpeg',0.92);
   link.click();
 }
 
-// 兼容 HTML onclick 属性
-window.exportPNG = downloadPNG;
-window.exportJPG = downloadJPG;
-
-// ============================================================
 // 启动
-// ============================================================
-document.addEventListener('DOMContentLoaded', () => {
-  bindEvents();
-  render();
+document.addEventListener('DOMContentLoaded',function(){
+  bindEvents();updateUI();render();
 });
 </script>
 </body>
