@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>电子印章生成器 v1.4 | Electronic Seal Generator</title>
+<title>电子印章生成器 v1.5 | Electronic Seal Generator</title>
 <meta name="description" content="免费在线电子印章生成器，仿真实印章比例，支持弧形/水平文字，做旧毛边防伪纹路效果，导出透明PNG。">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -14,7 +14,6 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
 .main{display:flex;width:100%;max-width:1200px;flex:1;padding:16px;gap:16px;flex-wrap:wrap}
 .panel{width:340px;min-width:300px;background:#16213e;border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:10px;height:fit-content;max-height:calc(100vh - 80px);overflow-y:auto}
 .panel h2{font-size:15px;color:#e94560;border-bottom:1px solid #0f3460;padding-bottom:6px;margin-bottom:2px}
-.panel h3{font-size:13px;color:#aaa;margin-top:4px;margin-bottom:-4px}
 .field{display:flex;flex-direction:column;gap:3px}
 .field label{font-size:12px;color:#aaa}
 .field select,.field input[type="text"]{background:#0f3460;color:#e0e0e0;border:1px solid #e94560;border-radius:4px;padding:6px 8px;font-size:13px;font-family:inherit}
@@ -22,7 +21,7 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
 .row{display:flex;gap:8px;align-items:flex-end}
 .row .field{flex:1}
 .val{font-size:11px;color:#e94560;text-align:right}
-.ref{font-size:10px;color:#666;text-align:right;margin-top:-2px}
+.ref{font-size:10px;color:#4a90d9;text-align:right;margin-top:-2px;font-weight:bold}
 .btn-row{display:flex;gap:8px;margin-top:8px}
 .btn{flex:1;padding:8px;border:none;border-radius:4px;font-size:14px;cursor:pointer;font-family:inherit}
 .btn-primary{background:#e94560;color:#fff}
@@ -36,7 +35,7 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
 .switch{display:flex;align-items:center;gap:8px}
 .switch input{width:auto;accent-color:#e94560}
 .flag{font-size:10px;color:#e94560;background:#0f3460;padding:2px 6px;border-radius:3px;margin-left:4px}
-.section-ref{font-size:10px;color:#555;background:#0d1b33;padding:4px 6px;border-radius:3px;margin-top:-4px;line-height:1.5}
+.section-ref{font-size:10px;color:#4a90d9;background:#0d1b33;padding:4px 6px;border-radius:3px;margin-top:-4px;line-height:1.6}
 </style>
 </head>
 <body>
@@ -75,7 +74,7 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
 
     <div class="field">
       <label>编码/英文（下弧文字，可留空）</label>
-      <input type="text" id="sealCode" value="" placeholder="如：91110108MA01XXXXX">
+      <input type="text" id="sealCode" value="" placeholder="如：12345678">
     </div>
 
     <div class="field" id="taxIdGroup" style="display:none;">
@@ -83,56 +82,53 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
       <input type="text" id="taxId" value="" placeholder="如：91110108MA01XXXXX">
     </div>
 
-    <h2>📏 边框与圆环</h2>
+    <h2>⭕ 圆环</h2>
 
-    <div class="row">
-      <div class="field">
-        <label>圆环粗细</label>
-        <input type="range" id="ringWidth" min="5" max="30" value="12">
-        <div class="val" id="ringWidthVal">12px</div>
-        <div class="ref" id="ringWidthRef">默认约7-9px</div>
-      </div>
-      <div class="field">
-        <label>双圈间距</label>
-        <input type="range" id="ringGap" min="2" max="20" value="6">
-        <div class="val" id="ringGapVal">6px</div>
-        <div class="ref">默认约4-6px</div>
-      </div>
+    <div class="field">
+      <label>圆环粗细</label>
+      <input type="range" id="ringWidth" min="3" max="20" value="7">
+      <div class="val" id="ringWidthVal">7px</div>
+      <div class="ref" id="ringWidthRef">推荐: 7px</div>
     </div>
 
-    <h2>🎛️ 字体与间距</h2>
+    <h2>🔤 字体与间距</h2>
     <div id="fontRef" class="section-ref"></div>
 
     <div class="row">
       <div class="field">
-        <label>上部字号</label>
-        <input type="range" id="topFontSize" min="22" max="80" value="48">
-        <div class="val" id="topFontSizeVal">48px</div>
+        <label>上弧字号</label>
+        <input type="range" id="topFontSize" min="18" max="72" value="46">
+        <div class="val" id="topFontSizeVal">46px</div>
+        <div class="ref" id="topFSRef">推荐: 46px</div>
       </div>
       <div class="field">
-        <label>下部字号</label>
-        <input type="range" id="bottomFontSize" min="18" max="55" value="28">
-        <div class="val" id="bottomFontSizeVal">28px</div>
+        <label>下弧字号</label>
+        <input type="range" id="bottomFontSize" min="14" max="48" value="26">
+        <div class="val" id="bottomFontSizeVal">26px</div>
+        <div class="ref" id="botFSRef">推荐: 26px</div>
       </div>
     </div>
 
     <div class="row">
       <div class="field">
-        <label>上部字间距</label>
+        <label>上弧字间距</label>
         <input type="range" id="topSpacing" min="10" max="50" value="18">
         <div class="val" id="topSpacingVal">18°/字</div>
+        <div class="ref" id="topSpRef">推荐: 18°/字</div>
       </div>
       <div class="field">
-        <label>下部字间距</label>
-        <input type="range" id="bottomSpacing" min="10" max="50" value="26">
-        <div class="val" id="bottomSpacingVal">26°/字</div>
+        <label>下弧字间距</label>
+        <input type="range" id="bottomSpacing" min="10" max="50" value="22">
+        <div class="val" id="bottomSpacingVal">22°/字</div>
+        <div class="ref" id="botSpRef">推荐: 22°/字</div>
       </div>
     </div>
 
     <div class="field">
-      <label>中间字号</label>
-      <input type="range" id="midFontSize" min="20" max="70" value="36">
-      <div class="val" id="midFontSizeVal">36px</div>
+      <label>中间字号（水平文字）</label>
+      <input type="range" id="midFontSize" min="18" max="65" value="34">
+      <div class="val" id="midFontSizeVal">34px</div>
+      <div class="ref" id="midFSRef">推荐: 34px</div>
     </div>
 
     <div class="field">
@@ -150,9 +146,9 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
     <div class="field">
       <label>印章颜色</label>
       <select id="sealColor">
-        <option value="red">公章红 (B02222)</option>
-        <option value="darkred">深红 (8B0000)</option>
-        <option value="blue">蓝印 (003399)</option>
+        <option value="red">公章红 (#B02222)</option>
+        <option value="darkred">深红 (#8B0000)</option>
+        <option value="blue">蓝印 (#003399)</option>
       </select>
     </div>
 
@@ -164,23 +160,18 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
     <div id="agingOptions" style="display:none;">
       <div class="field">
         <label>毛边强度</label>
-        <input type="range" id="roughness" min="0" max="100" value="25">
-        <div class="val" id="roughnessVal">25%</div>
+        <input type="range" id="roughness" min="0" max="100" value="20">
+        <div class="val" id="roughnessVal">20%</div>
       </div>
       <div class="field">
         <label>印泥颗粒</label>
-        <input type="range" id="noise" min="0" max="100" value="20">
-        <div class="val" id="noiseVal">20%</div>
+        <input type="range" id="noise" min="0" max="100" value="15">
+        <div class="val" id="noiseVal">15%</div>
       </div>
       <div class="field">
         <label>边缘虚化</label>
-        <input type="range" id="blur" min="0" max="100" value="15">
-        <div class="val" id="blurVal">15%</div>
-      </div>
-      <div class="field">
-        <label>按压不均</label>
-        <input type="range" id="pressure" min="0" max="100" value="15">
-        <div class="val" id="pressureVal">15%</div>
+        <input type="range" id="blur" min="0" max="100" value="10">
+        <div class="val" id="blurVal">10%</div>
       </div>
       <div class="field switch">
         <label style="flex:1">🔒 防伪纹路</label>
@@ -214,12 +205,18 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
 // 模板配置 — 国家标准印章规格
 // ============================================================
 const T = {
-  llc:{name:'有限责任公司公章',dia:40,borderW:1.0,starDia:14, topFS:48,midFS:36,botFS:28,topSp:18,botSp:26},
-  jsc:{name:'股份有限公司公章',dia:42,borderW:1.2,starDia:18, topFS:52,midFS:38,botFS:30,topSp:17,botSp:24},
-  cc: {name:'合同专用章',     dia:58,borderW:1.5,starDia:22, topFS:64,midFS:44,botFS:34,topSp:19,botSp:27},
-  inv:{name:'发票专用章',       dia:40,borderW:1.0,starDia:0,  topFS:46,midFS:32,botFS:26,topSp:17,botSp:24},
-  fin:{name:'财务专用章',       dia:40,borderW:1.0,starDia:15, topFS:48,midFS:36,botFS:28,topSp:18,botSp:26},
-  hr: {name:'人事专用章',       dia:40,borderW:1.0,starDia:14, topFS:48,midFS:36,botFS:28,topSp:18,botSp:26}
+  llc:{name:'有限责任公司公章',dia:40,borderW:1.0,starDia:14,
+       topFS:46,midFS:34,botFS:26,topSp:18,botSp:22,rwPx:7},
+  jsc:{name:'股份有限公司公章',dia:42,borderW:1.2,starDia:18,
+       topFS:50,midFS:36,botFS:28,topSp:17,botSp:21,rwPx:8},
+  cc: {name:'合同专用章',     dia:58,borderW:1.5,starDia:22,
+       topFS:62,midFS:42,botFS:32,topSp:19,botSp:23,rwPx:10},
+  inv:{name:'发票专用章',       dia:40,borderW:1.0,starDia:0,
+       topFS:44,midFS:30,botFS:24,topSp:17,botSp:21,rwPx:7},
+  fin:{name:'财务专用章',       dia:40,borderW:1.0,starDia:15,
+       topFS:46,midFS:34,botFS:26,topSp:18,botSp:22,rwPx:7},
+  hr: {name:'人事专用章',       dia:40,borderW:1.0,starDia:14,
+       topFS:46,midFS:34,botFS:26,topSp:18,botSp:22,rwPx:7}
 };
 
 const COLORS = {
@@ -228,11 +225,18 @@ const COLORS = {
   blue:    {r:0,g:51,b:153}
 };
 
-// 确定性伪随机
 function srnd(seed){var s=seed|0;return function(){s=(s*16807+0)%2147483647;return((s|0)-1)/2147483646}}
 
 // ============================================================
-// 弧排文字 —— 统一旋转公式：rot = angle + PI/2
+// 弧排文字 — 关键：下弧必须从左到右读
+//
+// 上弧: center=-PI/2(12点), 从左边(-PI/2-total/2)到右边(-PI/2+total/2)
+//   → 角度递增 ✓ 左到右
+//
+// 下弧: center=+PI/2(6点), 从左边(+PI/2+total/2)到右边(+PI/2-total/2)
+//   → 角度递减！这样才能左到右读！
+//
+// 统一旋转 rot = a + PI/2 (字顶朝径向外部)
 // ============================================================
 function drawArcText(ctx,text,cx,cy,radius,fontSize,color,isBottom,charDeg,fontFamily){
   if(!text||!text.length)return;
@@ -242,25 +246,28 @@ function drawArcText(ctx,text,cx,cy,radius,fontSize,color,isBottom,charDeg,fontF
   ctx.textAlign='center';
   ctx.textBaseline='middle';
 
-  // 总弧度
-  var totalAngle=(n-1)*charDeg*Math.PI/180;
-  if(n===1)totalAngle=0;
+  // 总弧度（角度制转弧度）
+  var totalRad=(n-1)*charDeg*Math.PI/180;
+  if(n===1)totalRad=0;
 
-  // 中心角：上半圆=12点(-PI/2)，下半圆=6点(+PI/2)
+  // 中心角
   var centerAngle=isBottom?(Math.PI/2):(-Math.PI/2);
 
-  var startAngle=centerAngle-totalAngle/2;
+  // 起始角度：
+  //   上弧: center - total/2（左边开始，向右递增）
+  //   下弧: center + total/2（左边开始=大角度，向右递减）
+  var startAngle=isBottom?(centerAngle+totalRad/2):(centerAngle-totalRad/2);
+  var step=isBottom?(-totalRad/(n-1)):(totalRad/(n-1));
+  if(n===1)step=0;
 
   for(var i=0;i<n;i++){
-    // 当前字符的角度
-    var a=(n===1)?centerAngle:(startAngle+(i/(n-1))*totalAngle);
+    var a=startAngle+i*step;
     var x=cx+radius*Math.cos(a);
     var y=cy+radius*Math.sin(a);
 
-    // 统一旋转：字顶朝向径向外部（远离圆心）
-    // Canvas: 默认字顶朝上(y负方向)= -PI/2
-    // 径向向外 = 角度a的方向
-    // 旋转量 = a - (-PI/2) = a + PI/2
+    // 字顶朝径向外部（远离圆心方向）
+    // Canvas默认字顶朝上(-y)=角度-PI/2
+    // 要转到径向角度a的方向: rot=a-(-PI/2)=a+PI/2
     var rot=a+Math.PI/2;
 
     ctx.save();
@@ -278,15 +285,11 @@ function drawStar(ctx,cx,cy,outerR,color){
   ctx.fillStyle=color;
   ctx.beginPath();
   for(var i=0;i<5;i++){
-    var oAngle=-Math.PI/2+i*2*Math.PI/5;
-    var iAngle=oAngle+Math.PI/5;
-    var ox=cx+outerR*Math.cos(oAngle);
-    var oy=cy+outerR*Math.sin(oAngle);
-    var ix=cx+innerR*Math.cos(iAngle);
-    var iy=cy+innerR*Math.sin(iAngle);
-    if(i===0)ctx.moveTo(ox,oy);
-    else ctx.lineTo(ox,oy);
-    ctx.lineTo(ix,iy);
+    var oA=-Math.PI/2+i*2*Math.PI/5;
+    var iA=oA+Math.PI/5;
+    if(i===0)ctx.moveTo(cx+outerR*Math.cos(oA),cy+outerR*Math.sin(oA));
+    else ctx.lineTo(cx+outerR*Math.cos(oA),cy+outerR*Math.sin(oA));
+    ctx.lineTo(cx+innerR*Math.cos(iA),cy+innerR*Math.sin(iA));
   }
   ctx.closePath();ctx.fill();
 }
@@ -299,20 +302,17 @@ function roughCircle(ctx,cx,cy,r,seed,amp){
     var ang=(i/steps)*Math.PI*2;
     var off=(rnd()-0.5)*2*amp;
     var rr=r*(1+off);
-    var px=cx+rr*Math.cos(ang);
-    var py=cy+rr*Math.sin(ang);
-    if(i===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);
+    if(i===0)ctx.moveTo(cx+rr*Math.cos(ang),cy+rr*Math.sin(ang));
+    else ctx.lineTo(cx+rr*Math.cos(ang),cy+rr*Math.sin(ang));
   }
   ctx.closePath();
 }
 
-// 实心圆环绘制（fill方式）
-function drawSolidRing(ctx,cx,cy,rOut,rIn,color,useRough,roughAmp){
+// 单圈实心圆环（fill方式）
+function drawSingleRing(ctx,cx,cy,rOut,rIn,color,useRough,roughAmp){
   ctx.fillStyle=color;
   if(useRough&&roughAmp>0){
-    // 外圈毛边路径
     roughCircle(ctx,cx,cy,rOut,100,roughAmp);
-    // 内圈反向路径（逆时针）
     for(var i=360;i>=0;i--){
       var ang=(i/360)*Math.PI*2;
       var rnd=srnd(200)();
@@ -356,14 +356,12 @@ function render(){
   var tSp=parseInt(document.getElementById('topSpacing').value);
   var bSp=parseInt(document.getElementById('bottomSpacing').value);
   var rwPx=parseInt(document.getElementById('ringWidth').value);
-  var rgPx=parseInt(document.getElementById('ringGap').value);
   var fontFam=document.getElementById('sealFont').value;
 
   var agingOn=document.getElementById('agingEnabled').checked;
   var rLv=agingOn?document.getElementById('roughness').value/100:0;
   var nLv=agingOn?document.getElementById('noise').value/100:0;
   var bLv=agingOn?document.getElementById('blur').value/100:0;
-  var pLv=agingOn?document.getElementById('pressure').value/100:0;
   var afk=agingOn&&document.getElementById('antiFake').checked;
 
   // ---- 尺寸计算 ----
@@ -372,29 +370,23 @@ function render(){
   var diaPx=cfg.dia*pxPerMm;
   var R=diaPx/2;
 
-  // 圆环参数
-  var rw=Math.max(rwPx,3);   // 圆环粗细(px)
-  var rg=Math.max(rgPx,2);    // 双圈间距(px)
+  // 单圈圆环参数
+  var rw=Math.max(rwPx,2.5);
 
   ctx.clearRect(0,0,W,H);
 
-  // === 主体绘制到离屏canvas ===
+  // === 离屏绘制 ===
   var mcCvs=document.createElement('canvas');mcCvs.width=W;mcCvs.height=H;
   var mc=mcCvs.getContext('2d');
 
-  // --- 双圈实心圆环 ---
-  var rOuter=R;              // 外圈内边缘
-  var rInner=R-rw;           // 外圈内边缘
-  var rInner2=rInner-rg;     // 内圈外边缘
-  var rInnerMost=rInner2-rw; // 内圈内边缘
+  // --- 单圈实心圆环 ---
+  var rOuter=R;
+  var rInner=R-rw;
 
-  // 外圈（实心填充）
-  drawSolidRing(mc,cx,cy,rOuter,rInner,cStr,rLv>0,rLv*0.02);
-  // 内圈（实心填充）
-  drawSolidRing(mc,cx,cy,rInner2,rInnerMost,cStr,rLv>0,rLv*0.015);
+  drawSingleRing(mc,cx,cy,rOuter,rInner,cStr,rLv>0,rLv*0.02);
 
   // --- 上弧文字 ---
-  var textR=rInnerMost-rw*1.5-tFS*0.08;
+  var textR=rInner-rw-tFS*0.08;
   drawArcText(mc,company,cx,cy,textR,tFS,cStr,false,tSp,fontFam);
 
   // --- 中间区域 ---
@@ -402,22 +394,18 @@ function render(){
   var isInvTax=(tplKey==='inv'&&taxIdStr.length>0);
 
   if(isInvTax){
-    // 发票章有税号：居中显示税号
     mc.font='bold '+mFS+'px '+fontFam;
     mc.textAlign='center';mc.textBaseline='middle';
     mc.fillStyle=cStr;
     mc.fillText(taxIdStr,cx,cy);
   }else if(hasStar){
-    // 五角星
     var sR=cfg.starDia/2*pxPerMm;
     drawStar(mc,cx,cy,sR,cStr);
-    // 印章类型水平排在五角星下方
     mc.font='bold '+mFS+'px '+fontFam;
     mc.textAlign='center';mc.textBaseline='middle';
     mc.fillStyle=cStr;
     mc.fillText(sealType,cx,cy+sR+mFS*0.55);
   }else{
-    // 无星：类型居中
     mc.font='bold '+mFS+'px '+fontFam;
     mc.textAlign='center';mc.textBaseline='middle';
     mc.fillStyle=cStr;
@@ -426,26 +414,8 @@ function render(){
 
   // --- 下弧文字（编码）---
   if(code){
-    var botTextR=rInnerMost-rw*1.5-bFS*0.05;
+    var botTextR=rInner-rw-bFS*0.05;
     drawArcText(mc,code,cx,cy,botTextR,bFS,cStr,true,bSp,fontFam);
-  }
-
-  // --- 按压不均效果 ---
-  if(pLv>0){
-    var gCvs=document.createElement('canvas');gCvs.width=W;gCvs.height=H;
-    var gc=gCvs.getContext('2d');
-    var r2=srnd(500);
-    var ox=cx+(r2()-0.5)*R*0.08;
-    var oy=cy+(r2()-0.5)*R*0.08;
-    var grd=gc.createRadialGradient(ox,oy,R*0.1,ox,oy,R*1.05);
-    grd.addColorStop(0,'rgba(0,0,0,0)');
-    grd.addColorStop(0.4,'rgba(0,0,0,'+(pLv*0.04)+')');
-    grd.addColorStop(0.85,'rgba(0,0,0,'+(pLv*0.14)+')');
-    grd.addColorStop(1,'rgba(255,255,255,'+(pLv*0.18)+')');
-    gc.fillStyle=grd;gc.fillRect(0,0,W,H);
-    mc.globalCompositeOperation='multiply';
-    mc.drawImage(gCvs,0,0);
-    mc.globalCompositeOperation='source-over';
   }
 
   // --- 防伪纹路 ---
@@ -474,7 +444,7 @@ function render(){
     mc.restore();
   }
 
-  // 合成到主canvas
+  // 合成
   ctx.drawImage(mcCvs,0,0);
 
   // --- 边缘虚化 ---
@@ -485,7 +455,6 @@ function render(){
     fGrd.addColorStop(0,'rgba(0,0,0,0)');
     fGrd.addColorStop(1,'rgba(0,0,0,'+(bLv*0.38)+')');
     tc.fillStyle=fGrd;tc.fillRect(0,0,W,H);
-
     var fCvs=document.createElement('canvas');fCvs.width=W;fCvs.height=H;
     var fc=fCvs.getContext('2d');
     fc.drawImage(ctx.canvas,0,0);
@@ -512,32 +481,49 @@ function render(){
 }
 
 // ============================================================
-// UI更新
+// UI — 显示每个模板的默认推荐值
 // ============================================================
 function updateRefInfo(){
   var tplKey=document.getElementById('tpl').value;
   var cfg=T[tplKey];
 
-  // 模板参考信息
-  var refEl=document.getElementById('tplRef');
-  refEl.innerHTML=
-    '标准: &Oslash;'+cfg.dia+'mm | 边框'+cfg.borderW+
-    'mm | 五角星'+(cfg.starDia>0?cfg.starDia:'无')+'mm<br>'+
-    '推荐: 上弧'+cfg.topFS+'px / 中间'+cfg.midFS+'px / 下弧'+
-    cfg.botFS+'px | 上距'+cfg.topSp+'&deg;/字 下距'+cfg.botSp+'&deg;/字';
+  // 模板规格参考
+  document.getElementById('tplRef').innerHTML=
+    '<b>'+cfg.name+'</b><br>'+
+    '直径: &Oslash;'+cfg.dia+'mm | 边框宽: '+cfg.borderW+
+    'mm | 五角星: '+(cfg.starDia>0?cfg.starDia:'无')+'mm<br>'+
+    '比例: 圆环占印章 '+((cfg.borderW/cfg.dia)*100).toFixed(1)+'%';
 
-  // 圆环粗细参考（borderW mm -> px近似）
-  var pxMM=400*0.82/cfg.dia;
-  var defRW=Math.round(cfg.borderW*pxMM*2.2);
-  document.getElementById('ringWidthRef').textContent='默认约'+defRW+'px';
-  document.getElementById('ringWidth').defaultValue=defRW;
-  document.getElementById('ringWidthVal').textContent=defRW+'px';
+  // 圆环粗细
+  document.getElementById('ringWidthRef').textContent='推荐: '+cfg.rwPx+'px';
+  document.getElementById('ringWidthVal').textContent=
+    document.getElementById('ringWidth').value+'px';
 
-  // 字体参考
-  var fRef=document.getElementById('fontRef');
-  fRef.innerHTML=
-    '<b>'+cfg.name+'</b>: 上弧'+cfg.topFS+'px('+tSp+'&deg;) · 中间'+
-    cfg.midFS+'px · 下弧'+cfg.botFS+'px('+bSp+'&deg;)';
+  // 字号和间距
+  document.getElementById('topFSRef').textContent='推荐: '+cfg.topFS+'px';
+  document.getElementById('botFSRef').textContent='推荐: '+cfg.botFS+'px';
+  document.getElementById('midFSRef').textContent='推荐: '+cfg.midFS+'px';
+  document.getElementById('topSpRef').textContent='推荐: '+cfg.topSp+'°/字';
+  document.getElementById('botSpRef').textContent='推荐: '+cfg.botSp+'°/字';
+
+  document.getElementById('topFontSizeVal').textContent=
+    document.getElementById('topFontSize').value+'px';
+  document.getElementById('bottomFontSizeVal').textContent=
+    document.getElementById('bottomFontSize').value+'px';
+  document.getElementById('midFontSizeVal').textContent=
+    document.getElementById('midFontSize').value+'px';
+  document.getElementById('topSpacingVal').textContent=
+    document.getElementById('topSpacing').value+'°/字';
+  document.getElementById('bottomSpacingVal').textContent=
+    document.getElementById('bottomSpacing').value+'°/字';
+
+  // 总览
+  document.getElementById('fontRef').innerHTML=
+    '<b>当前模板推荐值</b><br>'+
+    '上弧: '+cfg.topFS+'px / '+cfg.topSp+'&deg;&middot;每字 &nbsp;|&nbsp;'+
+    '中间: '+cfg.midFS+'px &nbsp;|&nbsp;'+
+    '下弧: '+cfg.botFS+'px / '+cfg.botSp+'&deg;&middot;每字 &nbsp;|&nbsp;'+
+    '圆环: '+cfg.rwPx+'px';
 }
 
 function updateUI(){
@@ -555,8 +541,8 @@ function updateUI(){
 function bindEvents(){
   var ids=['tpl','companyName','sealType','sealCode','taxId','sealColor',
            'sealFont','topFontSize','bottomFontSize','midFontSize',
-           'topSpacing','bottomSpacing','ringWidth','ringGap',
-           'sealScale','roughness','noise','blur','pressure',
+           'topSpacing','bottomSpacing','ringWidth',
+           'roughness','noise','blur',
            'agingEnabled','antiFake'];
   ids.forEach(function(id){
     var el=document.getElementById(id);
@@ -566,12 +552,12 @@ function bindEvents(){
     }
   });
 
-  // 滑块数值显示
+  // 滑块数值更新
   var rangeMap={
     topFontSize:'px', bottomFontSize:'px', midFontSize:'px',
     topSpacing:'\u00B0/\u5b57', bottomSpacing:'\u00B0/\u5b57',
-    ringWidth:'px', ringGap:'px', sealScale:'%',
-    roughness:'%', noise:'%', blur:'%', pressure:'%'
+    ringWidth:'px',
+    roughness:'%', noise:'%', blur:'%'
   };
   Object.keys(rangeMap).forEach(function(id){
     var el=document.getElementById(id);
