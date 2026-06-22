@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>电子印章生成器 v2.0 | Electronic Seal Generator</title>
+<title>电子印章生成器 v2.1 | Electronic Seal Generator</title>
 <meta name="description" content="免费在线电子印章生成器，仿真实印章比例，支持弧形/水平文字，专业做旧毛边防伪纹路效果，导出透明PNG。">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -242,8 +242,13 @@ function srnd(seed){var s=seed|0;return function(){s=(s*16807+0)%2147483647;retu
 // ============================================================
 // 弧排文字
 //
-// 上弧: center=-PI/2(12点), 从左到右, rot=a+PI/2 (字顶朝外/径向)
-// 下弧: center=+PI/2(6点),  从左到右, rot=PI/2-a (正立可读)
+// 上弧(12点中心): 字顶朝外(远离圆心) → rot = a + PI/2
+// 下弧(6点中心):  字顶朝内(朝向圆心=正向可读) → rot = -(a - PI/2)
+//                 即: 下弧字顶指向圆心方向，在6点钟位置=正立
+//
+// 关键验证点:
+//   上弧a=-PI/2(12点): rot=-PI/2+PI/2=0 ✓ 正向
+//   下弧a=+PI/2(6点):  rot=-(PI/2-PI/2)=0 ✓ 正向
 // ============================================================
 function drawArcText(ctx,text,cx,cy,radius,fontSize,color,isBottom,charDeg,fontFamily){
   if(!text||!text.length)return;
@@ -256,6 +261,7 @@ function drawArcText(ctx,text,cx,cy,radius,fontSize,color,isBottom,charDeg,fontF
   var totalRad=(n-1)*charDeg*Math.PI/180;
   if(n===1)totalRad=0;
 
+  // 上弧从左到右(角度递增), 下弧从左到右(角度递减)
   var centerAngle=isBottom?(Math.PI/2):(-Math.PI/2);
   var startAngle=isBottom?(centerAngle+totalRad/2):(centerAngle-totalRad/2);
   var step=isBottom?(-totalRad/(n-1)):(totalRad/(n-1));
@@ -266,7 +272,13 @@ function drawArcText(ctx,text,cx,cy,radius,fontSize,color,isBottom,charDeg,fontF
     var x=cx+radius*Math.cos(a);
     var y=cy+radius*Math.sin(a);
 
-    var rot=isBottom?(Math.PI/2-a):(a+Math.PI/2);
+    // 统一思路: 文字的"向上"方向 = 从圆心到该点的径向方向
+    // 径向方向的角度就是a本身
+    // Canvas默认"向上"=-PI/2, 所以需要旋转量 = a-(-PI/2) = a+PI/2
+    // 但下弧文字要正立可读, 需要额外翻转180度 = +PI
+    // 所以下弧: rot = a + PI/2 + PI = a + 3*PI/2 ≡ a - PI/2 (模2PI)
+    // 简化: 上弧 rot=a+PI/2, 下弧 rot=a-PI/2
+    var rot=isBottom?(a-Math.PI/2):(a+Math.PI/2);
 
     ctx.save();
     ctx.translate(x,y);
@@ -322,7 +334,7 @@ function roughRingPath(ctx,cx,cy,rOut,rIn,amp,steps){
     var ang=(i/steps)*Math.PI*2;
     var n1=Math.sin(ang*7+rnd2()*6.28)*0.50;
     var n2=Math.sin(ang*15+rnd2()*6.28)*0.25;
-    var n3=Math.sin(angle*29+rnd2()*6.28)*0.10;
+    var n3=Math.sin(ang*29+rnd2()*6.28)*0.10;
     var n4=(rnd2()-0.5)*0.06;
     var rr=rIn*(1+(n1+n2+n3+n4)*amp*0.85);
     ctx.lineTo(cx+rr*Math.cos(ang),cy+rr*Math.sin(ang));
@@ -559,36 +571,45 @@ function render(){
 
   // === 做旧效果层（在主画布上操作像素）===
   if(agingOn && (rLv>0 || nLv>0 || sLv>0 || pLv>0 || bLv>0)){
-    var imgData=ctx.getImageData(0,0,W,H);
+    try{
+      var imgData=ctx.getImageData(0,0,W,H);
 
-    // 1) 印泥颗粒/纹理
-    if(nLv>0) applyInkTexture(imgData,nLv,col);
+      // 1) 印泥颗粒/纹理
+      if(nLv>0) applyInkTexture(imgData,nLv,col);
 
-    // 2) 按压不均（深浅斑驳）
-    if(pLv>0) applyPressureVariation(imgData,W,H,R,cx,cy,pLv);
+      // 2) 按压不均（深浅斑驳）
+      if(pLv>0) applyPressureVariation(imgData,W,H,R,cx,cy,pLv);
 
-    ctx.putImageData(imgData,0,0);
+      ctx.putImageData(imgData,0,0);
 
-    // 3) 墨迹飞溅（在合成后叠加）
-    if(sLv>0) applyInkSplatter(ctx,W,H,R,cx,cy,sLv,col);
+      // 3) 墨迹飞溅（在合成后叠加）
+      if(sLv>0) applyInkSplatter(ctx,W,H,R,cx,cy,sLv,col);
+    }catch(e){
+      console.warn('Aging effect error:',e);
+      // 即使做旧失败也保留基础印章图像
+    }
   }
 
   // --- 边缘虚化/磨损 ---
   if(bLv>0){
-    var tCvs=document.createElement('canvas');tCvs.width=W;tCvs.height=H;
-    var tc=tCvs.getContext('2d');
-    // 径向渐变蒙版 — 外圈逐渐淡出
-    var fGrd=tc.createRadialGradient(cx,cy,R*0.55,cx,cy,R*1.08);
-    fGrd.addColorStop(0,'rgba(0,0,0,0)');
-    fGrd.addColorStop(0.7,'rgba(0,0,0,'+(bLv*0.15)+')');
-    fGrd.addColorStop(1,'rgba(0,0,0,'+(bLv*0.5)+')');
-    tc.fillStyle=fGrd;tc.fillRect(0,0,W,H);
-    var fCvs=document.createElement('canvas');fCvs.width=W;fCvs.height=H;
-    var fc=fCvs.getContext('2d');
-    fc.drawImage(ctx.canvas,0,0);
-    fc.globalCompositeOperation='destination-out';
-    fc.drawImage(tCvs,0,0);
-    ctx.clearRect(0,0,W,H);ctx.drawImage(fCvs,0,0);
+    try{
+      var tCvs=document.createElement('canvas');tCvs.width=W;tCvs.height=H;
+      var tc=tCvs.getContext('2d');
+      // 径向渐变蒙版 — 外圈逐渐淡出
+      var fGrd=tc.createRadialGradient(cx,cy,R*0.55,cx,cy,R*1.08);
+      fGrd.addColorStop(0,'rgba(0,0,0,0)');
+      fGrd.addColorStop(0.7,'rgba(0,0,0,'+(bLv*0.15)+')');
+      fGrd.addColorStop(1,'rgba(0,0,0,'+(bLv*0.5)+')');
+      tc.fillStyle=fGrd;tc.fillRect(0,0,W,H);
+      var fCvs=document.createElement('canvas');fCvs.width=W;fCvs.height=H;
+      var fc=fCvs.getContext('2d');
+      fc.drawImage(ctx.canvas,0,0);
+      fc.globalCompositeOperation='destination-out';
+      fc.drawImage(tCvs,0,0);
+      ctx.clearRect(0,0,W,H);ctx.drawImage(fCvs,0,0);
+    }catch(e){
+      console.warn('Blur effect error:',e);
+    }
   }
 }
 
