@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>电子印章生成器 v1.7 | Electronic Seal Generator</title>
-<meta name="description" content="免费在线电子印章生成器，仿真实印章比例，支持弧形/水平文字，做旧毛边防伪纹路效果，导出透明PNG。">
+<title>电子印章生成器 v2.0 | Electronic Seal Generator</title>
+<meta name="description" content="免费在线电子印章生成器，仿真实印章比例，支持弧形/水平文字，专业做旧毛边防伪纹路效果，导出透明PNG。">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:#1a1a2e;color:#e0e0e0;min-height:100vh;display:flex;flex-direction:column;align-items:center}
@@ -36,6 +36,7 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
 .switch input{width:auto;accent-color:#e94560}
 .flag{font-size:10px;color:#e94560;background:#0f3460;padding:2px 6px;border-radius:3px;margin-left:4px}
 .section-ref{font-size:10px;color:#4a90d9;background:#0d1b33;padding:4px 6px;border-radius:3px;margin-top:-4px;line-height:1.6}
+.aging-group{border-left:3px solid #e94560;padding-left:10px}
 </style>
 </head>
 <body>
@@ -152,26 +153,36 @@ body{font-family:"Noto Serif SC","STSong","SimSun","Songti SC",serif;background:
       </select>
     </div>
 
-    <div class="field switch">
-      <label style="flex:1">🕰️ 做旧效果</label>
+    <div class="field switch aging-group">
+      <label style="flex:1">🕰️ 做旧效果（参考DrawStamp风格）</label>
       <input type="checkbox" id="agingEnabled">
     </div>
 
-    <div id="agingOptions" style="display:none;">
+    <div id="agingOptions" style="display:none;" class="aging-group">
       <div class="field">
-        <label>毛边强度</label>
-        <input type="range" id="roughness" min="0" max="100" value="20">
-        <div class="val" id="roughnessVal">20%</div>
+        <label>🌊 毛边强度（边缘不规则度）</label>
+        <input type="range" id="roughness" min="0" max="100" value="55">
+        <div class="val" id="roughnessVal">55%</div>
       </div>
       <div class="field">
-        <label>印泥颗粒</label>
-        <input type="range" id="noise" min="0" max="100" value="15">
-        <div class="val" id="noiseVal">15%</div>
+        <label>💥 印泥颗粒（整体噪点纹理）</label>
+        <input type="range" id="noise" min="0" max="100" value="40">
+        <div class="val" id="noiseVal">40%</div>
       </div>
       <div class="field">
-        <label>边缘虚化</label>
-        <input type="range" id="blur" min="0" max="100" value="10">
-        <div class="val" id="blurVal">10%</div>
+        <label>✨ 墨迹飞溅（周围散落墨点）</label>
+        <input type="range" id="splatter" min="0" max="100" value="35">
+        <div class="val" id="splatterVal">35%</div>
+      </div>
+      <div class="field">
+        <label>🎲 按压不均（深浅随机斑驳）</label>
+        <input type="range" id="pressure" min="0" max="100" value="30">
+        <div class="val" id="pressureVal">30%</div>
+      </div>
+      <div class="field">
+        <label>🌫️ 边缘磨损淡出</label>
+        <input type="range" id="blur" min="0" max="100" value="15">
+        <div class="val" id="blurVal">15%</div>
       </div>
       <div class="field switch">
         <label style="flex:1">🔒 防伪纹路</label>
@@ -225,6 +236,7 @@ const COLORS = {
   blue:    {r:0,g:51,b:153}
 };
 
+// 确定性伪随机数生成器（种子可复现）
 function srnd(seed){var s=seed|0;return function(){s=(s*16807+0)%2147483647;return((s|0)-1)/2147483646}}
 
 // ============================================================
@@ -241,16 +253,10 @@ function drawArcText(ctx,text,cx,cy,radius,fontSize,color,isBottom,charDeg,fontF
   ctx.textAlign='center';
   ctx.textBaseline='middle';
 
-  // 总弧度（角度制转弧度）
   var totalRad=(n-1)*charDeg*Math.PI/180;
   if(n===1)totalRad=0;
 
-  // 中心角
   var centerAngle=isBottom?(Math.PI/2):(-Math.PI/2);
-
-  // 起始角度：
-  //   上弧: center - total/2（左边开始，向右递增）
-  //   下弧: center + total/2（左边开始=大角度，向右递减）
   var startAngle=isBottom?(centerAngle+totalRad/2):(centerAngle-totalRad/2);
   var step=isBottom?(-totalRad/(n-1)):(totalRad/(n-1));
   if(n===1)step=0;
@@ -260,9 +266,6 @@ function drawArcText(ctx,text,cx,cy,radius,fontSize,color,isBottom,charDeg,fontF
     var x=cx+radius*Math.cos(a);
     var y=cy+radius*Math.sin(a);
 
-    // 字顶朝向：
-    //   上弧：径向外部 = a + PI/2（12点钟位置 rot=0，正向）
-    //   下弧：正立可读（跟随圆弧内侧）= PI/2 - a（6点钟位置 rot=0，正向）
     var rot=isBottom?(Math.PI/2-a):(a+Math.PI/2);
 
     ctx.save();
@@ -289,39 +292,150 @@ function drawStar(ctx,cx,cy,outerR,color){
   ctx.closePath();ctx.fill();
 }
 
-// 毛边圆形路径
-function roughCircle(ctx,cx,cy,r,seed,amp){
-  var steps=360;var rnd=srnd(seed|0);
+// ============================================================
+// v2.0 专业做旧系统（参考 DrawStamp）
+// ============================================================
+
+/**
+ * 多频率毛边圆环路径 — 模拟墨水渗入纸张纤维
+ * 使用多个频率叠加产生自然的锯齿状边缘
+ */
+function roughRingPath(ctx,cx,cy,rOut,rIn,amp,steps){
+  var rnd=srnd(42);
+  // 外圈：多频率噪声叠加
   ctx.beginPath();
   for(var i=0;i<=steps;i++){
     var ang=(i/steps)*Math.PI*2;
-    var off=(rnd()-0.5)*2*amp;
-    var rr=r*(1+off);
+    // 低频大波动 + 中频 + 高频小抖动
+    var n1=Math.sin(ang*5+rnd()*6.28)*0.55;
+    var n2=Math.sin(ang*11+rnd()*6.28)*0.28;
+    var n3=Math.sin(ang*23+rnd()*6.28)*0.12;
+    var n4=(rnd()-0.5)*0.05;
+    var totalOff=n1+n2+n3+n4;
+    var rr=rOut*(1+totalOff*amp);
     if(i===0)ctx.moveTo(cx+rr*Math.cos(ang),cy+rr*Math.sin(ang));
     else ctx.lineTo(cx+rr*Math.cos(ang),cy+rr*Math.sin(ang));
+  }
+  // 内圈反向绘制形成环
+  var rnd2=srnd(137);
+  for(var i=steps;i>=0;i--){
+    var ang=(i/steps)*Math.PI*2;
+    var n1=Math.sin(ang*7+rnd2()*6.28)*0.50;
+    var n2=Math.sin(ang*15+rnd2()*6.28)*0.25;
+    var n3=Math.sin(angle*29+rnd2()*6.28)*0.10;
+    var n4=(rnd2()-0.5)*0.06;
+    var rr=rIn*(1+(n1+n2+n3+n4)*amp*0.85);
+    ctx.lineTo(cx+rr*Math.cos(ang),cy+rr*Math.sin(ang));
   }
   ctx.closePath();
 }
 
-// 单圈实心圆环（fill方式）
-function drawSingleRing(ctx,cx,cy,rOut,rIn,color,useRough,roughAmp){
-  ctx.fillStyle=color;
-  if(useRough&&roughAmp>0){
-    roughCircle(ctx,cx,cy,rOut,100,roughAmp);
-    for(var i=360;i>=0;i--){
-      var ang=(i/360)*Math.PI*2;
-      var rnd=srnd(200)();
-      var rr=rIn*(1+(rnd()-0.5)*2*roughAmp*0.7);
-      ctx.lineTo(cx+rr*Math.cos(ang),cy+rr*Math.sin(ang));
-    }
-    ctx.closePath();
-  }else{
+/** 绘制带毛边的实心圆环 */
+function drawAgedRing(ctx,cx,cy,rOut,rIn,color,roughAmp){
+  if(roughAmp<=0.005){
+    // 无毛边：标准双弧填充
     ctx.beginPath();
     ctx.arc(cx,cy,rOut,0,Math.PI*2,false);
     ctx.arc(cx,cy,rIn,0,Math.PI*2,true);
     ctx.closePath();
+  }else{
+    roughRingPath(ctx,cx,cy,rOut,rIn,roughAmp,480);
   }
+  ctx.fillStyle=color;
   ctx.fill();
+}
+
+/**
+ * 印泥颗粒/纹理 — 整个印章区域的高强度噪声
+ * 模拟印泥不均匀、纸张纤维吸收差异
+ * 包含暖色调变化（红色通道偏移更多）
+ */
+function applyInkTexture(imgData,intensity,col){
+  var d=imgData.data;
+  var rnd=srnd(777);
+  for(var i=0;i<d.length;i+=4){
+    if(d[i+3]>15){
+      // RGB三通道独立噪声 + 红色偏移（模拟印泥色偏）
+      var nr=(rnd()-0.5)*intensity*70;  // R通道更大变化
+      var ng=(rnd()-0.5)*intensity*45;
+      var nb=(rnd()-0.5)*intensity*35;
+      d[i]=Math.min(255,Math.max(0,d[i]+nr));
+      d[i+1]=Math.min(255,Math.max(0,d[i+1]+ng));
+      d[i+2]=Math.min(255,Math.max(0,d[i+2]+nb));
+    }
+  }
+}
+
+/**
+ * 墨迹飞溅 — 在印章周围和内部散落随机墨点
+ * 模拟盖章时多余的印泥飞溅到纸上
+ */
+function applyInkSplatter(ctx,W,H,R,cx,cy,intensity,col){
+  var rnd=srnd(3333);
+  var cStr='rgb('+col.r+','+col.g+','+col.b+')';
+  ctx.fillStyle=cStr;
+  // 飞溅数量与强度成正比
+  var count=Math.floor(intensity*180);
+  for(var i=0;i<count;i++){
+    // 大部分在印章内部或紧邻边缘
+    var dist=rnd()<0.65 ? rnd()*R*1.08 : rnd()*R*1.35;
+    var angle=rnd()*Math.PI*2;
+    var sx=cx+dist*Math.cos(angle);
+    var sy=cy+dist*Math.sin(angle);
+    // 墨点大小随机：大部分很小，偶尔有稍大的
+    var sz=rnd()<0.92 ? (0.5+rnd()*1.8) : (2+rnd()*4);
+    // 随机透明度（大部分半透明，少数较实）
+    var alpha=rnd()<0.75 ? (0.15+rnd()*0.4) : (0.5+rnd()*0.5);
+    ctx.globalAlpha=alpha;
+    ctx.fillRect(sx,sy,sz,sz);
+  }
+  ctx.globalAlpha=1;
+}
+
+/**
+ * 按压不均 — 随机椭圆区域的亮度/饱和度变化
+ * 模拟盖章时压力不均匀导致的深浅斑驳效果
+ */
+function applyPressureVariation(imgData,W,H,R,cx,cy,intensity){
+  var d=imgData.data;
+  var rnd=srnd(8888);
+  // 生成若干个随机"压力斑"
+  var patchCount=Math.floor(intensity*12)+3;
+  for(var p=0;p<patchCount;p++){
+    // 随机椭圆中心和尺寸
+    var pcx=cx+(rnd()-0.5)*R*1.3;
+    var pcy=cy+(rnd()-0.5)*R*1.3;
+    var pw=R*(0.15+rnd()*0.4);   // 半宽
+    var ph=R*(0.1+rnd()*0.3);    // 半高
+    var rot=rnd()*Math.PI;         // 椭圆旋转
+    // 正值变亮（缺印），负值变暗（浓印）
+    var brightness=(rnd()>0.45 ? 1 : -1) * intensity * (20+rnd()*50);
+
+    // 遍历像素，在椭圆内的应用亮度调整
+    for(var y=0;y<H;y+=2){
+      for(var x=0;x<W;x+=2){
+        // 变换到椭圆坐标系
+        var dx=x-pcx;
+        var dy=y-pcy;
+        var cosT=Math.cos(-rot);
+        var sinT=Math.sin(-rot);
+        var ex=dx*cosT-dy*sinT;
+        var ey=dx*sinT+dy*cosT;
+        var norm=(ex*ex)/(pw*pw)+(ey*ey)/(ph*ph);
+        if(norm<=1){
+          // 椭圆内：边缘渐变
+          var falloff=1-norm;
+          falloff=falloff*falloff;  // 平方使边缘柔和
+          var idx=(y*W+x)*4;
+          if(d[idx+3]>15){
+            d[idx]=Math.min(255,Math.max(0,d[idx]+brightness*falloff));
+            d[idx+1]=Math.min(255,Math.max(0,d[idx+1]+brightness*falloff*0.85));
+            d[idx+2]=Math.min(255,Math.max(0,d[idx+2]+brightness*falloff*0.7));
+          }
+        }
+      }
+    }
+  }
 }
 
 // ============================================================
@@ -356,16 +470,16 @@ function render(){
   var agingOn=document.getElementById('agingEnabled').checked;
   var rLv=agingOn?document.getElementById('roughness').value/100:0;
   var nLv=agingOn?document.getElementById('noise').value/100:0;
+  var sLv=agingOn?document.getElementById('splatter').value/100:0;
+  var pLv=agingOn?document.getElementById('pressure').value/100:0;
   var bLv=agingOn?document.getElementById('blur').value/100:0;
   var afk=agingOn&&document.getElementById('antiFake').checked;
 
   // ---- 尺寸计算 ----
-  // 印章直径占Canvas 82%
   var pxPerMm=W*0.82/cfg.dia;
   var diaPx=cfg.dia*pxPerMm;
   var R=diaPx/2;
 
-  // 单圈圆环参数
   var rw=Math.max(rwPx,2.5);
 
   ctx.clearRect(0,0,W,H);
@@ -374,13 +488,14 @@ function render(){
   var mcCvs=document.createElement('canvas');mcCvs.width=W;mcCvs.height=H;
   var mc=mcCvs.getContext('2d');
 
-  // --- 单圈实心圆环 ---
+  // --- 圆环（可选毛边）---
   var rOuter=R;
   var rInner=R-rw;
+  var roughAmp=rLv*0.04;  // 0~0.04 的振幅范围
 
-  drawSingleRing(mc,cx,cy,rOuter,rInner,cStr,rLv>0,rLv*0.02);
+  drawAgedRing(mc,cx,cy,rOuter,rInner,cStr,roughAmp);
 
-  // --- 上弧文字（紧贴圆环内侧，不重叠）---
+  // --- 上弧文字 ---
   var textR=rInner-tFS*0.55;
   drawArcText(mc,company,cx,cy,textR,tFS,cStr,false,tSp,fontFam);
 
@@ -407,7 +522,7 @@ function render(){
     mc.fillText(sealType,cx,cy);
   }
 
-  // --- 下弧文字（编码，紧贴圆环内侧，不重叠）---
+  // --- 下弧文字 ---
   if(code){
     var botTextR=rInner-bFS*0.55;
     drawArcText(mc,code,cx,cy,botTextR,bFS,cStr,true,bSp,fontFam);
@@ -416,39 +531,57 @@ function render(){
   // --- 防伪纹路 ---
   if(afk){
     mc.save();mc.globalCompositeOperation='source-atop';
-    mc.strokeStyle='rgba('+col.r+','+col.g+','+col.b+',0.07)';
+    mc.strokeStyle='rgba('+col.r+','+col.g+','+col.b+',0.08)';
     mc.lineWidth=0.5;
     var r3=srnd(999);
-    for(var i=0;i<35;i++){
+    for(var i=0;i<40;i++){
       var a1=r3()*Math.PI*2;
-      var a2=a1+0.04+r3()*0.18;
-      var rr1=R*0.25+r3()*R*0.65;
-      var rr2=rr1+r3()*R*0.04;
+      var a2=a1+0.03+r3()*0.2;
+      var rr1=R*0.2+r3()*R*0.68;
+      var rr2=rr1+r3()*R*0.05;
       mc.beginPath();
       mc.moveTo(cx+rr1*Math.cos(a1),cy+rr1*Math.sin(a1));
       mc.lineTo(cx+rr2*Math.cos(a2),cy+rr2*Math.sin(a2));
       mc.stroke();
     }
-    for(var i=0;i<150;i++){
-      var ax=cx+(r3()-0.5)*R*1.4;
-      var ay=cy+(r3()-0.5)*R*1.4;
-      if(Math.sqrt((ax-cx)*(ax-cx)+(ay-cy)*(ay-cy))<R*1.02){
-        mc.fillRect(ax,ay,0.8+r3()*1.2,0.8+r3()*1.2);
+    for(var i=0;i<200;i++){
+      var ax=cx+(r3()-0.5)*R*1.42;
+      var ay=cy+(r3()-0.5)*R*1.42;
+      if(Math.sqrt((ax-cx)*(ax-cx)+(ay-cy)*(ay-cy))<R*1.04){
+        mc.fillRect(ax,ay,0.7+r3()*1.5,0.7+r3()*1.5);
       }
     }
     mc.restore();
   }
 
-  // 合成
+  // 合成到主画布
   ctx.drawImage(mcCvs,0,0);
 
-  // --- 边缘虚化 ---
+  // === 做旧效果层（在主画布上操作像素）===
+  if(agingOn && (rLv>0 || nLv>0 || sLv>0 || pLv>0 || bLv>0)){
+    var imgData=ctx.getImageData(0,0,W,H);
+
+    // 1) 印泥颗粒/纹理
+    if(nLv>0) applyInkTexture(imgData,nLv,col);
+
+    // 2) 按压不均（深浅斑驳）
+    if(pLv>0) applyPressureVariation(imgData,W,H,R,cx,cy,pLv);
+
+    ctx.putImageData(imgData,0,0);
+
+    // 3) 墨迹飞溅（在合成后叠加）
+    if(sLv>0) applyInkSplatter(ctx,W,H,R,cx,cy,sLv,col);
+  }
+
+  // --- 边缘虚化/磨损 ---
   if(bLv>0){
     var tCvs=document.createElement('canvas');tCvs.width=W;tCvs.height=H;
     var tc=tCvs.getContext('2d');
-    var fGrd=tc.createRadialGradient(cx,cy,R*0.65,cx,cy,R*1.06);
+    // 径向渐变蒙版 — 外圈逐渐淡出
+    var fGrd=tc.createRadialGradient(cx,cy,R*0.55,cx,cy,R*1.08);
     fGrd.addColorStop(0,'rgba(0,0,0,0)');
-    fGrd.addColorStop(1,'rgba(0,0,0,'+(bLv*0.38)+')');
+    fGrd.addColorStop(0.7,'rgba(0,0,0,'+(bLv*0.15)+')');
+    fGrd.addColorStop(1,'rgba(0,0,0,'+(bLv*0.5)+')');
     tc.fillStyle=fGrd;tc.fillRect(0,0,W,H);
     var fCvs=document.createElement('canvas');fCvs.width=W;fCvs.height=H;
     var fc=fCvs.getContext('2d');
@@ -457,44 +590,25 @@ function render(){
     fc.drawImage(tCvs,0,0);
     ctx.clearRect(0,0,W,H);ctx.drawImage(fCvs,0,0);
   }
-
-  // --- 印泥颗粒 ---
-  if(nLv>0){
-    var imgData=ctx.getImageData(0,0,W,H);
-    var px=imgData.data;
-    var r4=srnd(777);
-    for(var i=0;i<px.length;i+=4){
-      if(px[i+3]>10){
-        var nv=(r4()-0.5)*2*nLv*42;
-        px[i]=Math.min(255,Math.max(0,px[i]+nv));
-        px[i+1]=Math.min(255,Math.max(0,px[i+1]+nv));
-        px[i+2]=Math.min(255,Math.max(0,px[i+2]+nv));
-      }
-    }
-    ctx.putImageData(imgData,0,0);
-  }
 }
 
 // ============================================================
-// UI — 显示每个模板的默认推荐值
+// UI
 // ============================================================
 function updateRefInfo(){
   var tplKey=document.getElementById('tpl').value;
   var cfg=T[tplKey];
 
-  // 模板规格参考
   document.getElementById('tplRef').innerHTML=
     '<b>'+cfg.name+'</b><br>'+
     '直径: &Oslash;'+cfg.dia+'mm | 边框宽: '+cfg.borderW+
     'mm | 五角星: '+(cfg.starDia>0?cfg.starDia:'无')+'mm<br>'+
     '比例: 圆环占印章 '+((cfg.borderW/cfg.dia)*100).toFixed(1)+'%';
 
-  // 圆环粗细
   document.getElementById('ringWidthRef').textContent='推荐: '+cfg.rwPx+'px';
   document.getElementById('ringWidthVal').textContent=
     document.getElementById('ringWidth').value+'px';
 
-  // 字号和间距
   document.getElementById('topFSRef').textContent='推荐: '+cfg.topFS+'px';
   document.getElementById('botFSRef').textContent='推荐: '+cfg.botFS+'px';
   document.getElementById('midFSRef').textContent='推荐: '+cfg.midFS+'px';
@@ -512,7 +626,6 @@ function updateRefInfo(){
   document.getElementById('bottomSpacingVal').textContent=
     document.getElementById('bottomSpacing').value+'°/字';
 
-  // 总览
   document.getElementById('fontRef').innerHTML=
     '<b>当前模板推荐值</b><br>'+
     '上弧: '+cfg.topFS+'px / '+cfg.topSp+'&deg;&middot;每字 &nbsp;|&nbsp;'+
@@ -530,14 +643,11 @@ function updateUI(){
   updateRefInfo();
 }
 
-// ============================================================
-// 事件绑定
-// ============================================================
 function bindEvents(){
   var ids=['tpl','companyName','sealType','sealCode','taxId','sealColor',
            'sealFont','topFontSize','bottomFontSize','midFontSize',
            'topSpacing','bottomSpacing','ringWidth',
-           'roughness','noise','blur',
+           'roughness','noise','splatter','pressure','blur',
            'agingEnabled','antiFake'];
   ids.forEach(function(id){
     var el=document.getElementById(id);
@@ -547,12 +657,11 @@ function bindEvents(){
     }
   });
 
-  // 滑块数值更新
   var rangeMap={
     topFontSize:'px', bottomFontSize:'px', midFontSize:'px',
     topSpacing:'\u00B0/\u5b57', bottomSpacing:'\u00B0/\u5b57',
     ringWidth:'px',
-    roughness:'%', noise:'%', blur:'%'
+    roughness:'%', noise:'%', splatter:'%', pressure:'%', blur:'%'
   };
   Object.keys(rangeMap).forEach(function(id){
     var el=document.getElementById(id);
@@ -581,7 +690,7 @@ function downloadJPG(){
   tctx.fillStyle='#ffffff';tctx.fillRect(0,0,800,800);
   tctx.drawImage(pv,0,0,800,800);
   var a=document.createElement('a');
-  a.download='seal_'+Date.now()+'.jpg';a.href=tc.toDataURL('image/jpeg',0.92);a.click();
+  a.download='seal_'+Date.now+'.jpg';a.href=tc.toDataURL('image/jpeg',0.92);a.click();
 }
 
 // 启动
