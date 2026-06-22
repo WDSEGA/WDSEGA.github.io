@@ -171,7 +171,7 @@ body {
 // 模板配置（尺寸单位：mm，渲染时转为px）
 // ============================================================
 const DPI      = 96;
-const MM_TO_PX = DPI / 25.4;
+const BASE_MM_TO_PX = DPI / 25.4;   // 基础 mm→px，实际渲染时会乘以 scale
 
 const T = {
   llc: { name:'有限责任公司公章', shape:'circle', dia:40, border:1.0, star:14, fw:7 },
@@ -228,28 +228,27 @@ function roughPath(ctx, cx, cy, rx, ry, seed, amplitude) {
 
 // ============================================================
 // 弧排文字（核心）
+// centerAngle: 弧的中点角度（弧度），上弧=-π/2 下弧=π/2
 // ============================================================
-function drawArcText(ctx, text, cx, cy, radius, fontSize, color, isBottom) {
+function drawArcText(ctx, text, cx, cy, radius, fontSize, color, centerAngle) {
   if (!text) return;
   ctx.fillStyle = color;
   ctx.font      = `bold ${fontSize}px "Noto Serif SC","STSong","SimSun",serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  const n          = text.length;
-  const charSpan   = 3.0;                      // 每字符占用角度（度）
-  const totalAngle = (n - 1) * charSpan * Math.PI / 180;
-  const startAngle = -totalAngle / 2;
+  var n        = text.length;
+  // 每个字占约 20° 的弧段，让文字舒展分布
+  var charSpanDeg = 20;
+  var totalAngle  = (n - 1) * charSpanDeg * Math.PI / 180;
+  var startAngle  = centerAngle - totalAngle / 2;
 
-  for (let i = 0; i < n; i++) {
-    const angle = startAngle + (i / Math.max(n - 1, 1)) * totalAngle;
-    const x     = cx + radius * Math.cos(angle);
-    const y     = cy + radius * Math.sin(angle);
-
-    // 旋转方向：字符"站立"在弧上，字顶朝外
-    // top arc (isBottom=false): 字顶朝上（外）= 旋转 angle - π/2
-    // bottom arc (isBottom=true): 字顶朝下（外）= 旋转 angle + π/2
-    const rot = isBottom ? angle + Math.PI / 2 : angle - Math.PI / 2;
+  for (var i = 0; i < n; i++) {
+    var a   = startAngle + (i / Math.max(n - 1, 1)) * totalAngle;
+    var x   = cx + radius * Math.cos(a);
+    var y   = cy + radius * Math.sin(a);
+    // a + π/2: 文字沿切线方向排列，字顶朝外（离开圆心）
+    var rot = a + Math.PI / 2;
 
     ctx.save();
     ctx.translate(x, y);
@@ -284,167 +283,142 @@ function drawStar(ctx, cx, cy, outerR, color) {
 // 主渲染
 // ============================================================
 function render() {
-  const canvas = document.getElementById('previewCanvas');
-  const ctx    = canvas.getContext('2d');
-  const tplKey = document.getElementById('tpl').value;
-  const cfg    = T[tplKey];
-  const companyName = document.getElementById('companyName').value.trim() || '示例科技有限公司';
-  const sealType    = document.getElementById('sealType').value.trim();
-  const colorKey    = document.getElementById('sealColor').value;
-  const col         = COLORS[colorKey];
-  const colorStr    = `rgb(${col.r},${col.g},${col.b})`;
+  var canvas = document.getElementById('previewCanvas');
+  var ctx    = canvas.getContext('2d');
+  var tplKey = document.getElementById('tpl').value;
+  var cfg    = T[tplKey];
+  var companyName = document.getElementById('companyName').value.trim() || '示例科技有限公司';
+  var sealType    = document.getElementById('sealType').value.trim();
+  var colorKey    = document.getElementById('sealColor').value;
+  var col         = COLORS[colorKey];
+  var colorStr    = 'rgb(' + col.r + ',' + col.g + ',' + col.b + ')';
 
   // 做旧参数（归一化到 0~1）
-  const rough   = document.getElementById('roughness').value / 100;
-  const noiseLv = document.getElementById('noise').value / 100;
-  const blurLv  = document.getElementById('blur').value / 100;
+  var rough   = document.getElementById('roughness').value / 100;
+  var noiseLv = document.getElementById('noise').value / 100;
+  var blurLv  = document.getElementById('blur').value / 100;
 
-  // --- 画布尺寸 ---
-  let canvasSize;
-  if (cfg.shape === 'ellipse') {
-    canvasSize = Math.max(cfg.w, cfg.h) * MM_TO_PX + 40;
-  } else if (cfg.shape === 'square') {
-    canvasSize = cfg.side * MM_TO_PX + 40;
-  } else {
-    canvasSize = cfg.dia * MM_TO_PX + 40;
-  }
-  canvasSize = Math.ceil(canvasSize);
-  const W = canvasSize;
-  const H = canvasSize;
+  // --- 画布尺寸 - 使用固定400x400 ---
+  var W = 400, H = 400;
   canvas.width  = W;
   canvas.height = H;
+  var cx = W / 2, cy = H / 2;
 
-  const cx = W / 2;
-  const cy = H / 2;
-  const seed = 12345;   // 固定种子，使做旧效果可复现
+  // --- 计算渲染缩放比：让印章占画布约 85% ---
+  var sealMM = cfg.shape==='ellipse' ? Math.max(cfg.w,cfg.h) : (cfg.dia||cfg.side);
+  var mm_to_px = (W * 0.85) / sealMM;  // 动态缩放，让印章填满画布
 
   // 背景透明（清除）
   ctx.clearRect(0, 0, W, H);
 
   // --- 外圈 ---
-  const borderW = Math.max(cfg.border * MM_TO_PX, 1.5);
+  var borderW = Math.max(cfg.border * mm_to_px, 2);
   ctx.strokeStyle = colorStr;
   ctx.fillStyle   = colorStr;
   ctx.lineWidth   = borderW;
+  var seed = 12345;
 
   if (cfg.shape === 'circle') {
-    const r  = cfg.dia / 2 * MM_TO_PX;
+    var r  = cfg.dia / 2 * mm_to_px;
     if (rough > 0) {
       roughPath(ctx, cx, cy, r, r, seed, rough * 0.015);
       ctx.stroke();
-      // 内圈
       roughPath(ctx, cx, cy, r - borderW, r - borderW, seed + 1, rough * 0.010);
       ctx.stroke();
     } else {
-      ctx.beginPath();
-      ctx.arc(cx, cy, r, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.arc(cx, cy, r - borderW, 0, Math.PI * 2);
-      ctx.stroke();
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.arc(cx, cy, r - borderW, 0, Math.PI * 2); ctx.stroke();
     }
   } else if (cfg.shape === 'ellipse') {
-    const rx = cfg.w / 2 * MM_TO_PX;
-    const ry = cfg.h / 2 * MM_TO_PX;
+    var rx = cfg.w / 2 * mm_to_px;
+    var ry = cfg.h / 2 * mm_to_px;
     if (rough > 0) {
       roughPath(ctx, cx, cy, rx, ry, seed, rough * 0.015);
       ctx.stroke();
       roughPath(ctx, cx, cy, rx - borderW, ry - borderW, seed + 1, rough * 0.010);
       ctx.stroke();
     } else {
-      ctx.beginPath();
-      ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.ellipse(cx, cy, rx - borderW, ry - borderW, 0, 0, Math.PI * 2);
-      ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(cx, cy, rx - borderW, ry - borderW, 0, 0, Math.PI * 2); ctx.stroke();
     }
   } else if (cfg.shape === 'square') {
-    const side = cfg.side * MM_TO_PX;
-    const half = side / 2;
+    var side = cfg.side * mm_to_px;
+    var half = side / 2;
     ctx.lineWidth = borderW;
     if (rough > 0) {
-      // 正方形毛边：在每个顶点附近加扰动
       ctx.beginPath();
-      const corners = [
-        [cx - half, cy - half],
-        [cx + half, cy - half],
-        [cx + half, cy + half],
-        [cx - half, cy + half]
-      ];
-      const rand = seededRandom(seed);
-      for (let i = 0; i < 4; i++) {
-        const [x, y] = corners[i];
-        const nx = x + (rand() - 0.5) * rough * 4;
-        const ny = y + (rand() - 0.5) * rough * 4;
-        if (i === 0) ctx.moveTo(nx, ny);
-        else ctx.lineTo(nx, ny);
+      var corners = [[cx-half,cy-half],[cx+half,cy-half],[cx+half,cy+half],[cx-half,cy+half]];
+      var rr = seededRandom(seed);
+      for (var ii=0; ii<4; ii++) {
+        var nx = corners[ii][0] + (rr()-0.5)*(rough*4);
+        var ny = corners[ii][1] + (rr()-0.5)*(rough*4);
+        if (ii===0) ctx.moveTo(nx,ny); else ctx.lineTo(nx,ny);
       }
-      ctx.closePath();
-      ctx.stroke();
+      ctx.closePath(); ctx.stroke();
     } else {
-      ctx.strokeRect(cx - half, cy - half, side, side);
+      ctx.strokeRect(cx-half, cy-half, side, side);
     }
   }
 
   // --- 弧排文字 ---
-  const fontSize = (cfg.fw || 7) * MM_TO_PX;
-  // 上弧文字：半径 = 外圈内沿 - 一点间距
-  let topArcR;
+  var fontSize = (cfg.fw || 7) * mm_to_px;
+  // 上弧文字半径 = 外圈内沿 - 间距
+  var topArcR;
   if (cfg.shape === 'circle') {
-    topArcR = cfg.dia / 2 * MM_TO_PX - borderW * 2 - 4;
+    topArcR = cfg.dia/2 * mm_to_px - borderW*2 - 6;
   } else if (cfg.shape === 'ellipse') {
-    topArcR = cfg.w / 2 * MM_TO_PX - borderW * 2 - 4;
+    topArcR = cfg.w/2 * mm_to_px - borderW*2 - 6;
   } else {
-    topArcR = cfg.side * MM_TO_PX / 2 - borderW * 2 - 2;
+    topArcR = cfg.side*mm_to_px/2 - borderW*2 - 4;
   }
-  drawArcText(ctx, companyName, cx, cy, topArcR, fontSize, colorStr, false);
+  // 上弧中心 = 顶部 (12点) = -π/2
+  drawArcText(ctx, companyName, cx, cy, topArcR, fontSize, colorStr, -Math.PI/2);
 
-  // 下弧文字
+  // 下弧文字 — 在底部 (6点) = π/2
   if (sealType) {
-    const bottomArcR = topArcR - fontSize * 1.1;
-    drawArcText(ctx, sealType, cx, cy, bottomArcR, fontSize * 0.9, colorStr, true);
+    var bottomArcR = topArcR - fontSize * 1.1;
+    drawArcText(ctx, sealType, cx, cy, bottomArcR, fontSize * 0.85, colorStr, Math.PI/2);
   }
 
   // --- 五角星（方章不画星） ---
   if (cfg.shape !== 'square' && cfg.star) {
-    const starR = cfg.star / 2 * MM_TO_PX;
+    var starR = cfg.star / 2 * mm_to_px;
     drawStar(ctx, cx, cy, starR, colorStr);
   }
 
-  // --- 做旧：印泥颗粒（通过像素操作） ---
+  // --- 做旧：印泥颗粒 ---
   if (noiseLv > 0) {
-    const imgData = ctx.getImageData(0, 0, W, H);
-    const pixels  = imgData.data;
-    const rand    = seededRandom(seed + 999);
-    for (let i = 0; i < pixels.length; i += 4) {
-      if (pixels[i + 3] > 0) {               // 仅在有颜色的地方加噪声
-        const n = (rand() - 0.5) * 2 * noiseLv * 40;
-        pixels[i]     = Math.min(255, Math.max(0, pixels[i] + n));
-        pixels[i + 1] = Math.min(255, Math.max(0, pixels[i + 1] + n));
-        pixels[i + 2] = Math.min(255, Math.max(0, pixels[i + 2] + n));
+    var imgData = ctx.getImageData(0, 0, W, H);
+    var pixels  = imgData.data;
+    var rand2   = seededRandom(seed + 999);
+    for (var i2 = 0; i2 < pixels.length; i2 += 4) {
+      if (pixels[i2 + 3] > 0) {
+        var n = (rand2() - 0.5) * 2 * noiseLv * 40;
+        pixels[i2]     = Math.min(255, Math.max(0, pixels[i2] + n));
+        pixels[i2 + 1] = Math.min(255, Math.max(0, pixels[i2+1] + n));
+        pixels[i2 + 2] = Math.min(255, Math.max(0, pixels[i2+2] + n));
       }
     }
     ctx.putImageData(imgData, 0, 0);
   }
 
-  // --- 做旧：边缘虚化（ radial gradient mask ） ---
+  // --- 做旧：边缘虚化 ---
   if (blurLv > 0) {
-    // 创建一个额外的 canvas 做模糊蒙版
-    const tmpCvs = document.createElement('canvas');
-    tmpCvs.width  = W;
-    tmpCvs.height = H;
-    const tCtx    = tmpCvs.getContext('2d');
-    const grad    = tCtx.createRadialGradient(cx, cy, W * 0.25, cx, cy, W * 0.55);
+    var tmpCvs = document.createElement('canvas');
+    tmpCvs.width  = W; tmpCvs.height = H;
+    var tCtx = tmpCvs.getContext('2d');
+    var grad = tCtx.createRadialGradient(cx, cy, W*0.25, cx, cy, W*0.55);
     grad.addColorStop(0, 'rgba(0,0,0,0)');
-    grad.addColorStop(1, `rgba(0,0,0,${blurLv * 0.35})`);
+    grad.addColorStop(1, 'rgba(0,0,0,' + (blurLv*0.35) + ')');
     tCtx.fillStyle = grad;
     tCtx.fillRect(0, 0, W, H);
-    // 把模糊层以 destination-out 合成到原图？不，用 multiply
     ctx.globalCompositeOperation = 'multiply';
     ctx.drawImage(tmpCvs, 0, 0);
     ctx.globalCompositeOperation = 'source-over';
   }
+
+  // 保存 mm_to_px 供导出使用
+  window._mm_to_px = mm_to_px;
 }
 
 // ============================================================
@@ -471,34 +445,16 @@ function bindEvents() {
 }
 
 // ============================================================
-// 导出
+// 导出（2x 高清导出）
 // ============================================================
 function getHighCanvas(scale) {
-  const tplKey = document.getElementById('tpl').value;
-  const cfg    = T[tplKey];
   scale = scale || 2;
-
-  let baseSize;
-  if (cfg.shape === 'ellipse') {
-    baseSize = Math.max(cfg.w, cfg.h) * MM_TO_PX + 40;
-  } else if (cfg.shape === 'square') {
-    baseSize = cfg.side * MM_TO_PX + 40;
-  } else {
-    baseSize = cfg.dia * MM_TO_PX + 40;
-  }
-  baseSize = Math.ceil(baseSize);
-
-  const offCvs = document.createElement('canvas');
-  offCvs.width  = baseSize * scale;
-  offCvs.height = baseSize * scale;
-  const ctx = offCvs.getContext('2d');
-
-  // 用 css 缩放方式重绘（简化：直接把预览canvas放大绘制）
-  const preview = document.getElementById('previewCanvas');
-  // 背景透明
-  ctx.clearRect(0, 0, offCvs.width, offCvs.height);
+  var preview = document.getElementById('previewCanvas');
+  var offCvs  = document.createElement('canvas');
+  offCvs.width  = preview.width * scale;
+  offCvs.height = preview.height * scale;
+  var ctx = offCvs.getContext('2d');
   ctx.drawImage(preview, 0, 0, offCvs.width, offCvs.height);
-
   return offCvs;
 }
 
