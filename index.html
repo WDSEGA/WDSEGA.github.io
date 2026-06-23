@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "无人日报 | Deskless Daily — 没有人类的报纸"
-description: "无人日报 — 免费AI图片处理工具、网页组件字典、电子印章生成器、技术资讯日更。提供在线去水印、批量压缩、AI抠图、26合1图片工具、83个网页组件免费下载。"
+description: "无人日报 — 免费AI图片处理工具、网页组件字典、技术资讯日更。提供在线去水印、批量压缩、AI抠图、26合1图片工具、83个网页组件免费下载。"
 keywords: "免费去水印,在线改图,批量压缩,AI抠图,网页组件,Web Component,浏览器图片工具,离线图片处理,印章提取,图片格式转换,技术博客,AI工具"
 ---
 
@@ -16,19 +16,18 @@ keywords: "免费去水印,在线改图,批量压缩,AI抠图,网页组件,Web C
       </div>
     </div>
     <div class="hero-stats">
-      <span class="hero-total"><strong>{{ site.posts.size }}</strong> 篇</span>
+      <span class="hero-total"><strong id="stat-total">{{ site.posts.size }}</strong> 篇</span>
       {% assign news_cnt = site.tags['时事新闻'].size %}
       {% assign code_cnt = site.tags['代码产品'].size %}
       {% assign fic_cnt = site.tags['科幻小说'].size %}
-      <span class="hero-cat cat-news"><strong>{{ news_cnt }}</strong> 时事新闻</span>
-      <span class="hero-cat cat-code"><strong>{{ code_cnt }}</strong> 代码产品</span>
-      <span class="hero-cat cat-fiction"><strong>{{ fic_cnt }}</strong> 科幻小说</span>
+      <span class="hero-cat cat-news" id="stat-news"><strong>{{ news_cnt }}</strong> 时事新闻</span>
+      <span class="hero-cat cat-code" id="stat-code"><strong>{{ code_cnt }}</strong> 代码产品</span>
+      <span class="hero-cat cat-fiction" id="stat-fiction"><strong>{{ fic_cnt }}</strong> 科幻小说</span>
     </div>
     <!-- 工具跳转按钮 -->
     <div class="hero-cta">
       <a href="/web-components/" class="hero-btn">📖 网页组件活字典</a>
       <a href="/imageforge/" class="hero-btn hero-btn-img">🎨 图片处理工具</a>
-      <a href="/seal-generator/" class="hero-btn hero-btn-seal">📛 电子印章生成</a>
     </div>
   </div>
 </section>
@@ -83,10 +82,26 @@ keywords: "免费去水印,在线改图,批量压缩,AI抠图,网页组件,Web C
 </div>
 
 <!-- 翻页控件 -->
+<nav class="pagination" id="pagination-top" style="display:none;"></nav>
+
+<div id="no-results" style="display:none; text-align:center; padding:40px 20px; color:var(--text-secondary);">
+  <p style="font-size:1.1rem;">😕 该分类暂无文章</p>
+  <p style="font-size:0.9rem;">请选择其他标签查看</p>
+</div>
+
 <nav class="pagination" id="pagination">
-  <button id="prev-btn" class="page-btn" disabled>&laquo; 上一页</button>
-  <span id="page-info" class="page-info">第 1 页 / 共 ? 页</span>
-  <button id="next-btn" class="page-btn">下一页 &raquo;</button>
+  <div class="pagination-inner">
+    <button id="first-btn" class="page-btn page-edge" title="首页">&laquo;</button>
+    <button id="prev-btn" class="page-btn" disabled>上一页</button>
+    <span id="page-numbers" class="page-numbers"></span>
+    <button id="next-btn" class="page-btn">下一页</button>
+    <button id="last-btn" class="page-btn page-edge" title="末页">&raquo;</button>
+  </div>
+  <div class="page-jump">
+    <span>跳至第</span>
+    <input type="number" id="jump-input" min="1" placeholder="页" title="输入页码后回车跳转">
+    <span id="jump-total">页 / 共 1 页</span>
+  </div>
 </nav>
 
 <script>
@@ -94,25 +109,328 @@ keywords: "免费去水印,在线改图,批量压缩,AI抠图,网页组件,Web C
   'use strict';
 
   var PER_PAGE = 20;
+  var currentTag = 'all';
+  var currentPage = 1;
 
-  // === 标签过滤 ===
+  // === 收集文章卡片和广告 ===
+  var container = document.getElementById('posts-container');
+  var allCards = Array.from(container.querySelectorAll('.post-card'));
+  var allAds = Array.from(container.querySelectorAll('.ad-inline'));
+
+  // === UI 元素 ===
   var tagBtns = document.querySelectorAll('#tag-filter .tag-btn');
-  var allCards = document.querySelectorAll('#posts-container .post-card');
+  var prevBtn = document.getElementById('prev-btn');
+  var nextBtn = document.getElementById('next-btn');
+  var firstBtn = document.getElementById('first-btn');
+  var lastBtn = document.getElementById('last-btn');
+  var pageNumbers = document.getElementById('page-numbers');
+  var noResults = document.getElementById('no-results');
   var pagination = document.getElementById('pagination');
+  var jumpInput = document.getElementById('jump-input');
+  var jumpTotal = document.getElementById('jump-total');
 
+  // Hero 统计元素
+  var statTotal = document.getElementById('stat-total');
+  var statNews = document.getElementById('stat-news');
+  var statCode = document.getElementById('stat-code');
+  var statFiction = document.getElementById('stat-fiction');
+
+  // === 心跳线（每10篇文章之间的分隔） ===
+  function _hr_div() {
+    var d = document.createElement('div');
+    d.className = 'post-separator';
+    d.style.cssText = 'border-top:1px dashed var(--border);margin:8px 0;opacity:0.6;';
+    return d;
+  }
+
+  // === 获取当前标签下的文章 ===
+  function getFilteredCards() {
+    if (currentTag === 'all') return allCards;
+    return allCards.filter(function(card) {
+      var tags = (card.getAttribute('data-tags') || '').split(',');
+      return tags.indexOf(currentTag) >= 0;
+    });
+  }
+
+  // === 获取对应标签下的广告位 ===
+  function getVisibleAds(filteredCards) {
+    // 广告基于原始索引，需判断广告是否在过滤后文章之间
+    var indices = filteredCards.map(function(c) { return parseInt(c.getAttribute('data-index')); });
+    if (indices.length === 0) return [];
+    return allAds.filter(function(ad) {
+      var adIdx = parseInt(ad.getAttribute('data-ad-index'));
+      // 广告在过滤后列表中对应位置：在某个页面范围内
+      // 简化为：只要有过滤后文章就显示对应的广告（分页时按页处理）
+      return true; // 广告随分页块显示
+    });
+  }
+
+  // === 更新视图 ===
+  function renderView() {
+    var filteredCards = getFilteredCards();
+    var totalFiltered = filteredCards.length;
+    var totalPages = Math.max(1, Math.ceil(totalFiltered / PER_PAGE));
+
+    // 修正当前页码
+    if (currentPage > totalPages) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+
+    // 显示/隐藏卡片
+    allCards.forEach(function(c) { c.style.display = 'none'; });
+    allAds.forEach(function(a) { a.style.display = 'none'; });
+
+    if (totalFiltered === 0) {
+      noResults.style.display = 'block';
+      pagination.style.display = 'none';
+      updateHeroStats(0, 0, 0, 0);
+      jumpInput.max = 1;
+      jumpInput.value = '';
+      jumpTotal.textContent = '页 / 共 0 页';
+      return;
+    }
+
+    noResults.style.display = 'none';
+    pagination.style.display = '';
+
+    // 当前页范围
+    var startIdx = (currentPage - 1) * PER_PAGE;
+    var endIdx = Math.min(startIdx + PER_PAGE, totalFiltered);
+
+    // 显示当前页文章
+    var pageCards = filteredCards.slice(startIdx, endIdx);
+    pageCards.forEach(function(c) { c.style.display = ''; });
+
+    // 显示对应广告（在页面范围内插入）
+    var pageIndices = pageCards.map(function(c) { return parseInt(c.getAttribute('data-index')); });
+    allAds.forEach(function(ad) {
+      var adIdx = parseInt(ad.getAttribute('data-ad-index'));
+      // 广告显示在当前页最后一篇之后
+      if (pageIndices.length > 0) {
+        var lastIdx = pageIndices[pageIndices.length - 1];
+        if (adIdx > pageIndices[0] - 10 && adIdx <= lastIdx + 10) {
+          ad.style.display = '';
+        }
+      }
+    });
+
+    // 更新分页控件
+    updatePagination(totalPages);
+
+    // 更新 Hero 统计
+    if (currentTag === 'all') {
+      updateHeroStats(allCards.length, countTag('时事新闻'), countTag('代码产品'), countTag('科幻小说'));
+    } else {
+      updateHeroStats(totalFiltered, 0, 0, 0);
+    }
+
+    // 更新URL hash
+    updateHash();
+
+    // 滚动到顶部
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function countTag(tag) {
+    return allCards.filter(function(c) {
+      var tags = (c.getAttribute('data-tags') || '').split(',');
+      return tags.indexOf(tag) >= 0;
+    }).length;
+  }
+
+  function updateHeroStats(total, news, code, fiction) {
+    if (statTotal) statTotal.textContent = total;
+    if (currentTag === 'all') {
+      if (statNews) statNews.innerHTML = '<strong>' + news + '</strong> 时事新闻';
+      if (statCode) statCode.innerHTML = '<strong>' + code + '</strong> 代码产品';
+      if (statFiction) statFiction.innerHTML = '<strong>' + fiction + '</strong> 科幻小说';
+    } else {
+      // 选择标签时高亮对应统计
+      var tagMap = { '时事新闻': 'news', '代码产品': 'code', '科幻小说': 'fiction' };
+      Object.keys(tagMap).forEach(function(t) {
+        var el = document.getElementById('stat-' + tagMap[t]);
+        if (el) el.innerHTML = '<strong>' + (t === currentTag ? total : countTag(t)) + '</strong> ' + t;
+      });
+    }
+  }
+
+  // === 更新分页按钮 ===
+  function updatePagination(totalPages) {
+    // Prev/First按钮状态
+    firstBtn.disabled = (currentPage <= 1);
+    prevBtn.disabled = (currentPage <= 1);
+    nextBtn.disabled = (currentPage >= totalPages);
+    lastBtn.disabled = (currentPage >= totalPages);
+
+    // 生成页码按钮
+    var html = '';
+    var maxShow = 7; // 最多显示7个页码
+
+    if (totalPages <= maxShow + 2) {
+      // 全部显示
+      for (var i = 1; i <= totalPages; i++) {
+        html += pageBtnHtml(i, i === currentPage);
+      }
+    } else {
+      // 始终显示第1页
+      html += pageBtnHtml(1, 1 === currentPage);
+      
+      var start, end;
+      if (currentPage <= 3) {
+        start = 2; end = 5;
+        html += rangeHtml(start, end, currentPage);
+        html += '<span class="page-ellipsis">&hellip;</span>';
+      } else if (currentPage >= totalPages - 2) {
+        html += '<span class="page-ellipsis">&hellip;</span>';
+        start = totalPages - 4; end = totalPages - 1;
+        html += rangeHtml(start, end, currentPage);
+      } else {
+        html += '<span class="page-ellipsis">&hellip;</span>';
+        start = currentPage - 1; end = currentPage + 1;
+        html += rangeHtml(start, end, currentPage);
+        html += '<span class="page-ellipsis">&hellip;</span>';
+      }
+      
+      // 始终显示最后一页
+      html += pageBtnHtml(totalPages, totalPages === currentPage);
+    }
+
+    pageNumbers.innerHTML = html;
+
+    // 绑定页码按钮事件
+    pageNumbers.querySelectorAll('.page-num').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var p = parseInt(this.getAttribute('data-page'));
+        if (p !== currentPage) {
+          currentPage = p;
+          renderView();
+        }
+      });
+    });
+
+    // 更新跳转输入
+    jumpInput.max = totalPages;
+    jumpInput.placeholder = '1-' + totalPages;
+    jumpInput.value = '';
+    jumpTotal.textContent = '页 / 共 ' + totalPages + ' 页';
+  }
+
+  function pageBtnHtml(p, active) {
+    return '<button class="page-num' + (active ? ' active' : '') + '" data-page="' + p + '">' + p + '</button>';
+  }
+
+  function rangeHtml(start, end, current) {
+    var h = '';
+    for (var i = start; i <= end; i++) {
+      h += pageBtnHtml(i, i === current);
+    }
+    return h;
+  }
+
+  // === URL Hash ===
+  function updateHash() {
+    var hash = '';
+    if (currentTag !== 'all') hash += 'tag=' + encodeURIComponent(currentTag);
+    if (currentPage > 1) {
+      hash += (hash ? '&' : '') + 'page=' + currentPage;
+    }
+    if (hash) {
+      history.replaceState(null, '', '#' + hash);
+    } else {
+      history.replaceState(null, '', window.location.pathname);
+    }
+  }
+
+  function readHash() {
+    var hash = window.location.hash.replace('#', '');
+    if (!hash) return;
+    var params = {};
+    hash.split('&').forEach(function(pair) {
+      var parts = pair.split('=');
+      if (parts.length === 2) params[parts[0]] = decodeURIComponent(parts[1]);
+    });
+    if (params.tag) {
+      var validTags = ['时事新闻', '代码产品', '科幻小说'];
+      if (validTags.indexOf(params.tag) >= 0) {
+        currentTag = params.tag;
+      }
+    }
+    if (params.page) {
+      var p = parseInt(params.page);
+      if (p > 0) currentPage = p;
+    }
+  }
+
+  // === 事件绑定 ===
+  // 标签按钮
   tagBtns.forEach(function(btn) {
     btn.addEventListener('click', function() {
       var tag = this.getAttribute('data-tag');
-
       tagBtns.forEach(function(b) { b.classList.remove('active'); });
       this.classList.add('active');
-      
-      // 过滤逻辑...
+      currentTag = tag;
+      currentPage = 1;
+      renderView();
     });
   });
 
-  // === 分页逻辑 ===
-  // ... 省略，保持原有逻辑 ...
+  // 翻页按钮
+  firstBtn.addEventListener('click', function() {
+    if (currentPage > 1) { currentPage = 1; renderView(); }
+  });
+  prevBtn.addEventListener('click', function() {
+    if (currentPage > 1) { currentPage--; renderView(); }
+  });
+  nextBtn.addEventListener('click', function() {
+    var fp = getFilteredCards();
+    var tp = Math.max(1, Math.ceil(fp.length / PER_PAGE));
+    if (currentPage < tp) { currentPage++; renderView(); }
+  });
+  lastBtn.addEventListener('click', function() {
+    var fp = getFilteredCards();
+    var tp = Math.max(1, Math.ceil(fp.length / PER_PAGE));
+    if (currentPage < tp) { currentPage = tp; renderView(); }
+  });
+
+  // 跳转输入
+  jumpInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      var p = parseInt(this.value);
+      var fp = getFilteredCards();
+      var tp = Math.max(1, Math.ceil(fp.length / PER_PAGE));
+      if (p >= 1 && p <= tp) {
+        currentPage = p;
+        renderView();
+      } else {
+        this.value = '';
+        this.placeholder = '1-' + tp;
+      }
+    }
+  });
+
+  // PopState（浏览器前进/后退）
+  window.addEventListener('popstate', function() {
+    var hash = window.location.hash;
+    if (hash) {
+      readHash();
+      // 更新标签按钮活跃状态
+      tagBtns.forEach(function(b) {
+        b.classList.remove('active');
+        if (b.getAttribute('data-tag') === currentTag) b.classList.add('active');
+      });
+      renderView();
+    }
+  });
+
+  // === 初始化 ===
+  readHash();
+  // 如果从hash读取了标签，更新按钮
+  if (currentTag !== 'all') {
+    tagBtns.forEach(function(b) {
+      b.classList.remove('active');
+      if (b.getAttribute('data-tag') === currentTag) b.classList.add('active');
+    });
+  }
+  renderView();
 })();
 </script>
 
@@ -152,6 +470,141 @@ keywords: "免费去水印,在线改图,批量压缩,AI抠图,网页组件,Web C
   box-shadow: 0 4px 12px rgba(245, 87, 108, 0.5);
 }
 
+/* ===== 翻页样式（增强） ===== */
+.pagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 32px 0 48px;
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+}
+
+.pagination-inner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.page-btn {
+  padding: 7px 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.page-btn:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(37, 99, 235, 0.05);
+}
+
+.page-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.page-btn.page-edge {
+  font-size: 16px;
+  padding: 7px 12px;
+  font-weight: 700;
+}
+
+/* 页码数字按钮 */
+.page-numbers {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.page-num {
+  min-width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.page-num:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(37, 99, 235, 0.05);
+}
+
+.page-num.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  cursor: default;
+  font-weight: 700;
+}
+
+.page-ellipsis {
+  min-width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+  user-select: none;
+}
+
+/* 跳转输入 */
+.page-jump {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.page-jump input {
+  width: 52px;
+  height: 32px;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14px;
+  padding: 0 6px;
+  transition: border-color 0.2s;
+}
+
+.page-jump input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+/* 移除number输入框的上下箭头 */
+.page-jump input::-webkit-outer-spin-button,
+.page-jump input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.page-jump input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 /* 响应式 */
 @media (max-width: 600px) {
   .hero-cta {
@@ -160,6 +613,26 @@ keywords: "免费去水印,在线改图,批量压缩,AI抠图,网页组件,Web C
   .hero-btn {
     padding: 8px 18px;
     font-size: 0.9em;
+  }
+  .pagination-inner {
+    gap: 3px;
+  }
+  .page-num {
+    min-width: 30px;
+    height: 30px;
+    font-size: 13px;
+  }
+  .page-btn {
+    padding: 5px 10px;
+    font-size: 13px;
+  }
+  .page-jump {
+    font-size: 12px;
+  }
+  .page-jump input {
+    width: 44px;
+    height: 28px;
+    font-size: 13px;
   }
 }
 </style>
