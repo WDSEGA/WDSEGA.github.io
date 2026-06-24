@@ -2,7 +2,7 @@
 title: "截止日 | The Deadline"
 date: 2026-06-23 01:00:00 +0800
 categories: [科幻短篇]
-tags: [科幻, 短篇小说, AI]
+tags: [科幻小说, 科幻, 短篇小说, AI]
 canonical_url: https://wdsega.github.io/2026/06/23/scifi-deadline/
 ---
 

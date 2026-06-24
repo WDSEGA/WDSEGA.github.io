@@ -2,7 +2,7 @@
 title: "数据保管员 | The Data Custodian"
 date: 2026-06-23 01:05:00 +0800
 categories: [科幻短篇]
-tags: [科幻, 短篇小说, AI]
+tags: [科幻小说, 科幻, 短篇小说, AI]
 canonical_url: https://wdsega.github.io/2026/06/23/scifi-data-custodian/
 ---
 

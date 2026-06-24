@@ -2,7 +2,7 @@
 title: "ChatGPT市场份额首次跌破50%：AI聊天市场从一家独大走向多强争霸 | ChatGPT Market Share Drops Below 50%: The AI Chat Market Shifts from Monopoly to Multipolar"
 date: 2026-06-23 00:30:00 +0800
 categories: [AI新闻]
-tags: [ChatGPT, Gemini, Claude, AI市场]
+tags: [时事新闻, ChatGPT, Gemini, Claude, AI市场]
 canonical_url: https://wdsega.github.io/2026/06/23/chatgpt-marketshare-below-50/
 ---
 

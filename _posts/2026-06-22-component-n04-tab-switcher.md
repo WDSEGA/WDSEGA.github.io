@@ -3,7 +3,7 @@ layout: post
 title: "组件详解#4：Tab切换面板，多内容区块的无缝切换方案 | Component Deep Dive #4: Tab Switcher — Seamless Multi-Content Panel Switching"
 date: 2026-06-22 08:00:00 +0800
 categories: [技术, Web组件, 前端开发]
-tags: [Web Component, Tabs, JavaScript, CSS, 网页组件字典]
+tags: [代码产品, Web Component, Tabs, JavaScript, CSS, 网页组件字典]
 description: "Tab切换面板是内容密集型页面的标配组件。本文详解如何用HTML/CSS/JS实现多面板切换，含完整代码、关键技术点和常见坑点。"
 ---
 

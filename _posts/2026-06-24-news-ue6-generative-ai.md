@@ -3,7 +3,7 @@ layout: post
 title: "虚幻6深度集成生成式AI：游戏开发速度将倍增，但对独立开发者是福是祸？ | Unreal Engine 6 Deeply Integrates Generative AI: Development Speed Doubles, But What About Indie Devs?"
 date: 2026-06-24 08:00:00 +0800
 categories: news
-tags: [Unreal Engine, AI, GameDev]
+tags: [时事新闻, Unreal Engine, AI, GameDev]
 ---
 
 Epic Games 在6月中旬正式公布了下一代游戏引擎 Unreal Engine 6（UE6）的详细路线图。最引人注目的不是画质提升，而是一个根本性的变化：**生成式AI被深度嵌入引擎核心工作流**。

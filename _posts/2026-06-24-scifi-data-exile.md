@@ -3,7 +3,7 @@ layout: post
 title: "数据流放 | Data Exile — A Sci-Fi Short Story"
 date: 2026-06-24 21:00:00 +0800
 categories: scifi
-tags: [Sci-Fi, Short Story, Privacy]
+tags: [科幻小说, Sci-Fi, Short Story, Privacy]
 ---
 
 周铭是七号公路上的减速带——每个人过去都要颠一下。

@@ -3,7 +3,7 @@ layout: post
 title: "夏季达沃斯2026关键词'规模化创新'：当AI从实验室走向工厂，真正的问题才刚开始 | Summer Davos 2026: 'Scaling Innovation' — When AI Moves From Lab to Factory Floor, the Real Questions Begin"
 date: 2026-06-24 16:00:00 +0800
 categories: news
-tags: [AI, Innovation, Economy]
+tags: [时事新闻, AI, Innovation, Economy]
 ---
 
 6月23日至25日，第十七届夏季达沃斯论坛在大连举行。来自90多个国家和地区的1700余名代表参会，主题只有一个词：**规模化创新（Scaling Innovation）**。

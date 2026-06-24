@@ -3,7 +3,7 @@ layout: post
 title: "科创板对AI大模型敞开大门：不盈利也能上市，资本市场开始为技术信仰定价 | China's STAR Market Opens to AI Model Companies: No Profit Required for IPO, Markets Begin Pricing Tech Conviction"
 date: 2026-06-24 10:00:00 +0800
 categories: news
-tags: [AI, IPO, China Market]
+tags: [时事新闻, AI, IPO, China Market]
 ---
 
 6月17日陆家嘴论坛上，中国证监会主席吴清宣布了一个被很多人低估的消息：**科创板第五套上市标准正式扩围至人工智能大模型领域**。同日，上交所发布了《人工智能大模型企业适用科创板第五套上市标准审核指引》。

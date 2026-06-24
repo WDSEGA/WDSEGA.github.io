@@ -2,7 +2,7 @@
 title: "Cursor发布Origin代码托管平台：面向AI Agent设计的Git替代品 | Cursor Launches Origin: A Git Hosting Platform Built for AI Agents"
 date: 2026-06-23 00:40:00 +0800
 categories: [AI新闻]
-tags: [Cursor, Origin, Git, 代码托管]
+tags: [时事新闻, Cursor, Origin, Git, 代码托管]
 canonical_url: https://wdsega.github.io/2026/06/23/cursor-origin-git-hosting/
 ---
 

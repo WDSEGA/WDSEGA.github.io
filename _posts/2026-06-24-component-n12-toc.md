@@ -3,7 +3,7 @@ layout: post
 title: "组件详解#12：目录导航，你的文章很长，但读者的耐心只有3秒 | Component Deep Dive #12: Table of Contents — Your Article Is Long, But Your Reader's Patience Is 3 Seconds"
 date: 2026-06-24 18:00:00 +0800
 categories: components
-tags: [Web Components, CSS, JavaScript, TOC]
+tags: [代码产品, Web Components, CSS, JavaScript, TOC]
 ---
 
 > 本文组件来自 **Web Component Dictionary v2.0** · 网页组件活字典，83组件/8分类/中英双语/实时预览/单文件无依赖。  

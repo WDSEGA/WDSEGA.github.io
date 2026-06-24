@@ -3,7 +3,7 @@ layout: post
 title: "气味考古学家 | Scent Archaeologist — A Sci-Fi Short Story"
 date: 2026-06-24 22:00:00 +0800
 categories: scifi
-tags: [Sci-Fi, Short Story, Technology]
+tags: [科幻小说, Sci-Fi, Short Story, Technology]
 ---
 
 苏晚的职业在五年前还不存在。

@@ -2,7 +2,7 @@
 title: "组件详解#7：分页器，万条数据只加载一页的秘密 | Component Deep Dive #7: Pagination — The Secret to Loading 10,000 Records One Page at a Time"
 date: 2026-06-23 00:45:00 +0800
 categories: [组件详解]
-tags: [分页器, Pagination, Web组件, 前端开发]
+tags: [代码产品, 分页器, Pagination, Web组件, 前端开发]
 canonical_url: https://wdsega.github.io/2026/06/23/component-n07-pagination/
 ---
 

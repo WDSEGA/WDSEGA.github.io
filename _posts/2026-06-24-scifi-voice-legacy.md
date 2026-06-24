@@ -3,7 +3,7 @@ layout: post
 title: "声音遗产 | Voice Legacy — A Sci-Fi Short Story"
 date: 2026-06-24 20:00:00 +0800
 categories: scifi
-tags: [Sci-Fi, Short Story, AI]
+tags: [科幻小说, Sci-Fi, Short Story, AI]
 ---
 
 林远在整理母亲遗物时，手机弹出一条广告。

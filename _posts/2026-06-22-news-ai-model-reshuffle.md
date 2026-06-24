@@ -3,7 +3,7 @@ layout: post
 title: "2026年6月AI大模型洗牌：Fable 5登顶，国产三强突围，DeepSeek把成本打到脚底板 | June 2026 AI Model Reshuffle: Fable 5 on Top, Domestic Three Breaking Through"
 date: 2026-06-22 10:30:00 +0800
 categories: [科技, AI, 大模型]
-tags: [AI模型, Claude, GPT, Gemini, DeepSeek, Kimi, GLM]
+tags: [时事新闻, AI模型, Claude, GPT, Gemini, DeepSeek, Kimi, GLM]
 description: "2026年6月AI大模型格局剧变：Claude Fable 5登顶SWE-bench Pro 80.3%，国产三强（DeepSeek、Kimi、GLM）各有斩获，成本曲线被DeepSeek彻底颠覆。"
 ---
 

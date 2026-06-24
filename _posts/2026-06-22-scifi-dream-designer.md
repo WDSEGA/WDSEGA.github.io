@@ -3,7 +3,7 @@ layout: post
 title: "梦境设计师 | The Dream Designer"
 date: 2026-06-22 12:00:00 +0800
 categories: [科幻, 短篇小说]
-tags: [科幻, 梦境, 意识, 伦理]
+tags: [科幻小说, 科幻, 梦境, 意识, 伦理]
 description: "2081年，梦境可以被设计、交易和植入。一位梦境设计师发现了一个不该存在的梦境。"
 ---
 

@@ -2,7 +2,7 @@
 title: "组件详解#8：步骤指示器，让用户看到终点才能走完流程 | Component Deep Dive #8: Step Indicator — Users Need to See the Finish Line to Complete the Journey"
 date: 2026-06-23 00:50:00 +0800
 categories: [组件详解]
-tags: [步骤指示器, Step Indicator, Web组件, 前端开发]
+tags: [代码产品, 步骤指示器, Step Indicator, Web组件, 前端开发]
 canonical_url: https://wdsega.github.io/2026/06/23/component-n08-step-indicator/
 ---
 

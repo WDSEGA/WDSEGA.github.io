@@ -3,7 +3,7 @@ layout: post
 title: "组件详解#5：面包屑导航，让用户永远知道自己在哪 | Component Deep Dive #5: Breadcrumb — Never Let Users Get Lost"
 date: 2026-06-22 08:30:00 +0800
 categories: [技术, Web组件, 前端开发]
-tags: [Web Component, Breadcrumb, Navigation, UX, 网页组件字典]
+tags: [代码产品, Web Component, Breadcrumb, Navigation, UX, 网页组件字典]
 description: "面包屑导航是层级页面的导航辅助组件。本文详解如何用纯HTML/CSS实现面包屑，含完整代码、SEO优化技巧和常见坑点。"
 ---
 

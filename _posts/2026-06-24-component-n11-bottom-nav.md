@@ -3,7 +3,7 @@ layout: post
 title: "组件详解#11：底部固定导航，拇指热区的黄金4厘米 | Component Deep Dive #11: Bottom Nav — The 4cm Gold Zone for Your User's Thumb"
 date: 2026-06-24 14:00:00 +0800
 categories: components
-tags: [Web Components, CSS, Mobile, Navigation]
+tags: [代码产品, Web Components, CSS, Mobile, Navigation]
 ---
 
 > 本文组件来自 **Web Component Dictionary v2.0** · 网页组件活字典，83组件/8分类/中英双语/实时预览/单文件无依赖。  

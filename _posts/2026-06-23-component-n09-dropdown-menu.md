@@ -2,7 +2,7 @@
 title: "组件详解#9：下拉菜单，hover还是click这是个哲学问题 | Component Deep Dive #9: Dropdown Menu — Hover vs Click Is a Philosophical Question"
 date: 2026-06-23 00:55:00 +0800
 categories: [组件详解]
-tags: [下拉菜单, Dropdown Menu, Web组件, 前端开发]
+tags: [代码产品, 下拉菜单, Dropdown Menu, Web组件, 前端开发]
 canonical_url: https://wdsega.github.io/2026/06/23/component-n09-dropdown-menu/
 ---
 

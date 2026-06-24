@@ -3,7 +3,7 @@ layout: post
 title: "组件详解#10：锚点导航，让长页面从'滚筒洗衣机'变成'目录书' | Component Deep Dive #10: Anchor Nav — Turn Your Long Page From a Scroll Marathon Into a Clickable Book"
 date: 2026-06-24 12:00:00 +0800
 categories: components
-tags: [Web Components, CSS, JavaScript, AnchorNav]
+tags: [代码产品, Web Components, CSS, JavaScript, AnchorNav]
 ---
 
 > 本文组件来自 **Web Component Dictionary v2.0** · 网页组件活字典，83组件/8分类/中英双语/实时预览/单文件无依赖。  

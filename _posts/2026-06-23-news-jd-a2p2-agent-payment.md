@@ -2,7 +2,7 @@
 title: "京东发布智能体自主支付协议A2P2：AI Agent终于可以自己买单了 | JD.com's A2P2 Protocol: AI Agents Can Now Pay on Their Own"
 date: 2026-06-23 00:35:00 +0800
 categories: [AI新闻]
-tags: [京东, AI Agent, 支付协议, A2P2]
+tags: [时事新闻, 京东, AI Agent, 支付协议, A2P2]
 canonical_url: https://wdsega.github.io/2026/06/23/jd-a2p2-agent-payment/
 ---
 
