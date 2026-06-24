@@ -697,9 +697,7 @@ function placeFormatInfo(matrix, ecLevel, maskPattern) {
   ];
   for (let i = 0; i < 15; i++) {
     const [r, c] = positions[i];
-    if (matrix[r][c] === 0) {
-      matrix[r][c] = (format >> (14 - i)) & 1 ? 2 : 3;
-    }
+    matrix[r][c] = (format >> (14 - i)) & 1 ? 2 : 3;
   }
   // Also place the split format info (bottom-left and top-right)
   const rOff = size - 7;
@@ -711,9 +709,7 @@ function placeFormatInfo(matrix, ecLevel, maskPattern) {
   // then 8 bits top (cols size-8..size-1) at positions2[8..15]
   for (let i = 0; i < 15; i++) {
     const [r, c] = i < 7 ? positions2[i] : positions2[i + 1];
-    if (matrix[r][c] === 0) {
-      matrix[r][c] = (format >> (14 - i)) & 1 ? 2 : 3;
-    }
+    matrix[r][c] = (format >> (14 - i)) & 1 ? 2 : 3;
   }
 }
 
