@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR Code Studio — 二维码生成与美化工作室</title>
+<title>QR Code Studio 鈥?浜岀淮鐮佺敓鎴愪笌缇庡寲宸ヤ綔瀹?/title>
 <style>
 :root {
   --bg: #0f0f1a;
@@ -231,10 +231,10 @@ body {
 <body>
 
 <div class="header">
-  <h1>🔲 QR Code Studio</h1>
+  <h1>馃敳 QR Code Studio</h1>
   <span class="badge">v1.0</span>
   <div class="header-actions">
-    <button class="btn btn-sm" onclick="toggleBatch()" id="batchBtn">📦 批量模式</button>
+    <button class="btn btn-sm" onclick="toggleBatch()" id="batchBtn">馃摝 鎵归噺妯″紡</button>
   </div>
 </div>
 
@@ -243,64 +243,64 @@ body {
   <div class="sidebar" id="sidebar">
     <!-- Content Type Tabs -->
     <div class="type-tabs" id="typeTabs">
-      <div class="type-tab active" data-type="url"><span class="icon">🌐</span>网址</div>
-      <div class="type-tab" data-type="vcard"><span class="icon">📇</span>名片</div>
-      <div class="type-tab" data-type="wifi"><span class="icon">📶</span>WiFi</div>
-      <div class="type-tab" data-type="email"><span class="icon">📧</span>邮件</div>
-      <div class="type-tab" data-type="sms"><span class="icon">💬</span>短信</div>
-      <div class="type-tab" data-type="phone"><span class="icon">📞</span>电话</div>
-      <div class="type-tab" data-type="geo"><span class="icon">🗺️</span>位置</div>
-      <div class="type-tab" data-type="calendar"><span class="icon">📅</span>日历</div>
-      <div class="type-tab" data-type="crypto"><span class="icon">💰</span>加密币</div>
-      <div class="type-tab" data-type="app"><span class="icon">📱</span>应用</div>
-      <div class="type-tab" data-type="text"><span class="icon">📝</span>文本</div>
+      <div class="type-tab active" data-type="url"><span class="icon">馃寪</span>缃戝潃</div>
+      <div class="type-tab" data-type="vcard"><span class="icon">馃搰</span>鍚嶇墖</div>
+      <div class="type-tab" data-type="wifi"><span class="icon">馃摱</span>WiFi</div>
+      <div class="type-tab" data-type="email"><span class="icon">馃摟</span>閭欢</div>
+      <div class="type-tab" data-type="sms"><span class="icon">馃挰</span>鐭俊</div>
+      <div class="type-tab" data-type="phone"><span class="icon">馃摓</span>鐢佃瘽</div>
+      <div class="type-tab" data-type="geo"><span class="icon">馃椇锔?/span>浣嶇疆</div>
+      <div class="type-tab" data-type="calendar"><span class="icon">馃搮</span>鏃ュ巻</div>
+      <div class="type-tab" data-type="crypto"><span class="icon">馃挵</span>鍔犲瘑甯?/div>
+      <div class="type-tab" data-type="app"><span class="icon">馃摫</span>搴旂敤</div>
+      <div class="type-tab" data-type="text"><span class="icon">馃摑</span>鏂囨湰</div>
     </div>
 
     <!-- Input Form -->
     <div class="section" id="inputSection">
-      <div class="section-title" id="inputTitle">🌐 网址</div>
+      <div class="section-title" id="inputTitle">馃寪 缃戝潃</div>
       <div id="inputForm"></div>
     </div>
 
     <!-- Customization -->
     <div class="section">
-      <div class="section-title">🎨 美化定制</div>
+      <div class="section-title">馃帹 缇庡寲瀹氬埗</div>
       <div class="form-row">
         <div class="form-group">
-          <label>前景色</label>
+          <label>鍓嶆櫙鑹?/label>
           <div class="color-swatch">
             <input type="color" id="fgColor" value="#000000" onchange="onCustomChange()">
           </div>
         </div>
         <div class="form-group">
-          <label>背景色</label>
+          <label>鑳屾櫙鑹?/label>
           <div class="color-swatch" style="background:#fff;">
             <input type="color" id="bgColor" value="#ffffff" onchange="onCustomChange()">
           </div>
         </div>
         <div class="form-group">
-          <label>预设配色</label>
+          <label>棰勮閰嶈壊</label>
           <div class="preset-colors" id="presetColors"></div>
         </div>
       </div>
       <div class="custom-row" style="margin-top:8px;">
         <div class="form-group">
-          <label>模块形状</label>
+          <label>妯″潡褰㈢姸</label>
           <div class="dot-style-picker">
-            <div class="dot-style-btn active" data-style="square" onclick="setDotStyle('square',this)">■</div>
-            <div class="dot-style-btn" data-style="rounded" onclick="setDotStyle('rounded',this)">⬤</div>
-            <div class="dot-style-btn" data-style="circle" onclick="setDotStyle('circle',this)">●</div>
-            <div class="dot-style-btn" data-style="diamond" onclick="setDotStyle('diamond',this)">◆</div>
-            <div class="dot-style-btn" data-style="star" onclick="setDotStyle('star',this)">✦</div>
+            <div class="dot-style-btn active" data-style="square" onclick="setDotStyle('square',this)">鈻?/div>
+            <div class="dot-style-btn" data-style="rounded" onclick="setDotStyle('rounded',this)">猬?/div>
+            <div class="dot-style-btn" data-style="circle" onclick="setDotStyle('circle',this)">鈼?/div>
+            <div class="dot-style-btn" data-style="diamond" onclick="setDotStyle('diamond',this)">鈼?/div>
+            <div class="dot-style-btn" data-style="star" onclick="setDotStyle('star',this)">鉁?/div>
           </div>
         </div>
         <div class="form-group">
-          <label>容错等级</label>
+          <label>瀹归敊绛夌骇</label>
           <select id="ecLevel" onchange="onCustomChange()">
-            <option value="L">L — 7% (高密度)</option>
-            <option value="M" selected>M — 15% (标准)</option>
-            <option value="Q">Q — 25% (较高)</option>
-            <option value="H">H — 30% (最高)</option>
+            <option value="L">L 鈥?7% (楂樺瘑搴?</option>
+            <option value="M" selected>M 鈥?15% (鏍囧噯)</option>
+            <option value="Q">Q 鈥?25% (杈冮珮)</option>
+            <option value="H">H 鈥?30% (鏈€楂?</option>
           </select>
         </div>
       </div>
@@ -310,16 +310,16 @@ body {
           <div class="logo-upload">
             <div class="logo-preview" id="logoPreview" onclick="document.getElementById('logoFile').click()">+</div>
             <input type="file" id="logoFile" accept="image/*" style="display:none" onchange="handleLogo(event)">
-            <button class="btn btn-sm" onclick="clearLogo()" id="clearLogoBtn" style="display:none">清除</button>
+            <button class="btn btn-sm" onclick="clearLogo()" id="clearLogoBtn" style="display:none">娓呴櫎</button>
           </div>
         </div>
         <div class="form-group">
-          <label>安静区边距</label>
+          <label>瀹夐潤鍖鸿竟璺?/label>
           <select id="quietZone" onchange="onCustomChange()">
-            <option value="2">2 模块</option>
-            <option value="4" selected>4 模块 (标准)</option>
-            <option value="6">6 模块</option>
-            <option value="8">8 模块</option>
+            <option value="2">2 妯″潡</option>
+            <option value="4" selected>4 妯″潡 (鏍囧噯)</option>
+            <option value="6">6 妯″潡</option>
+            <option value="8">8 妯″潡</option>
           </select>
         </div>
       </div>
@@ -328,19 +328,19 @@ body {
     <!-- Templates -->
     <div class="section">
       <div class="section-title" style="display:flex;justify-content:space-between;align-items:center;">
-        模板
-        <button class="btn btn-sm" onclick="saveTemplate()">💾 保存当前样式</button>
+        妯℃澘
+        <button class="btn btn-sm" onclick="saveTemplate()">馃捑 淇濆瓨褰撳墠鏍峰紡</button>
       </div>
       <div class="template-list" id="templateList">
-        <div style="font-size:11px;color:var(--text2);padding:8px;">暂无保存的模板</div>
+        <div style="font-size:11px;color:var(--text2);padding:8px;">鏆傛棤淇濆瓨鐨勬ā鏉?/div>
       </div>
     </div>
 
     <!-- History -->
     <div class="section">
-      <div class="section-title">📋 历史记录</div>
+      <div class="section-title">馃搵 鍘嗗彶璁板綍</div>
       <div class="history-list" id="historyList">
-        <div style="font-size:11px;color:var(--text2);padding:8px;">暂无历史记录</div>
+        <div style="font-size:11px;color:var(--text2);padding:8px;">鏆傛棤鍘嗗彶璁板綍</div>
       </div>
     </div>
   </div>
@@ -351,32 +351,32 @@ body {
       <div class="preview-frame">
         <canvas id="qrcode-canvas" width="300" height="300"></canvas>
       </div>
-      <div class="preview-size-label" id="sizeLabel">300 × 300 px</div>
+      <div class="preview-size-label" id="sizeLabel">300 脳 300 px</div>
     </div>
 
     <!-- Size Control -->
     <div class="size-slider" style="width:300px;">
-      <span style="font-size:16px;">🔍</span>
+      <span style="font-size:16px;">馃攳</span>
       <input type="range" id="sizeSlider" min="128" max="1024" value="300" step="16" oninput="onSizeChange()">
       <span id="sizeValue">300px</span>
     </div>
 
     <!-- Export Buttons -->
     <div class="export-btns">
-      <button class="btn btn-primary" onclick="exportPNG()">📥 下载 PNG</button>
-      <button class="btn" onclick="exportSVG()">📐 下载 SVG</button>
-      <button class="btn" onclick="copyToClipboard()">📋 复制到剪贴板</button>
-      <button class="btn" onclick="exportPNG('2x')">📥 2x PNG</button>
-      <button class="btn" onclick="exportPNG('3x')">📥 3x PNG</button>
+      <button class="btn btn-primary" onclick="exportPNG()">馃摜 涓嬭浇 PNG</button>
+      <button class="btn" onclick="exportSVG()">馃搻 涓嬭浇 SVG</button>
+      <button class="btn" onclick="copyToClipboard()">馃搵 澶嶅埗鍒板壀璐存澘</button>
+      <button class="btn" onclick="exportPNG('2x')">馃摜 2x PNG</button>
+      <button class="btn" onclick="exportPNG('3x')">馃摜 3x PNG</button>
     </div>
 
     <!-- Batch Mode -->
     <div class="batch-area" id="batchArea">
       <div class="section" style="width:100%;max-width:500px;">
-        <div class="section-title">📦 批量生成 (每行一个URL)</div>
+        <div class="section-title">馃摝 鎵归噺鐢熸垚 (姣忚涓€涓猆RL)</div>
         <textarea class="batch-textarea form-group" id="batchInput" placeholder="https://example.com&#10;https://test.com&#10;https://demo.com" oninput="onBatchInput()"></textarea>
         <div class="batch-preview" id="batchPreview"></div>
-        <button class="btn btn-primary" style="margin-top:8px;" onclick="exportBatch()">📥 批量导出 ZIP</button>
+        <button class="btn btn-primary" style="margin-top:8px;" onclick="exportBatch()">馃摜 鎵归噺瀵煎嚭 ZIP</button>
       </div>
     </div>
   </div>
@@ -386,7 +386,7 @@ body {
 
 <script>
 // ============================================================
-// QR CODE ENCODER CORE — Pure JavaScript, Zero Dependencies
+// QR CODE ENCODER CORE 鈥?Pure JavaScript, Zero Dependencies
 // ============================================================
 
 // --- GF(256) Arithmetic ---
@@ -479,8 +479,10 @@ const FORMAT_INFO = (function() {
   return table;
 })();
 
+// QR standard EC level bit values: L=01, M=00, Q=11, H=10
+const EC_BITS = {L: 1, M: 0, Q: 3, H: 2};
 function getFormatInfo(ecLevel, mask) {
-  const idx = (ecLevel << 3) | mask;
+  const idx = (EC_BITS[ecLevel] << 3) | mask;
   return FORMAT_INFO[idx];
 }
 
@@ -705,8 +707,10 @@ function placeFormatInfo(matrix, ecLevel, maskPattern) {
     [size-1,8],[size-2,8],[size-3,8],[size-4,8],[size-5,8],[size-6,8],[size-7,8],[size-8,8],
     [8,size-8],[8,size-7],[8,size-6],[8,size-5],[8,size-4],[8,size-3],[8,size-2],[8,size-1]
   ];
+  // Split format info: 7 bits left (rows size-1..size-7), skip dark module at [7],
+  // then 8 bits top (cols size-8..size-1) at positions2[8..15]
   for (let i = 0; i < 15; i++) {
-    const [r, c] = i < 8 ? positions2[i] : positions2[i + 1];
+    const [r, c] = i < 7 ? positions2[i] : positions2[i + 1];
     if (matrix[r][c] === 0) {
       matrix[r][c] = (format >> (14 - i)) & 1 ? 2 : 3;
     }
@@ -941,7 +945,7 @@ function generateQRCode(text, ecLevel, minVersion = 1) {
   }
 
   // Place format and version info
-  placeFormatInfo(bestMasked, ['L','M','Q','H'].indexOf(ecLevel), bestMask);
+  placeFormatInfo(bestMasked, ecLevel, bestMask);
   placeVersionInfo(bestMasked, version);
 
   return { matrix: bestMasked, version, size: bestMasked.length };
@@ -1072,61 +1076,61 @@ function renderQRCode(canvas, qrData, options = {}) {
 let currentType = 'url';
 
 const formConfigs = {
-  url: { title: '🌐 网址', fields: [
-    { name: 'url', label: '网址', type: 'text', placeholder: 'https://example.com', required: true }
+  url: { title: '馃寪 缃戝潃', fields: [
+    { name: 'url', label: '缃戝潃', type: 'text', placeholder: 'https://example.com', required: true }
   ]},
-  vcard: { title: '📇 电子名片 (vCard)', fields: [
-    { name: 'name', label: '姓名 *', type: 'text', placeholder: '张三', required: true },
-    { name: 'org', label: '公司', type: 'text', placeholder: '某某科技' },
-    { name: 'title', label: '职位', type: 'text', placeholder: '产品经理' },
-    { name: 'phone', label: '电话', type: 'text', placeholder: '+86 13800138000' },
-    { name: 'email', label: '邮箱', type: 'email', placeholder: 'zhangsan@example.com' },
-    { name: 'url', label: '网站', type: 'text', placeholder: 'https://example.com' },
-    { name: 'address', label: '地址', type: 'text', placeholder: '上海市浦东新区...' }
+  vcard: { title: '馃搰 鐢靛瓙鍚嶇墖 (vCard)', fields: [
+    { name: 'name', label: '濮撳悕 *', type: 'text', placeholder: '寮犱笁', required: true },
+    { name: 'org', label: '鍏徃', type: 'text', placeholder: '鏌愭煇绉戞妧' },
+    { name: 'title', label: '鑱屼綅', type: 'text', placeholder: '浜у搧缁忕悊' },
+    { name: 'phone', label: '鐢佃瘽', type: 'text', placeholder: '+86 13800138000' },
+    { name: 'email', label: '閭', type: 'email', placeholder: 'zhangsan@example.com' },
+    { name: 'url', label: '缃戠珯', type: 'text', placeholder: 'https://example.com' },
+    { name: 'address', label: '鍦板潃', type: 'text', placeholder: '涓婃捣甯傛郸涓滄柊鍖?..' }
   ]},
-  wifi: { title: '📶 WiFi 网络', fields: [
-    { name: 'ssid', label: 'WiFi名称 (SSID) *', type: 'text', placeholder: 'MyWiFi', required: true },
-    { name: 'password', label: '密码', type: 'text', placeholder: 'password123' },
-    { name: 'encryption', label: '加密方式', type: 'select', options: ['WPA/WPA2','WEP','nopass'] },
-    { name: 'hidden', label: '隐藏网络', type: 'checkbox' }
+  wifi: { title: '馃摱 WiFi 缃戠粶', fields: [
+    { name: 'ssid', label: 'WiFi鍚嶇О (SSID) *', type: 'text', placeholder: 'MyWiFi', required: true },
+    { name: 'password', label: '瀵嗙爜', type: 'text', placeholder: 'password123' },
+    { name: 'encryption', label: '鍔犲瘑鏂瑰紡', type: 'select', options: ['WPA/WPA2','WEP','nopass'] },
+    { name: 'hidden', label: '闅愯棌缃戠粶', type: 'checkbox' }
   ]},
-  email: { title: '📧 发送邮件', fields: [
-    { name: 'to', label: '收件人 *', type: 'email', placeholder: 'user@example.com', required: true },
-    { name: 'subject', label: '主题', type: 'text', placeholder: '你好' },
-    { name: 'body', label: '正文', type: 'textarea', placeholder: '邮件正文...' }
+  email: { title: '馃摟 鍙戦€侀偖浠?, fields: [
+    { name: 'to', label: '鏀朵欢浜?*', type: 'email', placeholder: 'user@example.com', required: true },
+    { name: 'subject', label: '涓婚', type: 'text', placeholder: '浣犲ソ' },
+    { name: 'body', label: '姝ｆ枃', type: 'textarea', placeholder: '閭欢姝ｆ枃...' }
   ]},
-  sms: { title: '💬 发送短信', fields: [
-    { name: 'phone', label: '手机号 *', type: 'text', placeholder: '+86 13800138000', required: true },
-    { name: 'body', label: '短信内容', type: 'textarea', placeholder: '你好！'}
+  sms: { title: '馃挰 鍙戦€佺煭淇?, fields: [
+    { name: 'phone', label: '鎵嬫満鍙?*', type: 'text', placeholder: '+86 13800138000', required: true },
+    { name: 'body', label: '鐭俊鍐呭', type: 'textarea', placeholder: '浣犲ソ锛?}
   ]},
-  phone: { title: '📞 拨打电话', fields: [
-    { name: 'phone', label: '电话号码 *', type: 'text', placeholder: '+86 13800138000', required: true }
+  phone: { title: '馃摓 鎷ㄦ墦鐢佃瘽', fields: [
+    { name: 'phone', label: '鐢佃瘽鍙风爜 *', type: 'text', placeholder: '+86 13800138000', required: true }
   ]},
-  geo: { title: '🗺️ 地理位置', fields: [
-    { name: 'lat', label: '纬度', type: 'text', placeholder: '31.2304' },
-    { name: 'lng', label: '经度', type: 'text', placeholder: '121.4737' },
-    { name: 'query', label: '或地名', type: 'text', placeholder: '上海外滩' }
+  geo: { title: '馃椇锔?鍦扮悊浣嶇疆', fields: [
+    { name: 'lat', label: '绾害', type: 'text', placeholder: '31.2304' },
+    { name: 'lng', label: '缁忓害', type: 'text', placeholder: '121.4737' },
+    { name: 'query', label: '鎴栧湴鍚?, type: 'text', placeholder: '涓婃捣澶栨哗' }
   ]},
-  calendar: { title: '📅 日历事件', fields: [
-    { name: 'title', label: '事件名称 *', type: 'text', placeholder: '团队会议', required: true },
-    { name: 'start', label: '开始时间 *', type: 'datetime-local', required: true },
-    { name: 'end', label: '结束时间', type: 'datetime-local' },
-    { name: 'location', label: '地点', type: 'text', placeholder: '会议室A' },
-    { name: 'description', label: '描述', type: 'textarea', placeholder: '会议内容...' }
+  calendar: { title: '馃搮 鏃ュ巻浜嬩欢', fields: [
+    { name: 'title', label: '浜嬩欢鍚嶇О *', type: 'text', placeholder: '鍥㈤槦浼氳', required: true },
+    { name: 'start', label: '寮€濮嬫椂闂?*', type: 'datetime-local', required: true },
+    { name: 'end', label: '缁撴潫鏃堕棿', type: 'datetime-local' },
+    { name: 'location', label: '鍦扮偣', type: 'text', placeholder: '浼氳瀹' },
+    { name: 'description', label: '鎻忚堪', type: 'textarea', placeholder: '浼氳鍐呭...' }
   ]},
-  crypto: { title: '💰 加密货币转账', fields: [
-    { name: 'currency', label: '币种', type: 'select', options: ['BTC','ETH','USDC (ERC-20)','USDT (ERC-20)','SOL','BNB'] },
-    { name: 'address', label: '收款地址 *', type: 'text', placeholder: '0x... 或 1A1zP1...', required: true },
-    { name: 'amount', label: '金额 (可选)', type: 'text', placeholder: '0.01' },
-    { name: 'label', label: '备注', type: 'text', placeholder: '转账备注' }
+  crypto: { title: '馃挵 鍔犲瘑璐у竵杞处', fields: [
+    { name: 'currency', label: '甯佺', type: 'select', options: ['BTC','ETH','USDC (ERC-20)','USDT (ERC-20)','SOL','BNB'] },
+    { name: 'address', label: '鏀舵鍦板潃 *', type: 'text', placeholder: '0x... 鎴?1A1zP1...', required: true },
+    { name: 'amount', label: '閲戦 (鍙€?', type: 'text', placeholder: '0.01' },
+    { name: 'label', label: '澶囨敞', type: 'text', placeholder: '杞处澶囨敞' }
   ]},
-  app: { title: '📱 应用下载', fields: [
-    { name: 'ios_url', label: 'iOS App Store链接', type: 'text', placeholder: 'https://apps.apple.com/...' },
-    { name: 'android_url', label: 'Android Play商店链接', type: 'text', placeholder: 'https://play.google.com/...' },
-    { name: 'universal_url', label: '通用链接', type: 'text', placeholder: 'https://example.com/app' }
+  app: { title: '馃摫 搴旂敤涓嬭浇', fields: [
+    { name: 'ios_url', label: 'iOS App Store閾炬帴', type: 'text', placeholder: 'https://apps.apple.com/...' },
+    { name: 'android_url', label: 'Android Play鍟嗗簵閾炬帴', type: 'text', placeholder: 'https://play.google.com/...' },
+    { name: 'universal_url', label: '閫氱敤閾炬帴', type: 'text', placeholder: 'https://example.com/app' }
   ]},
-  text: { title: '📝 纯文本', fields: [
-    { name: 'text', label: '文本内容 *', type: 'textarea', placeholder: '输入任意文本...', rows: 4, required: true }
+  text: { title: '馃摑 绾枃鏈?, fields: [
+    { name: 'text', label: '鏂囨湰鍐呭 *', type: 'textarea', placeholder: '杈撳叆浠绘剰鏂囨湰...', rows: 4, required: true }
   ]}
 };
 
@@ -1242,7 +1246,7 @@ function generateQR() {
     addHistory(text);
   } catch (e) {
     console.error('QR generation error:', e);
-    showToast('⚠️ 数据太长，请减少内容');
+    showToast('鈿狅笍 鏁版嵁澶暱锛岃鍑忓皯鍐呭');
   }
 }
 
@@ -1301,16 +1305,16 @@ function clearLogo() {
 
 // Preset color themes
 const colorPresets = [
-  { name: '经典', fg: '#000000', bg: '#ffffff' },
-  { name: '暗金', fg: '#c9a84c', bg: '#1a1a2e' },
-  { name: '霓虹', fg: '#00ff88', bg: '#0a0a0a' },
-  { name: '海洋', fg: '#0077b6', bg: '#caf0f8' },
-  { name: '烈焰', fg: '#d90429', bg: '#edf2f4' },
-  { name: '森林', fg: '#2d6a4f', bg: '#d8f3dc' },
-  { name: '紫韵', fg: '#6c5ce7', bg: '#f8f9ff' },
-  { name: '日落', fg: '#e76f51', bg: '#f4a26120' },
-  { name: '商务', fg: '#1d3557', bg: '#f1faee' },
-  { name: '极简', fg: '#2b2d42', bg: '#edf2f4' },
+  { name: '缁忓吀', fg: '#000000', bg: '#ffffff' },
+  { name: '鏆楅噾', fg: '#c9a84c', bg: '#1a1a2e' },
+  { name: '闇撹櫣', fg: '#00ff88', bg: '#0a0a0a' },
+  { name: '娴锋磱', fg: '#0077b6', bg: '#caf0f8' },
+  { name: '鐑堢劙', fg: '#d90429', bg: '#edf2f4' },
+  { name: '妫灄', fg: '#2d6a4f', bg: '#d8f3dc' },
+  { name: '绱煹', fg: '#6c5ce7', bg: '#f8f9ff' },
+  { name: '鏃ヨ惤', fg: '#e76f51', bg: '#f4a26120' },
+  { name: '鍟嗗姟', fg: '#1d3557', bg: '#f1faee' },
+  { name: '鏋佺畝', fg: '#2b2d42', bg: '#edf2f4' },
 ];
 
 function initPresetColors() {
@@ -1342,7 +1346,7 @@ function switchType(type, el) {
 
 // Templates
 function saveTemplate() {
-  const name = prompt('模板名称：');
+  const name = prompt('妯℃澘鍚嶇О锛?);
   if (!name) return;
   const template = {
     name,
@@ -1357,7 +1361,7 @@ function saveTemplate() {
   if (templates.length > 20) templates.pop();
   localStorage.setItem('qr_templates', JSON.stringify(templates));
   renderTemplates();
-  showToast('模板已保存');
+  showToast('妯℃澘宸蹭繚瀛?);
 }
 
 function deleteTemplate(idx) {
@@ -1376,14 +1380,14 @@ function applyTemplate(idx) {
   document.getElementById('quietZone').value = t.quietZone;
   setDotStyle(t.dotStyle, document.querySelector(`.dot-style-btn[data-style="${t.dotStyle}"]`));
   renderCurrent();
-  showToast('模板已应用');
+  showToast('妯℃澘宸插簲鐢?);
 }
 
 function renderTemplates() {
   const templates = JSON.parse(localStorage.getItem('qr_templates') || '[]');
   const container = document.getElementById('templateList');
   if (templates.length === 0) {
-    container.innerHTML = '<div style="font-size:11px;color:var(--text2);padding:8px;">暂无保存的模板</div>';
+    container.innerHTML = '<div style="font-size:11px;color:var(--text2);padding:8px;">鏆傛棤淇濆瓨鐨勬ā鏉?/div>';
     return;
   }
   let html = '';
@@ -1392,7 +1396,7 @@ function renderTemplates() {
       <span>${t.name}</span>
       <div class="tmpl-actions">
         <span style="display:inline-block;width:14px;height:14px;background:${t.fg};border-radius:3px;margin-right:4px;"></span>
-        <span class="tmpl-delete" onclick="event.stopPropagation();deleteTemplate(${i})">×</span>
+        <span class="tmpl-delete" onclick="event.stopPropagation();deleteTemplate(${i})">脳</span>
       </div>
     </div>`;
   });
@@ -1416,13 +1420,13 @@ function renderHistory() {
   const history = JSON.parse(localStorage.getItem('qr_history') || '[]');
   const container = document.getElementById('historyList');
   if (history.length === 0) {
-    container.innerHTML = '<div style="font-size:11px;color:var(--text2);padding:8px;">暂无历史记录</div>';
+    container.innerHTML = '<div style="font-size:11px;color:var(--text2);padding:8px;">鏆傛棤鍘嗗彶璁板綍</div>';
     return;
   }
   let html = '';
   const typeNames = {
-    url: '网址', vcard: '名片', wifi: 'WiFi', email: '邮件', sms: '短信',
-    phone: '电话', geo: '位置', calendar: '日历', crypto: '加密币', app: '应用', text: '文本'
+    url: '缃戝潃', vcard: '鍚嶇墖', wifi: 'WiFi', email: '閭欢', sms: '鐭俊',
+    phone: '鐢佃瘽', geo: '浣嶇疆', calendar: '鏃ュ巻', crypto: '鍔犲瘑甯?, app: '搴旂敤', text: '鏂囨湰'
   };
   history.forEach((h, i) => {
     const shortText = h.text.length > 30 ? h.text.substring(0, 30) + '...' : h.text;
@@ -1475,7 +1479,7 @@ function fillHistoryData(h) {
 function toggleBatch() {
   const area = document.getElementById('batchArea');
   area.classList.toggle('show');
-  document.getElementById('batchBtn').textContent = area.classList.contains('show') ? '📦 关闭批量' : '📦 批量模式';
+  document.getElementById('batchBtn').textContent = area.classList.contains('show') ? '馃摝 鍏抽棴鎵归噺' : '馃摝 鎵归噺妯″紡';
 }
 
 function onBatchInput() {
@@ -1500,10 +1504,10 @@ function onBatchInput() {
       });
       html += `<div class="batch-item"><canvas width="64" height="64" data-url="${c.toDataURL()}"></canvas><div class="batch-label">${url.trim()}</div></div>`;
     } catch(e) {
-      html += `<div class="batch-item"><span style="color:var(--red);font-size:10px;">错误</span><div class="batch-label">${url.trim().substring(0,20)}</div></div>`;
+      html += `<div class="batch-item"><span style="color:var(--red);font-size:10px;">閿欒</span><div class="batch-label">${url.trim().substring(0,20)}</div></div>`;
     }
   }
-  if (urls.length > 20) html += `<div style="font-size:11px;color:var(--text2);">...还有 ${urls.length-20} 个</div>`;
+  if (urls.length > 20) html += `<div style="font-size:11px;color:var(--text2);">...杩樻湁 ${urls.length-20} 涓?/div>`;
   container.innerHTML = html;
 
   // Render preview canvases
@@ -1522,7 +1526,7 @@ function onBatchInput() {
 function exportBatch() {
   const text = document.getElementById('batchInput').value;
   const urls = text.split('\n').filter(u => u.trim());
-  if (urls.length === 0) return showToast('请先输入网址');
+  if (urls.length === 0) return showToast('璇峰厛杈撳叆缃戝潃');
 
   const fg = document.getElementById('fgColor').value;
   const bg = document.getElementById('bgColor').value;
@@ -1541,7 +1545,7 @@ function exportBatch() {
       a.click();
     } catch(e) { /* skip */ }
   });
-  showToast(`正在导出 ${urls.length} 个文件...`);
+  showToast(`姝ｅ湪瀵煎嚭 ${urls.length} 涓枃浠?..`);
 }
 
 // Export functions
@@ -1565,7 +1569,7 @@ function exportPNG(scale = '1x') {
   a.href = c.toDataURL('image/png');
   a.download = `qrcode_${size}x${size}${scale !== '1x' ? '_' + scale : ''}.png`;
   a.click();
-  showToast('PNG 已下载');
+  showToast('PNG 宸蹭笅杞?);
 }
 
 function exportSVG() {
@@ -1604,7 +1608,7 @@ function exportSVG() {
   a.download = 'qrcode.svg';
   a.click();
   URL.revokeObjectURL(url);
-  showToast('SVG 已下载');
+  showToast('SVG 宸蹭笅杞?);
 }
 
 function copyToClipboard() {
@@ -1614,14 +1618,14 @@ function copyToClipboard() {
   c.toBlob(blob => {
     navigator.clipboard.write([
       new ClipboardItem({ 'image/png': blob })
-    ]).then(() => showToast('已复制到剪贴板'))
+    ]).then(() => showToast('宸插鍒跺埌鍓创鏉?))
     .catch(() => {
       // Fallback: download and show message
       const a = document.createElement('a');
       a.href = c.toDataURL('image/png');
       a.download = 'qrcode.png';
       a.click();
-      showToast('已下载（剪贴板不支持，请手动粘贴）');
+      showToast('宸蹭笅杞斤紙鍓创鏉夸笉鏀寔锛岃鎵嬪姩绮樿创锛?);
     });
   });
 }
