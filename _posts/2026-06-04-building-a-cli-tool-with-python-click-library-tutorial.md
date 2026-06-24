@@ -1,9 +1,8 @@
----
+﻿---
 layout: post
 title: "用Python Click库构建专业CLI工具的实战教程"
 date: 2026-06-04 09:00:00 +0800
-tags: [时事新闻]
-tags: python, cli, click, tutorial
+tags: [代码产品, python, cli, click, tutorial]
 categories: Python
 image: /assets/images/python-click-cli.jpg
 description: "从零开始使用Python Click库构建一个功能完善的文件管理CLI工具，包含文件整理、搜索、重复清理等功能。"

@@ -1,9 +1,8 @@
----
+﻿---
 layout: post
 title: "每个开发者都该知道的Redis缓存模式"
 date: 2026-06-04 09:00:00 +0800
-tags: [时事新闻]
-tags: redis, caching, backend, performance
+tags: [代码产品, redis, caching, backend, performance]
 categories: Backend
 image: /assets/images/redis-caching.jpg
 description: "详解7个Redis缓存模式：Cache Aside、Read Through、Write Through、Write Behind、缓存预热、分布式锁防击穿、布隆过滤器防穿透，每个模式都有Python代码示例。"

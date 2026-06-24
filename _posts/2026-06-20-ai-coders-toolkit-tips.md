@@ -3,7 +3,7 @@ layout: post
 title: "AI Coder's Toolkit 实用技巧：5个让AI帮你写更好代码的Prompt | AI Coder's Toolkit Tips: 5 Prompts for Better AI-Generated Code"
 date: 2026-06-20 14:00:00 +0800
 categories: [代码产品, AI工具]
-tags: [AI, 编程, Prompt, 代码生成]
+tags: [代码产品, AI, 编程, Prompt, 代码生成]
 ---
 
 AI写代码已经不是新鲜事，但**如何让AI写出可维护、可扩展、符合团队规范的代码**，才是真正的挑战。AI Coder's Toolkit 不仅仅是一个Prompt集合，它是一套**让AI成为你的高级代码搭档的方法论**。

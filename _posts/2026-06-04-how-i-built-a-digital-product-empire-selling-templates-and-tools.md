@@ -1,9 +1,8 @@
----
+﻿---
 layout: post
 title: "我是如何靠卖数字产品建立被动收入体系的"
 date: 2026-06-04 09:00:00 +0800
-tags: [时事新闻]
-tags: digital-products, passive-income, entrepreneurship
+tags: [代码产品, digital-products, passive-income, entrepreneurship]
 categories: 创业
 image: /assets/images/digital-product-empire.jpg
 description: "分享从零开始建立数字产品被动收入体系的完整路径，包括选品策略、产品矩阵、多平台分发和定价技巧。"

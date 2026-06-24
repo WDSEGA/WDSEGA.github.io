@@ -1,9 +1,8 @@
----
+﻿---
 layout: post
 title: "Python数据验证利器Pydantic V2完全指南"
 date: 2026-06-04 09:00:00 +0800
-tags: [时事新闻]
-tags: python, pydantic, validation, data
+tags: [代码产品, python, pydantic, validation, data]
 categories: Python
 image: /assets/images/pydantic-v2.jpg
 description: "深入讲解Pydantic V2的核心变化、字段类型、自定义验证器、JSON处理和FastAPI集成，附带性能对比数据。"

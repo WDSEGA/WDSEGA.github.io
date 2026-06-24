@@ -1,9 +1,8 @@
----
+﻿---
 layout: post
 title: "n8n vs Make：2026年自动化平台终极对比"
 date: 2026-06-04 09:00:00 +0800
-tags: [时事新闻]
-tags: automation, n8n, make, workflow
+tags: [代码产品, automation, n8n, make, workflow]
 categories: Automation
 image: /assets/images/n8n-vs-make.jpg
 description: "从功能、价格、集成数量、AI能力等维度全面对比n8n和Make两大自动化平台，帮你做出最合适的选择。"

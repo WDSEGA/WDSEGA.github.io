@@ -1,9 +1,8 @@
----
+﻿---
 layout: post
 title: "2026年AI开发者必知的10个Python库"
 date: 2026-06-04 09:00:00 +0800
-tags: [时事新闻]
-tags: python, ai, machine-learning
+tags: [代码产品, python, ai, machine-learning]
 categories: AI
 image: /assets/images/ai-python-libraries.jpg
 description: "盘点2026年AI开发者必备的10个Python库，从深度学习框架到Agent开发工具，每个库都配有实用代码示例。"

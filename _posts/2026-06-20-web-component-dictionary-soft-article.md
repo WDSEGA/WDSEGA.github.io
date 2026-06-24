@@ -3,7 +3,7 @@ layout: post
 title: "80+个可直接用的网页组件｜Web Component Dictionary v2.0 完整版 | 80+ Ready-to-Use Web Components"
 date: 2026-06-20 13:00:00 +0800
 categories: [代码产品, 前端工具]
-tags: [Web Components, 前端, HTML, CSS, JavaScript]
+tags: [代码产品, Web Components, 前端, HTML, CSS, JavaScript]
 ---
 
 还在每次写网页都从零开始？**网页组件活字典 v2.0** 收录80+个可直接复制粘贴的网页组件，覆盖导航、内容展示、表单交互、特效动画、实用工具、布局模板、数据可视化、媒体组件八大类。选需求→看效果→复制代码，3步搞定前端开发。

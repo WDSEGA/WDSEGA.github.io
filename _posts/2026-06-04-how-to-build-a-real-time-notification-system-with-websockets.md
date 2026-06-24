@@ -1,9 +1,8 @@
----
+﻿---
 layout: post
 title: "用WebSocket构建实时通知系统的完整指南"
 date: 2026-06-04 09:00:00 +0800
-tags: [时事新闻]
-tags: websocket, python, real-time
+tags: [代码产品, websocket, python, real-time]
 categories: Backend
 image: /assets/images/websocket-notification.jpg
 description: "使用FastAPI和WebSocket构建生产级实时通知系统，涵盖连接管理、用户路由、Redis Pub/Sub多实例支持和消息持久化。"

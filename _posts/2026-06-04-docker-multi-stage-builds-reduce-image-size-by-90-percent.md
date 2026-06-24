@@ -1,9 +1,8 @@
----
+﻿---
 layout: post
 title: "Docker多阶段构建：将镜像体积缩小90%的实战技巧"
 date: 2026-06-04 09:00:00 +0800
-tags: [时事新闻]
-tags: docker, devops, optimization
+tags: [代码产品, docker, devops, optimization]
 categories: DevOps
 image: /assets/images/docker-multi-stage.jpg
 description: "通过Docker多阶段构建、Alpine基础镜像、distroless方案和.dockerignore优化，将Python应用镜像从1.2GB缩小到65MB。"

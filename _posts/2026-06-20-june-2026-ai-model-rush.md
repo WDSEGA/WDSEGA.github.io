@@ -3,7 +3,7 @@ layout: post
 title: "2026年6月AI大模型密集发布：150万Token上下文时代正式到来 | June 2026 AI Model Rush: The 1.5M Token Context Era Begins"
 date: 2026-06-20 10:30:00 +0800
 categories: [时事新闻, AI资讯]
-tags: [AI, 大模型, GPT-5, Claude, Gemini, 上下文]
+tags: [时事新闻, AI, 大模型, GPT-5, Claude, Gemini, 上下文]
 ---
 
 2026年6月，AI大模型迎来史上最密集发布潮。**GPT-5.6**、**Claude Opus 4.8**、**Gemini 3.5 Pro**、**Grok 5**等重磅模型扎堆发布，**上下文窗口突破150万Token**。同时国产开源模型**Qwen3.6**、**GLM-5.1**、**Kimi**同步发力，整个行业在30天内经历了前所未有的技术迭代。

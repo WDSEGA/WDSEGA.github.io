@@ -3,7 +3,7 @@ layout: post
 title: "PyDungeon Engine入门：30分钟开发一个文字冒险游戏 | PyDungeon Engine Guide: Develop a Text Adventure Game in 30 Minutes"
 date: 2026-06-20 15:00:00 +0800
 categories: [代码产品, Python工具]
-tags: [Python, 游戏开发, 文字冒险, PyDungeon]
+tags: [代码产品, Python, 游戏开发, 文字冒险, PyDungeon]
 ---
 
 想开发自己的文字冒险游戏，但被复杂的游戏引擎劝退？**PyDungeon Engine** 是一个轻量级Python文字游戏引擎，零游戏开发经验也能30分钟做出第一个可玩的原型。
