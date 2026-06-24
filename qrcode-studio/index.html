@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code Studio — 二维码生成与美化工作室</title>
+<style>
+:root {
+  --bg: #0f0f1a;
+  --surface: #1a1a2e;
+  --surface2: #252540;
+  --border: #2a2a45;
+  --text: #e0e0f0;
+  --text2: #9090b0;
+  --accent: #6c5ce7;
+  --accent2: #a29bfe;
+  --green: #00cec9;
+  --orange: #fdcb6e;
+  --red: #ff7675;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg); color: var(--text); min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+
+/* Header */
+.header {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 12px 24px; display: flex; align-items: center; gap: 16px;
+  position: sticky; top: 0; z-index: 100;
+}
+.header h1 {
+  font-size: 20px; background: linear-gradient(135deg, var(--accent2), var(--green));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.header .badge { font-size: 11px; background: var(--surface2); padding: 4px 10px; border-radius: 20px; color: var(--text2); }
+.header-actions { margin-left: auto; display: flex; gap: 8px; }
+
+/* Main layout */
+.main {
+  display: flex; flex: 1; overflow: hidden;
+}
+.sidebar {
+  width: 360px; min-width: 360px; background: var(--surface);
+  border-right: 1px solid var(--border); overflow-y: auto;
+  padding: 16px; display: flex; flex-direction: column; gap: 12px;
+}
+.preview-area {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 24px; gap: 16px; overflow-y: auto;
+}
+
+/* Content type tabs */
+.type-tabs {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+}
+.type-tab {
+  padding: 8px 4px; text-align: center; font-size: 11px; border-radius: var(--radius-sm);
+  background: var(--surface2); border: 1px solid transparent;
+  color: var(--text2); cursor: pointer; transition: all 0.2s;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+}
+.type-tab:hover { border-color: var(--border); color: var(--text); }
+.type-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.type-tab .icon { font-size: 18px; }
+
+/* Form sections */
+.section { background: var(--surface2); border-radius: var(--radius-sm); padding: 12px; }
+.section-title {
+  font-size: 12px; font-weight: 600; color: var(--text2); text-transform: uppercase;
+  letter-spacing: 0.5px; margin-bottom: 10px;
+}
+.form-group { margin-bottom: 8px; }
+.form-group:last-child { margin-bottom: 0; }
+.form-group label { display: block; font-size: 11px; color: var(--text2); margin-bottom: 4px; }
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border);
+  background: var(--bg); color: var(--text); font-size: 13px; font-family: inherit;
+  transition: border-color 0.2s;
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+  outline: none; border-color: var(--accent);
+}
+.form-group textarea { resize: vertical; min-height: 70px; }
+.form-row { display: flex; gap: 8px; }
+.form-row .form-group { flex: 1; }
+
+/* Preview */
+.preview-container {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.preview-frame {
+  background: #fff; border-radius: var(--radius); padding: 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4); display: inline-block;
+}
+#qrcode-canvas { display: block; image-rendering: auto; }
+.preview-size-label { font-size: 11px; color: var(--text2); }
+
+/* Customization panel */
+.custom-row { display: flex; gap: 8px; align-items: center; }
+.custom-row .form-group { flex: 1; }
+.color-pick {
+  display: flex; gap: 6px; align-items: center;
+}
+.color-swatch {
+  width: 32px; height: 32px; border-radius: 6px; border: 2px solid var(--border);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.color-swatch input[type="color"] {
+  position: absolute; width: 200%; height: 200%; top: -50%; left: -50%;
+  cursor: pointer; opacity: 0;
+}
+.preset-colors { display: flex; gap: 4px; flex-wrap: wrap; }
+.preset-dot {
+  width: 22px; height: 22px; border-radius: 50%; cursor: pointer;
+  border: 2px solid transparent; transition: transform 0.15s;
+}
+.preset-dot:hover { transform: scale(1.2); }
+.preset-dot.active { border-color: #fff; }
+
+/* Export buttons */
+.export-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.btn {
+  padding: 8px 14px; border: 1px solid var(--border); border-radius: 6px;
+  background: var(--surface2); color: var(--text); font-size: 12px;
+  cursor: pointer; transition: all 0.2s; font-family: inherit;
+  white-space: nowrap;
+}
+.btn:hover { background: var(--border); }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-primary:hover { background: #5b4bd5; }
+.btn-green { background: #00b894; border-color: #00b894; color: #fff; }
+.btn-green:hover { background: #00a381; }
+.btn-sm { padding: 5px 10px; font-size: 11px; }
+
+/* Size slider */
+.size-slider {
+  display: flex; align-items: center; gap: 10px;
+}
+.size-slider input[type="range"] { flex: 1; accent-color: var(--accent); }
+.size-slider span { font-size: 12px; color: var(--text2); min-width: 50px; text-align: right; }
+
+/* Logo upload */
+.logo-upload {
+  display: flex; align-items: center; gap: 8px;
+}
+.logo-preview {
+  width: 40px; height: 40px; border-radius: 6px; border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; font-size: 10px; color: var(--text2); background: var(--bg);
+}
+.logo-preview img { width: 100%; height: 100%; object-fit: contain; }
+
+/* Dot style picker */
+.dot-style-picker { display: flex; gap: 6px; }
+.dot-style-btn {
+  width: 36px; height: 36px; border-radius: 6px; border: 1px solid var(--border);
+  background: var(--surface2); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px; transition: all 0.2s;
+}
+.dot-style-btn:hover { border-color: var(--accent2); }
+.dot-style-btn.active { background: var(--accent); border-color: var(--accent); }
+
+/* Quality indicator */
+.quality-bar {
+  display: flex; gap: 2px; align-items: center;
+}
+.quality-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--border);
+}
+.quality-dot.good { background: var(--green); }
+.quality-dot.warn { background: var(--orange); }
+.quality-dot.bad { background: var(--red); }
+
+/* Templates */
+.template-list { display: flex; flex-direction: column; gap: 4px; max-height: 150px; overflow-y: auto; }
+.template-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 10px; border-radius: 6px; background: var(--bg); cursor: pointer;
+  font-size: 12px; transition: background 0.15s;
+}
+.template-item:hover { background: var(--border); }
+.template-item .tmpl-actions { display: flex; gap: 4px; }
+.template-item .tmpl-delete { color: var(--red); cursor: pointer; font-size: 14px; }
+.template-item .tmpl-delete:hover { opacity: 0.8; }
+
+/* History */
+.history-list { display: flex; flex-direction: column; gap: 4px; max-height: 150px; overflow-y: auto; }
+.history-item {
+  display: flex; align-items: center; gap: 8px; padding: 6px 10px;
+  border-radius: 6px; background: var(--bg); cursor: pointer; font-size: 11px;
+  transition: background 0.15s;
+}
+.history-item:hover { background: var(--border); }
+.history-item .qr-mini { width: 28px; height: 28px; border-radius: 4px; flex-shrink: 0; }
+.history-item .qr-info { flex: 1; overflow: hidden; }
+.history-item .qr-info .qr-type { color: var(--accent2); font-weight: 600; }
+.history-item .qr-info .qr-data { color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Batch mode */
+.batch-area { display: none; }
+.batch-area.show { display: block; }
+.batch-textarea { width: 100%; min-height: 100px; }
+.batch-preview { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.batch-item { text-align: center; }
+.batch-item canvas { border-radius: 4px; }
+.batch-item .batch-label { font-size: 9px; color: var(--text2); margin-top: 2px; max-width: 64px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: var(--green); color: #000; padding: 10px 24px; border-radius: 20px;
+  font-size: 13px; font-weight: 600; z-index: 1000; pointer-events: none;
+  opacity: 0; transition: opacity 0.3s;
+}
+.toast.show { opacity: 1; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .main { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 100%; max-height: 50vh; }
+  .preview-area { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🔲 QR Code Studio</h1>
+  <span class="badge">v1.0</span>
+  <div class="header-actions">
+    <button class="btn btn-sm" onclick="toggleBatch()" id="batchBtn">📦 批量模式</button>
+  </div>
+</div>
+
+<div class="main">
+  <!-- Left Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <!-- Content Type Tabs -->
+    <div class="type-tabs" id="typeTabs">
+      <div class="type-tab active" data-type="url"><span class="icon">🌐</span>网址</div>
+      <div class="type-tab" data-type="vcard"><span class="icon">📇</span>名片</div>
+      <div class="type-tab" data-type="wifi"><span class="icon">📶</span>WiFi</div>
+      <div class="type-tab" data-type="email"><span class="icon">📧</span>邮件</div>
+      <div class="type-tab" data-type="sms"><span class="icon">💬</span>短信</div>
+      <div class="type-tab" data-type="phone"><span class="icon">📞</span>电话</div>
+      <div class="type-tab" data-type="geo"><span class="icon">🗺️</span>位置</div>
+      <div class="type-tab" data-type="calendar"><span class="icon">📅</span>日历</div>
+      <div class="type-tab" data-type="crypto"><span class="icon">💰</span>加密币</div>
+      <div class="type-tab" data-type="app"><span class="icon">📱</span>应用</div>
+      <div class="type-tab" data-type="text"><span class="icon">📝</span>文本</div>
+    </div>
+
+    <!-- Input Form -->
+    <div class="section" id="inputSection">
+      <div class="section-title" id="inputTitle">🌐 网址</div>
+      <div id="inputForm"></div>
+    </div>
+
+    <!-- Customization -->
+    <div class="section">
+      <div class="section-title">🎨 美化定制</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>前景色</label>
+          <div class="color-swatch">
+            <input type="color" id="fgColor" value="#000000" onchange="onCustomChange()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>背景色</label>
+          <div class="color-swatch" style="background:#fff;">
+            <input type="color" id="bgColor" value="#ffffff" onchange="onCustomChange()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>预设配色</label>
+          <div class="preset-colors" id="presetColors"></div>
+        </div>
+      </div>
+      <div class="custom-row" style="margin-top:8px;">
+        <div class="form-group">
+          <label>模块形状</label>
+          <div class="dot-style-picker">
+            <div class="dot-style-btn active" data-style="square" onclick="setDotStyle('square',this)">■</div>
+            <div class="dot-style-btn" data-style="rounded" onclick="setDotStyle('rounded',this)">⬤</div>
+            <div class="dot-style-btn" data-style="circle" onclick="setDotStyle('circle',this)">●</div>
+            <div class="dot-style-btn" data-style="diamond" onclick="setDotStyle('diamond',this)">◆</div>
+            <div class="dot-style-btn" data-style="star" onclick="setDotStyle('star',this)">✦</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>容错等级</label>
+          <select id="ecLevel" onchange="onCustomChange()">
+            <option value="L">L — 7% (高密度)</option>
+            <option value="M" selected>M — 15% (标准)</option>
+            <option value="Q">Q — 25% (较高)</option>
+            <option value="H">H — 30% (最高)</option>
+          </select>
+        </div>
+      </div>
+      <div class="custom-row" style="margin-top:8px;">
+        <div class="form-group">
+          <label>Logo</label>
+          <div class="logo-upload">
+            <div class="logo-preview" id="logoPreview" onclick="document.getElementById('logoFile').click()">+</div>
+            <input type="file" id="logoFile" accept="image/*" style="display:none" onchange="handleLogo(event)">
+            <button class="btn btn-sm" onclick="clearLogo()" id="clearLogoBtn" style="display:none">清除</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>安静区边距</label>
+          <select id="quietZone" onchange="onCustomChange()">
+            <option value="2">2 模块</option>
+            <option value="4" selected>4 模块 (标准)</option>
+            <option value="6">6 模块</option>
+            <option value="8">8 模块</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Templates -->
+    <div class="section">
+      <div class="section-title" style="display:flex;justify-content:space-between;align-items:center;">
+        模板
+        <button class="btn btn-sm" onclick="saveTemplate()">💾 保存当前样式</button>
+      </div>
+      <div class="template-list" id="templateList">
+        <div style="font-size:11px;color:var(--text2);padding:8px;">暂无保存的模板</div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="section">
+      <div class="section-title">📋 历史记录</div>
+      <div class="history-list" id="historyList">
+        <div style="font-size:11px;color:var(--text2);padding:8px;">暂无历史记录</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preview Area -->
+  <div class="preview-area">
+    <div class="preview-container">
+      <div class="preview-frame">
+        <canvas id="qrcode-canvas" width="300" height="300"></canvas>
+      </div>
+      <div class="preview-size-label" id="sizeLabel">300 × 300 px</div>
+    </div>
+
+    <!-- Size Control -->
+    <div class="size-slider" style="width:300px;">
+      <span style="font-size:16px;">🔍</span>
+      <input type="range" id="sizeSlider" min="128" max="1024" value="300" step="16" oninput="onSizeChange()">
+      <span id="sizeValue">300px</span>
+    </div>
+
+    <!-- Export Buttons -->
+    <div class="export-btns">
+      <button class="btn btn-primary" onclick="exportPNG()">📥 下载 PNG</button>
+      <button class="btn" onclick="exportSVG()">📐 下载 SVG</button>
+      <button class="btn" onclick="copyToClipboard()">📋 复制到剪贴板</button>
+      <button class="btn" onclick="exportPNG('2x')">📥 2x PNG</button>
+      <button class="btn" onclick="exportPNG('3x')">📥 3x PNG</button>
+    </div>
+
+    <!-- Batch Mode -->
+    <div class="batch-area" id="batchArea">
+      <div class="section" style="width:100%;max-width:500px;">
+        <div class="section-title">📦 批量生成 (每行一个URL)</div>
+        <textarea class="batch-textarea form-group" id="batchInput" placeholder="https://example.com&#10;https://test.com&#10;https://demo.com" oninput="onBatchInput()"></textarea>
+        <div class="batch-preview" id="batchPreview"></div>
+        <button class="btn btn-primary" style="margin-top:8px;" onclick="exportBatch()">📥 批量导出 ZIP</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// QR CODE ENCODER CORE — Pure JavaScript, Zero Dependencies
+// ============================================================
+
+// --- GF(256) Arithmetic ---
+const GF_EXP = new Uint8Array(512);
+const GF_LOG = new Uint8Array(256);
+(function initGF() {
+  let x = 1;
+  for (let i = 0; i < 255; i++) {
+    GF_EXP[i] = x;
+    GF_EXP[i + 255] = x; // double for convenience
+    GF_LOG[x] = i;
+    x <<= 1;
+    if (x & 0x100) x ^= 0x11D; // primitive polynomial
+  }
+  GF_LOG[1] = 0;
+})();
+
+function gfMul(a, b) {
+  if (a === 0 || b === 0) return 0;
+  return GF_EXP[GF_LOG[a] + GF_LOG[b]];
+}
+
+function gfPolyMul(p1, p2) {
+  const res = new Uint8Array(p1.length + p2.length - 1);
+  for (let i = 0; i < p1.length; i++) {
+    for (let j = 0; j < p2.length; j++) {
+      res[i + j] ^= gfMul(p1[i], p2[j]);
+    }
+  }
+  return res;
+}
+
+function gfGeneratorPoly(degree) {
+  let poly = new Uint8Array([1]);
+  for (let i = 0; i < degree; i++) {
+    poly = gfPolyMul(poly, new Uint8Array([1, GF_EXP[i]]));
+  }
+  return poly;
+}
+
+// --- Reed-Solomon Encoder ---
+function rsEncode(data, ecCount) {
+  const gen = gfGeneratorPoly(ecCount);
+  const msg = new Uint8Array(data.length + ecCount);
+  msg.set(data);
+  for (let i = 0; i < data.length; i++) {
+    const coef = msg[i];
+    if (coef !== 0) {
+      for (let j = 0; j < ecCount; j++) {
+        msg[i + 1 + j] ^= gfMul(gen[j + 1], coef);
+      }
+    }
+  }
+  return msg.slice(data.length);
+}
+
+// --- QR Version Capacity Tables ---
+// Format: [ecCodewordsPerBlock, [g1Blocks, g1DataPerBlock], [g2Blocks, g2DataPerBlock]]
+const QR_CAPACITY = {
+  L: [[7,[1,19],[0,0]],[10,[1,34],[0,0]],[15,[1,55],[0,0]],[20,[1,80],[0,0]],[26,[1,108],[0,0]],[18,[2,68],[0,0]],[20,[2,78],[0,0]],[24,[2,97],[0,0]],[30,[2,116],[0,0]],[18,[2,68],[2,69]],[20,[4,81],[0,0]],[24,[2,92],[2,93]],[26,[4,107],[0,0]],[30,[3,115],[1,116]],[22,[5,87],[1,88]],[24,[5,98],[1,99]],[28,[1,107],[5,108]],[30,[5,120],[1,121]],[28,[3,113],[4,114]],[28,[3,107],[5,108]],[28,[4,116],[4,117]],[28,[2,111],[7,112]],[30,[4,121],[5,122]],[30,[6,117],[4,118]],[26,[8,106],[4,107]],[28,[10,114],[2,115]],[30,[8,122],[4,123]],[30,[3,117],[10,118]],[30,[7,116],[7,117]],[30,[5,115],[10,116]],[30,[13,115],[3,116]],[30,[17,115],[0,0]],[30,[17,115],[1,116]],[30,[13,115],[6,116]],[30,[12,121],[7,122]],[30,[6,121],[14,122]],[30,[17,122],[4,123]],[30,[4,122],[18,123]],[30,[20,117],[4,118]],[30,[19,118],[6,119]]],
+  M: [[10,[1,16],[0,0]],[16,[1,28],[0,0]],[26,[1,44],[0,0]],[18,[2,32],[0,0]],[24,[2,43],[0,0]],[16,[4,27],[0,0]],[18,[4,31],[0,0]],[22,[2,38],[2,39]],[22,[3,36],[2,37]],[26,[4,43],[1,44]],[30,[1,50],[4,51]],[22,[6,36],[2,37]],[22,[8,37],[1,38]],[24,[4,40],[5,41]],[24,[5,41],[5,42]],[28,[7,45],[3,46]],[28,[10,46],[1,47]],[26,[9,43],[4,44]],[26,[3,44],[11,45]],[26,[3,41],[13,42]],[26,[17,42],[0,0]],[28,[17,46],[0,0]],[28,[4,47],[14,48]],[28,[6,45],[14,46]],[28,[8,47],[13,48]],[28,[19,46],[4,47]],[28,[22,45],[3,46]],[28,[3,45],[23,46]],[28,[21,45],[7,46]],[28,[19,47],[10,48]],[28,[2,46],[29,47]],[28,[10,46],[23,47]],[28,[14,46],[21,47]],[28,[14,46],[23,47]],[28,[12,47],[26,48]],[28,[6,47],[34,48]],[28,[29,46],[14,47]],[28,[13,46],[32,47]],[28,[40,47],[7,48]],[28,[18,47],[31,48]]],
+  Q: [[13,[1,13],[0,0]],[22,[1,22],[0,0]],[18,[2,17],[0,0]],[26,[2,24],[0,0]],[18,[2,15],[2,16]],[24,[4,19],[0,0]],[18,[2,14],[4,15]],[22,[4,18],[2,19]],[20,[4,16],[4,17]],[24,[6,19],[2,20]],[28,[4,22],[4,23]],[26,[4,20],[6,21]],[24,[8,20],[4,21]],[20,[11,16],[5,17]],[30,[5,24],[7,25]],[24,[15,19],[2,20]],[28,[1,22],[15,23]],[28,[17,22],[1,23]],[26,[17,23],[4,24]],[30,[15,24],[5,25]],[28,[17,24],[6,25]],[30,[7,28],[16,29]],[30,[11,24],[14,25]],[30,[11,30],[16,31]],[30,[7,28],[22,29]],[28,[28,28],[6,29]],[30,[8,29],[26,30]],[30,[4,31],[31,32]],[30,[1,31],[37,32]],[30,[15,30],[25,31]],[30,[42,30],[1,31]],[30,[10,31],[35,32]],[30,[29,31],[19,32]],[30,[44,31],[7,32]],[30,[39,30],[14,31]],[30,[46,32],[10,33]],[30,[49,31],[10,32]],[30,[48,31],[14,32]],[30,[43,31],[22,32]],[30,[34,31],[34,32]]],
+  H: [[17,[1,9],[0,0]],[28,[1,16],[0,0]],[22,[2,13],[0,0]],[16,[4,9],[0,0]],[22,[2,11],[2,12]],[28,[4,15],[0,0]],[26,[4,13],[1,14]],[26,[4,14],[2,15]],[24,[4,12],[4,13]],[28,[6,15],[2,16]],[24,[3,12],[8,13]],[28,[7,14],[4,15]],[22,[12,11],[4,12]],[24,[11,12],[5,13]],[24,[11,12],[7,13]],[30,[3,15],[13,16]],[28,[2,14],[17,15]],[28,[2,14],[19,15]],[26,[9,13],[16,14]],[28,[15,15],[10,16]],[30,[19,16],[6,17]],[24,[34,13],[0,0]],[30,[16,15],[14,16]],[30,[30,16],[2,17]],[30,[22,17],[13,18]],[30,[33,16],[4,17]],[30,[12,19],[28,20]],[30,[11,18],[31,19]],[30,[19,18],[28,19]],[30,[23,18],[25,19]],[30,[23,18],[28,19]],[30,[19,19],[35,20]],[30,[26,19],[28,20]],[30,[25,19],[35,20]],[30,[28,19],[38,20]],[30,[32,20],[35,21]],[30,[30,21],[38,22]],[30,[22,22],[46,23]],[30,[33,22],[34,23]],[30,[39,23],[32,24]]]
+};
+
+// Alignment pattern locations
+const ALIGNMENT_LOCS = [
+  [],[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],
+  [6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],
+  [6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],
+  [6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],
+  [6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],
+  [6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],
+  [6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],
+  [6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],
+  [6,26,54,82,110,138,166],[6,30,58,86,114,142,170]
+];
+
+// Format info BCH(15,5) encoding
+const FORMAT_INFO = (function() {
+  const table = new Uint16Array(32);
+  const generator = 0x537; // 10100110111
+  for (let i = 0; i < 32; i++) {
+    let bits = i << 10;
+    for (let j = 4; j >= 0; j--) {
+      if (bits & (1 << (10 + j))) bits ^= generator << j;
+    }
+    table[i] = ((i << 10) | bits) ^ 0x5412; // XOR with mask 101010000010010
+  }
+  return table;
+})();
+
+function getFormatInfo(ecLevel, mask) {
+  const idx = (ecLevel << 3) | mask;
+  return FORMAT_INFO[idx];
+}
+
+// Version info BCH(18,6) encoding
+function getVersionInfo(version) {
+  if (version < 7) return 0;
+  let bits = version << 12;
+  const generator = 0x1F25; // 1111100100101
+  for (let j = 5; j >= 0; j--) {
+    if (bits & (1 << (12 + j))) bits ^= generator << j;
+  }
+  return (version << 12) | bits;
+}
+
+// --- Data Analysis ---
+function getMode(text) {
+  // Check numeric
+  if (/^\d+$/.test(text)) return 1; // numeric
+  // Check alphanumeric
+  if (/^[0-9A-Z $%*+\-.\/:]+$/.test(text.toUpperCase())) return 2; // alphanumeric
+  return 4; // byte
+}
+
+function getCharCountBits(mode, version) {
+  if (version <= 9) {
+    return mode === 1 ? 10 : mode === 2 ? 9 : 8;
+  } else if (version <= 26) {
+    return mode === 1 ? 12 : mode === 2 ? 11 : 16;
+  }
+  return mode === 1 ? 14 : mode === 2 ? 13 : 16;
+}
+
+// --- Data Encoding ---
+class BitBuffer {
+  constructor() { this.buffer = []; this.length = 0; }
+  put(num, bits) {
+    for (let i = bits - 1; i >= 0; i--) {
+      this.buffer.push((num >> i) & 1);
+    }
+    this.length += bits;
+  }
+  getBytes() {
+    const bytes = new Uint8Array(Math.ceil(this.length / 8));
+    for (let i = 0; i < bytes.length; i++) {
+      bytes[i] = 0;
+      for (let j = 0; j < 8; j++) {
+        if (i * 8 + j < this.buffer.length) {
+          bytes[i] |= this.buffer[i * 8 + j] << (7 - j);
+        }
+      }
+    }
+    return bytes;
+  }
+}
+
+const ALPHANUMERIC = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:';
+
+function encodeData(text, mode) {
+  const bb = new BitBuffer();
+  let i = 0;
+  if (mode === 1) { // numeric
+    while (i < text.length) {
+      const group = text.substring(i, i + 3);
+      bb.put(parseInt(group), group.length === 3 ? 10 : group.length === 2 ? 7 : 4);
+      i += 3;
+    }
+  } else if (mode === 2) { // alphanumeric
+    const upper = text.toUpperCase();
+    while (i < upper.length) {
+      if (i + 1 < upper.length) {
+        const v1 = ALPHANUMERIC.indexOf(upper[i]);
+        const v2 = ALPHANUMERIC.indexOf(upper[i + 1]);
+        bb.put(v1 * 45 + v2, 11);
+        i += 2;
+      } else {
+        bb.put(ALPHANUMERIC.indexOf(upper[i]), 6);
+        i++;
+      }
+    }
+  } else { // byte
+    const encoder = new TextEncoder();
+    const bytes = encoder.encode(text);
+    for (const b of bytes) {
+      bb.put(b, 8);
+    }
+  }
+  return bb;
+}
+
+// --- Matrix Construction ---
+function createMatrix(version) {
+  const size = 17 + 4 * version;
+  const matrix = [];
+  for (let i = 0; i < size; i++) {
+    matrix.push(new Uint8Array(size));
+  }
+
+  // Finder patterns
+  const positions = [[0,0],[0,size-7],[size-7,0]];
+  for (const [r,c] of positions) {
+    for (let i = 0; i < 7; i++) {
+      for (let j = 0; j < 7; j++) {
+        matrix[r+i][c+j] = (i===0||i===6||j===0||j===6||(i>=2&&i<=4&&j>=2&&j<=4)) ? 2 : 3;
+      }
+    }
+  }
+
+  // Separators
+  for (const [r,c] of positions) {
+    for (let i = -1; i <= 7; i++) {
+      if (r + i >= 0 && r + i < size) {
+        if (c + 7 < size) matrix[r+i][c+7] = 3;
+        if (c - 1 >= 0) matrix[r+i][c-1] = 3;
+      }
+      if (c + i >= 0 && c + i < size) {
+        if (r + 7 < size) matrix[r+7][c+i] = 3;
+        if (r - 1 >= 0) matrix[r-1][c+i] = 3;
+      }
+    }
+  }
+
+  // Timing patterns
+  for (let i = 8; i < size - 8; i++) {
+    matrix[6][i] = matrix[i][6] = (i % 2 === 0) ? 2 : 3;
+  }
+
+  // Alignment patterns
+  const alignLocs = ALIGNMENT_LOCS[version];
+  for (const ar of alignLocs) {
+    for (const ac of alignLocs) {
+      if ((ar === 0 && ac === 0) || (ar === 0 && ac === size-7) || (ar === size-7 && ac === 0)) continue;
+      for (let i = -2; i <= 2; i++) {
+        for (let j = -2; j <= 2; j++) {
+          matrix[ar+i][ac+j] = (i===-2||i===2||j===-2||j===2||(i===0&&j===0)) ? 2 : 3;
+        }
+      }
+    }
+  }
+
+  // Dark module
+  matrix[size-8][8] = 2;
+
+  return matrix;
+}
+
+function placeData(matrix, dataBits, ecLevel) {
+  const version = (matrix.length - 17) / 4;
+  const size = matrix.length;
+  let bitIndex = 0;
+  let up = true;
+
+  for (let col = size - 1; col >= 1; col -= 2) {
+    if (col === 6) col = 5;
+    for (let k = 0; k < size; k++) {
+      const row = up ? size - 1 - k : k;
+      for (let c = col; c > col - 2; c--) {
+        if (c < 0 || row >= size) continue;
+        if (matrix[row][c] === 0) {
+          if (bitIndex < dataBits.length) {
+            matrix[row][c] = dataBits[bitIndex] ? 4 : 5;
+            bitIndex++;
+          }
+        }
+      }
+    }
+    up = !up;
+  }
+
+  return matrix;
+}
+
+function applyMask(matrix, maskPattern) {
+  const size = matrix.length;
+  const masked = [];
+  for (let i = 0; i < size; i++) {
+    masked.push(new Uint8Array(size));
+  }
+
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
+      const v = matrix[i][j];
+      if (v >= 4) {
+        // Data module
+        const isDark = (v === 4);
+        let invert = false;
+        switch (maskPattern) {
+          case 0: invert = ((i + j) % 2 === 0); break;
+          case 1: invert = (i % 2 === 0); break;
+          case 2: invert = (j % 3 === 0); break;
+          case 3: invert = ((i + j) % 3 === 0); break;
+          case 4: invert = ((Math.floor(i / 2) + Math.floor(j / 3)) % 2 === 0); break;
+          case 5: invert = (((i * j) % 2) + ((i * j) % 3) === 0); break;
+          case 6: invert = (((i * j) % 2 + (i * j) % 3) % 2 === 0); break;
+          case 7: invert = (((i + j) % 2 + (i * j) % 3) % 2 === 0); break;
+        }
+        masked[i][j] = isDark ^ invert ? 2 : 3;
+      } else {
+        masked[i][j] = v;
+      }
+    }
+  }
+  return masked;
+}
+
+function placeFormatInfo(matrix, ecLevel, maskPattern) {
+  const size = matrix.length;
+  const format = getFormatInfo(ecLevel, maskPattern);
+  // Top-left format info
+  const positions = [
+    [8,0],[8,1],[8,2],[8,3],[8,4],[8,5],[8,7],[8,8],
+    [7,8],[5,8],[4,8],[3,8],[2,8],[1,8],[0,8]
+  ];
+  for (let i = 0; i < 15; i++) {
+    const [r, c] = positions[i];
+    if (matrix[r][c] === 0) {
+      matrix[r][c] = (format >> (14 - i)) & 1 ? 2 : 3;
+    }
+  }
+  // Also place the split format info (bottom-left and top-right)
+  const rOff = size - 7;
+  const positions2 = [
+    [size-1,8],[size-2,8],[size-3,8],[size-4,8],[size-5,8],[size-6,8],[size-7,8],[size-8,8],
+    [8,size-8],[8,size-7],[8,size-6],[8,size-5],[8,size-4],[8,size-3],[8,size-2],[8,size-1]
+  ];
+  for (let i = 0; i < 15; i++) {
+    const [r, c] = i < 8 ? positions2[i] : positions2[i + 1];
+    if (matrix[r][c] === 0) {
+      matrix[r][c] = (format >> (14 - i)) & 1 ? 2 : 3;
+    }
+  }
+}
+
+function placeVersionInfo(matrix, version) {
+  if (version < 7) return;
+  const size = matrix.length;
+  const info = getVersionInfo(version);
+  for (let i = 0; i < 6; i++) {
+    for (let j = 0; j < 3; j++) {
+      const bit = (info >> (17 - (i * 3 + j))) & 1;
+      matrix[size-11+j][i] = bit ? 2 : 3;
+      matrix[i][size-11+j] = bit ? 2 : 3;
+    }
+  }
+}
+
+function evaluateMask(masked) {
+  // Simplified: count consecutive same-color modules (penalizes patterns)
+  const size = masked.length;
+  let penalty = 0;
+
+  // Horizontal runs
+  for (let i = 0; i < size; i++) {
+    let run = 0;
+    let last = -1;
+    for (let j = 0; j < size; j++) {
+      const v = masked[i][j];
+      if (v === last) {
+        run++;
+        if (run === 5) penalty += 3;
+        else if (run > 5) penalty++;
+      } else {
+        run = 1;
+        last = v;
+      }
+    }
+  }
+
+  // Vertical runs
+  for (let j = 0; j < size; j++) {
+    let run = 0;
+    let last = -1;
+    for (let i = 0; i < size; i++) {
+      const v = masked[i][j];
+      if (v === last) {
+        run++;
+        if (run === 5) penalty += 3;
+        else if (run > 5) penalty++;
+      } else {
+        run = 1;
+        last = v;
+      }
+    }
+  }
+
+  // 2x2 blocks
+  for (let i = 0; i < size - 1; i++) {
+    for (let j = 0; j < size - 1; j++) {
+      const v = masked[i][j];
+      if (v === masked[i+1][j] && v === masked[i][j+1] && v === masked[i+1][j+1]) {
+        penalty += 3;
+      }
+    }
+  }
+
+  // Finder-like patterns
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size - 10; j++) {
+      if (masked[i][j] === 2 && masked[i][j+1] === 3 && masked[i][j+2] === 2 &&
+          masked[i][j+3] === 2 && masked[i][j+4] === 2 && masked[i][j+5] === 3 &&
+          masked[i][j+6] === 2 && masked[i][j+7] === 3 && masked[i][j+8] === 3 &&
+          masked[i][j+9] === 3 && masked[i][j+10] === 3) {
+        penalty += 40;
+      }
+    }
+  }
+  for (let j = 0; j < size; j++) {
+    for (let i = 0; i < size - 10; i++) {
+      if (masked[i][j] === 2 && masked[i+1][j] === 3 && masked[i+2][j] === 2 &&
+          masked[i+3][j] === 2 && masked[i+4][j] === 2 && masked[i+5][j] === 3 &&
+          masked[i+6][j] === 2 && masked[i+7][j] === 3 && masked[i+8][j] === 3 &&
+          masked[i+9][j] === 3 && masked[i+10][j] === 3) {
+        penalty += 40;
+      }
+    }
+  }
+
+  // Balance
+  let dark = 0;
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
+      if (masked[i][j] === 2) dark++;
+    }
+  }
+  const ratio = Math.abs(dark * 100 / (size * size) - 50) / 5;
+  penalty += Math.floor(ratio) * 10;
+
+  return penalty;
+}
+
+// --- Main QR Code Generation ---
+function generateQRCode(text, ecLevel, minVersion = 1) {
+  // Determine mode and version
+  const mode = getMode(text);
+  let version = minVersion;
+  const caps = QR_CAPACITY[ecLevel];
+
+  // Calculate required bits (worst case)
+  let dataBits;
+  if (mode === 1) dataBits = Math.ceil(text.length * 10 / 3);
+  else if (mode === 2) dataBits = Math.ceil(text.length * 11 / 2);
+  else dataBits = text.length * 8;
+
+  // Find minimum version that can hold the data
+  while (version <= 40) {
+    const [ecPerBlock, g1, g2] = caps[version - 1];
+    const totalDataCW = g1[0] * g1[1] + g2[0] * g2[1];
+    const ccBits = getCharCountBits(mode, version);
+    const totalBits = 4 + ccBits + dataBits; // mode(4) + count + data
+    const neededBytes = Math.ceil(totalBits / 8);
+    if (neededBytes <= totalDataCW - 2) break; // -2 for terminator/padding overhead
+    version++;
+  }
+
+  if (version > 40) throw new Error('Data too long for QR code');
+
+  const [ecPerBlock, g1, g2] = caps[version - 1];
+  const [g1Blocks, g1Data] = g1;
+  const [g2Blocks, g2Data] = g2;
+  const totalDataCW = g1Blocks * g1Data + g2Blocks * g2Data;
+
+  // Encode data
+  const bb = encodeData(text, mode);
+  const ccBits = getCharCountBits(mode, version);
+  const header = new BitBuffer();
+  header.put(mode, 4);
+  header.put(text.length, ccBits);
+
+  // Combine header and data into bit array
+  const fullBits = [];
+  for (let i = 0; i < header.length; i++) fullBits.push(header.buffer[i]);
+  for (let i = 0; i < bb.length; i++) fullBits.push(bb.buffer[i]);
+
+  // Terminator (up to 4 bits)
+  const termLen = Math.min(4, totalDataCW * 8 - fullBits.length);
+  for (let i = 0; i < termLen; i++) fullBits.push(0);
+
+  // Pad to byte boundary
+  while (fullBits.length % 8 !== 0) fullBits.push(0);
+
+  // Pad with alternating 0xEC and 0x11
+  while (fullBits.length < totalDataCW * 8) {
+    fullBits.push(1,1,1,0,1,1,0,0); // 0xEC
+    if (fullBits.length < totalDataCW * 8) {
+      fullBits.push(0,0,0,1,0,0,0,1); // 0x11
+    }
+  }
+  fullBits.length = totalDataCW * 8;
+
+  // Convert to bytes
+  const dataBytes = [];
+  for (let i = 0; i < fullBits.length; i += 8) {
+    let b = 0;
+    for (let j = 0; j < 8; j++) b = (b << 1) | (fullBits[i + j] || 0);
+    dataBytes.push(b);
+  }
+
+  // Split into blocks (using g1Data and g2Data as max sizes)
+  const maxDataPerBlock = Math.max(g1Data, g2Data);
+  const blocks = [];
+  let idx = 0;
+  for (let b = 0; b < g1Blocks; b++) {
+    blocks.push(dataBytes.slice(idx, idx + g1Data));
+    idx += g1Data;
+  }
+  for (let b = 0; b < g2Blocks; b++) {
+    blocks.push(dataBytes.slice(idx, idx + g2Data));
+    idx += g2Data;
+  }
+
+  // Generate EC for each block (using ecPerBlock)
+  const ecBlocks = [];
+  for (const block of blocks) {
+    ecBlocks.push(rsEncode(block, ecPerBlock));
+  }
+
+  // Interleave data codewords
+  const interleaved = [];
+  for (let i = 0; i < maxDataPerBlock; i++) {
+    for (let b = 0; b < blocks.length; b++) {
+      if (i < blocks[b].length) interleaved.push(blocks[b][i]);
+    }
+  }
+  // Interleave EC codewords
+  for (let i = 0; i < ecPerBlock; i++) {
+    for (let b = 0; b < ecBlocks.length; b++) {
+      if (i < ecBlocks[b].length) interleaved.push(ecBlocks[b][i]);
+    }
+  }
+
+  // Convert to bits
+  const allDataBits = [];
+  for (const b of interleaved) {
+    for (let j = 7; j >= 0; j--) allDataBits.push((b >> j) & 1);
+  }
+
+  // Add remainder bits
+  const remainderBits = [0,0,7,7,7,7,7,0,0,0,0,0,0,0,3,3,3,3,3,3,3,4,4,4,4,4,4,4,3,3,3,3,3,3,3,4,4,4,4,4][version];
+
+  for (let i = 0; i < remainderBits; i++) allDataBits.push(0);
+
+  // Create matrix and place data
+  const matrix = createMatrix(version);
+  placeData(matrix, allDataBits, ecLevel);
+
+  // Try all masks and pick the best
+  let bestMask = 0;
+  let bestPenalty = Infinity;
+  let bestMasked = null;
+
+  for (let mask = 0; mask < 8; mask++) {
+    const masked = applyMask(matrix, mask);
+    const penalty = evaluateMask(masked);
+    if (penalty < bestPenalty) {
+      bestPenalty = penalty;
+      bestMask = mask;
+      bestMasked = masked;
+    }
+  }
+
+  // Place format and version info
+  placeFormatInfo(bestMasked, ['L','M','Q','H'].indexOf(ecLevel), bestMask);
+  placeVersionInfo(bestMasked, version);
+
+  return { matrix: bestMasked, version, size: bestMasked.length };
+}
+
+// ============================================================
+// RENDERER
+// ============================================================
+let currentQR = null;
+let logoImage = null;
+let currentDotStyle = 'square';
+
+function renderQRCode(canvas, qrData, options = {}) {
+  const {
+    fgColor = '#000000', bgColor = '#ffffff',
+    logoImg = null, dotStyle = 'square',
+    quietZone = 4, size = 300
+  } = options;
+
+  const matrix = qrData.matrix;
+  const modules = matrix.length;
+  const moduleSize = size / (modules + 2 * quietZone);
+  const offset = quietZone * moduleSize;
+
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+
+  // Background
+  ctx.fillStyle = bgColor;
+  ctx.fillRect(0, 0, size, size);
+
+  // Draw finder patterns with special styling (always square for finders)
+  const drawFinder = (r, c) => {
+    ctx.fillStyle = fgColor;
+    // Outer square
+    ctx.fillRect(offset + c * moduleSize, offset + r * moduleSize, 7 * moduleSize, 7 * moduleSize);
+    // Inner white square
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(offset + (c+1) * moduleSize, offset + (r+1) * moduleSize, 5 * moduleSize, 5 * moduleSize);
+    // Inner dark square
+    ctx.fillStyle = fgColor;
+    ctx.fillRect(offset + (c+2) * moduleSize, offset + (r+2) * moduleSize, 3 * moduleSize, 3 * moduleSize);
+  };
+
+  const fPositions = [[0,0],[0,modules-7],[modules-7,0]];
+  for (const [r,c] of fPositions) drawFinder(r, c);
+
+  // Draw modules
+  for (let i = 0; i < modules; i++) {
+    for (let j = 0; j < modules; j++) {
+      const v = matrix[i][j];
+      if (v !== 2 && v !== 4) continue; // only dark modules
+
+      // Skip finder pattern areas (already drawn)
+      let inFinder = false;
+      for (const [fr, fc] of fPositions) {
+        if (i >= fr && i < fr + 7 && j >= fc && j < fc + 7) {
+          inFinder = true; break;
+        }
+      }
+      if (inFinder) continue;
+
+      const x = offset + j * moduleSize;
+      const y = offset + i * moduleSize;
+      ctx.fillStyle = fgColor;
+
+      if (dotStyle === 'square') {
+        ctx.fillRect(x, y, moduleSize, moduleSize);
+      } else if (dotStyle === 'rounded') {
+        const r = moduleSize * 0.35;
+        ctx.beginPath();
+        ctx.roundRect(x, y, moduleSize, moduleSize, r);
+        ctx.fill();
+      } else if (dotStyle === 'circle') {
+        ctx.beginPath();
+        ctx.arc(x + moduleSize/2, y + moduleSize/2, moduleSize * 0.45, 0, Math.PI*2);
+        ctx.fill();
+      } else if (dotStyle === 'diamond') {
+        ctx.beginPath();
+        ctx.moveTo(x + moduleSize/2, y);
+        ctx.lineTo(x + moduleSize, y + moduleSize/2);
+        ctx.lineTo(x + moduleSize/2, y + moduleSize);
+        ctx.lineTo(x, y + moduleSize/2);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+  }
+
+  // Draw alignment patterns
+  const version = qrData.version;
+  const alignLocs = ALIGNMENT_LOCS[version];
+  for (const ar of alignLocs) {
+    for (const ac of alignLocs) {
+      if ((ar <= 7 && ac <= 7) || (ar <= 7 && ac >= modules-7) || (ar >= modules-7 && ac <= 7)) continue;
+      const ax = offset + ac * moduleSize - 2 * moduleSize;
+      const ay = offset + ar * moduleSize - 2 * moduleSize;
+      ctx.fillStyle = fgColor;
+      ctx.fillRect(ax, ay, 5 * moduleSize, 5 * moduleSize);
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(ax + moduleSize, ay + moduleSize, 3 * moduleSize, 3 * moduleSize);
+      ctx.fillStyle = fgColor;
+      ctx.fillRect(ax + 2 * moduleSize, ay + 2 * moduleSize, moduleSize, moduleSize);
+    }
+  }
+
+  // Draw logo
+  if (logoImg) {
+    const logoSize = size * 0.22;
+    const logoX = (size - logoSize) / 2;
+    const logoY = (size - logoSize) / 2;
+
+    // White background for logo
+    ctx.fillStyle = bgColor;
+    ctx.beginPath();
+    ctx.roundRect(logoX - 2, logoY - 2, logoSize + 4, logoSize + 4, 6);
+    ctx.fill();
+
+    // Draw logo
+    ctx.drawImage(logoImg, logoX, logoY, logoSize, logoSize);
+  }
+}
+
+// ============================================================
+// UI LOGIC
+// ============================================================
+let currentType = 'url';
+
+const formConfigs = {
+  url: { title: '🌐 网址', fields: [
+    { name: 'url', label: '网址', type: 'text', placeholder: 'https://example.com', required: true }
+  ]},
+  vcard: { title: '📇 电子名片 (vCard)', fields: [
+    { name: 'name', label: '姓名 *', type: 'text', placeholder: '张三', required: true },
+    { name: 'org', label: '公司', type: 'text', placeholder: '某某科技' },
+    { name: 'title', label: '职位', type: 'text', placeholder: '产品经理' },
+    { name: 'phone', label: '电话', type: 'text', placeholder: '+86 13800138000' },
+    { name: 'email', label: '邮箱', type: 'email', placeholder: 'zhangsan@example.com' },
+    { name: 'url', label: '网站', type: 'text', placeholder: 'https://example.com' },
+    { name: 'address', label: '地址', type: 'text', placeholder: '上海市浦东新区...' }
+  ]},
+  wifi: { title: '📶 WiFi 网络', fields: [
+    { name: 'ssid', label: 'WiFi名称 (SSID) *', type: 'text', placeholder: 'MyWiFi', required: true },
+    { name: 'password', label: '密码', type: 'text', placeholder: 'password123' },
+    { name: 'encryption', label: '加密方式', type: 'select', options: ['WPA/WPA2','WEP','nopass'] },
+    { name: 'hidden', label: '隐藏网络', type: 'checkbox' }
+  ]},
+  email: { title: '📧 发送邮件', fields: [
+    { name: 'to', label: '收件人 *', type: 'email', placeholder: 'user@example.com', required: true },
+    { name: 'subject', label: '主题', type: 'text', placeholder: '你好' },
+    { name: 'body', label: '正文', type: 'textarea', placeholder: '邮件正文...' }
+  ]},
+  sms: { title: '💬 发送短信', fields: [
+    { name: 'phone', label: '手机号 *', type: 'text', placeholder: '+86 13800138000', required: true },
+    { name: 'body', label: '短信内容', type: 'textarea', placeholder: '你好！'}
+  ]},
+  phone: { title: '📞 拨打电话', fields: [
+    { name: 'phone', label: '电话号码 *', type: 'text', placeholder: '+86 13800138000', required: true }
+  ]},
+  geo: { title: '🗺️ 地理位置', fields: [
+    { name: 'lat', label: '纬度', type: 'text', placeholder: '31.2304' },
+    { name: 'lng', label: '经度', type: 'text', placeholder: '121.4737' },
+    { name: 'query', label: '或地名', type: 'text', placeholder: '上海外滩' }
+  ]},
+  calendar: { title: '📅 日历事件', fields: [
+    { name: 'title', label: '事件名称 *', type: 'text', placeholder: '团队会议', required: true },
+    { name: 'start', label: '开始时间 *', type: 'datetime-local', required: true },
+    { name: 'end', label: '结束时间', type: 'datetime-local' },
+    { name: 'location', label: '地点', type: 'text', placeholder: '会议室A' },
+    { name: 'description', label: '描述', type: 'textarea', placeholder: '会议内容...' }
+  ]},
+  crypto: { title: '💰 加密货币转账', fields: [
+    { name: 'currency', label: '币种', type: 'select', options: ['BTC','ETH','USDC (ERC-20)','USDT (ERC-20)','SOL','BNB'] },
+    { name: 'address', label: '收款地址 *', type: 'text', placeholder: '0x... 或 1A1zP1...', required: true },
+    { name: 'amount', label: '金额 (可选)', type: 'text', placeholder: '0.01' },
+    { name: 'label', label: '备注', type: 'text', placeholder: '转账备注' }
+  ]},
+  app: { title: '📱 应用下载', fields: [
+    { name: 'ios_url', label: 'iOS App Store链接', type: 'text', placeholder: 'https://apps.apple.com/...' },
+    { name: 'android_url', label: 'Android Play商店链接', type: 'text', placeholder: 'https://play.google.com/...' },
+    { name: 'universal_url', label: '通用链接', type: 'text', placeholder: 'https://example.com/app' }
+  ]},
+  text: { title: '📝 纯文本', fields: [
+    { name: 'text', label: '文本内容 *', type: 'textarea', placeholder: '输入任意文本...', rows: 4, required: true }
+  ]}
+};
+
+function buildForm(type) {
+  const cfg = formConfigs[type];
+  document.getElementById('inputTitle').textContent = cfg.title;
+  let html = '';
+  for (const field of cfg.fields) {
+    if (field.type === 'select') {
+      html += `<div class="form-group"><label>${field.label}</label><select id="field_${field.name}" onchange="generateQR()">`;
+      for (const opt of field.options) {
+        html += `<option value="${opt}">${opt}</option>`;
+      }
+      html += `</select></div>`;
+    } else if (field.type === 'checkbox') {
+      html += `<div class="form-group" style="display:flex;align-items:center;gap:8px;">
+        <input type="checkbox" id="field_${field.name}" onchange="generateQR()" style="width:auto;">
+        <label for="field_${field.name}" style="margin:0;">${field.label}</label>
+      </div>`;
+    } else if (field.type === 'textarea') {
+      html += `<div class="form-group"><label>${field.label}</label><textarea id="field_${field.name}" placeholder="${field.placeholder||''}" oninput="generateQR()" rows="${field.rows||3}"></textarea></div>`;
+    } else {
+      html += `<div class="form-group"><label>${field.label}</label><input type="${field.type}" id="field_${field.name}" placeholder="${field.placeholder||''}" oninput="generateQR()"></div>`;
+    }
+  }
+  document.getElementById('inputForm').innerHTML = html;
+}
+
+function getFormData() {
+  const cfg = formConfigs[currentType];
+  const data = {};
+  for (const field of cfg.fields) {
+    if (field.type === 'checkbox') {
+      data[field.name] = document.getElementById('field_' + field.name)?.checked || false;
+    } else {
+      data[field.name] = document.getElementById('field_' + field.name)?.value || '';
+    }
+  }
+  return data;
+}
+
+function buildQRContent() {
+  const data = getFormData();
+  switch (currentType) {
+    case 'url': return data.url || 'https://example.com';
+    case 'vcard': {
+      const lines = ['BEGIN:VCARD','VERSION:3.0'];
+      if (data.name) lines.push(`FN:${data.name}`);
+      if (data.org) lines.push(`ORG:${data.org}`);
+      if (data.title) lines.push(`TITLE:${data.title}`);
+      if (data.phone) lines.push(`TEL:${data.phone}`);
+      if (data.email) lines.push(`EMAIL:${data.email}`);
+      if (data.url) lines.push(`URL:${data.url}`);
+      if (data.address) lines.push(`ADR:;;${data.address};;;`);
+      if (data.note) lines.push(`NOTE:${data.note}`);
+      lines.push('END:VCARD');
+      return lines.join('\n');
+    }
+    case 'wifi': {
+      const enc = data.encryption || 'WPA';
+      const hidden = data.hidden ? ';H:true' : '';
+      return `WIFI:T:${enc === 'nopass' ? 'nopass' : 'WPA'};S:${data.ssid};P:${data.password}${hidden};;`;
+    }
+    case 'email': {
+      let str = `mailto:${data.to}`;
+      const params = [];
+      if (data.subject) params.push(`subject=${encodeURIComponent(data.subject)}`);
+      if (data.body) params.push(`body=${encodeURIComponent(data.body)}`);
+      if (params.length) str += '?' + params.join('&');
+      return str;
+    }
+    case 'sms': return `smsto:${data.phone}:${encodeURIComponent(data.body||'')}`;
+    case 'phone': return `tel:${data.phone}`;
+    case 'geo': {
+      if (data.lat && data.lng) return `geo:${data.lat},${data.lng}`;
+      if (data.query) return `geo:0,0?q=${encodeURIComponent(data.query)}`;
+      return 'geo:31.2304,121.4737';
+    }
+    case 'calendar': {
+      const title = data.title || 'Event';
+      const start = data.start ? data.start.replace(/[-:]/g,'').replace('T','T').replace(/-/g,'') : '20260101T120000';
+      let str = `BEGIN:VEVENT\nSUMMARY:${title}\nDTSTART:${start}`;
+      if (data.end) str += `\nDTEND:${data.end.replace(/[-:]/g,'')}`;
+      if (data.location) str += `\nLOCATION:${data.location}`;
+      if (data.description) str += `\nDESCRIPTION:${data.description}`;
+      str += '\nEND:VEVENT';
+      return str;
+    }
+    case 'crypto': {
+      const currency = (data.currency || 'BTC').split(' ')[0].toLowerCase();
+      let str = `${currency}:${data.address}`;
+      if (data.amount) str += `?amount=${data.amount}`;
+      if (data.label) str += (data.amount ? '&' : '?') + `label=${encodeURIComponent(data.label)}`;
+      return str;
+    }
+    case 'app': {
+      if (data.universal_url) return data.universal_url;
+      if (data.ios_url) return data.ios_url;
+      return data.android_url || 'https://example.com';
+    }
+    case 'text': return data.text || 'QR Code Studio';
+    default: return 'https://example.com';
+  }
+}
+
+function generateQR() {
+  try {
+    const text = buildQRContent();
+    if (!text) return;
+    const ecLevel = document.getElementById('ecLevel').value;
+    currentQR = generateQRCode(text, ecLevel);
+    renderCurrent();
+    addHistory(text);
+  } catch (e) {
+    console.error('QR generation error:', e);
+    showToast('⚠️ 数据太长，请减少内容');
+  }
+}
+
+function renderCurrent() {
+  if (!currentQR) return;
+  const canvas = document.getElementById('qrcode-canvas');
+  const size = parseInt(document.getElementById('sizeSlider').value);
+  canvas.width = size;
+  canvas.height = size;
+
+  const fg = document.getElementById('fgColor').value;
+  const bg = document.getElementById('bgColor').value;
+  const qz = parseInt(document.getElementById('quietZone').value);
+
+  renderQRCode(canvas, currentQR, {
+    fgColor: fg, bgColor: bg, logoImg: logoImage,
+    dotStyle: currentDotStyle, quietZone: qz, size
+  });
+  document.getElementById('sizeValue').textContent = size + 'px';
+}
+
+function onCustomChange() { renderCurrent(); }
+function onSizeChange() { renderCurrent(); }
+
+function setDotStyle(style, el) {
+  currentDotStyle = style;
+  document.querySelectorAll('.dot-style-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderCurrent();
+}
+
+function handleLogo(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const img = new Image();
+    img.onload = () => {
+      logoImage = img;
+      document.getElementById('logoPreview').innerHTML = '<img src="' + ev.target.result + '" alt="logo">';
+      document.getElementById('clearLogoBtn').style.display = 'inline-block';
+      renderCurrent();
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearLogo() {
+  logoImage = null;
+  document.getElementById('logoPreview').innerHTML = '+';
+  document.getElementById('clearLogoBtn').style.display = 'none';
+  document.getElementById('logoFile').value = '';
+  renderCurrent();
+}
+
+// Preset color themes
+const colorPresets = [
+  { name: '经典', fg: '#000000', bg: '#ffffff' },
+  { name: '暗金', fg: '#c9a84c', bg: '#1a1a2e' },
+  { name: '霓虹', fg: '#00ff88', bg: '#0a0a0a' },
+  { name: '海洋', fg: '#0077b6', bg: '#caf0f8' },
+  { name: '烈焰', fg: '#d90429', bg: '#edf2f4' },
+  { name: '森林', fg: '#2d6a4f', bg: '#d8f3dc' },
+  { name: '紫韵', fg: '#6c5ce7', bg: '#f8f9ff' },
+  { name: '日落', fg: '#e76f51', bg: '#f4a26120' },
+  { name: '商务', fg: '#1d3557', bg: '#f1faee' },
+  { name: '极简', fg: '#2b2d42', bg: '#edf2f4' },
+];
+
+function initPresetColors() {
+  const container = document.getElementById('presetColors');
+  let html = '';
+  for (const preset of colorPresets) {
+    html += `<div class="preset-dot" style="background:${preset.fg};" title="${preset.name}" data-fg="${preset.fg}" data-bg="${preset.bg}" onclick="applyPreset(this)"></div>`;
+  }
+  container.innerHTML = html;
+}
+
+function applyPreset(el) {
+  document.getElementById('fgColor').value = el.dataset.fg;
+  document.getElementById('bgColor').value = el.dataset.bg;
+  el.parentElement.querySelectorAll('.preset-dot').forEach(d => d.classList.remove('active'));
+  el.classList.add('active');
+  renderCurrent();
+}
+
+// Type tab switching
+function switchType(type, el) {
+  currentType = type;
+  document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  buildForm(type);
+  // Reset and wait for form to render before generating
+  setTimeout(generateQR, 50);
+}
+
+// Templates
+function saveTemplate() {
+  const name = prompt('模板名称：');
+  if (!name) return;
+  const template = {
+    name,
+    fg: document.getElementById('fgColor').value,
+    bg: document.getElementById('bgColor').value,
+    dotStyle: currentDotStyle,
+    ecLevel: document.getElementById('ecLevel').value,
+    quietZone: document.getElementById('quietZone').value,
+  };
+  const templates = JSON.parse(localStorage.getItem('qr_templates') || '[]');
+  templates.unshift(template);
+  if (templates.length > 20) templates.pop();
+  localStorage.setItem('qr_templates', JSON.stringify(templates));
+  renderTemplates();
+  showToast('模板已保存');
+}
+
+function deleteTemplate(idx) {
+  const templates = JSON.parse(localStorage.getItem('qr_templates') || '[]');
+  templates.splice(idx, 1);
+  localStorage.setItem('qr_templates', JSON.stringify(templates));
+  renderTemplates();
+}
+
+function applyTemplate(idx) {
+  const templates = JSON.parse(localStorage.getItem('qr_templates') || '[]');
+  const t = templates[idx];
+  document.getElementById('fgColor').value = t.fg;
+  document.getElementById('bgColor').value = t.bg;
+  document.getElementById('ecLevel').value = t.ecLevel;
+  document.getElementById('quietZone').value = t.quietZone;
+  setDotStyle(t.dotStyle, document.querySelector(`.dot-style-btn[data-style="${t.dotStyle}"]`));
+  renderCurrent();
+  showToast('模板已应用');
+}
+
+function renderTemplates() {
+  const templates = JSON.parse(localStorage.getItem('qr_templates') || '[]');
+  const container = document.getElementById('templateList');
+  if (templates.length === 0) {
+    container.innerHTML = '<div style="font-size:11px;color:var(--text2);padding:8px;">暂无保存的模板</div>';
+    return;
+  }
+  let html = '';
+  templates.forEach((t, i) => {
+    html += `<div class="template-item" onclick="applyTemplate(${i})">
+      <span>${t.name}</span>
+      <div class="tmpl-actions">
+        <span style="display:inline-block;width:14px;height:14px;background:${t.fg};border-radius:3px;margin-right:4px;"></span>
+        <span class="tmpl-delete" onclick="event.stopPropagation();deleteTemplate(${i})">×</span>
+      </div>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+// History
+function addHistory(text) {
+  if (!text || text.length < 3) return;
+  const history = JSON.parse(localStorage.getItem('qr_history') || '[]');
+  // Deduplicate
+  const idx = history.findIndex(h => h.text === text);
+  if (idx >= 0) history.splice(idx, 1);
+  history.unshift({ text, type: currentType, time: Date.now() });
+  if (history.length > 20) history.pop();
+  localStorage.setItem('qr_history', JSON.stringify(history));
+  renderHistory();
+}
+
+function renderHistory() {
+  const history = JSON.parse(localStorage.getItem('qr_history') || '[]');
+  const container = document.getElementById('historyList');
+  if (history.length === 0) {
+    container.innerHTML = '<div style="font-size:11px;color:var(--text2);padding:8px;">暂无历史记录</div>';
+    return;
+  }
+  let html = '';
+  const typeNames = {
+    url: '网址', vcard: '名片', wifi: 'WiFi', email: '邮件', sms: '短信',
+    phone: '电话', geo: '位置', calendar: '日历', crypto: '加密币', app: '应用', text: '文本'
+  };
+  history.forEach((h, i) => {
+    const shortText = h.text.length > 30 ? h.text.substring(0, 30) + '...' : h.text;
+    html += `<div class="history-item" onclick="loadHistory(${i})">
+      <div class="qr-mini"></div>
+      <div class="qr-info">
+        <div class="qr-type">${typeNames[h.type] || h.type}</div>
+        <div class="qr-data">${shortText}</div>
+      </div>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+function loadHistory(idx) {
+  const history = JSON.parse(localStorage.getItem('qr_history') || '[]');
+  const h = history[idx];
+  if (!h) return;
+  if (currentType !== h.type) {
+    currentType = h.type;
+    const tab = document.querySelector(`.type-tab[data-type="${h.type}"]`);
+    if (tab) {
+      document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    }
+    buildForm(h.type);
+    // Wait for DOM then fill form
+    setTimeout(() => fillHistoryData(h), 50);
+  } else {
+    fillHistoryData(h);
+  }
+}
+
+function fillHistoryData(h) {
+  // For simple types, parse and fill
+  if (h.type === 'url') {
+    const el = document.getElementById('field_url');
+    if (el) { el.value = h.text; generateQR(); }
+  } else if (h.type === 'text') {
+    const el = document.getElementById('field_text');
+    if (el) { el.value = h.text; generateQR(); }
+  } else {
+    // For complex types, just regenerate from stored text
+    currentQR = generateQRCode(h.text, document.getElementById('ecLevel').value);
+    renderCurrent();
+  }
+}
+
+// Batch mode
+function toggleBatch() {
+  const area = document.getElementById('batchArea');
+  area.classList.toggle('show');
+  document.getElementById('batchBtn').textContent = area.classList.contains('show') ? '📦 关闭批量' : '📦 批量模式';
+}
+
+function onBatchInput() {
+  const text = document.getElementById('batchInput').value;
+  const urls = text.split('\n').filter(u => u.trim());
+  const container = document.getElementById('batchPreview');
+  if (urls.length === 0) { container.innerHTML = ''; return; }
+
+  // Show first 20 previews
+  const previewUrls = urls.slice(0, 20);
+  let html = '';
+  for (const url of previewUrls) {
+    try {
+      const qr = generateQRCode(url.trim(), document.getElementById('ecLevel').value);
+      // Create temp canvas
+      const c = document.createElement('canvas');
+      renderQRCode(c, qr, {
+        fgColor: document.getElementById('fgColor').value,
+        bgColor: document.getElementById('bgColor').value,
+        logoImg: null, dotStyle: currentDotStyle,
+        quietZone: 2, size: 64
+      });
+      html += `<div class="batch-item"><canvas width="64" height="64" data-url="${c.toDataURL()}"></canvas><div class="batch-label">${url.trim()}</div></div>`;
+    } catch(e) {
+      html += `<div class="batch-item"><span style="color:var(--red);font-size:10px;">错误</span><div class="batch-label">${url.trim().substring(0,20)}</div></div>`;
+    }
+  }
+  if (urls.length > 20) html += `<div style="font-size:11px;color:var(--text2);">...还有 ${urls.length-20} 个</div>`;
+  container.innerHTML = html;
+
+  // Render preview canvases
+  requestAnimationFrame(() => {
+    container.querySelectorAll('canvas[data-url]').forEach(c => {
+      const img = new Image();
+      img.onload = () => {
+        c.getContext('2d').drawImage(img, 0, 0);
+        c.removeAttribute('data-url');
+      };
+      img.src = c.getAttribute('data-url');
+    });
+  });
+}
+
+function exportBatch() {
+  const text = document.getElementById('batchInput').value;
+  const urls = text.split('\n').filter(u => u.trim());
+  if (urls.length === 0) return showToast('请先输入网址');
+
+  const fg = document.getElementById('fgColor').value;
+  const bg = document.getElementById('bgColor').value;
+  const ecLevel = document.getElementById('ecLevel').value;
+  const qz = parseInt(document.getElementById('quietZone').value);
+
+  // Download one by one (browser limitation for ZIP without library)
+  urls.forEach((url, i) => {
+    try {
+      const qr = generateQRCode(url.trim(), ecLevel);
+      const c = document.createElement('canvas');
+      renderQRCode(c, qr, { fgColor: fg, bgColor: bg, logoImg: null, dotStyle: currentDotStyle, quietZone: qz, size: 512 });
+      const a = document.createElement('a');
+      a.href = c.toDataURL('image/png');
+      a.download = `qr_${String(i+1).padStart(3,'0')}.png`;
+      a.click();
+    } catch(e) { /* skip */ }
+  });
+  showToast(`正在导出 ${urls.length} 个文件...`);
+}
+
+// Export functions
+function exportPNG(scale = '1x') {
+  if (!currentQR) return;
+  const size = parseInt(document.getElementById('sizeSlider').value);
+  const mult = scale === '2x' ? 2 : scale === '3x' ? 3 : 1;
+  const exportSize = size * mult;
+
+  const c = document.createElement('canvas');
+  renderQRCode(c, currentQR, {
+    fgColor: document.getElementById('fgColor').value,
+    bgColor: document.getElementById('bgColor').value,
+    logoImg: logoImage,
+    dotStyle: currentDotStyle,
+    quietZone: parseInt(document.getElementById('quietZone').value),
+    size: exportSize
+  });
+
+  const a = document.createElement('a');
+  a.href = c.toDataURL('image/png');
+  a.download = `qrcode_${size}x${size}${scale !== '1x' ? '_' + scale : ''}.png`;
+  a.click();
+  showToast('PNG 已下载');
+}
+
+function exportSVG() {
+  if (!currentQR) return;
+  const matrix = currentQR.matrix;
+  const modules = matrix.length;
+  const size = Math.max(modules + 8, modules + 2 * parseInt(document.getElementById('quietZone').value));
+  const moduleSize = 1;
+
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="${size * 10}" height="${size * 10}">`;
+  const fg = document.getElementById('fgColor').value;
+  const bg = document.getElementById('bgColor').value;
+  svg += `<rect width="${size}" height="${size}" fill="${bg}"/>`;
+
+  const qz = parseInt(document.getElementById('quietZone').value);
+
+  for (let i = 0; i < modules; i++) {
+    for (let j = 0; j < modules; j++) {
+      if (matrix[i][j] === 2 || matrix[i][j] === 4) {
+        const x = qz + j;
+        const y = qz + i;
+        if (currentDotStyle === 'circle') {
+          svg += `<circle cx="${x + 0.5}" cy="${y + 0.5}" r="0.45" fill="${fg}"/>`;
+        } else {
+          svg += `<rect x="${x}" y="${y}" width="1" height="1" fill="${fg}"/>`;
+        }
+      }
+    }
+  }
+  svg += '</svg>';
+
+  const blob = new Blob([svg], {type: 'image/svg+xml'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'qrcode.svg';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('SVG 已下载');
+}
+
+function copyToClipboard() {
+  if (!currentQR) return;
+  const size = parseInt(document.getElementById('sizeSlider').value);
+  const c = document.getElementById('qrcode-canvas');
+  c.toBlob(blob => {
+    navigator.clipboard.write([
+      new ClipboardItem({ 'image/png': blob })
+    ]).then(() => showToast('已复制到剪贴板'))
+    .catch(() => {
+      // Fallback: download and show message
+      const a = document.createElement('a');
+      a.href = c.toDataURL('image/png');
+      a.download = 'qrcode.png';
+      a.click();
+      showToast('已下载（剪贴板不支持，请手动粘贴）');
+    });
+  });
+}
+
+// Toast
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// ============================================================
+// INITIALIZATION
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  // Type tab events
+  document.querySelectorAll('.type-tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+      switchType(this.dataset.type, this);
+    });
+  });
+
+  // Initialize
+  initPresetColors();
+  buildForm('url');
+  renderTemplates();
+  renderHistory();
+  generateQR();
+});
+</script>
+
+</body>
+</html>
