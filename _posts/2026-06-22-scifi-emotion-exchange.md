@@ -3,7 +3,7 @@ layout: post
 title: "情感交易所 | The Emotion Exchange"
 date: 2026-06-22 11:30:00 +0800
 categories: [科幻, 短篇小说]
-tags: [科幻小说, 科幻, 情感, 社会, 反乌托邦]
+tags: [科幻, 情感, 社会, 反乌托邦]
 description: "2077年， emotions can be quantified, bought, and sold. A trader discovers a glitch in the system."
 ---
 

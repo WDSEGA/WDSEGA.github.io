@@ -3,7 +3,7 @@ layout: post
 title: "模拟器的裂缝 | The Simulator's Crack"
 date: 2026-06-22 12:30:00 +0800
 categories: [科幻, 短篇小说]
-tags: [科幻小说, 科幻, 模拟宇宙, 现实, 哲学]
+tags: [科幻, 模拟宇宙, 现实, 哲学]
 description: "2093年，一位系统管理员发现了模拟宇宙的裂缝——透过裂缝，她看到了「真实世界」的一幕。"
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "2026年6月中国AI的'三浪叠加'：具身智能融资狂飙，数据基建破题，大模型进入筛选期 | China AI 'Three Waves Convergence' in June 2026"
 date: 2026-06-22 11:00:00 +0800
 categories: [科技, AI, 产业]
-tags: [时事新闻, AI融资, 具身智能, 数据集, DeepSeek, 千寻智能]
+tags: [AI融资, 具身智能, 数据集, DeepSeek, 千寻智能]
 description: "2026年6月中国AI行业上演'三浪叠加'：具身智能融资狂飙，国家数据局发布高质量数据集建设方案，大模型融资进入'剩者为王'筛选期。"
 ---
 

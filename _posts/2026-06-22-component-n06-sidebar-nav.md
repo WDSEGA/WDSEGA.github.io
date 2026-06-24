@@ -3,7 +3,7 @@ layout: post
 title: "组件详解#6：侧边栏导航，后台系统的标配布局 | Component Deep Dive #6: Sidebar Nav — The Standard Layout for Admin Panels"
 date: 2026-06-22 09:00:00 +0800
 categories: [技术, Web组件, 前端开发]
-tags: [代码产品, Web Component, Sidebar, Navigation, Admin, 网页组件字典]
+tags: [Web Component, Sidebar, Navigation, Admin, 网页组件字典]
 description: "侧边栏导航是后台系统和文档站的核心布局组件。本文详解如何用HTML/CSS/JS实现带活跃状态高亮的侧边栏，含完整代码和常见坑点。"
 ---
 

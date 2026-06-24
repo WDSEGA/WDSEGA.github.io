@@ -3,7 +3,7 @@ layout: post
 title: "AI抢不走的工作：2026年中国年轻人正在涌入的这些新职业 | New AI-Proof Careers Chinese Youth Are Rushng Into in 2026"
 date: 2026-06-22 10:00:00 +0800
 categories: [科技, AI, 就业]
-tags: [时事新闻, AI就业, 人形机器人, 新职业, AI教育]
+tags: [AI就业, 人形机器人, 新职业, AI教育]
 description: "2026年AI正在重塑中国就业市场。人形机器人训练师、AI漫画制作人……这些新职业正在爆发，就业市场迎来结构性变化。"
 ---
 
