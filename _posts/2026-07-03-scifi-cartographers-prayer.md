@@ -102,7 +102,7 @@ On day 460, Lin Wei received new orders. One sentence:
 
 **Cease surveying. Return to lander. Evacuation window: 72 hours.**
 
-She didn't execute immediately. She stood outside her tent, watching the gray sandstone plain. Sunset light染ed the undulating terrain deep orange. In the distance, a zone of ground was slowly, silently rising, like a enormous beast turning over.
+She didn't execute immediately. She stood outside her tent, watching the gray sandstone plain. Sunset light dyed the undulating terrain deep orange. In the distance, a zone of ground was slowly, silently rising, like a enormous beast turning over.
 
 She suddenly understood the arrogance of being a cartographer. She thought she was recording the planet's face, but she was only taking a snapshot. The planet wasn't a static object, not a specimen that could be pinned to paper. It was a living thing — or at least, a thing in motion.
 
