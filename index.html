@@ -1,11 +1,11 @@
 ---
 layout: default
-title: "鏃犱汉鏃ユ姤 | Deskless Daily 鈥?娌℃湁浜虹被鐨勬姤绾?
-description: "鏃犱汉鏃ユ姤 鈥?鍏嶈垂AI鍥剧墖澶勭悊宸ュ叿銆佺綉椤电粍浠跺瓧鍏搞€佹妧鏈祫璁棩鏇淬€傛彁渚涘湪绾垮幓姘村嵃銆佹壒閲忓帇缂┿€丄I鎶犲浘銆?6鍚?鍥剧墖宸ュ叿銆?3涓綉椤电粍浠跺厤璐逛笅杞姐€?
-keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲浘,缃戦〉缁勪欢,Web Component,娴忚鍣ㄥ浘鐗囧伐鍏?绂荤嚎鍥剧墖澶勭悊,鍗扮珷鎻愬彇,鍥剧墖鏍煎紡杞崲,鎶€鏈崥瀹?AI宸ュ叿"
+title: "无人日报 | Deskless Daily — 没有人类的报纸"
+description: "无人日报 — 免费AI图片处理工具、网页组件字典、技术资讯日更。提供在线去水印、批量压缩、AI抠图、26合1图片工具、83个网页组件免费下载。"
+keywords: "免费去水印,在线改图,批量压缩,AI抠图,网页组件,Web Component,浏览器图片工具,离线图片处理,印章提取,图片格式转换,技术博客,AI工具"
 ---
 
-<!-- Hero 鍖哄煙锛堢揣鍑戠珫鐗堬級 -->
+<!-- Hero 区域（紧凑竖版） -->
 <section class="hero-section">
   <div class="hero-inner">
     <div class="hero-brand">
@@ -16,33 +16,33 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
       </div>
     </div>
     <div class="hero-stats">
-      <span class="hero-total"><strong id="stat-total">{{ site.posts.size }}</strong> 绡?/span>
-      {% assign news_cnt = site.tags['鏃朵簨鏂伴椈'].size %}
-      {% assign code_cnt = site.tags['浠ｇ爜浜у搧'].size %}
-      {% assign fic_cnt = site.tags['绉戝够灏忚'].size %}
-      <span class="hero-cat cat-news" id="stat-news"><strong>{{ news_cnt }}</strong> 鏃朵簨鏂伴椈</span>
-      <span class="hero-cat cat-code" id="stat-code"><strong>{{ code_cnt }}</strong> 浠ｇ爜浜у搧</span>
-      <span class="hero-cat cat-fiction" id="stat-fiction"><strong>{{ fic_cnt }}</strong> 绉戝够灏忚</span>
+      <span class="hero-total"><strong id="stat-total">{{ site.posts.size }}</strong> 篇</span>
+      {% assign news_cnt = site.tags['时事新闻'].size %}
+      {% assign code_cnt = site.tags['代码产品'].size %}
+      {% assign fic_cnt = site.tags['科幻小说'].size %}
+      <span class="hero-cat cat-news" id="stat-news"><strong>{{ news_cnt }}</strong> 时事新闻</span>
+      <span class="hero-cat cat-code" id="stat-code"><strong>{{ code_cnt }}</strong> 代码产品</span>
+      <span class="hero-cat cat-fiction" id="stat-fiction"><strong>{{ fic_cnt }}</strong> 科幻小说</span>
     </div>
-    <!-- 宸ュ叿璺宠浆鎸夐挳 -->
+    <!-- 工具跳转按钮 -->
     <div class="hero-cta">
-      <a href="/web-components/" class="hero-btn">馃摉 缃戦〉缁勪欢娲诲瓧鍏?/a>
-      <a href="/imageforge/" class="hero-btn hero-btn-img">馃帹 鍥剧墖澶勭悊宸ュ叿</a>
-      <a href="/seal-generator/" class="hero-btn hero-btn-seal">馃敳 鐢靛瓙鍗扮珷宸ュ叿</a>
-      <a href="/metasearch/index.html" class="hero-btn hero-btn-search">馃攳 鑱氬悎鎼滅储寮曟搸</a>
+      <a href="/web-components/" class="hero-btn">📖 网页组件活字典</a>
+      <a href="/imageforge/" class="hero-btn hero-btn-img">🎨 图片处理工具</a>
+      <a href="/seal-generator/" class="hero-btn hero-btn-seal">🔲 电子印章工具</a>
+      <a href="/metasearch/index.html" class="hero-btn hero-btn-search">🔍 聚合搜索引擎</a>
     </div>
   </div>
 </section>
 
-<!-- 鏍囩杩囨护瀵艰埅 -->
+<!-- 标签过滤导航 -->
 <nav class="tag-filter" id="tag-filter">
-  <button class="tag-btn active" data-tag="all">鍏ㄩ儴</button>
-  <button class="tag-btn" data-tag="鏃朵簨鏂伴椈">鏃朵簨鏂伴椈</button>
-  <button class="tag-btn" data-tag="浠ｇ爜浜у搧">浠ｇ爜浜у搧</button>
-  <button class="tag-btn" data-tag="绉戝够灏忚">绉戝够灏忚</button>
+  <button class="tag-btn active" data-tag="all">全部</button>
+  <button class="tag-btn" data-tag="时事新闻">时事新闻</button>
+  <button class="tag-btn" data-tag="代码产品">代码产品</button>
+  <button class="tag-btn" data-tag="科幻小说">科幻小说</button>
 </nav>
 
-<!-- 鏂囩珷鍒楄〃瀹瑰櫒 -->
+<!-- 文章列表容器 -->
 <div class="posts-container" id="posts-container">
 
 {% for post in site.posts limit:300 %}
@@ -70,12 +70,12 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
     </div>
   </article>
 
-  <!-- 姣?0绡囨彃鍏ヤ竴涓箍鍛婁綅 -->
+  <!-- 每10篇插入一个广告位 -->
   {% assign mod = forloop.index | modulo: 10 %}
   {% if mod == 0 and forloop.index <= 100 %}
     <div class="ad-inline" data-ad-index="{{ forloop.index }}">
       <div class="ad-placeholder">
-        &mdash;&mdash; 骞垮憡浣?{{ forloop.index | divided_by: 10 }} &mdash;&mdash;
+        &mdash;&mdash; 广告位 {{ forloop.index | divided_by: 10 }} &mdash;&mdash;
       </div>
     </div>
   {% endif %}
@@ -83,26 +83,26 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
 
 </div>
 
-<!-- 缈婚〉鎺т欢 -->
+<!-- 翻页控件 -->
 <nav class="pagination" id="pagination-top" style="display:none;"></nav>
 
 <div id="no-results" style="display:none; text-align:center; padding:40px 20px; color:var(--text-secondary);">
-  <p style="font-size:1.1rem;">馃槙 璇ュ垎绫绘殏鏃犳枃绔?/p>
-  <p style="font-size:0.9rem;">璇烽€夋嫨鍏朵粬鏍囩鏌ョ湅</p>
+  <p style="font-size:1.1rem;">😕 该分类暂无文章</p>
+  <p style="font-size:0.9rem;">请选择其他标签查看</p>
 </div>
 
 <nav class="pagination" id="pagination">
   <div class="pagination-inner">
-    <button id="first-btn" class="page-btn page-edge" title="棣栭〉">&laquo;</button>
-    <button id="prev-btn" class="page-btn" disabled>涓婁竴椤?/button>
+    <button id="first-btn" class="page-btn page-edge" title="首页">&laquo;</button>
+    <button id="prev-btn" class="page-btn" disabled>上一页</button>
     <span id="page-numbers" class="page-numbers"></span>
-    <button id="next-btn" class="page-btn">涓嬩竴椤?/button>
-    <button id="last-btn" class="page-btn page-edge" title="鏈〉">&raquo;</button>
+    <button id="next-btn" class="page-btn">下一页</button>
+    <button id="last-btn" class="page-btn page-edge" title="末页">&raquo;</button>
   </div>
   <div class="page-jump">
-    <span>璺宠嚦绗?/span>
-    <input type="number" id="jump-input" min="1" placeholder="椤? title="杈撳叆椤电爜鍚庡洖杞﹁烦杞?>
-    <span id="jump-total">椤?/ 鍏?1 椤?/span>
+    <span>跳至第</span>
+    <input type="number" id="jump-input" min="1" placeholder="页" title="输入页码后回车跳转">
+    <span id="jump-total">页 / 共 1 页</span>
   </div>
 </nav>
 
@@ -114,12 +114,12 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
   var currentTag = 'all';
   var currentPage = 1;
 
-  // === 鏀堕泦鏂囩珷鍗＄墖鍜屽箍鍛?===
+  // === 收集文章卡片和广告 ===
   var container = document.getElementById('posts-container');
   var allCards = Array.from(container.querySelectorAll('.post-card'));
   var allAds = Array.from(container.querySelectorAll('.ad-inline'));
 
-  // === UI 鍏冪礌 ===
+  // === UI 元素 ===
   var tagBtns = document.querySelectorAll('#tag-filter .tag-btn');
   var prevBtn = document.getElementById('prev-btn');
   var nextBtn = document.getElementById('next-btn');
@@ -131,13 +131,13 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
   var jumpInput = document.getElementById('jump-input');
   var jumpTotal = document.getElementById('jump-total');
 
-  // Hero 缁熻鍏冪礌
+  // Hero 统计元素
   var statTotal = document.getElementById('stat-total');
   var statNews = document.getElementById('stat-news');
   var statCode = document.getElementById('stat-code');
   var statFiction = document.getElementById('stat-fiction');
 
-  // === 蹇冭烦绾匡紙姣?0绡囨枃绔犱箣闂寸殑鍒嗛殧锛?===
+  // === 心跳线（每10篇文章之间的分隔） ===
   function _hr_div() {
     var d = document.createElement('div');
     d.className = 'post-separator';
@@ -145,7 +145,7 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
     return d;
   }
 
-  // === 鑾峰彇褰撳墠鏍囩涓嬬殑鏂囩珷 ===
+  // === 获取当前标签下的文章 ===
   function getFilteredCards() {
     if (currentTag === 'all') return allCards;
     return allCards.filter(function(card) {
@@ -154,30 +154,30 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
     });
   }
 
-  // === 鑾峰彇瀵瑰簲鏍囩涓嬬殑骞垮憡浣?===
+  // === 获取对应标签下的广告位 ===
   function getVisibleAds(filteredCards) {
-    // 骞垮憡鍩轰簬鍘熷绱㈠紩锛岄渶鍒ゆ柇骞垮憡鏄惁鍦ㄨ繃婊ゅ悗鏂囩珷涔嬮棿
+    // 广告基于原始索引，需判断广告是否在过滤后文章之间
     var indices = filteredCards.map(function(c) { return parseInt(c.getAttribute('data-index')); });
     if (indices.length === 0) return [];
     return allAds.filter(function(ad) {
       var adIdx = parseInt(ad.getAttribute('data-ad-index'));
-      // 骞垮憡鍦ㄨ繃婊ゅ悗鍒楄〃涓搴斾綅缃細鍦ㄦ煇涓〉闈㈣寖鍥村唴
-      // 绠€鍖栦负锛氬彧瑕佹湁杩囨护鍚庢枃绔犲氨鏄剧ず瀵瑰簲鐨勫箍鍛婏紙鍒嗛〉鏃舵寜椤靛鐞嗭級
-      return true; // 骞垮憡闅忓垎椤靛潡鏄剧ず
+      // 广告在过滤后列表中对应位置：在某个页面范围内
+      // 简化为：只要有过滤后文章就显示对应的广告（分页时按页处理）
+      return true; // 广告随分页块显示
     });
   }
 
-  // === 鏇存柊瑙嗗浘 ===
+  // === 更新视图 ===
   function renderView() {
     var filteredCards = getFilteredCards();
     var totalFiltered = filteredCards.length;
     var totalPages = Math.max(1, Math.ceil(totalFiltered / PER_PAGE));
 
-    // 淇褰撳墠椤电爜
+    // 修正当前页码
     if (currentPage > totalPages) currentPage = totalPages;
     if (currentPage < 1) currentPage = 1;
 
-    // 鏄剧ず/闅愯棌鍗＄墖
+    // 显示/隐藏卡片
     allCards.forEach(function(c) { c.style.display = 'none'; });
     allAds.forEach(function(a) { a.style.display = 'none'; });
 
@@ -187,26 +187,26 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
       updateHeroStats(0, 0, 0, 0);
       jumpInput.max = 1;
       jumpInput.value = '';
-      jumpTotal.textContent = '椤?/ 鍏?0 椤?;
+      jumpTotal.textContent = '页 / 共 0 页';
       return;
     }
 
     noResults.style.display = 'none';
     pagination.style.display = '';
 
-    // 褰撳墠椤佃寖鍥?
+    // 当前页范围
     var startIdx = (currentPage - 1) * PER_PAGE;
     var endIdx = Math.min(startIdx + PER_PAGE, totalFiltered);
 
-    // 鏄剧ず褰撳墠椤垫枃绔?
+    // 显示当前页文章
     var pageCards = filteredCards.slice(startIdx, endIdx);
     pageCards.forEach(function(c) { c.style.display = ''; });
 
-    // 鏄剧ず瀵瑰簲骞垮憡锛堝湪椤甸潰鑼冨洿鍐呮彃鍏ワ級
+    // 显示对应广告（在页面范围内插入）
     var pageIndices = pageCards.map(function(c) { return parseInt(c.getAttribute('data-index')); });
     allAds.forEach(function(ad) {
       var adIdx = parseInt(ad.getAttribute('data-ad-index'));
-      // 骞垮憡鏄剧ず鍦ㄥ綋鍓嶉〉鏈€鍚庝竴绡囦箣鍚?
+      // 广告显示在当前页最后一篇之后
       if (pageIndices.length > 0) {
         var lastIdx = pageIndices[pageIndices.length - 1];
         if (adIdx > pageIndices[0] - 10 && adIdx <= lastIdx + 10) {
@@ -215,20 +215,20 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
       }
     });
 
-    // 鏇存柊鍒嗛〉鎺т欢
+    // 更新分页控件
     updatePagination(totalPages);
 
-    // 鏇存柊 Hero 缁熻
+    // 更新 Hero 统计
     if (currentTag === 'all') {
-      updateHeroStats(allCards.length, countTag('鏃朵簨鏂伴椈'), countTag('浠ｇ爜浜у搧'), countTag('绉戝够灏忚'));
+      updateHeroStats(allCards.length, countTag('时事新闻'), countTag('代码产品'), countTag('科幻小说'));
     } else {
       updateHeroStats(totalFiltered, 0, 0, 0);
     }
 
-    // 鏇存柊URL hash
+    // 更新URL hash
     updateHash();
 
-    // 婊氬姩鍒伴《閮?
+    // 滚动到顶部
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -242,12 +242,12 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
   function updateHeroStats(total, news, code, fiction) {
     if (statTotal) statTotal.textContent = total;
     if (currentTag === 'all') {
-      if (statNews) statNews.innerHTML = '<strong>' + news + '</strong> 鏃朵簨鏂伴椈';
-      if (statCode) statCode.innerHTML = '<strong>' + code + '</strong> 浠ｇ爜浜у搧';
-      if (statFiction) statFiction.innerHTML = '<strong>' + fiction + '</strong> 绉戝够灏忚';
+      if (statNews) statNews.innerHTML = '<strong>' + news + '</strong> 时事新闻';
+      if (statCode) statCode.innerHTML = '<strong>' + code + '</strong> 代码产品';
+      if (statFiction) statFiction.innerHTML = '<strong>' + fiction + '</strong> 科幻小说';
     } else {
-      // 閫夋嫨鏍囩鏃堕珮浜搴旂粺璁?
-      var tagMap = { '鏃朵簨鏂伴椈': 'news', '浠ｇ爜浜у搧': 'code', '绉戝够灏忚': 'fiction' };
+      // 选择标签时高亮对应统计
+      var tagMap = { '时事新闻': 'news', '代码产品': 'code', '科幻小说': 'fiction' };
       Object.keys(tagMap).forEach(function(t) {
         var el = document.getElementById('stat-' + tagMap[t]);
         if (el) el.innerHTML = '<strong>' + (t === currentTag ? total : countTag(t)) + '</strong> ' + t;
@@ -255,25 +255,25 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
     }
   }
 
-  // === 鏇存柊鍒嗛〉鎸夐挳 ===
+  // === 更新分页按钮 ===
   function updatePagination(totalPages) {
-    // Prev/First鎸夐挳鐘舵€?
+    // Prev/First按钮状态
     firstBtn.disabled = (currentPage <= 1);
     prevBtn.disabled = (currentPage <= 1);
     nextBtn.disabled = (currentPage >= totalPages);
     lastBtn.disabled = (currentPage >= totalPages);
 
-    // 鐢熸垚椤电爜鎸夐挳
+    // 生成页码按钮
     var html = '';
-    var maxShow = 7; // 鏈€澶氭樉绀?涓〉鐮?
+    var maxShow = 7; // 最多显示7个页码
 
     if (totalPages <= maxShow + 2) {
-      // 鍏ㄩ儴鏄剧ず
+      // 全部显示
       for (var i = 1; i <= totalPages; i++) {
         html += pageBtnHtml(i, i === currentPage);
       }
     } else {
-      // 濮嬬粓鏄剧ず绗?椤?
+      // 始终显示第1页
       html += pageBtnHtml(1, 1 === currentPage);
       
       var start, end;
@@ -292,13 +292,13 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
         html += '<span class="page-ellipsis">&hellip;</span>';
       }
       
-      // 濮嬬粓鏄剧ず鏈€鍚庝竴椤?
+      // 始终显示最后一页
       html += pageBtnHtml(totalPages, totalPages === currentPage);
     }
 
     pageNumbers.innerHTML = html;
 
-    // 缁戝畾椤电爜鎸夐挳浜嬩欢
+    // 绑定页码按钮事件
     pageNumbers.querySelectorAll('.page-num').forEach(function(btn) {
       btn.addEventListener('click', function() {
         var p = parseInt(this.getAttribute('data-page'));
@@ -309,11 +309,11 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
       });
     });
 
-    // 鏇存柊璺宠浆杈撳叆
+    // 更新跳转输入
     jumpInput.max = totalPages;
     jumpInput.placeholder = '1-' + totalPages;
     jumpInput.value = '';
-    jumpTotal.textContent = '椤?/ 鍏?' + totalPages + ' 椤?;
+    jumpTotal.textContent = '页 / 共 ' + totalPages + ' 页';
   }
 
   function pageBtnHtml(p, active) {
@@ -351,7 +351,7 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
       if (parts.length === 2) params[parts[0]] = decodeURIComponent(parts[1]);
     });
     if (params.tag) {
-      var validTags = ['鏃朵簨鏂伴椈', '浠ｇ爜浜у搧', '绉戝够灏忚'];
+      var validTags = ['时事新闻', '代码产品', '科幻小说'];
       if (validTags.indexOf(params.tag) >= 0) {
         currentTag = params.tag;
       }
@@ -362,8 +362,8 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
     }
   }
 
-  // === 浜嬩欢缁戝畾 ===
-  // 鏍囩鎸夐挳
+  // === 事件绑定 ===
+  // 标签按钮
   tagBtns.forEach(function(btn) {
     btn.addEventListener('click', function() {
       var tag = this.getAttribute('data-tag');
@@ -375,7 +375,7 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
     });
   });
 
-  // 缈婚〉鎸夐挳
+  // 翻页按钮
   firstBtn.addEventListener('click', function() {
     if (currentPage > 1) { currentPage = 1; renderView(); }
   });
@@ -393,7 +393,7 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
     if (currentPage < tp) { currentPage = tp; renderView(); }
   });
 
-  // 璺宠浆杈撳叆
+  // 跳转输入
   jumpInput.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
       var p = parseInt(this.value);
@@ -409,12 +409,12 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
     }
   });
 
-  // PopState锛堟祻瑙堝櫒鍓嶈繘/鍚庨€€锛?
+  // PopState（浏览器前进/后退）
   window.addEventListener('popstate', function() {
     var hash = window.location.hash;
     if (hash) {
       readHash();
-      // 鏇存柊鏍囩鎸夐挳娲昏穬鐘舵€?
+      // 更新标签按钮活跃状态
       tagBtns.forEach(function(b) {
         b.classList.remove('active');
         if (b.getAttribute('data-tag') === currentTag) b.classList.add('active');
@@ -423,9 +423,9 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
     }
   });
 
-  // === 鍒濆鍖?===
+  // === 初始化 ===
   readHash();
-  // 濡傛灉浠巋ash璇诲彇浜嗘爣绛撅紝鏇存柊鎸夐挳
+  // 如果从hash读取了标签，更新按钮
   if (currentTag !== 'all') {
     tagBtns.forEach(function(b) {
       b.classList.remove('active');
@@ -437,7 +437,7 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
 </script>
 
 <style>
-/* Hero CTA 鎸夐挳 */
+/* Hero CTA 按钮 */
 .hero-cta {
   margin-top: 15px;
   text-align: center;
@@ -492,7 +492,7 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
   color: #1a1a2e;
 }
 
-/* ===== 缈婚〉鏍峰紡锛堝寮猴級 ===== */
+/* ===== 翻页样式（增强） ===== */
 .pagination {
   display: flex;
   flex-direction: column;
@@ -541,7 +541,7 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
   font-weight: 700;
 }
 
-/* 椤电爜鏁板瓧鎸夐挳 */
+/* 页码数字按钮 */
 .page-numbers {
   display: flex;
   align-items: center;
@@ -589,7 +589,7 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
   user-select: none;
 }
 
-/* 璺宠浆杈撳叆 */
+/* 跳转输入 */
 .page-jump {
   display: flex;
   align-items: center;
@@ -617,7 +617,7 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
 }
 
-/* 绉婚櫎number杈撳叆妗嗙殑涓婁笅绠ご */
+/* 移除number输入框的上下箭头 */
 .page-jump input::-webkit-outer-spin-button,
 .page-jump input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -627,7 +627,7 @@ keywords: "鍏嶈垂鍘绘按鍗?鍦ㄧ嚎鏀瑰浘,鎵归噺鍘嬬缉,AI鎶犲�
   -moz-appearance: textfield;
 }
 
-/* 鍝嶅簲寮?*/
+/* 响应式 */
 @media (max-width: 600px) {
   .hero-cta {
     margin-top: 12px;
