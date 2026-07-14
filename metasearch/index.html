@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MetaSearch - 澶氭簮鑱氬悎鎼滅储 | BT纾佸姏 + 缃戠洏 + 鍥剧墖 + 鏂囨。</title>
-<meta name="description" content="MetaSearch 鍏嶈垂澶氭簮鑱氬悎鎼滅储寮曟搸锛屾敮鎸丅T纾佸姏鎼滅储銆佺綉鐩樿祫婧愭悳绱紙鐧惧害/闃块噷/澶稿厠/钃濆锛夈€佸浘鐗囨悳绱紙鑺濆姞鍝ョ編鏈API锛夊拰鏂囨。鎼滅储锛圔ing RSS锛夈€?>
-<meta name="keywords" content="纾佸姏鎼滅储,BT鎼滅储,缃戠洏鎼滅储,鍥剧墖鎼滅储,鏂囨。鎼滅储,鑱氬悎鎼滅储,鍏冩悳绱?绉嶅瓙鎼滅储,鐧惧害缃戠洏鎼滅储">
+<title>MetaSearch - 多源聚合搜索 | BT磁力 + 网盘 + 图片 + 文档</title>
+<meta name="description" content="MetaSearch 免费多源聚合搜索引擎，支持BT磁力搜索、网盘资源搜索（百度/阿里/夸克/蓝奏）、图片搜索（芝加哥美术馆API）和文档搜索（Bing RSS）。">
+<meta name="keywords" content="磁力搜索,BT搜索,网盘搜索,图片搜索,文档搜索,聚合搜索,元搜索,种子搜索,百度网盘搜索">
 <meta name="author" content="Deskless Daily">
 <meta name="robots" content="index, follow">
-<meta property="og:title" content="MetaSearch - 澶氭簮鑱氬悎鎼滅储寮曟搸">
-<meta property="og:description" content="鍏嶈垂澶氭簮鑱氬悎鎼滅储 - BT纾佸姏 + 缃戠洏璧勬簮 + 鍥剧墖鎼滅储 + 鏂囨。鎼滅储">
+<meta property="og:title" content="MetaSearch - 多源聚合搜索引擎">
+<meta property="og:description" content="免费多源聚合搜索 - BT磁力 + 网盘资源 + 图片搜索 + 文档搜索">
 <meta property="og:type" content="website">
 <style>
 :root {
@@ -193,52 +193,52 @@ footer a:hover { text-decoration: underline; }
 <div class="container">
   <header>
     <h1>MetaSearch</h1>
-    <p>澶氭簮鑱氬悎鎼滅储 &middot; BT纾佸姏 + 缃戠洏璧勬簮 + 鍥剧墖鎼滅储 + 鏂囨。鎼滅储</p>
+    <p>多源聚合搜索 &middot; BT磁力 + 网盘资源 + 图片搜索 + 文档搜索</p>
   </header>
 
   <div class="backend-bar offline" id="backendBar">
     <span class="dot"></span>
-    <span id="backendText">妫€娴嬪悗绔湇鍔?..</span>
+    <span id="backendText">检测后端服务...</span>
   </div>
 
   <div class="tabs" id="tabs">
-    <div class="tab active" data-tab="torrent"><span class="tab-icon">馃Р</span>BT纾佸姏</div>
-    <div class="tab" data-tab="pan"><span class="tab-icon">鈽侊笍</span>缃戠洏璧勬簮</div>
-    <div class="tab" data-tab="image"><span class="tab-icon">馃柤锔?/span>鍥剧墖鎼滅储</div>
-    <div class="tab" data-tab="doc"><span class="tab-icon">馃搫</span>鏂囨。鎼滅储</div>
+    <div class="tab active" data-tab="torrent"><span class="tab-icon">🧲</span>BT磁力</div>
+    <div class="tab" data-tab="pan"><span class="tab-icon">☁️</span>网盘资源</div>
+    <div class="tab" data-tab="image"><span class="tab-icon">🖼️</span>图片搜索</div>
+    <div class="tab" data-tab="doc"><span class="tab-icon">📄</span>文档搜索</div>
   </div>
 
   <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="杈撳叆鍏抽敭璇嶆悳绱?.." onkeydown="if(event.key==='Enter')doSearch()">
-    <button id="searchBtn" onclick="doSearch()">馃攳 鎼滅储</button>
+    <input type="text" id="searchInput" placeholder="输入关键词搜索..." onkeydown="if(event.key==='Enter')doSearch()">
+    <button id="searchBtn" onclick="doSearch()">🔍 搜索</button>
   </div>
 
   <div class="stats" id="stats"></div>
   <div class="results" id="results"></div>
 
   <div class="source-hint" id="sourceHint">
-    <span>馃柤锔?鍥剧墖: 鑺濆姞鍝ヨ壓鏈崥鐗╅ API锛堢嚎涓婂彲鐢級</span>
-    <span>馃Р鈽侊笍馃搫 鍏朵粬: 闇€鍚姩鏈湴鍚庣鏈嶅姟鑾峰彇鍏ㄥ姛鑳?/span>
+    <span>🖼️ 图片: 芝加哥艺术博物馆 API（线上可用）</span>
+    <span>🧲☁️📄 其他: 需启动本地后端服务获取全功能</span>
   </div>
 </div>
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <span class="lb-close">&times;</span>
   <img id="lbImg" src="" alt="">
-  <button class="lb-dl" id="lbDl" onclick="event.stopPropagation();downloadLightbox()">馃捑 涓嬭浇鍘熷浘</button>
+  <button class="lb-dl" id="lbDl" onclick="event.stopPropagation();downloadLightbox()">💾 下载原图</button>
 </div>
 
 <footer>
-  <a href="https://wdsega.github.io">&larr; 杩斿洖鏃犱汉鏃ユ姤</a>
+  <a href="https://wdsega.github.io">&larr; 返回无人日报</a>
 </footer>
 
 <script>
-// 鈹€鈹€ State 鈹€鈹€
+// ── State ──
 let currentTab = 'torrent';
 let backendOnline = false;
 let backendChecked = false;
 
-// 鈹€鈹€ Init 鈹€鈹€
+// ── Init ──
 document.querySelectorAll('.tab').forEach(t => {
   t.addEventListener('click', () => switchTab(t.dataset.tab));
 });
@@ -253,7 +253,7 @@ async function checkBackend() {
     if (resp.ok) {
       backendOnline = true;
       bar.className = 'backend-bar online';
-      text.textContent = '鏈湴鍚庣宸茶繛鎺?- 鍏ㄥ姛鑳芥ā寮?;
+      text.textContent = '本地后端已连接 - 全功能模式';
     } else {
       markOffline();
     }
@@ -269,17 +269,17 @@ function markOffline() {
   const bar = document.getElementById('backendBar');
   const text = document.getElementById('backendText');
   bar.className = 'backend-bar offline';
-  text.textContent = '绂荤嚎妯″紡 - 浠呭浘鐗囨悳绱㈠彲鐢紙鑺濆姞鍝ョ編鏈锛?;
+  text.textContent = '离线模式 - 仅图片搜索可用（芝加哥美术馆）';
 }
 
 function updateSourceHint() {
   const el = document.getElementById('sourceHint');
   if (backendOnline) {
-    el.innerHTML = '<span>馃Р BT: 1377x.to + SpeedTorrent</span><span>鈽侊笍 缃戠洏: 瀛﹂湼鐩?+ 鐨崱鎼滅储 + 灏忎簯鎼滅储 + 鍜斿笗鎼滅储</span><span>馃柤锔?鍥剧墖: Chicago Art Institute + SourceSplash + NK Images</span><span>馃搫 鏂囨。: Bing RSS 鑱氬悎</span>';
+    el.innerHTML = '<span>🧲 BT: 1377x.to + SpeedTorrent</span><span>☁️ 网盘: 学霸盘 + 皮卡搜索 + 小云搜索 + 咔帕搜索</span><span>🖼️ 图片: Chicago Art Institute + SourceSplash + NK Images</span><span>📄 文档: Bing RSS 聚合</span>';
   }
 }
 
-// 鈹€鈹€ Tab switching 鈹€鈹€
+// ── Tab switching ──
 function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -293,21 +293,21 @@ function switchTab(tab) {
 }
 
 function showOfflineNotice(tab) {
-  const tabNames = { torrent: 'BT纾佸姏鎼滅储', pan: '缃戠洏璧勬簮鎼滅储', doc: '鏂囨。鎼滅储' };
-  const tabIcons = { torrent: '馃Р', pan: '鈽侊笍', doc: '馃搫' };
+  const tabNames = { torrent: 'BT磁力搜索', pan: '网盘资源搜索', doc: '文档搜索' };
+  const tabIcons = { torrent: '🧲', pan: '☁️', doc: '📄' };
   document.getElementById('results').innerHTML = `
     <div class="offline-notice">
-      <h3>${tabIcons[tab]} ${tabNames[tab]} 闇€瑕佹湰鍦板悗绔湇鍔?/h3>
-      <p>姝ゅ姛鑳戒緷璧栧悗绔埇铏紩鎿庯紝鏃犳硶鍦ㄧ函娴忚鍣ㄧ杩愯銆?/p>
-      <p style="margin-top:12px">璇峰厛鍚姩鏈湴鍚庣锛?/p>
+      <h3>${tabIcons[tab]} ${tabNames[tab]} 需要本地后端服务</h3>
+      <p>此功能依赖后端爬虫引擎，无法在纯浏览器端运行。</p>
+      <p style="margin-top:12px">请先启动本地后端：</p>
       <p><code>cd metasearch && python backend.py</code></p>
-      <p style="margin-top:8px">鐒跺悗璁块棶 <code>http://localhost:8787</code> 鍗冲彲浣跨敤瀹屾暣鍔熻兘銆?/p>
-      <p style="margin-top:12px">鍒囨崲鍒?<strong>馃柤锔?鍥剧墖鎼滅储</strong> 鏍囩鍗冲彲浣撻獙鍦ㄧ嚎鎼滅储鍔熻兘銆?/p>
+      <p style="margin-top:8px">然后访问 <code>http://localhost:8787</code> 即可使用完整功能。</p>
+      <p style="margin-top:12px">切换到 <strong>🖼️ 图片搜索</strong> 标签即可体验在线搜索功能。</p>
     </div>
   `;
 }
 
-// 鈹€鈹€ Search 鈹€鈹€
+// ── Search ──
 async function doSearch() {
   const q = document.getElementById('searchInput').value.trim();
   if (!q) return;
@@ -316,7 +316,7 @@ async function doSearch() {
   const statsEl = document.getElementById('stats');
   const btn = document.getElementById('searchBtn');
 
-  resultsEl.innerHTML = '<div class="loading"><div class="spinner"></div>姝ｅ湪鎼滅储...</div>';
+  resultsEl.innerHTML = '<div class="loading"><div class="spinner"></div>正在搜索...</div>';
   statsEl.textContent = '';
   btn.disabled = true;
 
@@ -329,29 +329,29 @@ async function doSearch() {
       showOfflineNotice(currentTab);
     }
   } catch (e) {
-    resultsEl.innerHTML = `<div class="offline-notice"><h3>鎼滅储鍑洪敊</h3><p>${e.message}</p></div>`;
+    resultsEl.innerHTML = `<div class="offline-notice"><h3>搜索出错</h3><p>${e.message}</p></div>`;
   }
   btn.disabled = false;
 }
 
-// 鈹€鈹€ Backend search 鈹€鈹€
+// ── Backend search ──
 async function searchViaBackend(q, type) {
   const endpoints = { torrent: 'torrent', pan: 'pan', image: 'image', doc: 'doc' };
   const resp = await fetch(`/api/search/${endpoints[type]}?q=${encodeURIComponent(q)}&limit=20`);
   const data = await resp.json();
-  document.getElementById('stats').textContent = `鍏?${data.count} 鏉＄粨鏋滐紝鏉ヨ嚜 ${data.sources_count || 0} 涓簮`;
+  document.getElementById('stats').textContent = `共 ${data.count} 条结果，来自 ${data.sources_count || 0} 个源`;
   if (type === 'torrent') renderTorrents(data.results);
   else if (type === 'pan') renderPans(data.results);
   else if (type === 'image') renderImages(data.results);
   else if (type === 'doc') renderDocs(data.results);
 }
 
-// 鈹€鈹€ Online image search (CORS-friendly APIs) 鈹€鈹€
+// ── Online image search (CORS-friendly APIs) ──
 async function searchImagesOnline(q) {
   const results = [];
   const sources = [];
 
-  // Chicago Art Institute (CORS 鉁? confirmed)
+  // Chicago Art Institute (CORS ✅, confirmed)
   try {
     const resp = await fetch(`https://api.artic.edu/api/v1/artworks/search?q=${encodeURIComponent(q)}&limit=20&fields=id,title,image_id,artist_title,date_display`);
     const data = await resp.json();
@@ -369,7 +369,7 @@ async function searchImagesOnline(q) {
     if (results.length > 0) sources.push('Chicago Art Institute');
   } catch (e) { console.log('Artic API error:', e.message); }
 
-  // Lorem Picsum fallback (CORS 鉁?
+  // Lorem Picsum fallback (CORS ✅)
   if (results.length === 0) {
     try {
       const resp = await fetch(`https://picsum.photos/v2/list?page=1&limit=12`);
@@ -387,29 +387,29 @@ async function searchImagesOnline(q) {
     } catch (e) { console.log('Picsum error:', e.message); }
   }
 
-  document.getElementById('stats').textContent = `鍏?${results.length} 鏉＄粨鏋滐紙鍦ㄧ嚎妯″紡锛屾簮: ${sources.join(', ') || '鏃?}锛塦;
+  document.getElementById('stats').textContent = `共 ${results.length} 条结果（在线模式，源: ${sources.join(', ') || '无'}）`;
   renderImages(results);
 }
 
-// 鈹€鈹€ Render torrents 鈹€鈹€
+// ── Render torrents ──
 function renderTorrents(items) {
   document.getElementById('results').innerHTML = items.map(r => `
     <div class="result-card">
       <div class="result-title"><a href="${esc(r.torrent_url || '#')}" target="_blank">${esc(r.title)}</a></div>
       <div class="result-meta">
         <span class="source">${esc(r.source)}</span>
-        ${r.seeds ? `<span class="seed">馃敽 ${r.seeds}</span>` : ''}
+        ${r.seeds ? `<span class="seed">🔺 ${r.seeds}</span>` : ''}
         ${r.size ? `<span class="size">${esc(r.size)}</span>` : ''}
       </div>
       <div class="result-actions">
-        ${r.magnet ? `<button class="btn btn-copy" onclick="copyMagnet('${escJs(r.magnet)}',this)">馃搵 澶嶅埗纾佸姏閾炬帴</button>` : ''}
-        ${r.torrent_url ? `<a class="btn btn-visit" href="${esc(r.torrent_url)}" target="_blank">馃敆 鎵撳紑璇︽儏椤?/a>` : ''}
+        ${r.magnet ? `<button class="btn btn-copy" onclick="copyMagnet('${escJs(r.magnet)}',this)">📋 复制磁力链接</button>` : ''}
+        ${r.torrent_url ? `<a class="btn btn-visit" href="${esc(r.torrent_url)}" target="_blank">🔗 打开详情页</a>` : ''}
       </div>
     </div>
   `).join('');
 }
 
-// 鈹€鈹€ Render pans 鈹€鈹€
+// ── Render pans ──
 function renderPans(items) {
   document.getElementById('results').innerHTML = items.map(r => `
     <div class="result-card">
@@ -417,16 +417,16 @@ function renderPans(items) {
       <div class="result-meta">
         <span class="source">${esc(r.source)}</span>
         ${r.pan_type ? `<span class="pan-type">${esc(r.pan_type)}</span>` : ''}
-        ${r.password ? `<span>馃攽 ${esc(r.password)}</span>` : ''}
+        ${r.password ? `<span>🔑 ${esc(r.password)}</span>` : ''}
       </div>
       <div class="result-actions">
-        <a class="btn btn-visit" href="${esc(r.url)}" target="_blank">馃敆 鍓嶅線涓嬭浇</a>
+        <a class="btn btn-visit" href="${esc(r.url)}" target="_blank">🔗 前往下载</a>
       </div>
     </div>
   `).join('');
 }
 
-// 鈹€鈹€ Render images 鈹€鈹€
+// ── Render images ──
 function renderImages(items) {
   document.getElementById('results').innerHTML = `
     <div class="image-grid">
@@ -434,14 +434,14 @@ function renderImages(items) {
         <div class="image-card">
           <img src="${esc(r.thumb_url || r.url)}" alt="${esc(r.title)}" loading="lazy"
                onclick="openLightbox('${escJs(r.url)}', '${escJs(r.title)}')"
-               onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 150%22><rect fill=%22%231a1a24%22 width=%22200%22 height=%22150%22/><text fill=%22%23888%22 x=%22100%22 y=%2280%22 text-anchor=%22middle%22 font-size=%2214%22>鍔犺浇澶辫触</text></svg>'">
+               onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 150%22><rect fill=%22%231a1a24%22 width=%22200%22 height=%22150%22/><text fill=%22%23888%22 x=%22100%22 y=%2280%22 text-anchor=%22middle%22 font-size=%2214%22>加载失败</text></svg>'">
           <div class="img-info">
             <div class="img-title">${esc(r.title)}</div>
             <div class="img-source">${esc(r.source)}</div>
           </div>
           <div class="img-actions">
-            <button class="btn btn-visit" onclick="event.stopPropagation();openLightbox('${escJs(r.url)}','${escJs(r.title)}')">馃攳 棰勮</button>
-            <button class="btn btn-dl" onclick="event.stopPropagation();downloadImage('${escJs(r.url)}','${escJs(r.title)}')">馃捑 淇濆瓨</button>
+            <button class="btn btn-visit" onclick="event.stopPropagation();openLightbox('${escJs(r.url)}','${escJs(r.title)}')">🔍 预览</button>
+            <button class="btn btn-dl" onclick="event.stopPropagation();downloadImage('${escJs(r.url)}','${escJs(r.title)}')">💾 保存</button>
           </div>
         </div>
       `).join('')}
@@ -449,7 +449,7 @@ function renderImages(items) {
   `;
 }
 
-// 鈹€鈹€ Render docs 鈹€鈹€
+// ── Render docs ──
 function renderDocs(items) {
   document.getElementById('results').innerHTML = items.map(r => `
     <div class="result-card">
@@ -460,13 +460,13 @@ function renderDocs(items) {
       </div>
       ${r.snippet ? `<div class="result-snippet">${esc(r.snippet)}</div>` : ''}
       <div class="result-actions">
-        <a class="btn btn-visit" href="${esc(r.url)}" target="_blank">馃敆 鎵撳紑閾炬帴</a>
+        <a class="btn btn-visit" href="${esc(r.url)}" target="_blank">🔗 打开链接</a>
       </div>
     </div>
   `).join('');
 }
 
-// 鈹€鈹€ Lightbox 鈹€鈹€
+// ── Lightbox ──
 let currentLbUrl = '';
 function openLightbox(url, title) {
   currentLbUrl = url;
@@ -487,28 +487,28 @@ function downloadImage(url, name) {
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
 
-// 鈹€鈹€ Copy magnet 鈹€鈹€
+// ── Copy magnet ──
 function copyMagnet(magnet, btn) {
   navigator.clipboard.writeText(magnet).then(() => {
     btn.classList.add('copied');
-    btn.textContent = '鉁?宸插鍒?';
-    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = '馃搵 澶嶅埗纾佸姏閾炬帴'; }, 2000);
+    btn.textContent = '✅ 已复制!';
+    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = '📋 复制磁力链接'; }, 2000);
   }).catch(() => {
     const ta = document.createElement('textarea');
     ta.value = magnet; document.body.appendChild(ta); ta.select();
     document.execCommand('copy'); document.body.removeChild(ta);
-    btn.classList.add('copied'); btn.textContent = '鉁?宸插鍒?';
-    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = '馃搵 澶嶅埗纾佸姏閾炬帴'; }, 2000);
+    btn.classList.add('copied'); btn.textContent = '✅ 已复制!';
+    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = '📋 复制磁力链接'; }, 2000);
   });
 }
 
-// 鈹€鈹€ Keyboard shortcut 鈹€鈹€
+// ── Keyboard shortcut ──
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeLightbox();
   if (e.ctrlKey && e.key === 'k') { e.preventDefault(); document.getElementById('searchInput').focus(); }
 });
 
-// 鈹€鈹€ Helpers 鈹€鈹€
+// ── Helpers ──
 function esc(s) {
   if (!s) return '';
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
